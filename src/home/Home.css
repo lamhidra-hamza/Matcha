@@ -26,3 +26,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.newstyle:hover{
+    color: red !important;
+    border-color: red !important;
+}
