@@ -12,16 +12,14 @@ export class Home extends Component {
                 <div className="header">
                     <div className="realheader">
                         <Title style={brandStyle} level={2}>Matcha</Title>
-                        {/* <div style={btnStyle}> */}
-                            <Button ghost style={newstyle} className="newstyle" shape="round">
-                                Login
-                            </Button>
-                        {/* </div> */}
+                        <Button ghost style={newstyle} className="newstyle" shape="round">
+                            Login
+                        </Button>
                     </div>
                     <div className="content">
                         <h1 style={{color: '#ffffff', fontSize: '50'}} level={1}>This is New !</h1>
-                        <Button shape="round" size={"large"}>
-                         Subscribe Now
+                        <Button shape="round" className="registerbtn" size={"large"}>
+                         Register Now
                         </Button>
                     </div>
                     <div className="footer">
@@ -37,11 +35,6 @@ const brandStyle = {
     color: '#ffffff',
     fontSize: '4vw',
     margin: '2% 4%'
-}
-
-const btnStyle={
-    padding: '2% 2%',
-    background: 'red'
 }
 
 const newstyle = {
