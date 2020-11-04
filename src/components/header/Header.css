@@ -3,7 +3,18 @@
     justify-content: space-between;
 }
 
-.newstyle:hover{
-    color: #f5222d !important;
-    border-color: #f5222d !important;
+.header > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2% 2% !important;
+}
+
+.layoutTrans {
+    background: #ffffff;
+    height: 50vh;
+    width: 100%;
+    position: absolute;
+    padding-top: none;
+    margin-top: none !important;
 }

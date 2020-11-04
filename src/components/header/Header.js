@@ -1,31 +1,39 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Header.css'
-import {Typography, Button } from 'antd';
+import Menu from '../menu/Menu.js'
+import Logo from  '../logo/Logo.js'
+import LoginBtn from '../login/LoginBtn.js';
 
-const { Title} = Typography
+export class Header extends Component {
+    state = {
+        show: false,
+    }
 
-export default function Header() {
-    return (
-        <div className="header">
-            <Title style={brandStyle} level={2}>Matcha</Title>
-            <Button ghost style={newstyle} className="newstyle" shape="round">
-                Login
-            </Button>
-        </div>
-    )
+    transform = () => {
+        this.setState({show: !this.state.show})
+    }
+
+    headerback = () => {
+        return {
+            background: this.state.show ? '#fff' : 'none',
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <div style={this.headerback()} className="header">
+                    <Logo show={this.state.show}/>
+                    <div>
+                        <LoginBtn show={this.state.show}/>
+                        <Menu show={this.state.show} transform={this.transform}/>
+                    </div>
+                </div>
+               {/* <div className="layoutTrans"> </div> */}
+            </div>
+        )
+    }
 }
 
-const brandStyle = {
-    color: '#ffffff',
-    fontSize: '4vw',
-    margin: '2% 4%'
-}
+export default Header
 
-const newstyle = {
-    fontSize: '2.5vw',
-    paddingBottom: '2%',
-    height: '5vw',
-    margin: '2% 2%',
-    borderWidth: '1.5px',
-
-}

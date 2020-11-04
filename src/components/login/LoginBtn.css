@@ -1,0 +1,34 @@
+
+.loginBtn{
+    color: #fd5068 !important;
+    background: '#fff' !important;
+    border-radius: 4px !important;
+    border: none !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    height: 40px !important;
+    width: 100px !important;
+    margin-left: 28px;
+    margin-right: 28px;
+    transition-duration: 0s !important;
+}
+
+.loginBtn:hover{
+    color: white !important;
+    background: rgb(253,38,125) !important;
+    background: linear-gradient(262deg, #fd267d, #ff7854) !important;
+}
+
+.loginBtnReverse {
+    color:  #fff !important;
+    background: #fd5068 !important;
+    border-radius: 4px !important;
+    border: none !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    height: 40px !important;
+    width: 100px !important;
+    margin-left: 28px;
+    margin-right: 28px;
+    transition-duration: 0s !important;
+}

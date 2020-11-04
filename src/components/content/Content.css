@@ -7,14 +7,26 @@
 .registerbtn {
     color: white !important;
     background: rgb(245,34,45) !important;
-    background: linear-gradient(90deg, rgba(245,34,45,0.825817347359736) 0%, rgba(174,11,19,1) 52%, rgba(245,34,45,0.8027150371287128) 100%) !important;
+    background: linear-gradient(262deg, #ff7854, #fd267d) !important;
     border: none !important;
-    width: 30vw !important;
-    height: 7vw !important;
-    font-size: 3vw !important;
+    cursor: pointer;
+    width: 260px !important;
+    height: 54px !important;
+    font-size: 1.2em !important;
+    font-weight: 500 !important;
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,.27) !important;
 }
 
 .registerbtn:hover {
-    background: rgb(249,0,13) !important;
-    background: linear-gradient(90deg, rgba(249,0,13,0.7928140470297029) 0%, rgba(174,11,19,1) 52%, rgba(244,9,21,1) 100%) !important;
+    background: rgb(253,38,125) !important;
+    background: linear-gradient(262deg, #fd267d, #ff7854) !important;
+}
+
+.contentText {
+    color: white;
+    text-align: center;
+    font-size: 12vw;
+    font-weight: 800;
+    user-select: none;
+    width: 100%;
 }
