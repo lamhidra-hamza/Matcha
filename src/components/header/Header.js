@@ -18,14 +18,13 @@ export class Header extends Component {
             background: this.state.show ? '#fff' : 'none',
         }
     }
-
     render() {
         return (
             <div>
                 <div style={this.headerback()} className="header">
                     <Logo show={this.state.show}/>
                     <div>
-                        <LoginBtn show={this.state.show}/>
+                        <LoginBtn show={this.state.show} showModal={this.props.showModal}/>
                         <Menu show={this.state.show} transform={this.transform}/>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import { Button } from 'antd'
 export class LoginBtn extends Component {
     render() {
         return (
-            <Button className={this.props.show ? "loginBtnReverse" : "loginBtn"}>
+            <Button onClick={this.props.showModal} className={this.props.show ? "loginBtnReverse" : "loginBtn"}>
                 LOG IN
             </Button>
         )
