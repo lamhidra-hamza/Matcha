@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Proxima+Nova');
+
+.container {
+    background-image: url('../../img/tinderback.webp');
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    
+}
+
+.gradient {
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(6,6,6,1) 0%, rgba(0,0,0,0.8210363418530351) 5%, rgba(0,212,255,0) 100%);
+    height: 100%;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

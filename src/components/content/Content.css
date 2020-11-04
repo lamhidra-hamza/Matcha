@@ -1,0 +1,20 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registerbtn {
+    color: white !important;
+    background: rgb(245,34,45) !important;
+    background: linear-gradient(90deg, rgba(245,34,45,0.825817347359736) 0%, rgba(174,11,19,1) 52%, rgba(245,34,45,0.8027150371287128) 100%) !important;
+    border: none !important;
+    width: 30vw !important;
+    height: 7vw !important;
+    font-size: 3vw !important;
+}
+
+.registerbtn:hover {
+    background: rgb(249,0,13) !important;
+    background: linear-gradient(90deg, rgba(249,0,13,0.7928140470297029) 0%, rgba(174,11,19,1) 52%, rgba(244,9,21,1) 100%) !important;
+}

@@ -1,0 +1,9 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.newstyle:hover{
+    color: #f5222d !important;
+    border-color: #f5222d !important;
+}
