@@ -1,0 +1,32 @@
+
+.loginButton {
+      border: 2px solid rgb(112, 111, 111);
+    border-radius: 50px;
+    height: 50px;
+  margin-bottom: 15px;
+  color: rgb(112, 111, 111);
+}
+
+.loginButton:hover {
+      border: 2px solid rgb(0, 0, 0);
+    border-radius: 50px;
+    height: 50px;
+  margin-bottom: 15px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.loginButton{
+  display: flex;  
+  align-items: center;
+  justify-content: center;
+}
+
+.loginButton img{
+  margin-right: auto;
+  margin-left: 10px;
+}
+
+.loginButton span{
+  margin-right: auto;
+}
