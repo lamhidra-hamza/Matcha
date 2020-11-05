@@ -22,7 +22,7 @@ export class Loginpopup extends Component {
     }, 3000)
   }
   render() {
-    const { visible, loading } = this.state
+    const {loading } = this.state
 
     return (
       <div>
@@ -73,19 +73,5 @@ const brandStyle = {
   margin: '2% 4%',
   borderRadius: '50px',
 }
-
-const iconStyle = {
-  color: '#ffffff',
-  fontSize: '50px',
-}
-
-const newstyle = {
-    fontSize: '2.5vw',
-    paddingBottom: '2%',
-    height: '5vw',
-    margin: '2% 2%',
-    borderWidth: '1.5px',
-}
-
 
 export default Loginpopup

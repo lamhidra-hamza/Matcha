@@ -9,6 +9,7 @@ export class BtnNoBackgrndIcon extends Component {
       <div className="BtnNoBackgrndIcon">
         <div className="loginButton">
               <img
+                alt="img2"
                 style={{ width: '30px' }}
                 src={
                   this.props.link

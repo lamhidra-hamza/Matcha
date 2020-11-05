@@ -25,8 +25,8 @@ export class Home extends Component {
     return (
       <div className="container">
         <div className="gradient">
-          <Header showModal={this.showModal}/>
-          <Content showModal={this.showModal}/>
+          <Header showModal={this.showModal} mobile={this.props.mobile}/>
+          <Content showModal={this.showModal} mobile={this.props.mobile}/>
           <div className = "center">
             <Loginpopup visible={this.state.visible} handleCancel= {this.handleCancel}/>
           </div>
