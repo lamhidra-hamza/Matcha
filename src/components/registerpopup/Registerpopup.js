@@ -13,11 +13,17 @@ export class Registerpopup extends Component {
     loading: false,
     visible: false,
     brandStyle: {
+      
+    },
+  }
+
+  getStyle = () => {
+    return {
       textAlign: 'center',
       margin: '2% 4%',
       borderRadius: '50px',
       height: this.props.mobile ? '100vh' : '40vh',
-    },
+    }
   }
 
   handleOk = () => {
@@ -28,14 +34,13 @@ export class Registerpopup extends Component {
   }
   render() {
     const { visible, loading } = this.state
-
     return (
       <div>
         <Modal
           visible={this.props.visible}
           onOk={this.handleOk}
           onCancel={this.props.handleCancel}
-          bodyStyle={this.state.brandStyle}
+          bodyStyle={this.getStyle()}
           width={this.props.mobile ? '100vw' : '50vw'}
           centered={true}
           //width = {'100vw'}
