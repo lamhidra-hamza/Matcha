@@ -32,11 +32,11 @@ export class Home extends Component {
     return (
       <div className="container">
         <div className="gradient">
-          <Header showModal={this.showLogin}/>
-          <Content showModal={this.showRegister}/>
+          <Header showModal={this.showLogin} mobile={this.props.mobile}/>
+          <Content showModal={this.showRegister} mobile={this.props.mobile}/>
           <div className = "center">
-            <Loginpopup visible={this.state.loginVisible} handleCancel= {this.handleCancel} mobile = {true}/>
-            <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile = {true}/>
+            <Loginpopup visible={this.state.loginVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
+            <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
           </div>
           <Footer />
         </div>

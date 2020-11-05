@@ -33,21 +33,28 @@ export class Header extends Component {
   };
   
   render() {
+    console.log(this.props.mobile)
     return (
       <div>
         <div style={this.headerback()} className="header">
           <div class="header1" style={this.getstyle()}>
-            <Logo show={this.state.show} />
-            <div style={{margin: '2% 2%'}}>
-              <LoginBtn show={this.state.show} showModal={this.props.showModal} />
+            <Logo mobile={this.props.mobile} show={this.state.show} />
+            <div style={{margin: '40px 0px'}}>
+              {this.props.mobile ? '' : 
+                <LoginBtn show={this.state.show} showModal={this.props.showModal}
+                />}
             </div>
           </div>
-          <div style={{margin: '2% 2%'}}>
-          <Menu show={this.state.show} transform={this.transform} /> </div>
+          <div style={{margin: this.props.mobile ? '22px 4px' : '39px 4px'}}>
+            <Menu
+              mobile={this.props.mobile}
+              show={this.state.show}
+              transform={this.transform} />
+          </div>
         </div>
         {this.state.show ?
         <nav className="layoutTrans"> </nav>
-        : '' }
+          : '' }
       </div>
     );
   }

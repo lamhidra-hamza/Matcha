@@ -7,10 +7,10 @@ export class Logo extends Component {
     getStyle = () => {
         return {
             color: this.props.show ? '#2c2c2c' : '#ffffff',
-            fontSize: '3rem',
+            fontSize: this.props.mobile ? '2rem' : '3rem',
             fontWeight: '700',
-            marginLeft: '4%',
-            marginTop: '1%',
+            marginLeft: this.props.mobile ? '30px' :'40px',
+            marginTop: this.props.mobile ? '15px' : '25px',
             userSelect: 'none',
         }
     }

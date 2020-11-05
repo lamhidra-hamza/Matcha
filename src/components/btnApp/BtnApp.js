@@ -8,7 +8,7 @@ export class BtnApp extends Component {
     return (
       <div className="BtnApp">
         <div className="app">
-          <img style={{ width: '40px' }} src={this.props.link} />{' '}
+          <img alt="img1" style={{ width: '40px' }} src={this.props.link} />{' '}
         </div>
       </div>
     )

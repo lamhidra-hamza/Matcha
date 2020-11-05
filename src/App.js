@@ -2,12 +2,32 @@ import React, {Component} from 'react'
 import Home from './pages/home/Home.js'
 import 'antd/dist/antd.css';
 
+
+
 class App extends Component {
-  
-  render() {
+  state = {
+    mobile: window.innerWidth < 768,
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        this.setState({mobile: true});
+      } else {
+        this.setState({mobile: false});
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  render() {  
     return (
       <div className="App">
-        <Home/>
+        <Home mobile={this.state.mobile}/>
       </div>
     );
   }

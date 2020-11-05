@@ -28,7 +28,7 @@ export class Loginpopup extends Component {
     }, 3000)
   }
   render() {
-    const { visible, loading } = this.state
+    const {loading } = this.state
     let popupHeight = this.props.mobile ? '100vh' : null;
 
     return (
@@ -76,20 +76,6 @@ export class Loginpopup extends Component {
   }
 }
 
-
-
-const iconStyle = {
-  color: '#ffffff',
-  fontSize: '50px',
-}
-
-const newstyle = {
-    fontSize: '2.5vw',
-    paddingBottom: '2%',
-    height: '5vw',
-    margin: '2% 2%',
-    borderWidth: '1.5px',
-}
 
 
 export default Loginpopup
