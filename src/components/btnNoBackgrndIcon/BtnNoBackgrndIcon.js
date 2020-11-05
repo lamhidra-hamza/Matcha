@@ -8,15 +8,15 @@ export class BtnNoBackgrndIcon extends Component {
     return (
       <div className="BtnNoBackgrndIcon">
         <div className="loginButton">
-              <img
-                alt="img2"
-                style={{ width: '30px' }}
-                src={
-                  this.props.link
-                }
-              />
-              <span>LOG IN WITH GOOGLE</span>
-            </div>
+          <img
+            alt="img2"
+            style={{ width: '30px' }}
+            src={
+              this.props.link
+            }
+          />
+          <span>LOG IN WITH GOOGLE</span>
+        </div>
       </div>
     )
   }

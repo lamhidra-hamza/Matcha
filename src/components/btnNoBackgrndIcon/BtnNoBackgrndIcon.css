@@ -1,16 +1,16 @@
 
 .loginButton {
-      border: 2px solid rgb(112, 111, 111);
-    border-radius: 50px;
-    height: 50px;
+  border: 2px solid rgb(112, 111, 111);
+  border-radius: 50px;
+  height: 50px;
   margin-bottom: 15px;
   color: rgb(112, 111, 111);
 }
 
 .loginButton:hover {
-      border: 2px solid rgb(0, 0, 0);
-    border-radius: 50px;
-    height: 50px;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 50px;
+  height: 50px;
   margin-bottom: 15px;
   color: rgb(0, 0, 0);
   cursor: pointer;
