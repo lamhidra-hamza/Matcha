@@ -15,8 +15,6 @@ export class Home extends Component {
     this.setState({
       visible: !this.state.visible,
     });
-    console.log("done");
-    console.log(this.state.visible);
   }
 
    handleCancel = () => {
