@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Loginpopup.css'
+import './Registerpopup.css'
 import { Modal, Button } from 'antd'
 import { Typography } from 'antd'
 import { Divider } from 'antd'
@@ -8,17 +8,16 @@ import BtnApp from '../btnApp/BtnApp'
 
 const { Title, Paragraph } = Typography
 
-export class Loginpopup extends Component {
-
+export class Registerpopup extends Component {
   state = {
     loading: false,
     visible: false,
-    brandStyle : {
-  textAlign: 'center',
-  margin: '2% 4%',
-  borderRadius: '50px',
-  height : this.props.mobile ? '100vh' : '40vh'
-}
+    brandStyle: {
+      textAlign: 'center',
+      margin: '2% 4%',
+      borderRadius: '50px',
+      height: this.props.mobile ? '100vh' : '40vh',
+    },
   }
 
   handleOk = () => {
@@ -29,18 +28,17 @@ export class Loginpopup extends Component {
   }
   render() {
     const { visible, loading } = this.state
-    let popupHeight = this.props.mobile ? '100vh' : null;
 
     return (
       <div>
-        
         <Modal
           visible={this.props.visible}
           onOk={this.handleOk}
           onCancel={this.props.handleCancel}
           bodyStyle={this.state.brandStyle}
+          width={this.props.mobile ? '100vw' : '50vw'}
           centered={true}
-          width = {this.props.mobile ? '100vw' : '50vw'}
+          //width = {'100vw'}
           footer={[
             <Button key="back" onClick={this.props.handleCancel}></Button>,
             <Button
@@ -52,7 +50,7 @@ export class Loginpopup extends Component {
           ]}
         >
           <div className="loginoption">
-            <Title level={3}>Login</Title>
+            <Title level={3}>CREATE ACCOUNT</Title>
             <Paragraph>
               By clicking Log In, you agree to our Terms, Learn how we precess
               you data in our Privacy Policy, and Cookie Policy.
@@ -76,20 +74,17 @@ export class Loginpopup extends Component {
   }
 }
 
-
-
 const iconStyle = {
   color: '#ffffff',
   fontSize: '50px',
 }
 
 const newstyle = {
-    fontSize: '2.5vw',
-    paddingBottom: '2%',
-    height: '5vw',
-    margin: '2% 2%',
-    borderWidth: '1.5px',
+  fontSize: '2.5vw',
+  paddingBottom: '2%',
+  height: '5vw',
+  margin: '2% 2%',
+  borderWidth: '1.5px',
 }
 
-
-export default Loginpopup
+export default Registerpopup

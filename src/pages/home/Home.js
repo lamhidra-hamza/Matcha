@@ -5,30 +5,38 @@ import Content from '../../components/content/Content'
 import Footer from '../../components/footer/Footer'
 import './Home.css'
 import Loginpopup from '../../components/loginpopup/Loginpopup'
+import Registerpopup from '../../components/registerpopup/Registerpopup'
 
 export class Home extends Component {
   state = {
-    visible: false
-    
+    loginVisible: false,
+    registerVisible: false
   }
-  showModal = () => {
+  showLogin = () => {
     this.setState({
-      visible: !this.state.visible,
+       loginVisible: !this.state. loginVisible,
+    });
+  }
+
+  showRegister = () => {
+    this.setState({
+      registerVisible: !this.state.registerVisible,
     });
   }
 
    handleCancel = () => {
-    this.setState({ visible: false })
+    this.setState({ loginVisible: false, registerVisible: false })
   }
 
   render() {
     return (
       <div className="container">
         <div className="gradient">
-          <Header showModal={this.showModal}/>
-          <Content showModal={this.showModal}/>
+          <Header showModal={this.showLogin}/>
+          <Content showModal={this.showRegister}/>
           <div className = "center">
-            <Loginpopup visible={this.state.visible} handleCancel= {this.handleCancel}/>
+            <Loginpopup visible={this.state.loginVisible} handleCancel= {this.handleCancel} mobile = {true}/>
+            <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile = {true}/>
           </div>
           <Footer />
         </div>

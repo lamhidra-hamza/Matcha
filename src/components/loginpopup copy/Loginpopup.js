@@ -3,7 +3,7 @@ import './Loginpopup.css'
 import { Modal, Button } from 'antd'
 import { Typography } from 'antd'
 import { Divider } from 'antd'
-import BtnNoBackgrndIcon from '../btnNoBackgrndIcon/BtnNoBackgrndIcon'
+import BtnNoBackgrndIcon from '../btnNoBackgrndIcon/btnNoBackgrndIcon'
 import BtnApp from '../btnApp/BtnApp'
 
 const { Title, Paragraph } = Typography
@@ -13,12 +13,6 @@ export class Loginpopup extends Component {
   state = {
     loading: false,
     visible: false,
-    brandStyle : {
-  textAlign: 'center',
-  margin: '2% 4%',
-  borderRadius: '50px',
-  height : this.props.mobile ? '100vh' : '40vh'
-}
   }
 
   handleOk = () => {
@@ -29,7 +23,6 @@ export class Loginpopup extends Component {
   }
   render() {
     const { visible, loading } = this.state
-    let popupHeight = this.props.mobile ? '100vh' : null;
 
     return (
       <div>
@@ -38,9 +31,9 @@ export class Loginpopup extends Component {
           visible={this.props.visible}
           onOk={this.handleOk}
           onCancel={this.props.handleCancel}
-          bodyStyle={this.state.brandStyle}
+          bodyStyle={brandStyle}
           centered={true}
-          width = {this.props.mobile ? '100vw' : '50vw'}
+          //width = {'100vw'}
           footer={[
             <Button key="back" onClick={this.props.handleCancel}></Button>,
             <Button
@@ -52,7 +45,7 @@ export class Loginpopup extends Component {
           ]}
         >
           <div className="loginoption">
-            <Title level={3}>Login</Title>
+            <Title level={3}>CREATE ACCOUNT</Title>
             <Paragraph>
               By clicking Log In, you agree to our Terms, Learn how we precess
               you data in our Privacy Policy, and Cookie Policy.
@@ -76,7 +69,12 @@ export class Loginpopup extends Component {
   }
 }
 
-
+const brandStyle = {
+  textAlign: 'center',
+  margin: '2% 4%',
+  borderRadius: '50px',
+ // height: '100vh'
+}
 
 const iconStyle = {
   color: '#ffffff',
