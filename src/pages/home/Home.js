@@ -6,6 +6,7 @@ import Footer from '../../components/footer/Footer'
 import './Home.css'
 import Loginpopup from '../../components/loginpopup/Loginpopup'
 import Registerpopup from '../../components/registerpopup/Registerpopup'
+import RegisterForm from '../../components/registerForm/RegisterForm'
 
 export class Home extends Component {
   state = {
@@ -14,7 +15,7 @@ export class Home extends Component {
   }
   showLogin = () => {
     this.setState({
-       loginVisible: !this.state. loginVisible,
+       loginVisible: !this.state.loginVisible,
     });
   }
 
@@ -36,7 +37,8 @@ export class Home extends Component {
           <Content showModal={this.showRegister} mobile={this.props.mobile}/>
           <div className = "center">
             <Loginpopup visible={this.state.loginVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
-            <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
+            {/* <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/> */}
+            <RegisterForm visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
           </div>
           <Footer />
         </div>

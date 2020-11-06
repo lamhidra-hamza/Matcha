@@ -13,12 +13,15 @@ export class Loginpopup extends Component {
   state = {
     loading: false,
     visible: false,
-    brandStyle : {
-  textAlign: 'center',
-  margin: '2% 4%',
-  borderRadius: '50px',
-  height : this.props.mobile ? '100vh' : '40vh'
-}
+  }
+
+  getStyle = () => {
+    return {
+      textAlign: 'center',
+      margin: '2% 4%',
+      borderRadius: '50px',
+      height: this.props.mobile ? '100vh' : '500px',
+    }
   }
 
   handleOk = () => {
@@ -29,7 +32,6 @@ export class Loginpopup extends Component {
   }
   render() {
     const {loading } = this.state
-    let popupHeight = this.props.mobile ? '100vh' : null;
 
     return (
       <div>
@@ -38,7 +40,7 @@ export class Loginpopup extends Component {
           visible={this.props.visible}
           onOk={this.handleOk}
           onCancel={this.props.handleCancel}
-          bodyStyle={this.state.brandStyle}
+          bodyStyle={this.getStyle()}
           centered={true}
           width = {this.props.mobile ? '100vw' : '50vw'}
           footer={[

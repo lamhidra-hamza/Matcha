@@ -11,10 +11,7 @@ const { Title, Paragraph } = Typography
 export class Registerpopup extends Component {
   state = {
     loading: false,
-    visible: false,
-    brandStyle: {
-      
-    },
+    visible: false
   }
 
   getStyle = () => {
@@ -22,7 +19,7 @@ export class Registerpopup extends Component {
       textAlign: 'center',
       margin: '2% 4%',
       borderRadius: '50px',
-      height: this.props.mobile ? '100vh' : '40vh',
+      height: this.props.mobile ? '100vh' : '500px',
     }
   }
 
@@ -33,7 +30,7 @@ export class Registerpopup extends Component {
     }, 3000)
   }
   render() {
-    const { visible, loading } = this.state
+    const { loading } = this.state
     return (
       <div>
         <Modal
@@ -79,17 +76,5 @@ export class Registerpopup extends Component {
   }
 }
 
-const iconStyle = {
-  color: '#ffffff',
-  fontSize: '50px',
-}
-
-const newstyle = {
-  fontSize: '2.5vw',
-  paddingBottom: '2%',
-  height: '5vw',
-  margin: '2% 2%',
-  borderWidth: '1.5px',
-}
 
 export default Registerpopup
