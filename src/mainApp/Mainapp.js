@@ -1,27 +1,17 @@
 import React from 'react'
-import { Tabs } from 'antd';
 import './Mainapp.css'
+import Maintab from '../components/mainTab/Maintab.js'
+import NavbarApp from '../components/navbarApp/NavbarApp'
 
-const { TabPane } = Tabs;
+
 
 export default function Mainapp() {
     return (
         <div className="containerMainapp">
             <div className="mainRow">
                 <div className="leftSide">
-                    <div className="desNavbar">
-                        
-                    </div>
-                    <div className="tabs">
-                    <Tabs className="tabsstyle" defaultActiveKey="1" style={{fontWeight: '800'}}>
-                        <TabPane tab="Matches" key="1">
-                            Hello Lamhidra
-                        </TabPane>
-                        <TabPane tab="Messages" key="2">
-                            Hello Hamza
-                        </TabPane>
-                    </Tabs>
-                    </div>
+                    <NavbarApp/>
+                    <Maintab/>
                 </div>
                 <div className="main">
                     

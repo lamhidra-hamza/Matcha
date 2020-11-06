@@ -30,24 +30,17 @@
     background: rgb(245,34,45);
     background: linear-gradient(262deg, #ff7854, #fd267d);
     box-shadow: 0 1px 8px 0 rgba(0,17,25,.27);
+    color: #efefef !important;
     height: 73px;
-    
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.tabs {
-    margin-left: 3%;
-}
-
-.tabsstyle {
-    margin-left: 20px;
-    font-size: 1em;
-    line-height: 1;
-}
-
-.ant-tabs-tab {
-    font-size: 18px !important;
-}
-
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    font-weight: 800;
+.profileIcon {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
 }
