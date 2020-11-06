@@ -1,0 +1,35 @@
+.containerMainapp {
+    height: 100vh;
+    width: 100vw;
+    display: block;
+}
+
+.leftSide {
+    color: #2d2d2d;
+    background: #f6f7fa;
+    width: 400px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    color: black;
+    background: #f6f7fa;
+    border-left: 1px #c9c9c9 solid ;
+    border-color: #e0e4e9;
+    width: 100%;
+}
+
+.mainRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.desNavbar {
+    background: rgb(245,34,45);
+    background: linear-gradient(262deg, #ff7854, #fd267d);
+    box-shadow: 0 1px 8px 0 rgba(0,17,25,.27);
+    height: 73px;
+    
+}
