@@ -13,7 +13,7 @@ export default function Mainapp() {
                         
                     </div>
                     <div className="tabs">
-                    <Tabs defaultActiveKey="1">
+                    <Tabs className="tabsstyle" defaultActiveKey="1" style={{fontWeight: '800'}}>
                         <TabPane tab="Matches" key="1">
                             Hello Lamhidra
                         </TabPane>
