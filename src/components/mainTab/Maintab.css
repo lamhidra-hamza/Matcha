@@ -1,9 +1,5 @@
-.tabs {
-    margin-left: 3%;
-}
 
 .tabsstyle {
-    margin-left: 20px;
     font-size: 1em;
     line-height: 1;
 }
@@ -14,4 +10,12 @@
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
     font-weight: 800;
+}
+
+.ant-tab-nav {
+    margin-left: 25px;
+}
+
+.ant-tabs-top > .ant-tabs-nav, .ant-tabs-bottom > .ant-tabs-nav, .ant-tabs-top > div > .ant-tabs-nav, .ant-tabs-bottom > div > .ant-tabs-nav {
+    margin: 0 0 16px 25px;
 }

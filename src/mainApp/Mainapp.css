@@ -26,21 +26,3 @@
     flex-direction: row;
 }
 
-.desNavbar {
-    background: rgb(245,34,45);
-    background: linear-gradient(262deg, #ff7854, #fd267d);
-    box-shadow: 0 1px 8px 0 rgba(0,17,25,.27);
-    color: #efefef !important;
-    height: 73px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.profileIcon {
-    margin-top: auto;
-    margin-bottom: auto;
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-}
