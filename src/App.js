@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Home from './pages/home/Home.js'
 import 'antd/dist/antd.css';
-
+import MainApp from './mainApp/Mainapp'
 
 
 class App extends Component {
@@ -27,7 +27,8 @@ class App extends Component {
   render() {  
     return (
       <div className="App">
-        <Home mobile={this.state.mobile}/>
+        {/* <Home mobile={this.state.mobile}/> */}
+        <MainApp />
       </div>
     );
   }
