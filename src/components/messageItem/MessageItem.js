@@ -21,7 +21,6 @@ export default function MessageItem() {
            </div>
                             <Divider style={{ margin: '0px'}}/>
             </div>
-           
-                
+                   
     )
 }

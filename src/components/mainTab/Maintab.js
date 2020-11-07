@@ -15,7 +15,7 @@ export default function Maintab() {
                 <TabPane style={{ height: '100vh'}} tab={<span>Matches <Badge count={25} /></span>} key="1">
                     <MatcheDisplay/>
                 </TabPane>
-                <TabPane style={{ height: '100vh'}}  tab={<span>Matches <Badge count={2} /></span>} key="2">
+                <TabPane style={{ height: '100vh'}}  tab={<span>Messagees <Badge count={2} /></span>} key="2">
                     <MessageDisplay />
                 </TabPane>
             </Tabs>
