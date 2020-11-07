@@ -1,14 +1,17 @@
 import React from 'react'
 import './Mainapp.css'
+import Maintab from '../components/mainTab/Maintab.js'
+import NavbarApp from '../components/navbarApp/NavbarApp'
+
+
 
 export default function Mainapp() {
     return (
         <div className="containerMainapp">
             <div className="mainRow">
                 <div className="leftSide">
-                    <div className="desNavbar">
-                        
-                    </div>
+                    <NavbarApp/>
+                    <Maintab/>
                 </div>
                 <div className="main">
                     

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Home from './pages/home/Home.js'
-import 'antd/dist/antd.css';
+import './App.less';
 import MainApp from './mainApp/Mainapp'
 
 
