@@ -17,6 +17,9 @@ export default function MessageItem() {
                             cc cv a hinata !?
                             msaliya gheda 
                     </div>
+                   
+                </div>
+                 <div className="msgItemSelected">
                 </div>
            </div>
                             <Divider style={{ margin: '0px'}}/>

@@ -5,6 +5,7 @@
     justify-content: space-between;
       align-items: center;
     padding: 10px;
+    padding-right: 0px;
     &:hover {
     transition: all 0.3s ease-out;
     box-shadow: 0px 6px 4px rgba(38, 38, 38, 0.2);
@@ -32,6 +33,13 @@
         height: 80px;
        border: 3px solid #fd2c79;
 }   
+
+.MessageItem:hover .msgItemSelected {
+
+    width: 4px;
+    height: 120px;
+    background-color: #fd2c79;
+}
 
 .userName {
     flex: 1;
