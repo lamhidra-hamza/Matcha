@@ -1,5 +1,5 @@
 import React from 'react'
-import './MatcheDisplay.css'
+import './MatcheDisplay.scss'
 
 export default function MatcheDisplay() {
     return (
