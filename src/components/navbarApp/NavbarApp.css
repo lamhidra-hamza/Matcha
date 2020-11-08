@@ -3,10 +3,10 @@
     background: linear-gradient(262deg, #ff7854, #fd267d);
     box-shadow: 0 1px 8px 0 rgba(0,17,25,.27);
     color: #efefef !important;
-    height: 73px;
+    height: 53px !important;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .profileIcon {
@@ -15,4 +15,10 @@
     display: flex;
     flex-direction: row;
     cursor: pointer;
+}
+
+.returnIcon {
+    font-size: 2.5em;
+    margin-left: 50px;
+    margin-right: 10px;
 }
