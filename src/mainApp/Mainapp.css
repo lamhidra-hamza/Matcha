@@ -11,6 +11,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
 }
 
 .main {
@@ -26,3 +27,118 @@
     flex-direction: row;
 }
 
+.rightSide {
+    width: 75vw;
+    height: 60vh;
+    display: flex;
+    margin: 200px 0px;
+    border: 0.3px solid #adacac;
+}
+
+.chatBox {
+    width:  45vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.userInfo {
+    width: 30vw;
+    height: 100%;
+}
+
+.chatBoxHeader {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 20px;
+      align-items: center;
+}
+
+.avatar {
+    flex: 1;
+}
+
+.matchDate {
+    flex : 4;
+    font-size: 18px;
+    font-weight: bold;
+    color: #adacac;
+}
+
+.chatBoxbody {
+    width: 100%;
+    height: 80%;
+}
+
+.chatBoxInput {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+          align-items: center;
+    height: 10%;
+}
+
+.chatInput {
+    width: 70%;
+}
+
+.chatbutton {
+    width: 20%;
+}
+
+.registerbtn {
+    color: white !important;
+    background: rgb(245,34,45) !important;
+    background: linear-gradient(262deg, #ff7854, #fd267d) !important;
+    border: none !important;
+    cursor: pointer;
+    width: 120px !important;
+    height: 50px !important;
+    font-size: 1.2em !important;
+    font-weight: 500 !important;
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,.27) !important;
+}
+
+
+.userInfo {
+    height: 100%;
+    border-left : 0.2px solid #adacac;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.userImgs{
+    height: 400px;
+    box-shadow: 0 8px 8px 4px rgba(0,0,0,0.2);
+    margin: 10px
+}
+
+ .slick-dots-bottom  li{
+    background-color: #fd267d !important;
+}
+
+.userNameInfoName {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.userNameInfoJob {
+    color: #979696;
+}
+
+.userAction {
+    height: 10%;
+    border-top: 0.2px solid #f0f0f0;
+    display: flex;
+}
+
+
+.userInfo {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
