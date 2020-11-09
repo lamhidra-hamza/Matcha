@@ -5,7 +5,7 @@ import Content from '../../components/content/Content'
 import Footer from '../../components/footer/Footer'
 import './Home.css'
 import Loginpopup from '../../components/loginpopup/Loginpopup'
-import Registerpopup from '../../components/registerpopup/Registerpopup'
+//import Registerpopup from '../../components/registerpopup/Registerpopup'
 import RegisterForm from '../../components/registerForm/RegisterForm'
 
 export class Home extends Component {

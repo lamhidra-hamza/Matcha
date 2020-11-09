@@ -7,7 +7,7 @@ export default function MessageItem() {
             <div>
                 <div className="MessageItem">
                 <div className="MessageItemAvatar">
-                    <img className="MessageItemAvatarImg" src="https://vignette.wikia.nocookie.net/naruto/images/9/97/Hinata.png/revision/latest/scale-to-width-down/300?cb=20141010104729" />
+                    <img alt= "asdfads" className="MessageItemAvatarImg" src="https://vignette.wikia.nocookie.net/naruto/images/9/97/Hinata.png/revision/latest/scale-to-width-down/300?cb=20141010104729" />
                 </div>
                 <div className="MessageItemMessage">
                     <div className="userName">
