@@ -29,9 +29,8 @@
 
 .rightSide {
     width: 75vw;
-    height: 60vh;
+    height: 100vh;
     display: flex;
-    margin: 200px 0px;
     border: 0.3px solid #adacac;
 }
 
@@ -40,6 +39,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .userInfo {
@@ -52,7 +52,9 @@
     justify-content: space-evenly;
     width: 100%;
     padding: 20px;
-      align-items: center;
+    align-items: center;
+    border-bottom: 0.2px solid #f0f0f0;
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,.27) !important;
 }
 
 .avatar {
@@ -76,7 +78,8 @@
     flex-direction: row;
     justify-content: space-evenly;
           align-items: center;
-    height: 10%;
+        height: 6vh;
+    border-top: 0.2px solid #f0f0f0;
 }
 
 .chatInput {
@@ -111,9 +114,9 @@
 
 
 .userImgs{
-    height: 400px;
+    height: 50vh;
     box-shadow: 0 8px 8px 4px rgba(0,0,0,0.2);
-    margin: 10px
+    margin: 10px;
 }
 
  .slick-dots-bottom  li{
@@ -130,7 +133,7 @@
 }
 
 .userAction {
-    height: 10%;
+    height: 6vh;
     border-top: 0.2px solid #f0f0f0;
     display: flex;
 }
@@ -141,4 +144,37 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.unmatch {
+    flex: 1;
+    background-color: #f6f7fb;
+    color: #b3b3b8;
+    font-size: 15px;
+    font-weight: 900;
+    display: flex;
+     align-items: center;
+    justify-content: center;
+    border-right: 0.2px solid #f0f0f0;
+    &:hover{
+        cursor: pointer;
+        background-color: #c7c7ca;
+        color: #f6f7fb;
+    }
+}
+
+.block {
+    flex: 1;
+    background-color: #f6f7fb;
+    color: #b3b3b8;
+    font-size: 15px;
+    font-weight: 900;
+     display: flex;
+     align-items: center;
+    justify-content: center;
+    &:hover{
+        cursor: pointer;
+        background-color: #c7c7ca;
+        color: #f6f7fb;
+    }
 }

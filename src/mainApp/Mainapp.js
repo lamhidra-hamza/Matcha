@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './Mainapp.css'
+import './Mainapp.scss'
 import Maintab from '../components/mainTab/Maintab.js'
 import NavbarApp from '../components/navbarApp/NavbarApp'
 import { Avatar, Divider, Input, Button } from 'antd'
@@ -7,7 +7,7 @@ import { Carousel, Image } from 'antd'
 import ProfileInfo from '../components/profileInfo/ProfileInfo'
 
 const contentStyle = {
-  height: '400px',
+  height: '50vh',
   color: '#fff',
   lineHeight: '100%',
   textAlign: 'center',
@@ -37,9 +37,7 @@ export default function Mainapp() {
                 You matched with Hinata on 50/50/3020
               </div>
             </div>
-            <Divider style={{ margin: '0px', width: '100%' }} />
             <div className="chatBoxbody"></div>
-            <Divider style={{ margin: '0px', width: '100%' }} />
 
             <div className="chatBoxInput">
               <div className="chatInput">
@@ -65,28 +63,28 @@ export default function Mainapp() {
                 <div className="userImgItem" style={contentStyle}>
                   <Image
                     width={'100%'}
-                    height={'400px'}
+                    height={'51vh'}
                     src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
                   />
                 </div>
                 <div style={contentStyle}>
                   <Image
                     width={'100%'}
-                    height={'400px'}
+                    height={'51vh'}
                     src="https://www.essentiallysports.com/wp-content/uploads/12a68.jpg"
                   />
                 </div>
                 <div style={contentStyle}>
                   <Image
                     width={'100%'}
-                    height={'400px'}
+                    height={'51vh'}
                     src="https://economictimes.indiatimes.com/thumb/msid-74219486,width-1200,height-900,resizemode-4,imgsize-732987/maria-sharapova-opened-up-about-the-challenge-of-adjusting-to-life-in-a-new-country-without-her-mother-.jpg?from=mdr"
                   />
                 </div>
                 <div style={contentStyle}>
                   <Image
                     width={'100%'}
-                    height={'400px'}
+                    height={'51vh'}
                     src="https://www.mariasharapova.com/wp-content/uploads/Therabody-1.jpg"
                   />
                 </div>
@@ -102,8 +100,12 @@ export default function Mainapp() {
             </div>
 
             <div className="userAction">
-              <div className="unmatch">unmatch</div>
-              <div className="report">block</div>
+              <div className="unmatch">
+                UNMATCH
+                </div>
+              <div className="block">
+                BLOCK
+              </div>
             </div>
           </div>
         </div>
