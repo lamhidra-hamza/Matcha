@@ -7,8 +7,6 @@ import Infocard from '../components/infoCard/Infocard'
 import ChatBox from '../components/chatBox/ChatBox'
 import UserInfo from '../components/userInfo/UserInfo'
 
-
-
 export default function Mainapp() {
   const [showProfile, setShowProfile] = useState(false);
   return (
@@ -18,10 +16,11 @@ export default function Mainapp() {
         <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
         {showProfile ? <ProfileInfo/> : <Maintab/>}
         </div>
-        <div className="rightSide">
+        <Infocard/>
+        {/* <div className="rightSide">
           <ChatBox /> 
           <UserInfo />
-        </div>
+        </div> */}
       </div>
     </div>
   )

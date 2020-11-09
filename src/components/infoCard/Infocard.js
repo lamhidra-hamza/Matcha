@@ -1,6 +1,6 @@
 import React from 'react'
 import { Carousel, Radio, Tag, Divider } from 'antd';
-import { EnvironmentTwoTone } from '@ant-design/icons'
+import { EnvironmentTwoTone, HeartTwoTone, MinusCircleTwoTone } from '@ant-design/icons'
 
 import './InfoCard.css'
 
@@ -26,9 +26,7 @@ const Infocard = props => {
                         {info.images.map(image =>
                         <div className="fiximg">
                             <img className="imgCard" src={image}/>
-                        </div>
-                        )
-                        }
+                        </div>)}
                     </Carousel>
                     <div className="rowboxCard" style={{marginTop: '15px'}}>
                         <h2 className="fisrtNameCard"> {info.firstName}</h2>
@@ -43,9 +41,18 @@ const Infocard = props => {
                     </div>
                     <Divider orientation="center">Status</Divider>
                     <div className="rowboxCard">
-                        <h4 style={{color: '#939292', fontSize: '1.4rem'}}>{info.status}</h4>
+                        <h4 style={{color: '#939292', fontSize: '1.3rem'}}>{info.status}</h4>
                     </div>
                     <Divider/>
+                    <Divider/>
+                </div>
+                <div className="personReactions">
+                    <div className="likePerson">
+                        <MinusCircleTwoTone style={{marginTop: '11px'}} twoToneColor="#f70025"/>
+                    </div>
+                    <div className="likePerson">
+                        <HeartTwoTone style={{marginTop: '11px'}} twoToneColor="#0cce8a" />
+                    </div>
                 </div>
             </div>
         </div>
