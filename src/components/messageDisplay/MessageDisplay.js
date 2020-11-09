@@ -1,5 +1,4 @@
 import React from 'react';
-import { Divider } from 'antd';
 import './MessageDisplay.scss';
 import MessageItem from '../messageItem/MessageItem';
 

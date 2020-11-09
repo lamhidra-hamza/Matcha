@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import './RegisterForm.css'
 import { Modal, Button } from 'antd'
-import { Typography } from 'antd'
-import { Divider } from 'antd'
 import { Form, Input, Checkbox } from 'antd'
 
-const { Title, Paragraph } = Typography
 
 export class RegisterForm extends Component {
   state = {
