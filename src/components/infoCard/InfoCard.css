@@ -1,0 +1,63 @@
+.rightSideCard {
+    color: #2d2d2d;
+    background: #f6f7fa;
+    height: 100vh;
+    width: 100%;
+    border-left: 1px #d6d6d6 solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infoCardContainer {
+    width: 375px;
+    height: 667px;
+    max-height: calc(100vh - 44px);
+    min-height: 375px;
+}
+
+.infoPage {
+    position: relative;
+    box-shadow: 0 2px 10px 0 rgba(136,136,136,0.77);
+    border-radius: 8px;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow-y: auto;
+    display: block;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;
+}
+
+.infoPage::-webkit-scrollbar {
+    display: none;
+}
+
+.fiximg {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.imgCard {
+    width: 100%;
+    height: 100% !important;
+}
+
+.fisrtNameCard {
+    font-weight: 950;
+    font-size: 2rem;
+}
+
+.rowboxCard {
+    display: flex;
+    flex-direction: row;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.smallfontCard {
+    font-size: 1.4rem;
+    font-weight: 400;
+}

@@ -5,6 +5,7 @@ import NavbarApp from '../components/navbarApp/NavbarApp'
 import { Avatar, Divider, Input, Button } from 'antd'
 import { Carousel, Image } from 'antd'
 import ProfileInfo from '../components/profileInfo/ProfileInfo'
+import Infocard from '../components/infoCard/Infocard'
 
 const contentStyle = {
   height: '50vh',
