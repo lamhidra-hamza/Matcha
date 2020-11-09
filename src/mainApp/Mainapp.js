@@ -22,7 +22,7 @@ export default function Mainapp() {
       <div className="mainRow">
         <div className="leftSide">
         <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
-                    {showProfile ? <ProfileInfo/> : <Maintab/>}
+        {showProfile ? <ProfileInfo/> : <Maintab/>}
         </div>
         <div className="rightSide">
           <div className="chatBox">
