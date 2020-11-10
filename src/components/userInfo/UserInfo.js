@@ -3,7 +3,8 @@ import { Divider } from 'antd'
 import { Carousel } from 'antd'
 import './UserInfo.scss'
 import CouraselImgItem from '../carouselImgItem/CouraselImgItem'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBriefcase, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 export default function ChatBox() {
   return (
@@ -25,8 +26,13 @@ export default function ChatBox() {
       <div className="userNameInfo">
         <div className="userNameInfoName">Maria, 23</div>
         <div className="userNameInfoJob">
-          Software Developer
-          <br />1 km away
+          <FontAwesomeIcon icon={faBriefcase} /> Software Developer
+          <br />
+          <FontAwesomeIcon icon={faMapMarkerAlt} /> 1 km away
+        </div>
+        <Divider />
+        <div className="userStatus">
+          Hello my name is lkadjsf sldkfjsd adksjfuwe sdfjasdf kajsdflj 🤑❤️🔥🔥
         </div>
       </div>
 

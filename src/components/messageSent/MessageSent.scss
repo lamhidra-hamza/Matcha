@@ -1,0 +1,30 @@
+
+.messageSent {
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px;
+    margin-bottom: 1px;
+}
+
+.messageSentContent {
+    background-color: #3ca1ff;
+    height: auto;
+    width: 60%;
+    border-radius: 10px 10px 4px 10px;
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,.27) !important;
+    color: white;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.messageSentInfo {
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px;
+    color: #adacac;
+    font-size: 12px;
+    font-style: italic;;
+}
