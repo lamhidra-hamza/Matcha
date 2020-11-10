@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+overflow: hidden;
 }
 
 
@@ -31,15 +32,21 @@
 
 .chatBoxbody {
     width: 100%;
-    height: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+    box-sizing: content-box; 
 }
 
 .chatBoxInput {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-          align-items: center;
-        height: 6vh;
+    align-items: center;
+    height: 6vh;
     border-top: 0.2px solid #f0f0f0;
 }
 
@@ -51,7 +58,7 @@
     width: 20%;
 }
 
-.registerbtn {
+.sentBtn {
     color: white !important;
     background: rgb(245,34,45) !important;
     background: linear-gradient(262deg, #ff7854, #fd267d) !important;
@@ -63,3 +70,4 @@
     font-weight: 500 !important;
     box-shadow: 0 1px 6px 0 rgba(0,0,0,.27) !important;
 }
+

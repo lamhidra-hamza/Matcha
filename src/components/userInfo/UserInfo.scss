@@ -25,6 +25,15 @@
     background-color: #fd267d !important;
 }
 
+.userNameInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 25vh;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
 .userNameInfoName {
     font-size: 22px;
     font-weight: 400;

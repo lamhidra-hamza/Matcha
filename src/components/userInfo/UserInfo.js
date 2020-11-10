@@ -26,7 +26,12 @@ export default function ChatBox() {
         <div className="userNameInfoName">Maria, 23</div>
         <div className="userNameInfoJob">
           Software Developer
-          <br />1 km away
+          <br />
+          1 km away
+        </div>
+        <Divider />
+        <div className="userStatus">
+        Hello my name is lkadjsf sldkfjsd adksjfuwe sdfjasdf kajsdflj 🤑❤️🔥🔥
         </div>
       </div>
 

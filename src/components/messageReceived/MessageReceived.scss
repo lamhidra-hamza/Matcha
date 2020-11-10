@@ -1,0 +1,29 @@
+.messageReceived {
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin: 5px;
+    margin-bottom: 1px;
+}
+
+.messageReceivedContent {
+    background-color: #e2e2e2;
+    height: auto;
+    width: 60%;
+    border-radius: 10px 10px 10px 4px;
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,.27) !important;
+    color: 9c9c9c;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.messageReceivedInfo {
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin: 5px;
+    color: #adacac;
+    font-size: 12px;
+    font-style: italic;;
+}
