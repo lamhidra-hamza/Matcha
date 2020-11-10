@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-//import Home from './pages/home/Home.js'
+// import Home from './pages/home/Home.js'
 import './App.less';
 import MainApp from './mainApp/Mainapp'
 

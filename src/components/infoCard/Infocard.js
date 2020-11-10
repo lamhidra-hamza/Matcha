@@ -1,5 +1,5 @@
 import React from 'react'
-import { Carousel, Radio, Tag, Divider } from 'antd';
+import { Carousel, Tag, Divider } from 'antd';
 import { EnvironmentTwoTone, HeartTwoTone, MinusCircleTwoTone } from '@ant-design/icons'
 
 import './InfoCard.css'
@@ -25,7 +25,7 @@ const Infocard = props => {
                     <Carousel className="carouselImgs" dotPosition={'top'}>
                         {info.images.map(image =>
                         <div className="fiximg">
-                            <img className="imgCard" src={image}/>
+                            <img alt="img-card" className="imgCard" src={image}/>
                         </div>)}
                     </Carousel>
                     <div className="rowboxCard" style={{marginTop: '15px'}}>
@@ -48,10 +48,10 @@ const Infocard = props => {
                 </div>
                 <div className="personReactions">
                     <div className="likePerson">
-                        <MinusCircleTwoTone style={{marginTop: '11px'}} twoToneColor="#f70025"/>
+                        <MinusCircleTwoTone  twoToneColor="#f70025"/>
                     </div>
                     <div className="likePerson">
-                        <HeartTwoTone style={{marginTop: '11px'}} twoToneColor="#0cce8a" />
+                        <HeartTwoTone twoToneColor="#0cce8a" />
                     </div>
                 </div>
             </div>
