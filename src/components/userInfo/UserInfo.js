@@ -10,7 +10,7 @@ export default function ChatBox() {
   return (
     <div className="userInfo">
       <div className="userImgs">
-        <Carousel>
+        <Carousel style={{ height: '40vw', maxHeight: '600px' }}>
           <CouraselImgItem link="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
           <CouraselImgItem link="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
           <CouraselImgItem link="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />

@@ -92,8 +92,7 @@ export default function ChatBox() {
           <Input
             placeholder="Type a message"
             style={{
-              margin: '10px',
-              height: '50px',
+              height: '4vh',
               borderRadius: '10px',
             }}
           />
