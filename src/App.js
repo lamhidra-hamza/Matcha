@@ -28,7 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         {/* <Home mobile={this.state.mobile}/> */}
-        <MainApp />
+        <MainApp mobile={this.state.mobile}/>
       </div>
     );
   }

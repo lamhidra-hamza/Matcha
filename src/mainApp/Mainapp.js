@@ -16,7 +16,7 @@ export default function Mainapp() {
         <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
         {showProfile ? <ProfileInfo/> : <Maintab/>}
         </div>
-        {/* <Infocard/> */}
+        <Infocard/>
         <div className="rightSide">
           <ChatBox /> 
           <UserInfo />

@@ -6,7 +6,7 @@ export default function MessageDisplay() {
     return (
         <div className="MessageContainer">
            <MessageItem />
-                       <MessageItem />
+            <MessageItem />
            <MessageItem />
            <MessageItem />
            <MessageItem />
