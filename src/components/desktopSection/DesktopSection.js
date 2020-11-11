@@ -19,11 +19,11 @@ function DesktopSection(props) {
             {showProfile ? <ProfileInfo/> : <Maintab/>}
             </div>
             {/* <EditProfile /> */}
-            <Infocard/>
-            {/* <div className="rightSide">
+            {/* <Infocard/> */}
+            <div className="rightSide">
             <ChatBox />
             {width > 1300 ? <UserInfo /> : null}
-            </div> */}
+            </div>
         </div>
     )
 }

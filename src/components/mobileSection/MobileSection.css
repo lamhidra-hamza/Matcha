@@ -1,6 +1,8 @@
 .mobileSection {
-    height: 100vh;
+    height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .mobileSection > .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list {
@@ -27,4 +29,32 @@
 
 .mobileTab {
     height: 100vh !important;
+}
+
+.mobileTab::-webkit-scrollbar {
+    display: none !important;
+}
+
+.downNav {
+    height: 40px;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.downNav > .ant-btn-circle.ant-btn-lg {
+    box-shadow: 0 5px 8px 4px rgba(112,125,134,0.14);
+}
+
+.scrollTab{
+    overflow: scroll;
+}
+
+.paddingBottomTab {
+    padding-bottom: 30%;
+}
+
+.mobileSection > .ant-tabs-top > .ant-tabs-nav, .ant-tabs-bottom > .ant-tabs-nav, .ant-tabs-top > div > .ant-tabs-nav, .ant-tabs-bottom > div > .ant-tabs-nav {
+    margin: 0;
 }

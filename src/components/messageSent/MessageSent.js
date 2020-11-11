@@ -6,7 +6,7 @@ export default function MessageSent() {
         <div>
             <div className="messageSent">
           <div className="messageSentContent">
-            <span>laksdjflaksdjfadsfs</span>
+            <span>hello natacha</span>
           </div>          
         </div>
         <div className="messageSentInfo">
