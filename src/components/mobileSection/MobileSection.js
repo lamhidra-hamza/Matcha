@@ -1,10 +1,10 @@
 import React from 'react';
 import './MobileSection.css'
 import { Tabs } from 'antd';
-import MobileProfile from '../components/mobileProfile/MobileProfile';
+import MobileProfile from '../mobileProfile/MobileProfile';
 import { FireFilled, MessageFilled, ContactsFilled, HeartFilled } from '@ant-design/icons';
-import MatcheDisplay from '../components/matchesDisplay/MatcheDisplay';
-import MessageDisplay from '../components/messageDisplay/MessageDisplay'
+import MatcheDisplay from '../matchesDisplay/MatcheDisplay';
+import MessageDisplay from '../messageDisplay/MessageDisplay'
 
 const { TabPane } = Tabs;
 
