@@ -4,33 +4,5 @@
     display: block;
 }
 
-.leftSide {
-    color: #2d2d2d;
-    background: #f6f7fa;
-    width: 400px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
 
-.main {
-    color: black;
-    background: #f6f7fa;
-    border-left: 1px #c9c9c9 solid ;
-    border-color: #e0e4e9;
-    width: 100%;
-}
-
-.mainRow {
-    display: flex;
-    flex-direction: row;
-}
-
-.rightSide {
-    width: 75vw;
-    height: 100vh;
-    display: flex;
-    border: 0.3px solid #adacac;
-}
 
