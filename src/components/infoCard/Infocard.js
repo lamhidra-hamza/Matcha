@@ -22,7 +22,7 @@ const Infocard = props => {
         <div className="rightSideCard">
             <div className="infoCardContainer">
                 <div className="infoPage">
-                    <Carousel className="carouselImgs" dotPosition={'top'}>
+                    <Carousel dotPosition={'top'}>
                         {info.images.map(image =>
                         <div className="fiximg">
                             <img alt="img-card" className="imgCard" src={image}/>

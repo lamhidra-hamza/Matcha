@@ -1,8 +1,12 @@
 import React, {Component} from 'react'
-// import Home from './pages/home/Home.js'
+import Home from './pages/home/Home.js'
 import './App.less';
 import MainApp from './mainApp/Mainapp'
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 class App extends Component {
   state = {
@@ -24,11 +28,19 @@ class App extends Component {
     this._isMounted = false;
   }
 
-  render() {  
+  render() {
     return (
       <div className="App">
-        {/* <Home mobile={this.state.mobile}/> */}
-        <MainApp mobile={this.state.mobile}/>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Home mobile={this.state.mobile}/>
+            </Route>
+            <Route path="/app">
+              <MainApp mobile={this.state.mobile}/>
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }

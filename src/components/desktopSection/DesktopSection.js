@@ -22,7 +22,7 @@ function DesktopSection(props) {
             {/* <Infocard/> */}
             <div className="rightSide">
             <ChatBox />
-            {width > 1300 ? <UserInfo /> : null}
+            {width > 1200 ? <UserInfo /> : null}
             </div>
         </div>
     )
