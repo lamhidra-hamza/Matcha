@@ -18,12 +18,12 @@ function DesktopSection(props) {
             <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
             {showProfile ? <ProfileInfo/> : <Maintab/>}
             </div>
-            {/* <EditProfile /> */}
-            {/* <Infocard/> */}
+            <EditProfile />
+            {/* <Infocard/>
             <div className="rightSide">
             <ChatBox />
             {width > 1300 ? <UserInfo /> : null}
-            </div>
+            </div> */}
         </div>
     )
 }
