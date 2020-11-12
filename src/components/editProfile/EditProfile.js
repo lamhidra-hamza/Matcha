@@ -6,9 +6,15 @@ import { HeartTwoTone, EyeTwoTone } from '@ant-design/icons'
 import ProfileImgItem from '../profileImgItem/profileImgItem'
 import ProfileImgEmpty from '../profileImgIEmpty/profileImgIEmpty'
 import LikeViewItems from '../likeAndView/LikeViewItems'
-import { Slider, Input } from 'antd'
+import { Slider, Input, Select } from 'antd'
 
 export default function EditProfile() {
+  const handleChange = () => {
+    console.log('done')
+  }
+
+  const { Option } = Select
+
   return (
     <div className="editProfileContainer">
       <div className="editProfileCard">
@@ -32,23 +38,50 @@ export default function EditProfile() {
                   style={{
                     height: '2vh',
                     borderRadius: '10px',
-                    width: '250px',
+                    width: '200px',
                     border: '0px',
-                    textAlign: 'right'
-                }}
+                    textAlign: 'right',
+                  }}
                 />
               </div>
               <div className="setBox borderTopNone rowsetBox">
                 <h3 className="boxParam">Password</h3>
-                <h3 className="boxValue">. . . . . . .</h3>
+                <Input
+                  placeholder="........"
+                  style={{
+                    height: '2vh',
+                    borderRadius: '10px',
+                    width: '200px',
+                    border: '0px',
+                    textAlign: 'right',
+                  }}
+                />
               </div>
               <div className="setBox borderTopNone rowsetBox">
                 <h3 className="boxParam">First Name</h3>
-                <h3 className="boxValue">Amal</h3>
+                <Input
+                  placeholder="Amal"
+                  style={{
+                    height: '2vh',
+                    borderRadius: '10px',
+                    width: '200px',
+                    border: '0px',
+                    textAlign: 'right',
+                  }}
+                />
               </div>
               <div className="setBox borderTopNone rowsetBox">
                 <h3 className="boxParam">Last Name</h3>
-                <h3 className="boxValue">BentBaha</h3>
+                <Input
+                  placeholder="bentbaha"
+                  style={{
+                    height: '2vh',
+                    borderRadius: '10px',
+                    width: '200px',
+                    border: '0px',
+                    textAlign: 'right',
+                  }}
+                />
               </div>
             </div>
             <div className="accountSet">
@@ -65,8 +98,16 @@ export default function EditProfile() {
                 <Slider defaultValue={30} />
               </div>
               <div className="setBox borderTopNone rowsetBox">
-                <h3 className="boxParam">Loking for</h3>
-                <h3 className="boxValue">Men</h3>
+                <h3 className="boxParam">Looking for</h3>
+                <Select
+                  defaultValue="lucy"
+                  style={{ width: 150 }}
+                  onChange={handleChange}
+                >
+                  <Option value="men">Men</Option>
+                  <Option value="lucy">Women</Option>
+                  <Option value="Yiminghe">Men & Women</Option>
+                </Select>
               </div>
               <div className="setBox borderTopNone columnsetBox">
                 <div className="rowsetBox">
