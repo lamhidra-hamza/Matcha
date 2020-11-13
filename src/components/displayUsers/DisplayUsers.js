@@ -18,7 +18,7 @@ const DisplayUsers = () => {
         <div className="DusersContainer">
             <div className="filterUsers">
                 <div className="filterRow">
-                    <h4 style={{fontWeight: '900'}}>Tags: </h4>
+                    <h4 style={{fontWeight: '900', color: '#5b5b5b'}}>Tags: </h4>
                     <Select mode="tags" style={{ width: '50%' , margin: '4px', marginRight: '5px'}} placeholder="Enter Your Tags" onChange={handleChange}>
                         <Option>Travel</Option>
                         <Option>Music</Option>
@@ -26,11 +26,11 @@ const DisplayUsers = () => {
                     </Select>
                 </div>
                 <div className="filterRow">
-                    <h4 style={{fontWeight: '900'}}>Distance (km): </h4>
+                    <h4 style={{fontWeight: '900', color: '#5b5b5b'}}>Distance (km): </h4>
                     <Slider defaultValue={30} style={{width: '50%'}} />
                 </div>
                 <div className="filterRow">
-                    <h4 style={{fontWeight: '900'}}>Age: </h4>
+                    <h4 style={{fontWeight: '900', color: '#5b5b5b'}}>Age: </h4>
                     <Slider style={{width: '50%'}}
                             range
                             step={1}
