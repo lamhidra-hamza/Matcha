@@ -6,6 +6,7 @@ import Infocard from '../infoCard/Infocard'
 import ChatBox from '../chatBox/ChatBox'
 import UserInfo from '../userInfo/UserInfo'
 import EditProfile from '../editProfile/EditProfile'
+import DisplayUsers from '../displayUsers/DisplayUsers'
 import './DesktopSection.css'
 import {Switch, Route, useRouteMatch, Redirect} from 'react-router-dom'
 
@@ -27,7 +28,7 @@ function DesktopSection(props) {
             </div>
             <Switch>
                 <Route exact path={`${match.url}/profile`} component={EditProfile}/>
-                <Route exact path={`${match.url}`} component={Infocard}/>
+                <Route exact path={`${match.url}`} component={DisplayUsers}/>
                 <Route path={`${match.url}/chatbox`}>
                     <div className="rightSide">
                     <ChatBox />

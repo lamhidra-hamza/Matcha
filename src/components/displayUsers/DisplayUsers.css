@@ -1,0 +1,35 @@
+.DusersContainer {
+    color: #2d2d2d;
+    background: #f6f7fa;
+    height: 100vh;
+    width: 100%;
+    border-left: 1px #d6d6d6 solid;
+}
+
+.dusersContent {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.filterUsers {
+    background: #fcfcfc;
+    height: 132px;
+    border: 1px #d6d6d6 solid;
+    border-left: none;
+    padding: 1.5% 5%;
+}
+
+.filterRow {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+.ant-select-selection-placeholder {
+    color: #ffafb7 !important;
+}

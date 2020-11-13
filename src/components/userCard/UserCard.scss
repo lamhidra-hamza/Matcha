@@ -1,0 +1,58 @@
+.UserCardContainer {
+    width: 250px;
+    height: 300px;
+    max-height: calc(100vh - 44px);
+    min-height: 375px;
+    display: flex;
+    justify-content: center;  
+    align-items: flex-end;
+    margin: 30px;
+    cursor: pointer;
+    .infoPage {
+        position: relative;
+        box-shadow: 0 2px 10px 0 rgba(136,136,136,0.77);
+        border-radius: 8px;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .infocontent {
+        position: relative;
+        height: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 29px;
+    }
+
+    .fiximg {
+        width: 100%;
+        height: 80%;
+    }
+    
+    .imgCard {
+        width: 100%;
+        height: 100% !important;
+    }
+    
+    .fisrtNameCard {
+        font-weight: 950;
+        font-size: 1.6rem;
+    }
+    
+    .rowboxCard {
+        display: flex;
+        flex-direction: row;
+        margin: -5px;
+    }
+    .smallfontCard {
+        font-size: 1.1rem;
+        font-weight: 200;
+        margin-left: 7px;
+    }
+
+}
