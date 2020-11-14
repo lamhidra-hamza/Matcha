@@ -9,10 +9,10 @@ import {
   HeartFilled,
   LogoutOutlined,
 } from '@ant-design/icons'
-import MatcheDisplay from '../matchesDisplay/MatcheDisplay'
 import MessageDisplay from '../messageDisplay/MessageDisplay'
-import { useParams } from 'react-router-dom'
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom'
 import DisplayUsers from '../displayUsers/DisplayUsers'
+import EditProfile from '../editProfile/EditProfile'
 
 const { TabPane } = Tabs
 
@@ -39,7 +39,8 @@ function MobileSection() {
 		<div className="mobileSection">
 			<Tabs defaultActiveKey={handelDefaultKey}>
 			<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("", "1")} className="mobileNavIcon"> <FireFilled /></span>} key="1" >
-				<DisplayUsers/>
+				{/* <DisplayUsers/> */}
+        <EditProfile />
 			</TabPane>
 			<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
 				<DisplayUsers/>

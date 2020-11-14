@@ -22,9 +22,9 @@ function DesktopSection(props) {
                 {showProfile ? <ProfileInfo/> : <Maintab/>}
             </div>
             <Switch>
-                <Route path={`${match.url}/profile`} component={Infocard} />
+                <Route exact path={`${match.url}/profile`} component={Infocard} />
                 <Route path={`${match.url}/infocard`} component={Infocard} />
-                <Route path={`${match.url}/edit-profile`} component={EditProfile} />
+                <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/chatbox`}>
                     <div className="rightSide">
                         <ChatBox />

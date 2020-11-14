@@ -5,7 +5,7 @@ import {
   HeartTwoTone,
   MinusCircleTwoTone,
 } from '@ant-design/icons'
-
+import { useLocation, useRouteMatch, useHistory } from 'react-router-dom'
 import './InfoCard.css'
 
 const Infocard = (props) => {
@@ -21,6 +21,17 @@ const Infocard = (props) => {
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQScNAkshkRSpAWT0Qv-Mzrw5mUVSls-tGJ7g&usqp=CAU',
       'https://i.pinimg.com/474x/66/94/7d/66947da4b8bba10226afd00ae5fa7eaa.jpg',
     ],
+  }
+
+  const { state } = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
+
+  const editButtonClick = () => {
+      history.push({
+              pathname: `${match.url}/edit`,
+              state: {mobileKey: "4"}
+      })
   }
 
   return (
@@ -81,15 +92,16 @@ const Infocard = (props) => {
         </div>
 
         <div className="personReactions">
-          {/* <div className="likePerson">
-                        <MinusCircleTwoTone  twoToneColor="#f70025"/>
-                    </div>
-                    <div className="likePerson">
-                        <HeartTwoTone twoToneColor="#0cce8a" />
-                    </div> */}
-          <Button shape="round" className={'editProfileBtn'}>
+          { state && state.mobileKey === "4" ?
+            <Button shape="round" className={'editProfileBtn'} onClick={editButtonClick}>
             Edit Profile
-          </Button>
+            </Button> : 
+            <><div className="likePerson">
+                <MinusCircleTwoTone  twoToneColor="#f70025"/>
+            </div>
+            <div className="likePerson">
+                <HeartTwoTone twoToneColor="#0cce8a" />
+            </div></> }
         </div>
       </div>
     </div>
