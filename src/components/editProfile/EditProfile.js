@@ -6,7 +6,7 @@ import { HeartTwoTone, EyeTwoTone } from '@ant-design/icons'
 import ProfileImgItem from '../profileImgItem/profileImgItem'
 import ProfileImgEmpty from '../profileImgIEmpty/profileImgIEmpty'
 import LikeViewItems from '../likeAndView/LikeViewItems'
-import { Slider, Input, Select } from 'antd'
+import { Slider, Input, Select, Button } from 'antd'
 
 export default function EditProfile() {
   const handleChange = () => {
@@ -124,6 +124,12 @@ export default function EditProfile() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="floatBtn">
+          <Button shape="round" className={'saveProfileBtn'}>
+            Save
+          </Button>
         </div>
       </div>
     </div>

@@ -1,13 +1,20 @@
-import React from 'react';
+import React from 'react'
 import './MobileSection.css'
-import { Tabs, Divider, Button } from 'antd';
-import MobileProfile from '../mobileProfile/MobileProfile';
-import { FireFilled, MessageFilled, ContactsFilled, HeartFilled, LogoutOutlined } from '@ant-design/icons';
-import MessageDisplay from '../messageDisplay/MessageDisplay';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom'
+import { Tabs, Divider, Button } from 'antd'
+import MobileProfile from '../mobileProfile/MobileProfile'
+import {
+  FireFilled,
+  MessageFilled,
+  ContactsFilled,
+  HeartFilled,
+  LogoutOutlined,
+} from '@ant-design/icons'
+import MatcheDisplay from '../matchesDisplay/MatcheDisplay'
+import MessageDisplay from '../messageDisplay/MessageDisplay'
+import { useParams } from 'react-router-dom'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 
-const { TabPane } = Tabs;
+const { TabPane } = Tabs
 
 function MobileSection() {
 

@@ -29,62 +29,35 @@ export default function ChatBox() {
 
         <MessageReceived />
         <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
         <MessageReceived />
         <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-                <MessageSent />
-
-
-        <MessageReceived />
-
-        <MessageSent />
-
         <MessageReceived />
         <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
-        <MessageReceived />
-
-        <MessageSent />
-
         <MessageReceived />
         <MessageSent />
-
         <MessageReceived />
-
         <MessageSent />
-
         <MessageReceived />
-
         <MessageSent />
-
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
+        <MessageReceived />
+        <MessageSent />
         <MessageReceived />
       </div>
       <div className="chatBoxInput">
@@ -99,7 +72,7 @@ export default function ChatBox() {
         </div>
         <div className="chatButton">
           <Button shape="round" className={'sentBtn'}>
-            send
+            Edit
           </Button>
         </div>
       </div>
