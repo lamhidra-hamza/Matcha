@@ -4,23 +4,29 @@
     height: 100vh;
     width: 100%;
     border-left: 1px #d6d6d6 solid;
+    position: relative;
 }
 
 .dusersContent {
-    height: 100%;
+    height: 87%;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     overflow-y: auto;
+    padding-bottom: 80px;
 }
 
 .filterUsers {
-    background: #fcfcfc;
-    height: 132px;
+    background: #fff;
+    height: 13%;
     border: 1px #d6d6d6 solid;
+    border-top: none;
     border-left: none;
     padding: 1.5% 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .filterRow {
