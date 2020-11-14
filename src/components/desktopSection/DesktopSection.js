@@ -8,7 +8,7 @@ import UserInfo from '../userInfo/UserInfo'
 import EditProfile from '../editProfile/EditProfile'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import './DesktopSection.css'
-import {Switch, Route, useRouteMatch, Redirect} from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 function DesktopSection(props) {
     const [showProfile, setShowProfile] = useState(false);
@@ -18,7 +18,7 @@ function DesktopSection(props) {
     return (
         <div className="mainRow">
             <div className="leftSide">
-            <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
+                <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
                 {showProfile ? <ProfileInfo/> : <Maintab/>}
             </div>
             <Switch>
@@ -28,7 +28,7 @@ function DesktopSection(props) {
                 <Route path={`${match.url}/chatbox`}>
                     <div className="rightSide">
                         <ChatBox />
-                        {width > 1300 ? <UserInfo /> : null}
+                        {width > 1300 && <UserInfo />}
                     </div>
                 </Route>
                 <Route path={`${match.url}/`} component={DisplayUsers} />

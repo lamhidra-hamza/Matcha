@@ -19,7 +19,7 @@
 
 .filterUsers {
     background: #fff;
-    height: 13%;
+    height: 116px;
     border: 1px #d6d6d6 solid;
     border-top: none;
     border-left: none;
@@ -27,7 +27,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-size: 1rem;
 }
+
 
 .filterRow {
     position: relative;
@@ -35,6 +37,7 @@
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
+    height: 100%;
 }
 .ant-select-selection-placeholder {
     color: #ffafb7 !important;

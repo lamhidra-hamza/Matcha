@@ -4,8 +4,6 @@ import './Maintab.css'
 import MatcheDisplay from '../matchesDisplay/MatcheDisplay'
 import MessageDisplay from '../messageDisplay/MessageDisplay';
 import { Badge } from 'antd';
-import { Redirect,  Link } from 'react-router-dom';
-
 
 const { TabPane } = Tabs;
 
