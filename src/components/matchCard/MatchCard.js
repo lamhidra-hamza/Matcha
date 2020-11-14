@@ -1,9 +1,17 @@
 import React from 'react'
 import './MatchCard.scss'
+import {useRouteMatch, useHistory} from 'react-router-dom'
 
 export default function MatcheCard() {
+    let match = useRouteMatch();
+    let history = useHistory();
+
+    const handelClick = () => {
+        history.push(`${match.path}/chatbox`)
+    }
+
     return (
-            <div className="MatchesCard">
+            <div className="MatchesCard" onClick={handelClick}>
                 <div className="matcheItems">
                     <div className="matcheItem">
                         <div className="identity">

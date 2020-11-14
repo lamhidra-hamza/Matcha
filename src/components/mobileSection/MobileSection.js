@@ -4,11 +4,13 @@ import { Tabs, Divider, Button } from 'antd';
 import MobileProfile from '../mobileProfile/MobileProfile';
 import { FireFilled, MessageFilled, ContactsFilled, HeartFilled, LogoutOutlined } from '@ant-design/icons';
 import MatcheDisplay from '../matchesDisplay/MatcheDisplay';
-import MessageDisplay from '../messageDisplay/MessageDisplay'
+import MessageDisplay from '../messageDisplay/MessageDisplay';
+import { useParams } from 'react-router-dom'
 
 const { TabPane } = Tabs;
 
 function MobileSection() {
+  console.log(useParams());
     return (
         <div className="mobileSection">
           <Tabs defaultActiveKey="4">

@@ -19,22 +19,19 @@ function DesktopSection(props) {
         <div className="mainRow">
             <div className="leftSide">
             <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
-            {showProfile ? 
-                    <><ProfileInfo/>
-                    <Redirect to={`${match.url}/profile`}/></>
-                :
-                    <Maintab/>
-                }
+                {showProfile ? <ProfileInfo/> : <Maintab/>}
             </div>
             <Switch>
-                <Route exact path={`${match.url}/profile`} component={EditProfile}/>
-                <Route exact path={`${match.url}`} component={DisplayUsers}/>
+                <Route path={`${match.url}/profile`} component={Infocard} />
+                <Route path={`${match.url}/infocard`} component={Infocard} />
+                <Route path={`${match.url}/edit-profile`} component={EditProfile} />
                 <Route path={`${match.url}/chatbox`}>
                     <div className="rightSide">
-                    <ChatBox />
-                    {width > 1300 ? <UserInfo /> : null}
+                        <ChatBox />
+                        {width > 1300 ? <UserInfo /> : null}
                     </div>
                 </Route>
+                <Route path={`${match.url}/`} component={DisplayUsers} />
             </Switch>
         </div>
     )

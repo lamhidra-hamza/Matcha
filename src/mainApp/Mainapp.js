@@ -26,15 +26,8 @@ export default function Mainapp() {
 
   return (
     <div className="containerMainapp">
-      {width > 760 ? <Redirect to={`${match.url}/desktop`} /> : <Redirect to={`${match.url}/mobile`} />}
-      <Switch>
-        <Route path={`${match.url}/desktop`}>
-          <DesktopSection width={width}/>
-        </Route>
-        <Route path={`${match.url}/mobile`}>
-          <MobileSection/>
-        </Route>
-      </Switch>
+      {width > 760 ? <DesktopSection width={width}/> : <MobileSection/>}
     </div>
   )
 }
+

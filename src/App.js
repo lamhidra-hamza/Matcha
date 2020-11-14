@@ -30,8 +30,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Router>
+      <Router>
+        <div className="App">
           <Switch>
             <Route exact path="/">
               <Home mobile={this.state.mobile}/>
@@ -40,8 +40,8 @@ class App extends Component {
               <MainApp mobile={this.state.mobile}/>
             </Route>
           </Switch>
-        </Router>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
