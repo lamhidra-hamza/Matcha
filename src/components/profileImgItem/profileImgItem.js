@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
 import './profileImgItem.scss'
 
-export default function ProfileImgItem() {
+export default function ProfileImgItem(props) {
+  console.log(props.view);
   return (
-    <div className="profileImgItem">
+    <div className={`${props.view}profileImgItem`}>
       <div className="id">1</div>
       <div className="add">
         <FontAwesomeIcon icon={faTimes} color="#fd2c7c" />

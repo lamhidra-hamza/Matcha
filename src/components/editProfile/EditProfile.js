@@ -15,17 +15,18 @@ export default function EditProfile() {
 
   const { Option } = Select
 
+  const currentView = 'mobile'
+
   return (
-    <div className="editProfileContainer">
+    <div className={`${currentView}editProfileContainer`}>
       <div className="editProfileCard">
         <div className="EditProfileInfo">
           <div className="profileImgs">
-            <ProfileImgItem />
-            <ProfileImgItem />
-            <ProfileImgItem />
-            <ProfileImgEmpty />
-            <ProfileImgEmpty />
-            <ProfileImgEmpty />
+            <ProfileImgItem view={`${currentView}`} />
+            <ProfileImgItem view={`${currentView}`} />
+            <ProfileImgItem view={`${currentView}`} />
+            <ProfileImgEmpty view={`${currentView}`} />
+            <ProfileImgEmpty view={`${currentView}`} />
           </div>
 
           <div className="profileInfoConatainer">

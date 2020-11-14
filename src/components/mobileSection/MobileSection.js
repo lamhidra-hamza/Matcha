@@ -13,6 +13,7 @@ import MatcheDisplay from '../matchesDisplay/MatcheDisplay'
 import MessageDisplay from '../messageDisplay/MessageDisplay'
 import { useParams } from 'react-router-dom'
 import DisplayUsers from '../displayUsers/DisplayUsers'
+import EditProfile from '../editProfile/EditProfile'
 
 const { TabPane } = Tabs
 
@@ -31,7 +32,8 @@ function MobileSection() {
           }
           key="1"
         >
-          <DisplayUsers />{' '}
+          {/* <DisplayUsers />{' '} */}
+          <EditProfile />
         </TabPane>
         <TabPane
           className="mobileTab scrollTab"
