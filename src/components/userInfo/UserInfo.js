@@ -2,7 +2,6 @@ import React from 'react'
 import { Divider } from 'antd'
 import { Carousel } from 'antd'
 import './UserInfo.scss'
-import CouraselImgItem from '../carouselImgItem/CouraselImgItem'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 

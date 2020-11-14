@@ -1,18 +1,21 @@
 import React from 'react'
-import { UserOutlined, LeftOutlined } from '@ant-design/icons';
-import {Avatar, Typography} from 'antd'
-import './NavbarApp.css'
-import { useHistory, useRouteMatch, Redirect, Link} from 'react-router-dom'
+import { UserOutlined, LeftOutlined, LogoutOutlined} from '@ant-design/icons';
+import {Avatar, Typography, Tooltip} from 'antd'
+import './NavbarApp.scss'
+import { useHistory, useRouteMatch, Link} from 'react-router-dom'
 
 const { Title } = Typography;
 
 export default function NavbarApp({setShowProfile, showProfile}) {
-    
+
     const history = useHistory();
     const match = useRouteMatch();
 
     const handelProfileClick = () => {
-        history.push(`${match.path}/profile`)
+        history.push({
+                pathname: `${match.path}/profile`,
+                state: {mobileKey: "4"}
+        })
         setShowProfile(true)
     }
 
@@ -23,11 +26,14 @@ export default function NavbarApp({setShowProfile, showProfile}) {
     return (
         <div className="desNavbar">
             <div className="profileIcon">
-                {showProfile ?
-                    <Link to={`${match.path}`}>
+                {showProfile &&
+                    <Link to={{
+                        pathname: `${match.path}`,
+                        state: {mobileKey: "1"}
+                    }}>
                     <div className="returnIcon" onClick={handelBackfrom}>
                         <LeftOutlined style={{color: '#efefef'}}/>
-                    </div> </Link> : ''
+                    </div> </Link>
                 }
                 <Avatar
                     onClick={handelProfileClick}
@@ -37,7 +43,13 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                     onClick={handelProfileClick}
                     style={titleStyle} 
                     level={3}
-                    >My profile</Title>
+                    >My profile</Title> 
+                    
+            </div>
+            <div className="navLogout">
+                <Tooltip title="Logout">
+                    <LogoutOutlined className="logoutIcon" style={{ fontSize: '2rem' }}/>
+                </Tooltip>
             </div>
         </div>
     )

@@ -6,7 +6,9 @@
     height: 53px !important;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .profileIcon {
@@ -22,3 +24,14 @@
     margin-left: 50px;
     margin-right: 10px;
 }
+
+.navLogout {
+    margin-right: 25px;
+    cursor: pointer;
+    .logoutIcon {
+        &:hover {
+            color: #cecece;
+        }
+    }
+}
+

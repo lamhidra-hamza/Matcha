@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { useState, useEffect } from 'react'
 import Home from './pages/home/Home.js'
 import './App.less';
 import MainApp from './mainApp/Mainapp'
@@ -8,42 +8,38 @@ import {
   Route,
 } from "react-router-dom";
 
-class App extends Component {
-  state = {
-    mobile: window.innerWidth < 768,
-  }
+const App = () => {
+  
+  const getWidth = () => window.innerWidth 
+  || document.documentElement.clientWidth 
+  || document.body.clientWidth;
 
-  componentDidMount() {
-    this._isMounted = true;
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 768) {
-        this.setState({mobile: true});
-      } else {
-        this.setState({mobile: false});
-      }
-    });
-  }
+  const [width, setWidth] = useState(getWidth());
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+   useEffect(() => {
+    const resizeListener = () => {
+      setWidth(getWidth())
+    };
+    window.addEventListener('resize', resizeListener);
+    return () => {
+      window.removeEventListener('resize', resizeListener);
+    }
+  })
 
-  render() {
-    return (
-      <Router>
+  return (
+    <Router>
         <div className="App">
           <Switch>
             <Route exact path="/">
-              <Home mobile={this.state.mobile}/>
+              <Home mobile={width < 768}/>
             </Route>
             <Route path="/app">
-              <MainApp mobile={this.state.mobile}/>
+              <MainApp width={width}/>
             </Route>
           </Switch>
         </div>
       </Router>
-    );
-  }
+  )
 }
 
-export default App;
+export default App

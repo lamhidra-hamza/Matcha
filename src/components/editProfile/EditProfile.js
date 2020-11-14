@@ -1,20 +1,21 @@
 import React from 'react'
 import './EditProfile.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { HeartTwoTone, EyeTwoTone } from '@ant-design/icons'
 import ProfileImgItem from '../profileImgItem/profileImgItem'
 import ProfileImgEmpty from '../profileImgIEmpty/profileImgIEmpty'
-import LikeViewItems from '../likeAndView/LikeViewItems'
 import { Slider, Input, Select, Button } from 'antd'
+import { useHistory } from 'react-router-dom'
 
 export default function EditProfile() {
+  const history = useHistory();
+
   const handleChange = () => {
     console.log('done')
   }
-
   const { Option } = Select
 
+    const saveButtonClick = () => {
+    history.goBack();
+  }
   const currentView = 'mobile'
 
   return (
@@ -128,7 +129,7 @@ export default function EditProfile() {
         </div>
 
         <div className="floatBtn">
-          <Button shape="round" className={'saveProfileBtn'}>
+          <Button shape="round" className={'saveProfileBtn'} onClick={saveButtonClick}>
             Save
           </Button>
         </div>

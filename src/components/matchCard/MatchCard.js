@@ -7,7 +7,10 @@ export default function MatcheCard() {
     let history = useHistory();
 
     const handelClick = () => {
-        history.push(`${match.path}/chatbox`)
+        history.push({
+            pathname: `${match.path}/chatbox`,
+            state: {mobileKey: "3"}
+    })
     }
 
     return (

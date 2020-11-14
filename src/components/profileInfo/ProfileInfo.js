@@ -1,10 +1,16 @@
 import React from 'react';
 import './ProfileInfo.scss';
 import LikeViewItems from '../likeAndView/LikeViewItems'
-import { Slider } from 'antd';
+import { Slider, Input, Select } from 'antd';
 
+const { Option } = Select
 
 const ProfileInfo = () => {
+
+    const handleChange = () => {
+        console.log('done')
+    }
+
     return (
         <div className="profileInfoConatainer">
             <LikeViewItems/>
@@ -12,19 +18,59 @@ const ProfileInfo = () => {
                 <h2 className="setTitle">ACCOUNT SETTINGS</h2>
                 <div className="setBox rowsetBox">
                     <h3 className="boxParam" >Email</h3>
-                    <h3 className="boxValue" >Amal-boox@gmail.com</h3>
+                    <Input
+                        placeholder="amal@gmail.com"
+                        style={{
+                            height: '2vh',
+                            borderRadius: '10px',
+                            width: '200px',
+                            border: '0px',
+                            textAlign: 'right',
+                            marginBottom: '9px',
+                        }}
+                    /> 
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Password</h3>
-                    <h3 className="boxValue" >. . . . . . .</h3>
+                    <Input
+                        placeholder="........"
+                        style={{
+                            height: '2vh',
+                            borderRadius: '10px',
+                            width: '200px',
+                            border: '0px',
+                            textAlign: 'right',
+                            marginBottom: '9px',
+                        }}
+                    />
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >First Name</h3>
-                    <h3 className="boxValue" >Amal</h3>
+                    <Input
+                        placeholder="Amal"
+                        style={{
+                            height: '2vh',
+                            borderRadius: '10px',
+                            width: '200px',
+                            border: '0px',
+                            textAlign: 'right',
+                            marginBottom: '9px',
+                        }}
+                    />
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Last Name</h3>
-                    <h3 className="boxValue" >BentBaha</h3>
+                    <Input
+                        placeholder="bentbaha"
+                        style={{
+                        height: '2vh',
+                        borderRadius: '10px',
+                        width: '200px',
+                        border: '0px',
+                        textAlign: 'right',
+                        marginBottom: '9px',
+                        }}
+                    />
                 </div>
             </div>
             <div className="accountSet">
@@ -38,11 +84,20 @@ const ProfileInfo = () => {
                         <h3 className="boxParam" >Maximun Distance</h3>
                         <h3 className="boxValue" >11 km.</h3>
                     </div>
-                    <Slider defaultValue={30}/>
+                    <Slider defaultValue={30} style={{marginBottom: '15px',}}/>
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Loking for</h3>
-                    <h3 className="boxValue" >Men</h3>
+                    <Select
+                        defaultValue="lucy"
+                        style={{ width: 150 ,
+                            marginBottom: '9px',}}
+                        onChange={handleChange}
+                        >
+                        <Option value="men">Men</Option>
+                        <Option value="lucy">Women</Option>
+                        <Option value="Yiminghe">Men & Women</Option>
+                    </Select>
                 </div>
                 <div className="setBox borderTopNone columnsetBox">
                     <div className="rowsetBox">
@@ -54,7 +109,9 @@ const ProfileInfo = () => {
                         step={1}
                         min={18}
                         max={39}
-                        defaultValue={[22, 28]}/>
+                        defaultValue={[22, 28]}
+                        style={{marginBottom: '15px',}}
+                        />
                 </div>
             </div>
         </div>
