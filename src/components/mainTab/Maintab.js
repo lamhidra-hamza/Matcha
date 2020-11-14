@@ -14,11 +14,11 @@ export default function Maintab() {
         <div className="tabs">
             <Tabs className="tabsstyle" defaultActiveKey="1" style={{fontWeight: '800'}}>
                 <TabPane style={{ height: '100vh', width: '400px'}} tab={
-                    <Link to="/app/desktop/"><span>Matches <Badge count={25} /></span> </Link> } key="1">
+                    <span>Matches <Badge count={25} /></span>} key="1">
                     <MatcheDisplay/>
                 </TabPane>
                 <TabPane style={{ height: '100vh', width: '400px'}}  tab={
-                <Link to="/app/desktop/chatbox"> <span>Messagees <Badge count={2} /></span> </Link> } key="2">
+                 <span>Messagees <Badge count={2} /></span>} key="2">
                     <MessageDisplay />
                 </TabPane>
             </Tabs>

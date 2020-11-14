@@ -1,10 +1,18 @@
 import React from 'react';
 import { Divider } from 'antd';
 import './MessageItem.scss';
+import { useHistory, useRouteMatch} from 'react-router-dom'
 
 export default function MessageItem() {
+    let match = useRouteMatch();
+    let history = useHistory();
+
+    const handelClick = () => {
+        history.push(`${match.path}/chatbox`)
+    }
+
     return (
-            <div>
+            <div onClick={handelClick}>
                 <div className="MessageItem">
                     <div className="avatarMessage">
                     <div className="MessageItemAvatar">
