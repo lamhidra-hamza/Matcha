@@ -2,8 +2,19 @@ import React from 'react'
 import './MobileProfile.css';
 import {Avatar} from 'antd';
 import { UserOutlined, ToolFilled, EditFilled} from '@ant-design/icons';
+import { useHistory, useRouteMatch, Link} from 'react-router-dom'
 
 const MobileProfile = () => {
+    const history = useHistory();
+    const match = useRouteMatch();
+
+    const handelbtnsClick = (path, Key) => {
+        history.push({
+                pathname: `${match.path}${path}`,
+                state: {mobileKey: Key}
+        })
+    }
+
     return (
         <div className="mobileProf">
             <div className="topSections">
@@ -15,13 +26,13 @@ const MobileProfile = () => {
                 </div>
                 <div className="profilebtn">
                     <div className="ColumnIc">
-                        <div className="profSettings cycleBorder">
+                        <div onClick={() => handelbtnsClick("/settings", "4")} className="profSettings cycleBorder">
                             <ToolFilled style={{color: '#5c5c5c'}}/>
                         </div>
                         <h4>Settings</h4>
                     </div>
                     <div className="ColumnIc">
-                        <div className="profEdit cycleBorder">
+                        <div onClick={() => handelbtnsClick("/edit", "4")} className="profEdit cycleBorder">
                             <EditFilled style={{color: '#5c5c5c'}}/>
                         </div>
                         <h4>Eddit</h4>

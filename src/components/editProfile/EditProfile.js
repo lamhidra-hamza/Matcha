@@ -5,7 +5,7 @@ import ProfileImgEmpty from '../profileImgIEmpty/profileImgIEmpty'
 import { Slider, Input, Select, Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 
-export default function EditProfile() {
+export default function EditProfile(props) {
   const history = useHistory();
 
   const handleChange = () => {
@@ -16,7 +16,7 @@ export default function EditProfile() {
     const saveButtonClick = () => {
     history.goBack();
   }
-  const currentView = 'mobile'
+  const currentView = props && props.mobile ? 'mobile' : '';
 
   return (
     <div className={`${currentView}editProfileContainer`}>

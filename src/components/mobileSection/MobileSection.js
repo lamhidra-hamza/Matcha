@@ -10,7 +10,7 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons'
 import MessageDisplay from '../messageDisplay/MessageDisplay'
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom'
+import { useLocation, useHistory, useRouteMatch, Switch, Route} from 'react-router-dom'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import EditProfile from '../editProfile/EditProfile'
 
@@ -24,7 +24,7 @@ function MobileSection() {
 	
 	const handelDefaultKey = () => {
 		if (state)
-		return state.mobileKey;
+			return state.mobileKey;
 		return "1";
 	}
 
@@ -39,8 +39,7 @@ function MobileSection() {
 		<div className="mobileSection">
 			<Tabs defaultActiveKey={handelDefaultKey}>
 			<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("", "1")} className="mobileNavIcon"> <FireFilled /></span>} key="1" >
-				{/* <DisplayUsers/> */}
-        <EditProfile />
+				<DisplayUsers/>
 			</TabPane>
 			<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
 				<DisplayUsers/>
@@ -50,7 +49,11 @@ function MobileSection() {
 				<MessageDisplay/>
 			</TabPane>
 			<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("/profile", "4")} className="mobileNavIcon"> <ContactsFilled /></span>} key="4" >
-				<MobileProfile style={{display: 'flex', justifyContent: 'center'}}/>
+				<Switch>
+					<Route exact path={`${match.path}/profile`}>
+						<MobileProfile style={{display: 'flex', justifyContent: 'center'}}/> </Route>
+					<Route path={`${match.path}/profile/edit`}><EditProfile mobile="mobile" /></Route>
+				</Switch>
 			</TabPane>
 			</Tabs>
 			<Divider style={{margin: '0', width: '70%'}}/>
