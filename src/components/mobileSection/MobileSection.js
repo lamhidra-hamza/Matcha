@@ -14,6 +14,7 @@ import { useLocation, useHistory, useRouteMatch, Switch, Route} from 'react-rout
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import EditProfile from '../editProfile/EditProfile'
 import ProfileInfo from '../profileInfo/ProfileInfo'
+import ChatBox from '../chatBox/ChatBox'
 
 const { TabPane } = Tabs
 
@@ -46,8 +47,9 @@ function MobileSection() {
 				<DisplayUsers/>
 				<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
 			</TabPane>
-			<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/chatbox", "3")} className="mobileNavIcon"> <MessageFilled /></span>} key="3" >
-				<MessageDisplay/>
+			<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/messages", "3")} className="mobileNavIcon"> <MessageFilled /></span>} key="3" >
+				<Route path={`${match.path}/messages/chatbox`}><ChatBox/></Route>
+				<Route path={`${match.path}/messages`}><MessageDisplay/></Route>
 			</TabPane>
 			<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("/profile", "4")} className="mobileNavIcon"> <ContactsFilled /></span>} key="4" >
 				<Switch>

@@ -25,7 +25,7 @@ function DesktopSection(props) {
                 <Route exact path={`${match.url}/profile`} component={Infocard} />
                 <Route path={`${match.url}/infocard`} component={Infocard} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
-                <Route path={`${match.url}/chatbox`}>
+                <Route path={`${match.url}/messages/chatbox`}>
                     <div className="rightSide">
                         <ChatBox />
                         {width > 1300 && <UserInfo />}
