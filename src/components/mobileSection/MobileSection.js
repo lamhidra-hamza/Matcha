@@ -13,6 +13,7 @@ import MessageDisplay from '../messageDisplay/MessageDisplay'
 import { useLocation, useHistory, useRouteMatch, Switch, Route} from 'react-router-dom'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import EditProfile from '../editProfile/EditProfile'
+import ProfileInfo from '../profileInfo/ProfileInfo'
 
 const { TabPane } = Tabs
 
@@ -53,6 +54,7 @@ function MobileSection() {
 					<Route exact path={`${match.path}/profile`}>
 						<MobileProfile style={{display: 'flex', justifyContent: 'center'}}/> </Route>
 					<Route path={`${match.path}/profile/edit`}><EditProfile mobile="mobile" /></Route>
+					<Route path={`${match.path}/profile/settings`}><ProfileInfo mobile="mobile" /></Route>
 				</Switch>
 			</TabPane>
 			</Tabs>

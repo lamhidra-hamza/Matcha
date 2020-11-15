@@ -1,18 +1,34 @@
 import React from 'react';
 import './ProfileInfo.scss';
 import LikeViewItems from '../likeAndView/LikeViewItems'
-import { Slider, Input, Select } from 'antd';
+import { Slider, Input, Select, Button } from 'antd';
+import { useHistory } from 'react-router-dom'
+
 
 const { Option } = Select
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
 
     const handleChange = () => {
         console.log('done')
     }
 
+    const history = useHistory();
+
+    const saveButtonClick = () => {
+        history.goBack();
+    }
+
     return (
-        <div className="profileInfoConatainer">
+        <>
+
+        <div style={{ width: props && props.mobile ? '100%' : '400px' }}
+            className="profileInfoConatainer">
+            <div className="floatBtn">
+                <Button shape="round" className={'saveProfileBtn'} onClick={saveButtonClick}>
+                    Save
+                </Button>
+            </div>
             <LikeViewItems/>
             <div className="accountSet">
                 <h2 className="setTitle">ACCOUNT SETTINGS</h2>
@@ -115,6 +131,7 @@ const ProfileInfo = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

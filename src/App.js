@@ -9,14 +9,22 @@ import {
 } from "react-router-dom";
 
 const App = () => {
+  
+  const getWidth = () => window.innerWidth 
+  || document.documentElement.clientWidth 
+  || document.body.clientWidth;
 
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(getWidth());
 
-  const resizeListener = () => {
-    setWidth(window.innerWidth);
-  };
-
-  window.addEventListener('resize', resizeListener);
+   useEffect(() => {
+    const resizeListener = () => {
+      setWidth(getWidth())
+    };
+    window.addEventListener('resize', resizeListener);
+    return () => {
+      window.removeEventListener('resize', resizeListener);
+    }
+  })
 
   return (
     <Router>

@@ -13,7 +13,7 @@ export default function EditProfile(props) {
   }
   const { Option } = Select
 
-    const saveButtonClick = () => {
+  const saveButtonClick = () => {
     history.goBack();
   }
   const currentView = props && props.mobile ? 'mobile' : '';
