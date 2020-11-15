@@ -72,7 +72,7 @@ export default function ChatBox() {
         </div>
         <div className="chatButton">
           <Button shape="round" className={'sentBtn'}>
-            Edit
+            Send
           </Button>
         </div>
       </div>
