@@ -211,6 +211,20 @@
     width: 100%;
   }
   
+  .mobilesaveProfileBtn {
+    color: white !important;
+    background: rgb(245, 34, 45) !important;
+    background: linear-gradient(262deg, #ff7854, #fd267d) !important;
+    border: none !important;
+    cursor: pointer;
+    width: 75px !important;
+    height: 30px !important;
+    font-size: 1em !important;
+    font-weight: 500 !important;
+    padding: 0 !important;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.27) !important;
+  }
+
   .saveProfileBtn {
     color: white !important;
     background: rgb(245, 34, 45) !important;

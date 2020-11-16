@@ -24,11 +24,12 @@ const ProfileInfo = (props) => {
 
         <div style={{ width: props && props.mobile ? '100%' : '400px' }}
             className="profileInfoConatainer">
+            {props && props.mobile &&
             <div className="floatBtn">
                 <Button shape="round" className={'saveProfileBtn'} onClick={saveButtonClick}>
                     Save
                 </Button>
-            </div>
+            </div>}
             <LikeViewItems/>
             <div className="accountSet">
                 <h2 className="setTitle">ACCOUNT SETTINGS</h2>

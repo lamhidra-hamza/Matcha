@@ -127,9 +127,8 @@ export default function EditProfile(props) {
             </div>
           </div>
         </div>
-
         <div className="floatBtn">
-          <Button shape="round" className={'saveProfileBtn'} onClick={saveButtonClick}>
+          <Button shape="round" className={`${currentView}saveProfileBtn`} onClick={saveButtonClick}>
             Save
           </Button>
         </div>

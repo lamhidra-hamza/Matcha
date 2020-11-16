@@ -1,8 +1,9 @@
 import React from 'react'
-import { UserOutlined, LeftOutlined, LogoutOutlined} from '@ant-design/icons';
-import {Avatar, Typography, Tooltip} from 'antd'
+import { UserOutlined, LeftOutlined, LogoutOutlined, NotificationOutlined} from '@ant-design/icons';
+import {Avatar, Typography, Tooltip, Badge, Popover} from 'antd'
 import './NavbarApp.scss'
 import { useHistory, useRouteMatch, Link} from 'react-router-dom'
+
 
 const { Title } = Typography;
 
@@ -22,6 +23,14 @@ export default function NavbarApp({setShowProfile, showProfile}) {
     const handelBackfrom = () => {
         setShowProfile(false)
     }
+
+    const content = (
+        <div>
+          <p>Content</p>
+          <p>Content</p>
+        </div>
+      );
+    const text = <span>Title</span>;
 
     return (
         <div className="desNavbar">
@@ -47,8 +56,13 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                     
             </div>
             <div className="navLogout">
+                <Popover placement="bottomRight" title={text} content={content} trigger="click">
+                    <Badge dot count={5} style={{margin: '1.5px 17px'}}>
+                        <NotificationOutlined className="logoutIcon" style={{ fontSize: '1.7rem',marginRight: '15px'}}/>
+                    </Badge>
+                </Popover>
                 <Tooltip title="Logout">
-                    <LogoutOutlined className="logoutIcon" style={{ fontSize: '2rem' }}/>
+                    <LogoutOutlined className="logoutIcon" style={{ fontSize: '1.7rem' }}/>
                 </Tooltip>
             </div>
         </div>

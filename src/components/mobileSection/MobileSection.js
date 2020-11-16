@@ -40,25 +40,25 @@ function MobileSection() {
 	return (
 		<div className="mobileSection">
 			<Tabs defaultActiveKey={handelDefaultKey}>
-			<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("", "1")} className="mobileNavIcon"> <FireFilled /></span>} key="1" >
-				<DisplayUsers/>
-			</TabPane>
-			<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
-				<DisplayUsers/>
-				<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
-			</TabPane>
-			<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/messages", "3")} className="mobileNavIcon"> <MessageFilled /></span>} key="3" >
-				<Route path={`${match.path}/messages/chatbox`}><ChatBox/></Route>
-				<Route path={`${match.path}/messages`}><MessageDisplay/></Route>
-			</TabPane>
-			<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("/profile", "4")} className="mobileNavIcon"> <ContactsFilled /></span>} key="4" >
-				<Switch>
-					<Route exact path={`${match.path}/profile`}>
-						<MobileProfile style={{display: 'flex', justifyContent: 'center'}}/> </Route>
-					<Route path={`${match.path}/profile/edit`}><EditProfile mobile="mobile" /></Route>
-					<Route path={`${match.path}/profile/settings`}><ProfileInfo mobile="mobile" /></Route>
-				</Switch>
-			</TabPane>
+				<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("", "1")} className="mobileNavIcon"> <FireFilled /></span>} key="1" >
+					<DisplayUsers/>
+				</TabPane>
+				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
+					<DisplayUsers/>
+					<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
+				</TabPane>
+				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/messages", "3")} className="mobileNavIcon"> <MessageFilled /></span>} key="3" >
+					<Route path={`${match.path}/messages/chatbox`}><ChatBox/></Route>
+					<Route path={`${match.path}/messages`}><MessageDisplay/></Route>
+				</TabPane>
+				<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("/profile", "4")} className="mobileNavIcon"> <ContactsFilled /></span>} key="4" >
+					<Switch>
+						<Route exact path={`${match.path}/profile`}>
+							<MobileProfile style={{display: 'flex', justifyContent: 'center'}}/> </Route>
+						<Route path={`${match.path}/profile/edit`}><EditProfile mobile="mobile" /></Route>
+						<Route path={`${match.path}/profile/settings`}><ProfileInfo mobile="mobile" /></Route>
+					</Switch>
+				</TabPane>
 			</Tabs>
 			<Divider style={{margin: '0', width: '70%'}}/>
 			<div className="downNav">
