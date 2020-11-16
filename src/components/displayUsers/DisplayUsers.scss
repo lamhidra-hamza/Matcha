@@ -16,3 +16,22 @@
     overflow-y: auto;
     padding-bottom: 80px;
 }
+
+.filter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filterButton {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.ant-tabs-tab {
+    width: 35px !important;
+}
+
+.ant-tabs-tab-active {
+    width: 35px !important;
+    left: 0px !important;
+}

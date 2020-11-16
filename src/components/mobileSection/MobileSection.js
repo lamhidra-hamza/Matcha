@@ -47,6 +47,10 @@ function MobileSection() {
 					<DisplayUsers/>
 					<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
 				</TabPane>
+				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
+					<DisplayUsers/>
+					<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
+				</TabPane>
 				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/messages", "3")} className="mobileNavIcon"> <MessageFilled /></span>} key="3" >
 					<Route path={`${match.path}/messages/chatbox`}><ChatBox/></Route>
 					<Route path={`${match.path}/messages`}><MessageDisplay/></Route>

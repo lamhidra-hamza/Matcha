@@ -1,11 +1,12 @@
-import { React, useState } from 'react'
-import './DisplayUsers.scss'
-import UserCard from '../userCard/UserCard.js'
-import { Select, Slider, Rate, Checkbox } from 'antd'
-import FilterPopUp from '../filterPopUp/FilterPopUp'
+import { React, useState } from 'react';
+import './DisplayUsers.scss';
+import UserCard from '../userCard/UserCard.js';
+import { Select, Slider, Rate, Checkbox, Tooltip } from 'antd';
+import FilterPopUp from '../filterPopUp/FilterPopUp';
+import { ControlOutlined } from '@ant-design/icons';
 
 const DisplayUsers = () => {
-  const [filterVisible, SetFilterVisible] = useState([false, true])
+  const [filterVisible, SetFilterVisible] = useState([false, false])
 
   function showLogin() {
     SetFilterVisible([!filterVisible[0], filterVisible[1]])
@@ -20,6 +21,13 @@ const DisplayUsers = () => {
   }
   return (
     <div className="DusersContainer">
+      <div className="filter">
+        <div className="filterButton" >
+        <Tooltip title="Filter">
+          <ControlOutlined onClick={showRegister} style={{fontSize: '40px', color: "#ff75a7"}}/>
+        </Tooltip>
+      </div>
+      </div>
       <div className="dusersContent">
         <UserCard />
         <UserCard />
@@ -37,7 +45,7 @@ const DisplayUsers = () => {
       <FilterPopUp
         visible={filterVisible[1]}
         handleCancel={handleCancel}
-        mobile={false}
+        mobile={true}
       />
     </div>
   )
