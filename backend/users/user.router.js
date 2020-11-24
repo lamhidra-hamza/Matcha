@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var controllers = require('./user.controller')
 
 router.route('/')
-    .get()
+    .get(controllers.getMany)
     .post()
 
 router.route('/:id')

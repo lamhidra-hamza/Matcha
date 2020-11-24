@@ -12,13 +12,10 @@ app.use('/api/members', require('./routes/api/members'));
 app.use('/api/users', require('./users/user.router'));
 
 const start = async() => {
-    await connection.connect(function(err) {
+    connection.query("CREATE DATABASE IF NOT EXISTS matcha", (err, result) => {
         if (err) throw err;
-        connection.query("CREATE DATABASE IF NOT EXISTS matcha", (err, result) => {
-            if (err) throw err;
-        })
-        console.log("Connected!");
-    });
+    })
+    console.log("Connected!");
     await app.listen(PORT, () => {
         console.log("server start !!")
     });
