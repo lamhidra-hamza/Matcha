@@ -4,11 +4,11 @@ var uuid = require('uuid')
 class User {
 
     constructor() {
-        const sql = `CREATE TABLE IF NOT EXISTS users (id VARCHAR(255),
-            name VARCHAR(255), email VARCHAR(255), password VARCHAR(255))`;
-        connection.query(sql, (err) => {
-            if (err) throw err;
-        })
+        // const sql = `CREATE TABLE IF NOT EXISTS users (id VARCHAR(255),
+        //     name VARCHAR(255), email VARCHAR(255), password VARCHAR(255))`;
+        // connection.query(sql, (err) => {
+        //     if (err) throw err;
+        // })
     }
 
     create(data) {

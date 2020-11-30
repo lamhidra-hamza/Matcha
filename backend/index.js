@@ -1,3 +1,3 @@
-var start = require('./server');
+var start = require('./server')
 
 start();
