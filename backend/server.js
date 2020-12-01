@@ -9,6 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api/users', require('./api/users/user.router'));
 app.use('/api/block', require('./api/block/block.router'));
+app.use('/api/views', require('./api/views/views.router'));
+app.use('/api/likes', require('./api/likes/likes.router'));
 
 const start = async() => {
     createDb();
