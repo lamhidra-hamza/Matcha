@@ -1,3 +1,4 @@
+
 const getMany = (module) => async(req, res) => {
     try {
         const data = await module.findall();
@@ -23,8 +24,8 @@ const getOne = (module) => async(req, res) => {
 
 const createOne = (module) => async(req, res) => {
     try {
-        await module.create(req.body);
-        res.status(201).send({ msg: "User created!!" });
+        let userJsonData = await module.create(req.body);
+        res.status(201).header('token', userJsonData.token).send(userJsonData);
     } catch (err) {
         console.log(err);
         res.status(400).end();

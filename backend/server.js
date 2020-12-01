@@ -8,6 +8,7 @@ var PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api/users', require('./api/users/user.router'));
+app.use('/posts', require('./post'));
 
 const start = async() => {
     createDb();
