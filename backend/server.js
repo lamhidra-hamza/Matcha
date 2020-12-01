@@ -8,6 +8,7 @@ var PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api/users', require('./api/users/user.router'));
+app.use('/posts', require('./post'));
 app.use('/api/block', require('./api/block/block.router'));
 app.use('/api/views', require('./api/views/views.router'));
 app.use('/api/likes', require('./api/likes/likes.router'));

@@ -25,8 +25,12 @@ const getOne = (module) => async(req, res) => {
 
 const createOne = (module) => async(req, res) => {
     try {
-        await module.create(userID, req.body);
-        res.status(201).send({ msg: "create Done!!" });
+        let userJsonData = await module.create(req.body);
+        res.status(201).header('token', userJsonData.token).send(userJsonData);
+        
+        
+        //await module.create(userID, req.body);
+        //res.status(201).send({ msg: "create Done!!" });
     } catch (err) {
         console.log(err);
         res.status(400).end({ msg: `Error in createOne` });

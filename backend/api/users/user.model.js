@@ -1,5 +1,7 @@
 var connection = require('../../utils/db');
-var uuid = require('uuid')
+var uuid = require('uuid');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class User {
 
@@ -16,9 +18,16 @@ class User {
             id: uuid.v4(),
             username: data.username,
             email: data.email,
-            password: data.password
+            password: await bcrypt.hash(data.password, 11),
+            biography: "",
+            gender : 'men',
+            lastConnection : new Date().toISOString().slice(0, 19).replace('T', ' '),
+            lastNotification: new Date().toISOString().slice(0, 19).replace('T', ' '),
+            interessted: "both"
         };
         await connection.promise().query("INSERT INTO users SET ?", info);
+        const token = jwt.sign({id : info.id, username: info.username}, "matcha-secret-code");
+        return ({name : "zakaria", user: "nadi", token: token});
     }
 
     async findall(userId) {
