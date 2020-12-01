@@ -73,8 +73,8 @@ const tagsTable = {
 const tableList = [usersTable, likesTable, picturesTable, blockTable, viewsTable, chatTable, messagesTable, locationTable, notificationsTable, tagsTable];
 
 const createDB = () => {
-    tableList.map(table => {
-        create(table, (err, results) => {
+    tableList.map(async table => {
+       await create(table, (err, results) => {
             if (err) {
                 console.log(err);
                 // throw {
