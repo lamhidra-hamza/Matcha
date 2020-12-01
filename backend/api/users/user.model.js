@@ -1,4 +1,4 @@
-var connection = require('../utils/db');
+var connection = require('../../utils/db');
 var uuid = require('uuid')
 
 class User {
@@ -11,17 +11,14 @@ class User {
         // })
     }
 
-    create(data) {
+    async create(data) {
         let info = {
             id: uuid.v4(),
-            name: data.name,
+            username: data.username,
             email: data.email,
             password: data.password
         };
-        connection.query("INSERT INTO users SET ?", info, (err, result) => {
-            if (err) throw err;
-            console.log("INSERT SUC !");
-        })
+        await connection.promise().query("INSERT INTO users SET ?", info);
     }
 
     async findall() {
@@ -29,17 +26,16 @@ class User {
         return result;
     }
 
-    async findeOne(id) {
+    async findOne(id) {
         const sql = `SELECT * FROM users WHERE id='${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndUpdate(id, data) {
-        const sql = `UPDATE users SET name = '${data.name}', email = '${data.email}',
+        const sql = `UPDATE users SET username = '${data.username}', email = '${data.email}',
             password = '${data.password}' WHERE id = '${id}'`;
         const [result, filed] = await connection.promise().query(sql);
-        console.log("done");
         return result;
     }
 

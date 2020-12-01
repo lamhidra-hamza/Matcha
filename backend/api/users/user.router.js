@@ -4,11 +4,11 @@ var controllers = require('./user.controller')
 
 router.route('/')
     .get(controllers.getMany)
-    .post()
+    .post(controllers.createOne)
 
 router.route('/:id')
-    .get()
-    .put()
-    .delete()
+    .get(controllers.getOne)
+    .put(controllers.updateOne)
+    .delete(controllers.removeOne)
 
 module.exports = router;
