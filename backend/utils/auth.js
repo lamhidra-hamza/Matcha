@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 function auth(req, res, next){
-    const token = req.header('token');
+    const token = req.cookies.authcookie;
     if (!token)
         return res.status(400).send('you dont have the permission ! please login');
     try {
