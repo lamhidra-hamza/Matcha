@@ -1,4 +1,4 @@
-const userID = "468736e8-7f75-4e40-913e-df11f827324d";
+const userID = "5fa32651-52e9-4cda-b75c-793c7907eeb3";
 
 const getMany = (module) => async(req, res) => {
     try {
@@ -25,12 +25,11 @@ const getOne = (module) => async(req, res) => {
 
 const createOne = (module) => async(req, res) => {
     try {
-        let userJsonData = await module.create(userID, req.body);
+        // let userJsonData = await module.create(userID, req.body);
         // res.status(201).header('token', userJsonData.token).send(userJsonData);
-        
-        
-        //await module.create(userID, req.body);
-        //res.status(201).send({ msg: "create Done!!" });
+
+        await module.create(userID, req.body);
+        res.status(201).send({ msg: "create Done!!" });
     } catch (err) {
         console.log(err);
         res.status(400).end({ msg: `Error in createOne` });

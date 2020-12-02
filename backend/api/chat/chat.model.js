@@ -1,34 +1,31 @@
 var connection = require('../../utils/db');
 var uuid = require('uuid');
 
-class Pictures {
+class Chat {
 
     async create(userId, data) {
-        console.log(data);
         let info = {
             user_id: userId,
-            picture_1: data[0] ? data[0].path : null,
-            picture_2: data[1] ? data[1].path : null,
-            picture_3: data[2] ? data[2].path : null,
-            picture_4: data[3] ? data[3].path : null,
-            picture_5: data[4] ? data[4].path : null
+            receiver_id: data.receiver_id,
+            chat_id: uuid.v4(),
+            date: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
-        await connection.promise().query("INSERT INTO pictures SET ?", info);
+        await connection.promise().query("INSERT INTO chat SET ?", info);
     }
 
     async findall(userId) {
-        const [result, fields] = await connection.promise().query(`SELECT * FROM pictures where user_id ='${userId}'`);
+        const [result, fields] = await connection.promise().query(`SELECT * FROM chat where user_id ='${userId}'`);
         return result;
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM pictures WHERE user_id='${userId}' AND id='${id}'`;
+        const sql = `SELECT * FROM chat WHERE user_id='${userId}' AND id='${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndUpdate(userId, id, data) {
-        // const sql = `UPDATE pictures SET 
+        // const sql = `UPDATE chat SET 
         //     viewed_user='${data.viewed_user}'
         //     WHERE id = '${id}' AND user='${userId}'`;
         // const [result, filed] = await connection.promise().query(sql);
@@ -36,10 +33,10 @@ class Pictures {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM pictures WHERE id = '${id}' AND user_id='${userId}'`;
+        const sql = `DELETE FROM chat WHERE id = '${id}' AND user_id='${userId}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 }
 
-module.exports = new Pictures;
+module.exports = new Chat;
