@@ -1,12 +1,13 @@
 const controllers = require("../../utils/crud");
 const model = require("./user.model");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 async function signIn(req, res) {
   console.log("\nSignin Function");
   const body = req.body;
   const result = await model.findOne("0", body.email);
-  if (!result) {
+  if (!result[0]) {
     res.status(403).send({ status: 0, message: "you dont have an account" });
   } else {
     console.log(body.password);
@@ -20,7 +21,21 @@ async function signIn(req, res) {
   }
 }
 
+async function signUp(req, res){
+    const body = req.body;
+    const result = await model.create(body);
+
+
+     const token = jwt.sign(
+        { id: result.id, username: result.username },
+        "matcha-secret-code"
+      );
+
+    res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}).send(result);
+}
+
 module.exports = {
   signIn: signIn,
   controllers: controllers(model),
+  signUp: signUp
 };

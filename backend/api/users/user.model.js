@@ -25,11 +25,8 @@ class User {
       interessted: "both",
     };
     await connection.promise().query("INSERT INTO users SET ?", info);
-    const token = jwt.sign(
-      { id: info.id, username: info.username },
-      "matcha-secret-code"
-    );
-    return { name: "zakaria", user: "nadi", token: token };
+    
+    return { name: "zakaria", user: "nadi", id : info.id };
   }
 
   async findall(userId) {
