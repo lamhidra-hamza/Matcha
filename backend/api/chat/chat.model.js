@@ -1,20 +1,21 @@
-var connection = require('../../utils/db');
-var uuid = require('uuid');
+var connection = require("../../utils/db");
+var uuid = require("uuid");
 
 class Chat {
-
     async create(userId, data) {
         let info = {
             user_id: userId,
             receiver_id: data.receiver_id,
             chat_id: uuid.v4(),
-            date: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            date: new Date().toISOString().slice(0, 19).replace("T", " "),
         };
         await connection.promise().query("INSERT INTO chat SET ?", info);
     }
 
     async findall(userId) {
-        const [result, fields] = await connection.promise().query(`SELECT * FROM chat where user_id ='${userId}'`);
+        const [result, fields] = await connection
+            .promise()
+            .query(`SELECT * FROM chat where user_id ='${userId}'`);
         return result;
     }
 
@@ -25,7 +26,7 @@ class Chat {
     }
 
     async findOneAndUpdate(userId, id, data) {
-        // const sql = `UPDATE chat SET 
+        // const sql = `UPDATE chat SET
         //     viewed_user='${data.viewed_user}'
         //     WHERE id = '${id}' AND user='${userId}'`;
         // const [result, filed] = await connection.promise().query(sql);
@@ -39,4 +40,4 @@ class Chat {
     }
 }
 
-module.exports = new Chat;
+module.exports = new Chat();

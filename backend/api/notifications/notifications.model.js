@@ -1,19 +1,20 @@
-var connection = require('../../utils/db');
-var uuid = require('uuid');
+var connection = require("../../utils/db");
+var uuid = require("uuid");
 
 class Notifications {
-
     async create(userId, data) {
         let info = {
             user_id: userId,
             type: data.type,
-            date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+            date: new Date().toISOString().slice(0, 19).replace("T", " "),
         };
         await connection.promise().query("INSERT INTO notifications SET ?", info);
     }
 
     async findall(userId) {
-        const [result, fields] = await connection.promise().query(`SELECT * FROM notifications where user_id='${userId}'`);
+        const [result, fields] = await connection
+            .promise()
+            .query(`SELECT * FROM notifications where user_id='${userId}'`);
         return result;
     }
 
@@ -24,7 +25,7 @@ class Notifications {
     }
 
     async findOneAndUpdate(userId, id, data) {
-        // const sql = `UPDATE notifications SET 
+        // const sql = `UPDATE notifications SET
         //     longitude='${data.longitude}', latitude='${data.latitude}'
         //     WHERE id = '${id}' AND user_id='${userId}'`;
         // const [result, filed] = await connection.promise().query(sql);
@@ -38,4 +39,4 @@ class Notifications {
     }
 }
 
-module.exports = new Notifications;
+module.exports = new Notifications();
