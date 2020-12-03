@@ -3,9 +3,9 @@ const {
 } = require("./createdb.model");
 
 const usersTable = {
-    sql: `CREATE TABLE IF NOT EXISTS users(id VARCHAR(255) PRIMARY KEY, username VARCHAR(255), 
+    sql: `CREATE TABLE IF NOT EXISTS users(id VARCHAR(255) PRIMARY KEY, username VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255),
         email VARCHAR(255), password VARCHAR(255), refreshToken VARCHAR(255), lastConnection DATETIME, 
-        lastNotification DATETIME, gender VARCHAR(255), interessted VARCHAR(255), biography VARCHAR(255))`,
+        lastNotification DATETIME, gender VARCHAR(255), interessted VARCHAR(255), biography VARCHAR(255), bornDate DATETIME)`,
     successMessage: "the USER Table has been created",
     failMessage: "the USER Table hasn't been created",
 };
@@ -35,8 +35,8 @@ const blockTable = {
 };
 
 const viewsTable = {
-    sql: `CREATE TABLE IF NOT EXISTS views(id integer AUTO_INCREMENT PRIMARY KEY, user VARCHAR(255),
-        viewed_user VARCHAR(255), FOREIGN KEY(user) REFERENCES users(id), 
+    sql: `CREATE TABLE IF NOT EXISTS views(id integer AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(255),
+        viewed_user VARCHAR(255), FOREIGN KEY(user_id) REFERENCES users(id), 
         FOREIGN KEY(viewed_user) REFERENCES users(id))`,
     successMessage: "the VIEWS Table has been created",
     failMessage: "the VIEWS Table hasn't been created",
@@ -75,14 +75,14 @@ const notificationsTable = {
 
 const tagsTable = {
     sql: `
-    CREATE TABLE IF NOT EXISTS tags(id INT AUTO_INCREMENT PRIMARY KEY, tag VARCHAR(255))`,
+    CREATE TABLE IF NOT EXISTS tag_content(id INT AUTO_INCREMENT PRIMARY KEY, tag VARCHAR(255))`,
     successMessage: "the TAGS Table has been created",
     failMessage: "the TAGS Table hasn't been created",
 };
 
-const tagsNN = {
-    sql: `CREATE TABLE IF NOT EXISTS user_tag(id INT AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(255),
-        tag_id INT, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (tag_id) REFERENCES tags(id))`,
+const tags = {
+    sql: `CREATE TABLE IF NOT EXISTS tags(id INT AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(255),
+        tag_id INT, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (tag_id) REFERENCES tag_content(id))`,
     successMessage: "the User_tag Table has been created",
     failMessage: "the User_tag Table hasn't been created",
 };
@@ -98,25 +98,17 @@ const tableList = [
     locationTable,
     notificationsTable,
     tagsTable,
-    tagsNN,
+    tags,
 ];
 
-const createDB = () => {
-    tableList.map(async(table) => {
-        await create(table, (err, results) => {
+const createDB = async () => {
+    for(let i = 0; i < tableList.length; i++) {
+        await create(tableList[i], (err, results) => {
             if (err) {
                 console.log(err);
-                // throw {
-                //     success: 0,
-                //     message: "database error please handle your shit"
-                // };
             }
         });
-    });
-    // throw {
-    //     success: 1,
-    //     message: "the user is created man"
-    // };
+    }
 };
 
 module.exports = createDB;

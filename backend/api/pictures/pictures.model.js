@@ -3,7 +3,7 @@ var uuid = require('uuid');
 
 class Pictures {
 
-    async create(userId, data) {
+    async create(userId, data) { 
         console.log(data);
         let info = {
             user_id: userId,
