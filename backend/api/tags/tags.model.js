@@ -36,9 +36,9 @@ class Tags {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM user_tag WHERE user_id='${userId}' AND id='${id}'`;
-        const [result, filed] = await connection.promise().query(sql);
-        return result;
+        // const sql = `SELECT * FROM user_tag WHERE user_id='${userId}' AND id='${id}'`;
+        // const [result, filed] = await connection.promise().query(sql);
+        // return result;
     }
 
     async findOneAndUpdate(userId, id, data) {

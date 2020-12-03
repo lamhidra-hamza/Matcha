@@ -101,9 +101,9 @@ const tableList = [
     tagsNN,
 ];
 
-const createDB = () => {
-    tableList.map(async(table) => {
-        await create(table, (err, results) => {
+const createDB = async() => {
+    for (let i = 0; i < tableList.length; i++) {
+        await create(tableList[i], (err, results) => {
             if (err) {
                 console.log(err);
                 // throw {
@@ -112,7 +112,7 @@ const createDB = () => {
                 // };
             }
         });
-    });
+    }
     // throw {
     //     success: 1,
     //     message: "the user is created man"
