@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./LoginForm.css";
+import "./PasswordForgot.scss";
 import { Modal, Form, Input, Tooltip, Checkbox, Button } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
@@ -26,7 +26,7 @@ const tailFormItemLayout = {
   },
 };
 
-const LoginForm = (props) => {
+const PasswordForgot = (props) => {
   const [loading, setloading] = useState(false);
 
   const getStyle = () => {
@@ -45,7 +45,8 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div>
+    <div class="PasswordForgot">
+      
       <Modal
         visible={props.visible}
         onOk={"this.handleOk"}
@@ -63,18 +64,15 @@ const LoginForm = (props) => {
           ></Button>,
         ]}
       >
+          
         <div className="loginoption">
-        <span className="header">Login</span>
-          <br/><br/>
+        <span className="header">Account recovery</span>
+        <br/><br/><br/>
           <Form
             {...formItemLayout}
             form={form}
             name="register"
             onFinish={onFinish}
-            initialValues={{
-              residence: ["zhejiang", "hangzhou", "xihu"],
-              prefix: "86",
-            }}
             scrollToFirstError
           >
             <Form.Item
@@ -93,31 +91,13 @@ const LoginForm = (props) => {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-              hasFeedback
-            >
-              <Input.Password />
-            </Form.Item>
-
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit">
-                Login
+                Send Email
               </Button>
             </Form.Item>
           </Form>
-          <Button onClick={props.showPasswordForgot} type="text">
-          <span class="styled">Trouble Loggin In? </span>
-        </Button>
         </div>
-        
       </Modal>
     </div>
   );
@@ -138,4 +118,4 @@ const tailLayout = {
   },
 };
 
-export default LoginForm;
+export default PasswordForgot;
