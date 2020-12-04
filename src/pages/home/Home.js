@@ -9,42 +9,48 @@ import Loginpopup from '../../components/loginpopup/Loginpopup'
 import RegisterForm from '../../components/registerForm/RegisterForm'
 
 export class Home extends Component {
-  state = {
-    loginVisible: false,
-    registerVisible: false
-  }
-  showLogin = () => {
-    this.setState({
-       loginVisible: !this.state.loginVisible,
-    });
-  }
+    state = {
+        loginVisible: false,
+        registerVisible: false,
+        registerFormVisible: false
+    }
+    showLogin = () => {
+        this.setState({
+            loginVisible: !this.state.loginVisible,
+        });
+    }
 
-  showRegister = () => {
-    this.setState({
-      registerVisible: !this.state.registerVisible,
-    });
-  }
+    showRegister = () => {
+        this.setState({
+            registerFormVisible: !this.state.registerFormVisible,
+        });
+    }
 
-   handleCancel = () => {
-    this.setState({ loginVisible: false, registerVisible: false })
-  }
+    showRegisterForm = () => {
+        this.setState({
+            registerFormVisible: !this.state.registerFormVisible
+        });
+    }
 
-  render() {
-    return (
-      <div className="container">
+    handleCancel = () => {
+        this.setState({ loginVisible: false, registerVisible: false, registerFormVisible: false })
+    }
+
+    render() {
+        return (<div className="container">
         <div className="gradient">
           <Header showModal={this.showLogin} mobile={this.props.mobile}/>
           <Content showModal={this.showRegister} mobile={this.props.mobile}/>
           <div className = "center">
             <Loginpopup visible={this.state.loginVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
             {/* <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/> */}
-            <RegisterForm visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
+            <RegisterForm visible={this.state.registerFormVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
           </div>
           <Footer />
         </div>
       </div>
     )
-  }
+}
 }
 
 export default Home
