@@ -13,7 +13,8 @@ export class Home extends Component {
   state = {
     loginVisible: false,
     registerVisible: false,
-    loginFormVisible: true,
+    loginFormVisible: false,
+    registerFormVisible: false
   }
   showLogin = () => {
     this.setState({
@@ -51,7 +52,7 @@ export class Home extends Component {
           <div className = "center">
             <Loginpopup visible={this.state.loginVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
             <LoginForm visible={this.state.loginFormVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile} />
-            {/* <RegisterForm visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/> */}
+            <RegisterForm visible={this.state.registerFormVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/>
             {/* <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/> */}
           </div>
           <Footer />
