@@ -33,7 +33,6 @@ export class Header extends Component {
   };
   
   render() {
-    console.log(this.props.mobile)
     return (
       <div>
         <div style={this.headerback()} className="header">

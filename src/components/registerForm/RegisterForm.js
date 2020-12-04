@@ -48,7 +48,7 @@ const RegisterForm = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    console.log('Received values of form: ', values);
+	props.showModal(values.email);
   };
 
   return (
@@ -62,12 +62,6 @@ const RegisterForm = (props) => {
           centered={true}
           footer={[
             <Button key="back" onClick={props.handleCancel}></Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              onClick={"this.handleOk"}
-            ></Button>,
           ]}
         >
           <div className="loginoption">
@@ -126,7 +120,7 @@ const RegisterForm = (props) => {
 					>
 					<Input />
 				</Form.Item>
-				<Form.Item
+				<Form.Item style={{display: "flex", flexWrap: "wrap",justifyContent: "space-between"}}
 					name="password"
 					label="Password"
 					rules={[
@@ -142,7 +136,7 @@ const RegisterForm = (props) => {
 
 				<Form.Item
 					name="confirm"
-					label="Confirm Password"
+					label="confirm Password"
 					dependencies={['password']}
 					hasFeedback
 					rules={[
@@ -163,7 +157,6 @@ const RegisterForm = (props) => {
 					<Input.Password />
 				</Form.Item>
 
-				
 				<Form.Item
 					name="agreement"
 					valuePropName="checked"
@@ -181,7 +174,7 @@ const RegisterForm = (props) => {
 				</Form.Item>
 				<Form.Item {...tailFormItemLayout}>
 					<Button type="primary" htmlType="submit">
-					Register
+						Register
 					</Button>
 				</Form.Item>
 				</Form>
@@ -190,20 +183,5 @@ const RegisterForm = (props) => {
     </div>
   );
 }
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
 export default RegisterForm
