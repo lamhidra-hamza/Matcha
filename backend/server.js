@@ -26,8 +26,6 @@ app.use('/api/notifications', require('./api/notifications/notifications.router'
 app.use('/api/tags', require('./api/tags/tags.router'));
 
 
-
-
 const start = async() => {
     createDb();
     await app.listen(PORT, () => {

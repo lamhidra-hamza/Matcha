@@ -1,7 +1,6 @@
 const db = require('../utils/db');
 
 async function createDB(table, callback) {
-
     try {
         const result = await db.promise().query(table.sql);
         console.log(table.successMessage);
