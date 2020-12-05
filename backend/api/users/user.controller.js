@@ -2,6 +2,19 @@ const controllers = require("../../utils/crud");
 const model = require("./user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const serInfo = require("../../config/index");
+const serverInfo = require("../../config/index");
+const nodemailer = require("nodemailer");
+
+
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    service: "Gmail", // true for 465, false for other ports
+    auth: {
+        user: serInfo.user, // generated ethereal user
+        pass: serInfo.pass, // generated ethereal password
+    },
+});
 
 async function signIn(req, res) {
     console.log("\nSignin Function");
@@ -29,7 +42,21 @@ async function signUp(req, res) {
     console.log(body)
     const result = await model.create(body);
     const token = jwt.sign({ id: result.id, username: result.username },
-        "matcha-secret-code"
+        "matcha-secret-code", {
+            expiresIn: '1d',
+        }, (err, emailToken) => {
+            const url = `${serInfo.HOST}:${serverInfo.PORT}/confirmation/${emailToken}`;
+            console.log(`${body.email}`)
+
+            let info = transporter.sendMail({
+                to: `${body.email}`, // list of receivers
+                subject: "[MATCHA] Email Confirmation", // Subject line
+                html: `<br>Please click on the link bellow to confirm your email Adress: </br><br><a href='${url}'>${url}</a></br>`, // html body
+            });
+
+            console.log("Message sent");
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+        }
     );
 
     res
