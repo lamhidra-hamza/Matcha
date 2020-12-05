@@ -1,10 +1,6 @@
 import React, {useState} from 'react'
-<<<<<<< HEAD
-import './RegisterForm.css'
-import axios from 'axios'
-=======
 import './RegisterForm.scss'
->>>>>>> e21e474a1cc4244e78970b6a91bf24d74f5e4163
+import axios from 'axios'
 import {
   Modal,
   Form,
