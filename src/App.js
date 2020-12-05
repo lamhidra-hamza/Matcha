@@ -31,7 +31,7 @@ const App = () => {
         <div className="App">
           <Switch>
             <Route exact path="/">
-              <Home mobile={width < 768}/>
+              <Home mobile={width < 760}/>
             </Route>
             <Route path="/app">
               <MainApp width={width}/>

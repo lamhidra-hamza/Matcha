@@ -1,24 +1,28 @@
 import React, { Component } from "react";
 import Header from "../../components/header/Header";
 import Content from "../../components/content/Content";
-
 import Footer from "../../components/footer/Footer";
 import "./Home.css";
 import Loginpopup from "../../components/loginpopup/Loginpopup";
 import Registerpopup from "../../components/registerpopup/Registerpopup";
 import RegisterForm from "../../components/registerForm/RegisterForm";
-import LoginForm from   "../../components/loginForm/LoginForm";
+import LoginForm from "../../components/loginForm/LoginForm";
 import PasswordForgot from "../../components/passwordRecoverForm/PasswordForgot";
+import VerifyEmailMsg from "../../components/verifyEmailMsg/verifyEmailMsg";
+import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery";
 
 export class Home extends Component {
   state = {
     loginVisible: false,
     loginFormVisible: false,
     registerVisible: false,
+    verifyMsgVisible: false,
     registerFormVisible: false,
     forgotPassword: false,
+    forgotPasswordMsg: false,
+    email: "",
   };
-  
+
   showLogin = () => {
     this.setState({
       loginVisible: !this.state.loginVisible,
@@ -37,15 +41,24 @@ export class Home extends Component {
     });
   };
 
+  showForgotPasswordMsg = (email) => {
+    this.setState({
+      forgotPasswordMsg: !this.state.forgotPasswordMsg,
+      forgotPassword: !this.state.forgotPassword,
+      email: email,
+    });
+  };
+
   showRegisterForm = () => {
     this.setState({
       registerFormVisible: !this.state.registerFormVisible,
+      registerVisible: !this.state.registerVisible,
     });
   };
 
   showRegister = () => {
     this.setState({
-      registerFormVisible: !this.state.registerVisible,
+      registerVisible: !this.state.registerVisible,
     });
   };
 
@@ -55,7 +68,17 @@ export class Home extends Component {
       registerVisible: false,
       registerFormVisible: false,
       loginFormVisible: false,
-      forgotPassword: false
+      forgotPassword: false,
+      verifyMsgVisible: false,
+      forgotPasswordMsg: false,
+    });
+  };
+
+  showVerifyMsg = (email) => {
+    this.setState({
+      verifyMsgVisible: !this.state.verifyMsgVisible,
+      registerFormVisible: !this.state.registerFormVisible,
+      email: email,
     });
   };
 
@@ -80,15 +103,34 @@ export class Home extends Component {
             />
             <PasswordForgot
               visible={this.state.forgotPassword}
+              showModal={this.showForgotPasswordMsg}
+              handleCancel={this.handleCancel}
+              mobile={this.props.mobile}
+            />
+            <PasswordRecovery
+              visible={this.state.forgotPasswordMsg}
+              email={this.state.email}
               handleCancel={this.handleCancel}
               mobile={this.props.mobile}
             />
             <RegisterForm
               visible={this.state.registerFormVisible}
+              showModal={this.showVerifyMsg}
               handleCancel={this.handleCancel}
               mobile={this.props.mobile}
             />
-            {/* <Registerpopup visible={this.state.registerVisible} handleCancel= {this.handleCancel} mobile={this.props.mobile}/> */}
+            <Registerpopup
+              visible={this.state.registerVisible}
+              showModal={this.showRegisterForm}
+              handleCancel={this.handleCancel}
+              mobile={this.props.mobile}
+            />
+            <VerifyEmailMsg
+              visible={this.state.verifyMsgVisible}
+              email={this.state.email}
+              handleCancel={this.handleCancel}
+              mobile={this.props.mobile}
+            />
           </div>
           <Footer />
         </div>

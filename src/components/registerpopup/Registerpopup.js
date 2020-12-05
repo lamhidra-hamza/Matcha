@@ -42,13 +42,6 @@ export class Registerpopup extends Component {
           centered={true}
           //width = {'100vw'}
           footer={[
-            <Button key="back" onClick={this.props.handleCancel}></Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              onClick={this.handleOk}
-            ></Button>,
           ]}
         >
           <div className="loginoption">
@@ -62,7 +55,12 @@ export class Registerpopup extends Component {
             <BtnNoBackgrndIcon link="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-256.png" />
             <BtnNoBackgrndIcon link="https://cdn0.iconfinder.com/data/icons/social-media-2071/100/social-02-256.png" />
 
-            <div>Trouble Logging In?</div>
+			<div>Or try <Button 
+					style={{margin: 0, padding: 0}}
+					onClick={this.props.showModal}
+					type="link" Primary>
+					 Register
+				</Button>?</div>
             <Divider />
             <Title level={3}>GET THE APP</Title>
             <div className="appsLogos">

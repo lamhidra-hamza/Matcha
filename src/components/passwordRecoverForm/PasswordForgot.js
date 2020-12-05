@@ -40,8 +40,8 @@ const PasswordForgot = (props) => {
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const onFinish = values => {
+    props.showModal(values.email);
   };
 
   return (
