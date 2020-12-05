@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import './RegisterForm.css'
+import axios from 'axios'
 import {
   Modal,
   Form,
@@ -33,9 +34,7 @@ const tailFormItemLayout = {
   },
 };
 
-const RegisterForm = (props) => {
-  const [loading, setloading] = useState(false)
-  
+const RegisterForm = (props) => {  
   const getStyle = () => {
     return {
       textAlign: 'center',
@@ -49,6 +48,10 @@ const RegisterForm = (props) => {
 
   const onFinish = values => {
 	props.showModal(values.email);
+	axios.post(`http://localhost:5000/api/users/signup`, values)
+		.then(res => {
+			console.log(res);
+		})
   };
 
   return (
@@ -116,7 +119,9 @@ const RegisterForm = (props) => {
 				<Form.Item
 					name="Last Name"
 					label="Last Name"
-					rules={[{ required: true, message: 'Please input your Last Name!', whitespace: true }]} 
+					rules={[{ required: true,
+						message: 'Please input your Last Name!',
+						 whitespace: true }]} 
 					>
 					<Input />
 				</Form.Item>

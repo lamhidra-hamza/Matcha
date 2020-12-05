@@ -2,11 +2,14 @@ var express = require('express');
 const createDb = require('./createDB/createdb.controller');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+var cors = require('cors')
+
 
 
 var app = express();
 var PORT = process.env.PORT || 5000;
 
+app.use(cors())
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 

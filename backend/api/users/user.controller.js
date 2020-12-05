@@ -26,6 +26,7 @@ async function signIn(req, res) {
 
 async function signUp(req, res) {
     const body = req.body;
+    console.log(body)
     const result = await model.create(body);
     const token = jwt.sign({ id: result.id, username: result.username },
         "matcha-secret-code"
