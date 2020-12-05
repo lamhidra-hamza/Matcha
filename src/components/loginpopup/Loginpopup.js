@@ -1,48 +1,46 @@
-import React, { Component } from 'react'
-import './Loginpopup.css'
-import { Modal, Button } from 'antd'
-import { Typography } from 'antd'
-import { Divider } from 'antd'
-import BtnNoBackgrndIcon from '../btnNoBackgrndIcon/BtnNoBackgrndIcon'
-import BtnApp from '../btnApp/BtnApp'
+import React, { Component } from "react";
+import "./Loginpopup.css";
+import { Modal, Button } from "antd";
+import { Typography } from "antd";
+import { Divider } from "antd";
+import BtnNoBackgrndIcon from "../btnNoBackgrndIcon/BtnNoBackgrndIcon";
+import BtnApp from "../btnApp/BtnApp";
 
-const { Title, Paragraph } = Typography
+const { Title, Paragraph } = Typography;
 
 export class Loginpopup extends Component {
-
   state = {
     loading: false,
     visible: false,
-  }
+  };
 
   getStyle = () => {
     return {
-      textAlign: 'center',
-      margin: '2% 4%',
-      borderRadius: '50px',
-      height: this.props.mobile ? '100vh' : '500px',
-    }
-  }
+      textAlign: "center",
+      margin: "2% 4%",
+      borderRadius: "50px",
+      height: this.props.mobile ? "100vh" : "500px",
+    };
+  };
 
   handleOk = () => {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     setTimeout(() => {
-      this.setState({ loading: false, visible: false })
-    }, 3000)
-  }
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+  };
   render() {
-    const {loading } = this.state
+    const { loading } = this.state;
 
     return (
       <div>
-        
         <Modal
           visible={this.props.visible}
           onOk={this.handleOk}
           onCancel={this.props.handleCancel}
           bodyStyle={this.getStyle()}
           centered={true}
-          width = {this.props.mobile ? '100vw' : '50vw'}
+          width={this.props.mobile ? "100vw" : "50vw"}
           footer={[
             <Button key="back" onClick={this.props.handleCancel}></Button>,
             <Button
@@ -63,8 +61,9 @@ export class Loginpopup extends Component {
             <BtnNoBackgrndIcon link="https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Google-256.png" />
             <BtnNoBackgrndIcon link="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-256.png" />
             <BtnNoBackgrndIcon link="https://cdn0.iconfinder.com/data/icons/social-media-2071/100/social-02-256.png" />
-
-            <div>Trouble Logging In?</div>
+             <Button onClick={this.props.showLgnForm} type="text">
+              <span>Login with <span class="colored">Email</span> and <span class="colored">password</span></span>
+            </Button>
             <Divider />
             <Title level={3}>GET THE APP</Title>
             <div className="appsLogos">
@@ -74,10 +73,8 @@ export class Loginpopup extends Component {
           </div>
         </Modal>
       </div>
-    )
+    );
   }
 }
 
-
-
-export default Loginpopup
+export default Loginpopup;

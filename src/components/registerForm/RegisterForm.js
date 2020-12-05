@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
+<<<<<<< HEAD
 import './RegisterForm.css'
 import axios from 'axios'
+=======
+import './RegisterForm.scss'
+>>>>>>> e21e474a1cc4244e78970b6a91bf24d74f5e4163
 import {
   Modal,
   Form,
@@ -55,7 +59,7 @@ const RegisterForm = (props) => {
   };
 
   return (
-    <div>
+    <div className="registerForm">
       <Modal
           visible={props.visible}
           onOk={"this.handleOk"}
@@ -63,7 +67,7 @@ const RegisterForm = (props) => {
           bodyStyle={getStyle()}
           width={props.mobile ? '100vw' : '50vw'}
           centered={true}
-          footer={[
+          footer = {[
             <Button key="back" onClick={props.handleCancel}></Button>,
           ]}
         >
@@ -77,7 +81,7 @@ const RegisterForm = (props) => {
 					residence: ['zhejiang', 'hangzhou', 'xihu'],
 					prefix: '86',
 				}}
-				scrollToFirstError
+        scrollToFirstError
 				>
 				<Form.Item
 					name="email"

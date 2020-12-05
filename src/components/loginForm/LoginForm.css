@@ -40,3 +40,8 @@
 .ant-row .ant-form-item {
     width: 300px !important;
 }
+
+.styled {
+    text-decoration: underline;
+    font-weight: 500;
+}
