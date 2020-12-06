@@ -10,8 +10,18 @@ import LoginForm from "../../components/loginForm/LoginForm";
 import PasswordForgot from "../../components/passwordRecoverForm/PasswordForgot";
 import VerifyEmailMsg from "../../components/verifyEmailMsg/verifyEmailMsg";
 import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery";
+import axios from "axios";
 
 export class Home extends Component {
+
+  async componentDidMount() {
+    console.log('Component did mount!');
+    const result = await fetch('http://localhost:5000/api/firstcheck', {
+      method: "GET",
+    });
+    console.log(result);
+ }
+
   state = {
     loginVisible: false,
     loginFormVisible: false,

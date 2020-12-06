@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { Modal, Form, Input, Tooltip, Checkbox, Button } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const formItemLayout = {
   labelCol: {
@@ -40,9 +41,21 @@ const LoginForm = (props) => {
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
+  //fetch functions
+  const onFinish = async (values) => {
+    setloading(true);
     console.log("Received values of form: ", values);
+
+    const result = await axios.post('http://localhost:5000/api/users/signin', {
+      email: values.email,
+      password: values.password
+    });
+
+    console.log(result);
+    setloading(false);
   };
+
+
 
   return (
     <div>
@@ -108,7 +121,7 @@ const LoginForm = (props) => {
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading}>
                 Login
               </Button>
             </Form.Item>
@@ -117,7 +130,7 @@ const LoginForm = (props) => {
           <span class="styled">Trouble Loggin In? </span>
         </Button>
         </div>
-        
+      
       </Modal>
     </div>
   );
