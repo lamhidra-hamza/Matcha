@@ -6,6 +6,7 @@ var cors = require('cors')
 
 
 
+
 var app = express();
 var PORT = process.env.PORT || 5000;
 
@@ -29,6 +30,7 @@ app.use('/api/location', require('./api/location/location.router'));
 app.use('/api/messages', require('./api/messages/messages.router'));
 app.use('/api/notifications', require('./api/notifications/notifications.router'));
 app.use('/api/tags', require('./api/tags/tags.router'));
+app.use('/confirmation/:id', require('./utils/emailConfirm'))
 
 
 const start = async() => {

@@ -9,13 +9,13 @@
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    font-weight: 800;
+    font-weight: 800 !important;
 }
 
 .ant-tab-nav {
-    margin-left: 25px;
+    margin-left: 25px !important;
 }
 
 .tabs > .ant-tabs-top > .ant-tabs-nav, .ant-tabs-bottom > .ant-tabs-nav, .ant-tabs-top > div > .ant-tabs-nav, .ant-tabs-bottom > div > .ant-tabs-nav {
-    margin: 0 0 16px 25px;
+    margin: 0 0 16px 25px !important;
 }
