@@ -27,6 +27,7 @@ async function signIn(req, res) {
 async function checkuser (req, res){
     const token = req.cookies.authcookie;
     console.log(`token ${token}`);
+    console.log("here here");
     if (!token)
         return res.status(400).send('you dont have the permission ! please login');
     try {
