@@ -7,12 +7,11 @@ const serverInfo = require("../../config/index");
 const nodemailer = require("nodemailer");
 
 
-// create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
-    service: "Gmail", // true for 465, false for other ports
+    service: "Gmail",
     auth: {
-        user: serInfo.user, // generated ethereal user
-        pass: serInfo.pass, // generated ethereal password
+        user: serInfo.user,
+        pass: serInfo.pass,
     },
 });
 

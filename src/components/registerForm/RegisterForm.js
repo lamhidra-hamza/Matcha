@@ -48,6 +48,7 @@ const RegisterForm = (props) => {
 
   const onFinish = values => {
 	props.showModal(values.email);
+	console.log(values)
 	axios.post(`http://localhost:5000/api/users/signup`, values)
 		.then(res => {
 			console.log(res);
@@ -96,7 +97,7 @@ const RegisterForm = (props) => {
 					<Input />
 				</Form.Item>
 				<Form.Item
-					name="Usename"
+					name="username"
 					label={
 					<span>
 						Usename&nbsp;
@@ -110,14 +111,14 @@ const RegisterForm = (props) => {
 					<Input />
 				</Form.Item>
 				<Form.Item
-					name="First Name"
+					name="firstName"
 					label="First Name"
 					rules={[{ required: true, message: 'Please input your First Name!', whitespace: true }]} 
 					>
 					<Input />
 				</Form.Item>
 				<Form.Item
-					name="Last Name"
+					name="lastName"
 					label="Last Name"
 					rules={[{ required: true,
 						message: 'Please input your Last Name!',
