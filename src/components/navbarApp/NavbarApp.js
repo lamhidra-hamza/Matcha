@@ -15,7 +15,11 @@ export default function NavbarApp({setShowProfile, showProfile}) {
     const handelProfileClick = () => {
         history.push({
                 pathname: `${match.path}/profile`,
-                state: {mobileKey: "4"}
+                state: {
+                    mobileKey: "5",
+                    desKey: "1", 
+                    mobile: false,
+                },
         })
         setShowProfile(true)
     }
@@ -38,7 +42,11 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                 {showProfile &&
                     <Link to={{
                         pathname: `${match.path}`,
-                        state: {mobileKey: "1"}
+                        state: {
+                            mobileKey: "1",
+                            desKey: "1", 
+                            mobile: false
+                        }
                     }}>
                     <div className="returnIcon" onClick={handelBackfrom}>
                         <LeftOutlined style={{color: '#efefef'}}/>

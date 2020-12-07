@@ -8,10 +8,14 @@ const MobileProfile = () => {
     const history = useHistory();
     const match = useRouteMatch();
 
-    const handelbtnsClick = (path, Key) => {
+    const handelbtnsClick = (path, mobileKey, desKey) => {
         history.push({
                 pathname: `${match.path}${path}`,
-                state: {mobileKey: Key}
+                state: {
+                    mobileKey: mobileKey,
+                    desKey: desKey,
+                    mobile: true
+                },
         })
     }
 
@@ -26,13 +30,13 @@ const MobileProfile = () => {
                 </div>
                 <div className="profilebtn">
                     <div className="ColumnIc">
-                        <div onClick={() => handelbtnsClick("/settings", "4")} className="profSettings cycleBorder">
+                        <div onClick={() => handelbtnsClick("/settings", "4", "1")} className="profSettings cycleBorder">
                             <ToolFilled style={{color: '#5c5c5c'}}/>
                         </div>
                         <h4>Settings</h4>
                     </div>
                     <div className="ColumnIc">
-                        <div onClick={() => handelbtnsClick("/edit", "4")} className="profEdit cycleBorder">
+                        <div onClick={() => handelbtnsClick("/edit", "4", "1")} className="profEdit cycleBorder">
                             <EditFilled style={{color: '#5c5c5c'}}/>
                         </div>
                         <h4>Eddit</h4>

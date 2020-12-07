@@ -3,15 +3,19 @@ import { Divider } from 'antd';
 import './MessageItem.scss';
 import { useHistory, useRouteMatch} from 'react-router-dom'
 
-export default function MessageItem() {
+export default function MessageItem(props) {
     let match = useRouteMatch();
     let history = useHistory();
 
     const handelClick = () => {
         history.push({
             pathname: match.path == "/app" ? `${match.path}/messages/chatbox` : `${match.path}/chatbox`,
-            state: {mobileKey: "3"}
-    })
+            state: {
+                mobileKey: "4",
+                desKey: "2",
+                mobile: props.mobile
+            }
+        })
     }
 
     return (

@@ -1,5 +1,4 @@
 node_modules
 backend/node_modules
 uploads
-backend/config/index.js
-backend/utils/db.js
+backend/config/

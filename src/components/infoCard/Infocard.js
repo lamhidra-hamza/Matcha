@@ -30,7 +30,11 @@ const Infocard = (props) => {
   const editButtonClick = () => {
       history.push({
               pathname: `${match.url}/edit`,
-              state: {mobileKey: "4"}
+              state: {
+                mobileKey: "3",
+                desKey: "1",           
+                mobile: props.mobile,
+              }
       })
   }
 
@@ -92,7 +96,7 @@ const Infocard = (props) => {
         </div>
 
         <div className="personReactions">
-          { state && state.mobileKey === "4" ?
+          { state && state.mobileKey === "5" ?
             <Button shape="round" className={'editProfileBtn'} onClick={editButtonClick}>
             Edit Profile
             </Button> : 

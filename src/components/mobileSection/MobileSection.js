@@ -25,37 +25,42 @@ function MobileSection() {
 	const match = useRouteMatch();
 	
 	const handelDefaultKey = () => {
+		console.log(state)
 		if (state)
 			return state.mobileKey;
 		return "1";
 	}
 
-	const handelTabClick = (location, key) => {
+	const handelTabClick = (location, mobileKey, desKey) => {
 		history.push({
-				pathname: `${match.path}${location}`,
-				state: {mobileKey: key}
+			pathname: `${match.path}${location}`,
+			state: {
+					mobileKey: mobileKey,
+					desKey: desKey,
+					mobile: true
+				},	
 		})
 	}
 	
 	return (
 		<div className="mobileSection">
 			<Tabs defaultActiveKey={handelDefaultKey}>
-				<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("", "1")} className="mobileNavIcon"> <FireFilled /></span>} key="1" >
+				<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("", "1", "1")} className="mobileNavIcon"> <FireFilled /></span>} key="1" >
 					<DisplayUsers/>
 				</TabPane>
-				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
-					<DisplayUsers/>
-					<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
-				</TabPane>
-				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
+				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "2", "1")} className="mobileNavIcon"> <HeartFilled /></span>} key="2" >
 					<DisplayUsers/>
 					<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
 				</TabPane>
-				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/messages", "3")} className="mobileNavIcon"> <MessageFilled /></span>} key="3" >
+				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("", "3", "1")} className="mobileNavIcon"> <HeartFilled /></span>} key="3" >
+					<DisplayUsers/>
+					<div style={{height: "200px", backgroundColor: '#f6f7fa'}}/>
+				</TabPane>
+				<TabPane className="mobileTab scrollTab" tab={<span onClick={() => handelTabClick("/messages", "4", "2")} className="mobileNavIcon"> <MessageFilled /></span>} key="4" >
 					<Route path={`${match.path}/messages/chatbox`}><ChatBox/></Route>
-					<Route path={`${match.path}/messages`}><MessageDisplay/></Route>
+					<Route path={`${match.path}/messages`}><MessageDisplay mobile={true}/></Route>
 				</TabPane>
-				<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("/profile", "4")} className="mobileNavIcon"> <ContactsFilled /></span>} key="4" >
+				<TabPane className="mobileTab" tab={<span onClick={() => handelTabClick("/profile", "5", "1")} className="mobileNavIcon"> <ContactsFilled /></span>} key="5" >
 					<Switch>
 						<Route exact path={`${match.path}/profile`}>
 							<MobileProfile style={{display: 'flex', justifyContent: 'center'}}/> </Route>

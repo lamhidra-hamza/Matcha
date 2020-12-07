@@ -2,16 +2,16 @@ import React from 'react';
 import './MatcheDisplay.scss';
 import MatchaCard from '../matchCard/MatchCard';
 
-export default function MatcheDisplay() {
+export default function MatcheDisplay(props) {
     return (
         <div className="Matches-Container">
-            <MatchaCard />
-            <MatchaCard />
-            <MatchaCard />
-            <MatchaCard />
-            <MatchaCard />
-            <MatchaCard />
-            <MatchaCard />
+            <MatchaCard mobile={props.mobile}/>
+            <MatchaCard mobile={props.mobile}/>
+            <MatchaCard mobile={props.mobile}/>
+            <MatchaCard mobile={props.mobile}/>
+            <MatchaCard mobile={props.mobile}/>
+            <MatchaCard mobile={props.mobile}/>
+            <MatchaCard mobile={props.mobile}/>
         </div>
     )
 }
