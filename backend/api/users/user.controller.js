@@ -18,16 +18,7 @@ let transporter = nodemailer.createTransport({
 async function signIn(req, res) {
     console.log("\nSignin Function");
     const body = req.body;
-    const result = await model.findOne("0", body.email);
-
-    res.set('Access-Control-Allow-Origin', req.headers.origin); //req.headers.origin
-    res.set('Access-Control-Allow-Credentials', 'true');
-    // access-control-expose-headers allows JS in the browser to see headers other than the default 7
-    res.set(
-        'Access-Control-Expose-Headers',
-        'date, etag, access-control-allow-origin, access-control-allow-credentials'
-    );
-    
+    const result = await model.findOne(null, body.email);
     if (!result[0] || !body.password || !body.email) {
         res.status(403).send({ status: 0, message: "you dont have an account" });
     } else {

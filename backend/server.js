@@ -10,7 +10,7 @@ var cors = require('cors')
 var app = express();
 var PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: 'http://localhost:3000' , credentials :  true}))
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 

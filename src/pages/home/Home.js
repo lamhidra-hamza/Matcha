@@ -15,11 +15,11 @@ import axios from "axios";
 export class Home extends Component {
 
   async componentDidMount() {
-    console.log('Component did mount!');
-    const result = await fetch('http://localhost:5000/api/firstcheck', { credentials: 'include' },{
-      method: "GET",
-    });
-    console.log(result);
+    // console.log('Component did mount!');
+    // const result = await fetch('http://localhost:5000/api/firstcheck', { credentials: 'include' },{
+    //   method: "GET",
+    // });
+    // console.log(result);
  }
 
   state = {

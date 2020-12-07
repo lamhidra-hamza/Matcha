@@ -45,15 +45,14 @@ const LoginForm = (props) => {
   const onFinish = async (values) => {
     setloading(true);
     console.log("Received values of form: ", values);
-
-    let req = new Request('http://localhost:5000/', {
-      mode: 'cors', //just a safe-guard indicating our intentions of what to allow
-      credentials: 'include', //when will the cookies and authorization header be sent
-    });
+    axios.defaults.withCredentials = true;
     const result = await axios.post('http://localhost:5000/api/users/signin', {
       email: values.email,
       password: values.password
-    });
+	},
+	{
+		withCredentials: true 
+	});
 
     console.log(result);
     setloading(false);
