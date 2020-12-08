@@ -14,14 +14,12 @@ export default function Maintab() {
     const history = useHistory();
 	
 	const handelDefaultKey = () => {
-        console.log(state)
 		if (state)
 			return state.desKey;
 		return "1";
 	}
 
 	const handelTabClick = (location, desKey, mobileKey) => {
-        console.log("pathname: == ", state, " //// ", pathname);
 		history.push({
 				pathname: `${pathname}${location}`,
                 state: {

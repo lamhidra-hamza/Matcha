@@ -18,7 +18,7 @@ let transporter = nodemailer.createTransport({
 async function signIn(req, res) {
     console.log("\nSignin Function");
     const body = req.body;
-    const result = await model.findOne(null, body.email);
+    const result = await model.findOneByEmail(null, body.email);
     if (!result[0] || !body.password || !body.email) {
         res.status(403).send({ status: 0, message: "you dont have an account" });
     } else {

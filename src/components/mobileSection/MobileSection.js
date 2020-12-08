@@ -25,7 +25,6 @@ function MobileSection() {
 	const match = useRouteMatch();
 	
 	const handelDefaultKey = () => {
-		console.log(state)
 		if (state)
 			return state.mobileKey;
 		return "1";

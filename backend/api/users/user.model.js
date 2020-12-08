@@ -40,8 +40,14 @@ class User {
         return result;
     }
 
-    async findOne(userId, email) {
+    async findOneByEmail(userId, email) {
         const sql = userId ? `SELECT * FROM users WHERE id='${userId}'` : `SELECT * FROM users WHERE email='${email}'`;
+        const [result, filed] = await connection.promise().query(sql);
+        return result;
+    }
+
+    async findOne(userId, id) {
+        const sql = `SELECT * FROM users WHERE id='${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

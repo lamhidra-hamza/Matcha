@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProfileInfo.scss';
 import LikeViewItems from '../likeAndView/LikeViewItems'
 import { Slider, Input, Select, Button } from 'antd';
 import { useHistory } from 'react-router-dom'
+import axios from 'axios';
+import {SER} from '../../conf/index';
+
 
 
 const { Option } = Select
 
 const ProfileInfo = (props) => {
+    const id = "07c51ce5-4f7b-4d7a-81f4-2a51c41f76c2";
+    const [user, setUser] = useState({});
+    const history = useHistory();
+
+    // useEffect(async () => {
+    //     const result = await axios.get(`${SER.HOST}/api/users/${id}`)
+    //     setUser(result.data.user);
+    // })
 
     const handleChange = () => {
         console.log('done')
     }
-
-    const history = useHistory();
 
     const saveButtonClick = () => {
         history.goBack();
@@ -36,7 +45,7 @@ const ProfileInfo = (props) => {
                 <div className="setBox rowsetBox">
                     <h3 className="boxParam" >Email</h3>
                     <Input
-                        placeholder="amal@gmail.com"
+                        placeholder={user.email}
                         style={{
                             height: '2vh',
                             borderRadius: '10px',
@@ -64,7 +73,7 @@ const ProfileInfo = (props) => {
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >First Name</h3>
                     <Input
-                        placeholder="Amal"
+                        placeholder={user.firstName}
                         style={{
                             height: '2vh',
                             borderRadius: '10px',
@@ -78,7 +87,7 @@ const ProfileInfo = (props) => {
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Last Name</h3>
                     <Input
-                        placeholder="bentbaha"
+                        placeholder={user.lastName}
                         style={{
                         height: '2vh',
                         borderRadius: '10px',
@@ -106,14 +115,14 @@ const ProfileInfo = (props) => {
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Loking for</h3>
                     <Select
-                        defaultValue="lucy"
+                        defaultValue={user.interessted}
                         style={{ width: 150 ,
                             marginBottom: '9px',}}
                         onChange={handleChange}
                         >
                         <Option value="men">Men</Option>
-                        <Option value="lucy">Women</Option>
-                        <Option value="Yiminghe">Men & Women</Option>
+                        <Option value="women">Women</Option>
+                        <Option value="both">Men & Women</Option>
                     </Select>
                 </div>
                 <div className="setBox borderTopNone columnsetBox">
