@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { useHistory , Redirect} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Content from "../../components/content/Content";
 import Footer from "../../components/footer/Footer";
@@ -13,14 +15,19 @@ import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery
 import axios from "axios";
 
 export class Home extends Component {
-
   async componentDidMount() {
-    // console.log('Component did mount!');
-    // const result = await fetch('http://localhost:5000/api/firstcheck', { credentials: 'include' },{
-    //   method: "GET",
-    // });
-    // console.log(result);
- }
+    //var history = useHistory();
+    console.log('Component did mount!');
+    let result = await fetch('http://localhost:5000/api/firstcheck', { credentials: 'include' },{
+      method: "GET",
+    });
+    result = await result.json();
+    if (result && result.success === 1)
+    {
+      console.log("Redirect");
+      this.props.history.push("/app");
+    }
+  }
 
   state = {
     loginVisible: false,
@@ -149,4 +156,4 @@ export class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

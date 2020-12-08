@@ -45,20 +45,20 @@ const LoginForm = (props) => {
   const onFinish = async (values) => {
     setloading(true);
     console.log("Received values of form: ", values);
-    axios.defaults.withCredentials = true;
-    const result = await axios.post('http://localhost:5000/api/users/signin', {
-      email: values.email,
-      password: values.password
-	},
-	{
-		withCredentials: true 
-	});
-
-    console.log(result);
+    const result = await axios.post(
+      "http://localhost:5000/api/users/signin",
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     setloading(false);
+    const resultJson = await result.data;
+    sessionStorage.setItem("accessToken", resultJson.accessToken);
   };
-
-
 
   return (
     <div>
@@ -80,8 +80,9 @@ const LoginForm = (props) => {
         ]}
       >
         <div className="loginoption">
-        <span className="header">Login</span>
-          <br/><br/>
+          <span className="header">Login</span>
+          <br />
+          <br />
           <Form
             {...formItemLayout}
             form={form}
@@ -130,10 +131,9 @@ const LoginForm = (props) => {
             </Form.Item>
           </Form>
           <Button onClick={props.showPasswordForgot} type="text">
-          <span class="styled">Trouble Loggin In? </span>
-        </Button>
+            <span class="styled">Trouble Loggin In? </span>
+          </Button>
         </div>
-      
       </Modal>
     </div>
   );
