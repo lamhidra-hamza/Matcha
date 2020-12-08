@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import './DisplayUsers.scss';
 import UserCard from '../userCard/UserCard.js';
-import { Select, Slider, Rate, Checkbox, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import FilterPopUp from '../filterPopUp/FilterPopUp';
 import { ControlOutlined } from '@ant-design/icons';
 

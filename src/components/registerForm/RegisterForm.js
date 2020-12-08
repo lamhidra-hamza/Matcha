@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import './RegisterForm.scss'
 import axios from 'axios'
 import {
@@ -175,7 +175,7 @@ const RegisterForm = (props) => {
 					{...tailFormItemLayout}
 				>
 					<Checkbox>
-					I have read the <a href="">agreement</a>
+					I have read the <a href="#">agreement</a>
 					</Checkbox>
 				</Form.Item>
 				<Form.Item {...tailFormItemLayout}>

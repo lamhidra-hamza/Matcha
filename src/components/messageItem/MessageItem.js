@@ -9,7 +9,7 @@ export default function MessageItem(props) {
 
     const handelClick = () => {
         history.push({
-            pathname: match.path == "/app" ? `${match.path}/messages/chatbox` : `${match.path}/chatbox`,
+            pathname: match.path === "/app" ? `${match.path}/messages/chatbox` : `${match.path}/chatbox`,
             state: {
                 mobileKey: "4",
                 desKey: "2",

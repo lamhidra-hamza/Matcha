@@ -1,5 +1,5 @@
 import React from 'react'
-import { Result, Button, Modal } from 'antd';
+import { Result,  Modal } from 'antd';
 
 
 const PasswordRecovery = (props) => {
