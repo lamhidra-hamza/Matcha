@@ -15,16 +15,13 @@ let transporter = nodemailer.createTransport({
 });
 
 async function signIn(req, res) {
-  console.log("\nSignin Function");
   const body = req.body;
-  const result = await model.findOne(null, body.email);
+  const result = await model.findOneByEmail(null, body.email);
   if (!result[0] || !body.password || !body.email) {
     res.status(403).send({ status: 0, message: "you dont have an account" });
   } else {
-    console.log(body.password);
     body.password = await bcrypt.hash(body.password, 11);
-    console.log(body.password);
-    console.log(result[0].password);
+
     if (bcrypt.compare(result[0].password, body.password)) {
       const access_token = await jwt.sign(
         { id: result[0].id, type: "access-token" },
@@ -50,26 +47,28 @@ async function signIn(req, res) {
 
 async function getToken(req, res) {
   const refreshToken = req.cookies.authcookie;
-  jwt.verify(refreshToken, "matcha-secret-code", async function (err, decoded) {
-    if (err) {
-      res
-        .status(200)
-        .send({ status: 0, message: "please login refresh token is invalid" });
-    }
+  try {
+    let decoded = await jwt.verify(refreshToken, "matcha-secret-code");
     const result = await model.findOneById(decoded.id);
-    if (result[0].refreshToken !== refreshToken)
+    if (result[0].refreshToken !== refreshToken) {
       res.send({ status: 0, message: "your refresh token is invalid" });
-    const access_token = await jwt.sign(
-      { id: result[0].id, type: "access-token" },
-      "matcha-secret-code",
-      { expiresIn: "0.3h" }
-    );
-    res.send({
-      status: 1,
-      message: "new access token",
-      accessToken: access_token,
-    });
-  });
+    } else {
+      const access_token = await jwt.sign(
+        { id: result[0].id, type: "access-token" },
+        "matcha-secret-code",
+        { expiresIn: "20s" }
+      );
+      res.send({
+        status: 1,
+        message: "new access token",
+        accessToken: access_token,
+      });
+    }
+  } catch (err) {
+    res
+      .status(200)
+      .send({ status: 0, message: "please login refresh token is invalid" });
+  }
 }
 
 async function signUp(req, res) {
@@ -109,10 +108,31 @@ async function signOut(req, res) {
   res.cookie("authcookie", "").send({ status: 1, message: "loggedout" });
 }
 
+async function checkSession(req, res) {
+  const token = req.cookies.authcookie;
+  if (!token)
+    return res.status(200).json({
+      success: 0,
+    });
+  try {
+    const verified = await jwt.verify(token, "matcha-secret-code");
+    req.user = verified;
+    res.status(200).json({
+      success: 1,
+      user: verified.id,
+      status: "logged",
+      redirectUrl: "/app",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   signIn: signIn,
   controllers: controllers(model),
   signUp: signUp,
   signOut: signOut,
   getToken: getToken,
+  checkSession: checkSession
 };

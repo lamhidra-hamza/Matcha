@@ -4,25 +4,22 @@ import './Maintab.css'
 import MatcheDisplay from '../matchesDisplay/MatcheDisplay'
 import MessageDisplay from '../messageDisplay/MessageDisplay';
 import { Badge } from 'antd';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 
 
 const { TabPane } = Tabs;
 
 export default function Maintab() {
     let { state, pathname } = useLocation();
-	const history = useHistory();
-	const match = useRouteMatch();
+    const history = useHistory();
 	
 	const handelDefaultKey = () => {
-        console.log(state)
 		if (state)
 			return state.desKey;
 		return "1";
 	}
 
 	const handelTabClick = (location, desKey, mobileKey) => {
-        console.log("pathname: == ", state, " //// ", pathname);
 		history.push({
 				pathname: `${pathname}${location}`,
                 state: {

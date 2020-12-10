@@ -2,12 +2,9 @@ import './MobileProfileProfile.scss'
 import React from 'react'
 import { Avatar } from 'antd'
 import { UserOutlined, ToolFilled, EditFilled } from '@ant-design/icons'
-import { Switch, Route, useRouteMatch, Redirect, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function MobileProfileProfile() {
-
-      let match = useRouteMatch();
-
 
   return (
     <div className="topSections">

@@ -28,39 +28,26 @@ function timeConverter(UNIX_timestamp) {
 }
 
 function auth(req, res, next) {
-  
   const accessToken = req.body.token;
-  if (!accessToken)
-    return res.status(200).send({
-      status: 0,
-      message:
-        "please log in you dont have neither the acces token or the refresh token",
-    });
+  req.status = 1;
+  if (!accessToken){
+    // res.status(200).send({
+    //   status: -1,
+    //   message:
+    //     "please log in you dont have neither the acces token or the refresh token",
+    // });
+    req.status = -1;
+  }
+
   jwt.verify(accessToken, "matcha-secret-code", function (err, decoded) {
     if (err) {
-      ///1 Verify the refresh Token
-      //   jwt.verify(refreshToken, "matcha-secret-code", function (err, decoded) {
-      //     if (err) {
-      //         res
-      //           .status(200)
-      //           .send({ status: 0, message: "please login refresh token is invalid" });
-      //     }
-      //     const result = await model.findOne(null, body.email);
-      //     if (result[0].refreshToken === refreshToken)
-
-      //     console.log(decoded);
-      //     console.log(decoded.id);
-      //     next();
-      //   });
       let errorMessage = -1;
       if (err.expiredAt)
         errorMessage = 0;
-     res
-        .status(200)
-        .send({ status: errorMessage, message: "please login refresh token is invalid" });
+    //  res.status(200).send({ status: errorMessage, message: "please login refresh token is invalid" });
+    req.status = errorMessage;
       //1 - END
     }
-    console.log(timeConverter( decoded.exp));
     next();
   });
 }

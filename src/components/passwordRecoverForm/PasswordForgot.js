@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./PasswordForgot.scss";
-import { Modal, Form, Input, Tooltip, Checkbox, Button } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Modal, Form, Input, Button } from "antd";
 
 const formItemLayout = {
   labelCol: {
@@ -101,21 +100,6 @@ const PasswordForgot = (props) => {
       </Modal>
     </div>
   );
-};
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
 };
 
 export default PasswordForgot;

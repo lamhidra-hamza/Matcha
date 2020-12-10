@@ -31,7 +31,7 @@ const Infocard = (props) => {
       history.push({
               pathname: `${match.url}/edit`,
               state: {
-                mobileKey: "3",
+                mobileKey: "5",
                 desKey: "1",           
                 mobile: props.mobile,
               }

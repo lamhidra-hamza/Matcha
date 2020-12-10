@@ -2,7 +2,7 @@ import React from 'react'
 import './MobileProfile.css';
 import {Avatar} from 'antd';
 import { UserOutlined, ToolFilled, EditFilled} from '@ant-design/icons';
-import { useHistory, useRouteMatch, Link} from 'react-router-dom'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 
 const MobileProfile = () => {
     const history = useHistory();

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
-import { Modal, Form, Input, Tooltip, Checkbox, Button } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Modal, Form, Input, Button } from "antd";
 import axios from "axios";
 
 const formItemLayout = {
@@ -137,21 +136,6 @@ const LoginForm = (props) => {
       </Modal>
     </div>
   );
-};
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
 };
 
 export default LoginForm;

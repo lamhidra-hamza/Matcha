@@ -55,13 +55,17 @@ class User {
     return result;
   }
 
-  async findOne(userId, email) {
-    const sql = userId
-      ? `SELECT * FROM users WHERE id='${userId}'`
-      : `SELECT * FROM users WHERE email='${email}'`;
+  async findOne(userId, id) {
+    const sql = `SELECT * FROM users WHERE id='${id}'`;
     const [result, filed] = await connection.promise().query(sql);
     return result;
-  }
+}
+
+  async findOneByEmail(userId, email) {
+    const sql = userId ? `SELECT * FROM users WHERE id='${userId}'` : `SELECT * FROM users WHERE email='${email}'`;
+    const [result, filed] = await connection.promise().query(sql);
+    return result;
+}
 
   async findOneAndUpdate(userId, id, data) {
     const sql = `UPDATE users SET

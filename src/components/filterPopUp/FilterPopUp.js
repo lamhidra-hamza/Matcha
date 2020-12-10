@@ -1,7 +1,5 @@
 import { React, useState } from 'react'
 import { Modal, Button } from 'antd'
-import { Typography } from 'antd'
-import { Divider } from 'antd'
 import { Select, Slider, Rate, Checkbox } from 'antd'
 import './FilterPopUp.scss'
 

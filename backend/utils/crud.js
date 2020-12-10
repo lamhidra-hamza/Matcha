@@ -20,8 +20,9 @@ const getOne = (module) => async(req, res) => {
         if (!data) {
             res.status(400).end();
         }
+        console.log(data[0]);
         res.status(200).json({
-            data: data,
+            user: data[0]
         });
     } catch (err) {
         console.log(err);
