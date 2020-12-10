@@ -4,7 +4,7 @@ import LikeViewItems from '../likeAndView/LikeViewItems'
 import { Slider, Input, Select, Button } from 'antd';
 import { useHistory } from 'react-router-dom'
 import axios from 'axios';
-import {SER} from '../../conf/index';
+import {SER} from '../../conf/config';
 
 
 
@@ -15,11 +15,20 @@ const ProfileInfo = (props) => {
     const [user, setUser] = useState({});
     const history = useHistory();
 
-    // useEffect(async () => {
-    //     const result = await axios.get(`${SER.HOST}/api/users/${id}`)
-    //     setUser(result.data.user);
-    // })
+    useEffect(() => {
+        const source = axios.CancelToken.source();
+        const getData = async () => {
+            const result = await axios.get(`${SER.HOST}/api/users/${id}`)
+            setUser(result.data.user);
+        }
 
+        getData();
+
+        return () => {
+            source.cancel();
+        }
+    }, [])
+    
     const handleChange = () => {
         console.log('done')
     }
@@ -114,6 +123,7 @@ const ProfileInfo = (props) => {
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Loking for</h3>
+                    {user.interessted &&
                     <Select
                         defaultValue={user.interessted}
                         style={{ width: 150 ,
@@ -123,7 +133,7 @@ const ProfileInfo = (props) => {
                         <Option value="men">Men</Option>
                         <Option value="women">Women</Option>
                         <Option value="both">Men & Women</Option>
-                    </Select>
+                    </Select>}
                 </div>
                 <div className="setBox borderTopNone columnsetBox">
                     <div className="rowsetBox">

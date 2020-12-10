@@ -30,13 +30,13 @@ const MobileProfile = () => {
                 </div>
                 <div className="profilebtn">
                     <div className="ColumnIc">
-                        <div onClick={() => handelbtnsClick("/settings", "4", "1")} className="profSettings cycleBorder">
+                        <div onClick={() => handelbtnsClick("/settings", "5", "1")} className="profSettings cycleBorder">
                             <ToolFilled style={{color: '#5c5c5c'}}/>
                         </div>
                         <h4>Settings</h4>
                     </div>
                     <div className="ColumnIc">
-                        <div onClick={() => handelbtnsClick("/edit", "4", "1")} className="profEdit cycleBorder">
+                        <div onClick={() => handelbtnsClick("/edit", "5", "1")} className="profEdit cycleBorder">
                             <EditFilled style={{color: '#5c5c5c'}}/>
                         </div>
                         <h4>Eddit</h4>
