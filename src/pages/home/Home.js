@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { useHistory, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Content from "../../components/content/Content";
 import Footer from "../../components/footer/Footer";
@@ -11,16 +13,36 @@ import PasswordForgot from "../../components/passwordRecoverForm/PasswordForgot"
 import VerifyEmailMsg from "../../components/verifyEmailMsg/verifyEmailMsg";
 import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery";
 import axios from "axios";
+import getData from "../../tools/fetchData";
 
 export class Home extends Component {
-
   async componentDidMount() {
-    // console.log('Component did mount!');
-    // const result = await fetch('http://localhost:5000/api/firstcheck', { credentials: 'include' },{
-    //   method: "GET",
-    // });
-    // console.log(result);
- }
+    // let test = await getData(
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZlMmNhNzJmLWVkZmYtNDBkOS05ZWY2LWY0OTQ4MWZkNDUyNiIsInR5cGUiOiJhY2Nlc3MtdG9rZW4iLCJpYXQiOjE2MDc1MDk2MTgsImV4cCI6MTYwNzUxMzIxOH0.Z-CNHu1mVb-u0ogacD8gfmLgmwyaHSQCdvfi779AxK4",
+    //   async (token) => {
+    //     let result = await axios.post(
+    //       "http://localhost:5000/posts",
+    //       {
+    //         token: token,
+    //       },
+    //       {
+    //         withCredentials: true,
+    //       }
+    //     );
+    //     return result;
+    //   }
+    // );
+    let result = await axios.get(
+      "http://localhost:5000/api/firstcheck",
+      {
+        withCredentials: true,
+      }
+    );
+    if (result && result.data.success === 1) {
+      console.log("Redirect");
+      this.props.history.push("/app");
+    }
+  }
 
   state = {
     loginVisible: false,
@@ -149,4 +171,4 @@ export class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

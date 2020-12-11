@@ -36,16 +36,25 @@ class User {
         return { name: "zakaria", user: "nadi", id: info.id };
     }
 
-    async findall(userId) {
-        const [result, fields] = await connection
-            .promise()
-            .query("SELECT * FROM users");
+    async updateRefreshToken(userId, refreshToken) {
+        const sql = `UPDATE users SET
+       refreshToken = '${refreshToken}'
+       WHERE id = '${userId}'`;
+        const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
-    async findOneByEmail(userId, email) {
-        const sql = userId ? `SELECT * FROM users WHERE id='${userId}'` : `SELECT * FROM users WHERE email='${email}'`;
-        const [result, filed] = await connection.promise().query(sql);
+    async findall(userId) {
+        const [result, fields] = await connection
+            .promise()
+            .query("SELECT * FROM users ");
+        return result;
+    }
+
+    async findOneById(userId) {
+        const [result, fields] = await connection
+            .promise()
+            .query(`SELECT * FROM users WHERE id = '${userId}'`);
         return result;
     }
 
@@ -55,20 +64,23 @@ class User {
         return result;
     }
 
+    async findOneByEmail(userId, email) {
+        const sql = userId ? `SELECT * FROM users WHERE id='${userId}'` : `SELECT * FROM users WHERE email='${email}'`;
+        const [result, filed] = await connection.promise().query(sql);
+        return result;
+    }
+
     async findOneAndUpdate(userId, id, data) {
         const sql = `UPDATE users SET
-            username = '${data.username}', 
-            email = '${data.email}',
+             username = '${data.username}', 
+             email = '${data.email}',
             password = '${data.password}',
             biography= '${data.biography}',
             gender= '${data.gender}',
             interessted= '${data.interessted}',
-            firstName='${data.firstName}',
-            lastName='${data.lastName}',
-            minAge='${data.minAge}',
-            maxAge='${data.maxAge}',
-            maxDistance='${data.maxDistance}'
-            where id = '${id}'`;
+            verified= '${data.verified}',
+            infoCompleted= '${data.infoCompleted}'
+            WHERE id = '${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
