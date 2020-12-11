@@ -22,6 +22,9 @@ class User {
             gender: "men",
             firstName: data.firstName,
             lastName: data.lastName,
+            minAge: 18,
+            maxAge: 30,
+            maxDistance: 150,
             lastConnection: new Date().toISOString().slice(0, 19).replace("T", " "),
             lastNotification: new Date().toISOString().slice(0, 19).replace("T", " "),
             interessted: "both",
@@ -54,17 +57,18 @@ class User {
 
     async findOneAndUpdate(userId, id, data) {
         const sql = `UPDATE users SET
-             username = '${data.username}', 
-             email = '${data.email}',
+            username = '${data.username}', 
+            email = '${data.email}',
             password = '${data.password}',
             biography= '${data.biography}',
             gender= '${data.gender}',
-            lastConnection= '${data.lastConnection}',
-            lastNotification= '${data.lastNotification}',
             interessted= '${data.interessted}',
-            verified= '${data.verified}',
-            infoCompleted= '${data.infoCompleted}'
-            WHERE id = '${id}'`;
+            firstName='${data.firstName}',
+            lastName='${data.lastName}',
+            minAge='${data.minAge}',
+            maxAge='${data.maxAge}',
+            maxDistance='${data.maxDistance}'
+            where id = '${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
