@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './ProfileInfo.scss';
 import LikeViewItems from '../likeAndView/LikeViewItems'
 import { Slider, Input, Select, Button } from 'antd';
 import { useHistory } from 'react-router-dom'
-import axios from 'axios';
-import { SER } from '../../conf/config';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-
-
-
+import { UserContext } from '../../contexts/UserContext';
 
 const { Option } = Select
 
@@ -18,7 +14,7 @@ const ProfileInfo = (props) => {
     const [firstName, setFirstname] = useState("");
     const [lastName, setLastname] = useState("");
     const history = useHistory();
-    const { user, setUser } = props;
+    const { user, setUser } = useContext(UserContext);
 
     const interestingChange = (value) => {
         setUser({...user, interessted: value})

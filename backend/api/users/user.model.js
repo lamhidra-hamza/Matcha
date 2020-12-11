@@ -4,13 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class User {
-    constructor() {
-        // const sql = `CREATE TABLE IF NOT EXISTS users (id VARCHAR(255),
-        //     name VARCHAR(255), email VARCHAR(255), password VARCHAR(255))`;
-        // connection.query(sql, (err) => {
-        //     if (err) throw err;
-        // })
-    }
 
     async create(data) {
         let info = {
@@ -78,9 +71,12 @@ class User {
             biography= '${data.biography}',
             gender= '${data.gender}',
             interessted= '${data.interessted}',
-            verified= '${data.verified}',
-            infoCompleted= '${data.infoCompleted}'
-            WHERE id = '${id}'`;
+            firstName='${data.firstName}',
+            lastName='${data.lastName}',
+            minAge='${data.minAge}',
+            maxAge='${data.maxAge}',
+            maxDistance='${data.maxDistance}'
+            where id = '${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

@@ -7,6 +7,8 @@ import { Spin } from 'antd';
 
 import { SER } from '../conf/config';
 
+import { UserContext } from '../contexts/UserContext';
+
 export default function Mainapp({width}) {
 
 	const id = "7807d027-cc0b-40e2-8bea-bfa9c4df7f6d";
@@ -60,14 +62,16 @@ export default function Mainapp({width}) {
 	
 
 	return (
+		<UserContext.Provider value={{user: user, setUser: setUser}}>
 		<div className="containerMainapp">
 			{loading ?
 			<div className="loading">
 				<Spin size="large" />
 				</div>
-				: width > 760 ? <DesktopSection user={user} setUser={setUser} width={width}/> : <MobileSection/>
+				: width > 760 ? <DesktopSection width={width}/> : <MobileSection/>
 				}
 		</div>
+		</UserContext.Provider>
 	)
 }
 
