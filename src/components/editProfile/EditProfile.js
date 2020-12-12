@@ -1,48 +1,142 @@
-import React from 'react'
-import './EditProfile.scss'
-import ProfileImgItem from '../profileImgItem/profileImgItem'
-import ProfileImgEmpty from '../profileImgIEmpty/profileImgIEmpty'
-import { Slider, Input, Select, Button } from 'antd'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from "react";
+import "./EditProfile.scss";
+import ProfileImgItem from "../profileImgItem/profileImgItem";
+import ProfileImgEmpty from "../profileImgIEmpty/profileImgIEmpty";
+import { Slider, Input, Select, Button } from "antd";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export default function EditProfile(props) {
+  const currentView = props && props.mobile ? "mobile" : "";
+  const [images, setImages] = useState([
+    {
+      preview: null,
+      file: null,
+    },
+    {
+      preview: null,
+      file: null,
+    },
+    {
+      preview: null,
+      file: null,
+    },
+    {
+      preview: null,
+      file: null,
+    },
+    {
+      preview: null,
+      file: null,
+    },
+  ]);
+
+  const [imageLink, setImageLink] = useState(["", "", "", "", ""]);
+
+  const RenderProfileImage = ({index}) => {
+    if (images[index].preview) {
+      return (
+        <ProfileImgItem
+          key={index}
+          view={currentView}
+          link={images[index].preview}
+          id={index}
+          clear={() => clearImage(index)}
+        />
+      );
+    }
+    if (imageLink[index]) {
+      return (
+        <ProfileImgItem
+          key={index}
+          view={currentView}
+          link={imageLink[index]}
+          id={index}
+          clear={() => clearImage(index)}
+        />
+      );
+    }
+    return (
+      <ProfileImgEmpty
+        key={index}
+        view={`${currentView}`}
+        id={index}
+        add={(preview, file)=> addNewImage(preview, file, index)}
+      />
+    );
+  };
+
+  const addNewImage = async (preview, file, index) => {
+    console.log(`the index is ${index}`);
+    let newImages = [...images];
+    newImages[index].preview = preview;
+    newImages[index].file = file;
+    setImages(newImages);
+  };
+
+  const clearImage = (index) => {
+    let newImages = [...images];
+    let newImagesLink = [...imageLink];
+
+    newImages[index] = { preview:null,  file: null };
+    newImagesLink[index] = "";
+    setImages(newImages);
+    setImageLink(newImagesLink);
+  };
+
   const history = useHistory();
 
-  const handleChange = () => {
-    console.log('done')
-  }
-  const { Option } = Select
+  const { Option } = Select;
 
-  const saveButtonClick = () => {
+  const saveButtonClick = async() => {
+
+    const formData = new FormData();
+    images.map(image => {
+      if (image.file)
+        formData.append("image", image.file);
+    });    
+
+    await axios({
+      method: "POST",
+      url: "http://localhost:5000/api/pictures",
+      data: formData,
+      headers: {
+          "Content-Type": "multipart/form-data"
+      }
+  });
+
     history.goBack();
-  }
-  const currentView = props && props.mobile ? 'mobile' : '';
+  };
+
+  const handleChange = () => {
+    console.log("done!!");
+  };
 
   return (
     <div className={`${currentView}editProfileContainer`}>
       <div className="editProfileCard">
         <div className="EditProfileInfo">
           <div className="profileImgs">
-            <ProfileImgItem view={`${currentView}`} />
-            <ProfileImgItem view={`${currentView}`} />
-            <ProfileImgItem view={`${currentView}`} />
-            <ProfileImgEmpty view={`${currentView}`} />
-            <ProfileImgEmpty view={`${currentView}`} />
+            <RenderProfileImage index={0}/>
+            <RenderProfileImage index={1}/>
+            <RenderProfileImage index={2}/>
+            <RenderProfileImage index={3}/>
+            <RenderProfileImage index={4}/>
           </div>
-
           <div className="profileInfoConatainer">
             <div className="accountSet">
               <h2 className="setTitle">ACCOUNT SETTINGS</h2>
               <div className="setBox rowsetBox">
                 <h3 className="boxParam">Email</h3>
+                
                 <Input
                   placeholder="amal@gmail.com"
                   style={{
-                    height: '2vh',
-                    borderRadius: '10px',
-                    width: '200px',
-                    border: '0px',
-                    textAlign: 'right',
+                    height: "2vh",
+                    borderRadius: "10px",
+                    width: "200px",
+                    border: "0px",
+                    textAlign: "right",
                   }}
                 />
               </div>
@@ -51,11 +145,11 @@ export default function EditProfile(props) {
                 <Input
                   placeholder="........"
                   style={{
-                    height: '2vh',
-                    borderRadius: '10px',
-                    width: '200px',
-                    border: '0px',
-                    textAlign: 'right',
+                    height: "2vh",
+                    borderRadius: "10px",
+                    width: "200px",
+                    border: "0px",
+                    textAlign: "right",
                   }}
                 />
               </div>
@@ -64,11 +158,11 @@ export default function EditProfile(props) {
                 <Input
                   placeholder="Amal"
                   style={{
-                    height: '2vh',
-                    borderRadius: '10px',
-                    width: '200px',
-                    border: '0px',
-                    textAlign: 'right',
+                    height: "2vh",
+                    borderRadius: "10px",
+                    width: "200px",
+                    border: "0px",
+                    textAlign: "right",
                   }}
                 />
               </div>
@@ -77,11 +171,11 @@ export default function EditProfile(props) {
                 <Input
                   placeholder="bentbaha"
                   style={{
-                    height: '2vh',
-                    borderRadius: '10px',
-                    width: '200px',
-                    border: '0px',
-                    textAlign: 'right',
+                    height: "2vh",
+                    borderRadius: "10px",
+                    width: "200px",
+                    border: "0px",
+                    textAlign: "right",
                   }}
                 />
               </div>
@@ -128,11 +222,15 @@ export default function EditProfile(props) {
           </div>
         </div>
         <div className="floatBtn">
-          <Button shape="round" className={`${currentView}saveProfileBtn`} onClick={saveButtonClick}>
+          <Button
+            shape="round"
+            className={`${currentView}saveProfileBtn`}
+            onClick={saveButtonClick}
+          >
             Save
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }

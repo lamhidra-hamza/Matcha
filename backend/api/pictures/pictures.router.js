@@ -24,7 +24,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.route('/')
     .get(controllers.getMany)
-    .post(upload.array('image', 2), uploadImage, controllers.createOne)
+    .post(upload.array('image', 5), uploadImage, controllers.createOne)
 
 router.route('/:id')
     .get(controllers.getOne)

@@ -11,8 +11,10 @@ import {SER} from '../../conf/config';
 const { Option } = Select
 
 const ProfileInfo = (props) => {
-    const id = "07c51ce5-4f7b-4d7a-81f4-2a51c41f76c2";
-    const [user, setUser] = useState({});
+    const id = "fe2ca72f-edff-40d9-9ef6-f49481fd4526";
+    const [user, setUser] = useState({
+        email: "laskdjf"
+    });
     const history = useHistory();
 
     useEffect(() => {
