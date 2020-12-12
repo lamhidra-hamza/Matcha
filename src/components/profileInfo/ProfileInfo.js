@@ -1,42 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './ProfileInfo.scss';
 import LikeViewItems from '../likeAndView/LikeViewItems'
 import { Slider, Input, Select, Button } from 'antd';
 import { useHistory } from 'react-router-dom'
-import axios from 'axios';
-import {SER} from '../../conf/config';
-
-
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { UserContext } from '../../contexts/UserContext';
 
 const { Option } = Select
 
 const ProfileInfo = (props) => {
-    const id = "fe2ca72f-edff-40d9-9ef6-f49481fd4526";
-    const [user, setUser] = useState({
-        email: "laskdjf"
-    });
+    const [email, setEmailValue] = useState("");
+    const [password, setPassValue] = useState("");
+    const [firstName, setFirstname] = useState("");
+    const [lastName, setLastname] = useState("");
     const history = useHistory();
+    const { user, setUser } = useContext(UserContext);
 
-    useEffect(() => {
-        const source = axios.CancelToken.source();
-        const getData = async () => {
-            const result = await axios.get(`${SER.HOST}/api/users/${id}`)
-            setUser(result.data.user);
-        }
-
-        getData();
-
-        return () => {
-            source.cancel();
-        }
-    }, [])
-    
-    const handleChange = () => {
-        console.log('done')
+    const interestingChange = (value) => {
+        setUser({...user, interessted: value})
     }
 
     const saveButtonClick = () => {
         history.goBack();
+    }
+
+    const emailUpdate = () => {
+        setUser({...user, email: email});
+        setEmailValue("");
+    }
+
+    const passwordUpdate = () => {
+        setUser({...user, password: password});
+        setPassValue("");
+    }
+
+    const firstNameUpdate = () => {
+        setUser({...user, firstName: firstName});
+        setFirstname("");
+    }
+
+    const lastNameUpdate = () => {
+        setUser({...user, lastName: lastName});
+        setLastname("");
+    }
+
+    const handelEmailChange = ({target: {value}}) => {
+        setEmailValue(value);
+    }
+    const handelPassChange = ({target: {value}}) => {
+        setPassValue(value);
+    }
+
+    const handelFirstChange = ({target: {value}}) => {
+        setFirstname(value);
+    }
+
+    const handelLastChange = ({target: {value}}) => {
+        setLastname(value);
+    }
+
+    const AgeRangeChange = (range) => {
+        setUser({...user, minAge: range[0], maxAge: range[1]})
+    }
+
+    const handelDistanceChange = (dis) => {
+        setUser({...user, maxDistance: dis})
     }
 
     return (
@@ -65,12 +93,17 @@ const ProfileInfo = (props) => {
                             textAlign: 'right',
                             marginBottom: '9px',
                         }}
+                        disabled={false}
+                        value={email}
+                        onChange={handelEmailChange}
+                        onPressEnter={emailUpdate}
                     /> 
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Password</h3>
-                    <Input
-                        placeholder="........"
+                    <Input.Password
+                        placeholder="     input password"
+                        iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                         style={{
                             height: '2vh',
                             borderRadius: '10px',
@@ -79,7 +112,10 @@ const ProfileInfo = (props) => {
                             textAlign: 'right',
                             marginBottom: '9px',
                         }}
-                    />
+                        value={password}
+                        onChange={handelPassChange}
+                        onPressEnter={passwordUpdate}
+                        />
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >First Name</h3>
@@ -93,6 +129,9 @@ const ProfileInfo = (props) => {
                             textAlign: 'right',
                             marginBottom: '9px',
                         }}
+                        value={firstName}
+                        onChange={handelFirstChange}
+                        onPressEnter={firstNameUpdate}
                     />
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
@@ -107,6 +146,9 @@ const ProfileInfo = (props) => {
                         textAlign: 'right',
                         marginBottom: '9px',
                         }}
+                        value={lastName}
+                        onChange={handelLastChange}
+                        onPressEnter={lastNameUpdate}
                     />
                 </div>
             </div>
@@ -119,9 +161,10 @@ const ProfileInfo = (props) => {
                 <div className="setBox columnsetBox borderTopNone">
                     <div className="rowsetBox">
                         <h3 className="boxParam" >Maximun Distance</h3>
-                        <h3 className="boxValue" >11 km.</h3>
+                    <h3 className="boxValue" >{user.maxDistance} km.</h3>
                     </div>
-                    <Slider defaultValue={30} style={{marginBottom: '15px',}}/>
+                    {user.maxDistance &&
+                    <Slider max={200} defaultValue={user.maxDistance} onChange={handelDistanceChange} style={{marginBottom: '15px',}}/>}
                 </div>
                 <div className="setBox borderTopNone rowsetBox">
                     <h3 className="boxParam" >Loking for</h3>
@@ -130,7 +173,7 @@ const ProfileInfo = (props) => {
                         defaultValue={user.interessted}
                         style={{ width: 150 ,
                             marginBottom: '9px',}}
-                        onChange={handleChange}
+                        onChange={interestingChange}
                         >
                         <Option value="men">Men</Option>
                         <Option value="women">Women</Option>
@@ -140,16 +183,18 @@ const ProfileInfo = (props) => {
                 <div className="setBox borderTopNone columnsetBox">
                     <div className="rowsetBox">
                         <h3 className="boxParam" >Age Range</h3>
-                        <h3 className="boxValue" >18-39</h3>
+                        <h3 className="boxValue" >{user.minAge}-{user.maxAge}</h3>
                     </div>
+                    {user.minAge && user.maxAge &&
                     <Slider
                         range
                         step={1}
                         min={18}
                         max={39}
-                        defaultValue={[22, 28]}
+                        defaultValue={[user.minAge, user.maxAge]}
                         style={{marginBottom: '15px',}}
-                        />
+                        onChange={AgeRangeChange}
+                        />}
                 </div>
             </div>
         </div>

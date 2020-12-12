@@ -28,7 +28,8 @@ export default function Maintab() {
                     mobile: false,
                 }
 		})
-	}
+    }
+    
     return (
         <div className="tabs">
             <Tabs className="tabsstyle" defaultActiveKey={handelDefaultKey} style={{fontWeight: '800'}}>

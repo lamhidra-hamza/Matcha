@@ -20,7 +20,7 @@ function DesktopSection(props) {
         <div className="mainRow">
             <div className="leftSide">
                 <NavbarApp setShowProfile={setShowProfile} showProfile={showProfile}/>
-                {showProfile ? <ProfileInfo/> : <Maintab/>}
+                {showProfile ? <ProfileInfo /> : <Maintab/>}
             </div>
             <Switch>
                 <Route exact path={`${match.url}/profile`} component={Infocard} />

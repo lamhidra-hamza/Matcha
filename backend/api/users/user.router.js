@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const verify = require("../../utils/auth");
-var {controllers, signIn, signUp, signOut, getToken, checkSession} = require('./user.controller');
+var { controllers, signIn, signUp, signOut, getToken, checkSession } = require('./user.controller');
 
 router.route('/gettoken').post(getToken);
 router.route('/signin').post(signIn);
