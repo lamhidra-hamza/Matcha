@@ -59,18 +59,16 @@ export default function Mainapp({width}) {
 		}
 	}, [])
 
-	
-
 	return (
 		<UserContext.Provider value={{user: user, setUser: setUser}}>
-		<div className="containerMainapp">
-			{loading ?
-			<div className="loading">
-				<Spin size="large" />
-				</div>
-				: width > 760 ? <DesktopSection width={width}/> : <MobileSection/>
-				}
-		</div>
+			<div className="containerMainapp">
+				{loading ?
+				<div className="loading">
+					<Spin size="large" />
+					</div>
+					: width > 760 ? <DesktopSection width={width}/> : <MobileSection/>
+					}
+			</div>
 		</UserContext.Provider>
 	)
 }
