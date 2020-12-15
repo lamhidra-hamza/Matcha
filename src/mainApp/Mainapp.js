@@ -13,7 +13,7 @@ import { UserContext } from '../contexts/UserContext';
 
 export default function Mainapp({width}) {
 
-	//const id = localStorage.getItem("userId");
+	const id = localStorage.getItem("userId");
 	const [user, setUser] = useState({});
 	const [update, setUpdate] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -22,7 +22,6 @@ export default function Mainapp({width}) {
 
 	useEffect(async () => {
 		const token = localStorage.getItem('accessToken');
-		const id = localStorage.getItem('userId');
 		if (!token || !id)
 		{
 			console.log("Redirect");
@@ -38,11 +37,14 @@ export default function Mainapp({width}) {
 				}
 			  });
 				return result.data;
-				console.log(result.data);
 		});
+		console.log(userResult);
+		setUser(userResult);
 		console.log("returned data");
 		console.log(userResult);
 	}, [])
+
+	
 
 	return (
 		<UserContext.Provider value={{user: user, setUser: setUser}}>
