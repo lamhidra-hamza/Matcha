@@ -1,4 +1,4 @@
-const userID = "fe2ca72f-edff-40d9-9ef6-f49481fd4526";
+const userID = "4bff877d-0c8a-447a-accd-732aaa1f1710";
 
 const getMany = (module) => async(req, res) => {
     try {
@@ -14,7 +14,7 @@ const getMany = (module) => async(req, res) => {
     }
 };
 
-const getOne = (module) => async(req, res) => {
+const getOne =(module) => async(req, res) => {
     try {
         const data = await module.findOne(userID, req.params.id);
         if (!data) {

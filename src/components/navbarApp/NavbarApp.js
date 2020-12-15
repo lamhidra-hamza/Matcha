@@ -3,6 +3,8 @@ import { UserOutlined, LeftOutlined, LogoutOutlined, NotificationOutlined} from 
 import {Avatar, Typography, Tooltip, Badge, Popover} from 'antd'
 import './NavbarApp.scss'
 import { useHistory, useRouteMatch, Link} from 'react-router-dom'
+import axios from 'axios';
+import {logOut} from '../../tools/globalFunctions';
 
 
 const { Title } = Typography;
@@ -11,6 +13,12 @@ export default function NavbarApp({setShowProfile, showProfile}) {
 
     const history = useHistory();
     const match = useRouteMatch();
+
+    const logout = async () => {
+        await logOut();
+        console.log("Redirect");
+        history.push("/");
+    }
 
     const handelProfileClick = () => {
         history.push({
@@ -70,7 +78,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                     </Badge>
                 </Popover>
                 <Tooltip title="Logout">
-                    <LogoutOutlined className="logoutIcon" style={{ fontSize: '1.7rem' }}/>
+                    <LogoutOutlined className="logoutIcon" style={{ fontSize: '1.7rem' }}  onClick = {logout}/>
                 </Tooltip>
             </div>
         </div>

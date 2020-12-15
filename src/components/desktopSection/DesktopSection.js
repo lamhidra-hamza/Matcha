@@ -8,7 +8,7 @@ import UserInfo from '../userInfo/UserInfo'
 import EditProfile from '../editProfile/EditProfile'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import './DesktopSection.css'
-import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
 
 function DesktopSection(props) {
     const { state } = useLocation();

@@ -1,4 +1,3 @@
-const controllers = require("../../utils/crud");
 const model = require("./user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -39,7 +38,7 @@ async function signIn(req, res) {
       model.updateRefreshToken(result[0].id, refresh_token);
       res
         .cookie("authcookie", refresh_token, { httpOnly: true })
-        .send({ status: 1, message: "logged", accessToken: access_token });
+        .send({ id :  result[0].id, status: 1, message: "logged", accessToken: access_token });
     } else
       res.status(403).send({ status: 0, message: "the password if incorrect" });
   }
@@ -117,10 +116,9 @@ async function checkSession(req, res) {
   try {
     const verified = await jwt.verify(token, "matcha-secret-code");
     req.user = verified;
-    res.status(200).json({
-      success: 1,
+    res.status(200).send({
       user: verified.id,
-      status: "logged",
+      status: 1,
       redirectUrl: "/app",
     });
   } catch (err) {
@@ -128,9 +126,103 @@ async function checkSession(req, res) {
   }
 }
 
+async function getOne (req, res) {
+  console.log(`the token of the user is ${req.query.token}`);
+  try {
+      const data = await model.findOne( req.params.id, req.params.id);
+      if (!data) {
+          res.status(400).send({
+            status : 0
+          });
+      }
+      delete data[0].password;
+      delete data[0].refreshToken;
+      data[0].status = 1;
+      res.status(200).json(data[0]);
+  } catch (err) {
+      console.log(err);
+      res.status(400).end({
+          msg: `Error in getOne`,
+      });
+  }
+}
+
+async function getMany(req, res){
+  const body = req.body;
+  try {
+      const data = await model.findall(body.userID);
+      res.status(200).json({
+          data: data,
+      });
+  } catch (err) {
+      console.log(err);
+      res.status(400).end({
+          msg: `Error userID = ${body.userID} Does not exists`,
+      });
+  }
+};
+
+async function createOne(req, res){
+  try {
+      await model.create(userID, req.body);
+      res.status(201).send({
+          msg: "create Done!!",
+      });
+  } catch (err) {
+      console.log(err);
+      res.status(400).end({
+          msg: `Error in createOne`,
+      });
+  }
+}
+
+async function updateOne (req, res){
+  const body = req.body;
+  try {
+      const data = await model.findOne( req.params.id, req.params.id);
+      for (const [key, value] of Object.entries(body)) {
+        console.log(`${key}: ${value}`);
+        data[0][key] = value;
+      }
+     const updateResult = await model.findOneAndUpdate(body.id, body.id, data[0]);
+      console.log(updateResult);
+      console.log("the new data is ==>");
+      console.log(data[0]);
+      res.status(200)
+      .cookie("authcookie", "", { httpOnly: true })
+      .send({
+          msg: "Update Done!!",
+      });
+  } catch (err) {
+      console.log(err);
+      res.status(400).end({
+          msg: `Error in updateOne`,
+      });
+  }
+}
+
+async function removeOne(req, res){
+  try {
+      await model.findOneAndRemove(req.body.userID, req.params.id);
+      res.status(201).send({
+          msg: "Remove Done!!",
+      });
+  } catch (err) {
+      console.log(err);
+      res.status(400).end({
+          msg: `Error in removeOne`,
+      });
+  }
+}
+
+
 module.exports = {
+  getOne: getOne,
+  getMany: getMany,
+  createOne: createOne,
+  updateOne: updateOne,
+  removeOne: removeOne,
   signIn: signIn,
-  controllers: controllers(model),
   signUp: signUp,
   signOut: signOut,
   getToken: getToken,

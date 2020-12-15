@@ -14,7 +14,9 @@ import { useLocation, useHistory, useRouteMatch, Switch, Route} from 'react-rout
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import EditProfile from '../editProfile/EditProfile'
 import ProfileInfo from '../profileInfo/ProfileInfo'
-import ChatBox from '../chatBox/ChatBox'
+import ChatBox from '../chatBox/ChatBox';
+import {logOut} from '../../tools/globalFunctions';
+
 
 const { TabPane } = Tabs
 
@@ -40,6 +42,12 @@ function MobileSection() {
 				},	
 		})
 	}
+
+	const logout = async () => {
+        await logOut();
+        console.log("Redirect");
+        history.push("/");
+    }
 	
 	return (
 		<div className="mobileSection">
@@ -70,7 +78,7 @@ function MobileSection() {
 			</Tabs>
 			<Divider style={{margin: '0', width: '70%'}}/>
 			<div className="downNav">
-			<Button style={{top: '-15px'}} type="primary" size="large" shape="circle" icon={<LogoutOutlined />} />
+			<Button style={{top: '-15px'}} type="primary" size="large" shape="circle" icon={<LogoutOutlined />} onClick = {logout}/>
 			</div>
 		</div>
 	)

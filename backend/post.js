@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const verify = require("./utils/auth");
 
-router.post("/", verify, (req, res) => {
+router.get("/", verify, (req, res) => {
   console.log(`post function route : the status is ${req.status}`);
   if (req.status === -1 || req.status === 0) {
     res

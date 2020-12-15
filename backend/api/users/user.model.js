@@ -65,8 +65,8 @@ class User {
 
     async findOneAndUpdate(userId, id, data) {
         const sql = `UPDATE users SET
-             username = '${data.username}', 
-             email = '${data.email}',
+            username = '${data.username}', 
+            email = '${data.email}',
             password = '${data.password}',
             biography= '${data.biography}',
             gender= '${data.gender}',
@@ -75,7 +75,8 @@ class User {
             lastName='${data.lastName}',
             minAge='${data.minAge}',
             maxAge='${data.maxAge}',
-            maxDistance='${data.maxDistance}'
+            maxDistance='${data.maxDistance}',
+            refreshToken = '${data.refreshToken}'
             where id = '${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
@@ -86,6 +87,8 @@ class User {
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
+
+
 }
 
 module.exports = new User();

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
 import { Modal, Form, Input, Button } from "antd";
 import axios from "axios";
@@ -28,6 +29,8 @@ const tailFormItemLayout = {
 
 const LoginForm = (props) => {
   const [loading, setloading] = useState(false);
+  const history = useHistory();
+
 
   const getStyle = () => {
     return {
@@ -54,9 +57,13 @@ const LoginForm = (props) => {
         withCredentials: true,
       }
     );
+    await localStorage.setItem("accessToken", result.data.accessToken);
+    await localStorage.setItem("userId", result.data.id);
     setloading(false);
-    const resultJson = await result.data;
-    sessionStorage.setItem("accessToken", resultJson.accessToken);
+    if (result && result.data.status === 1) {
+      console.log("Redirect");
+      history.push("/app");
+    }
   };
 
   return (
