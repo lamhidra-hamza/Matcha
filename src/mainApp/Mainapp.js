@@ -20,6 +20,24 @@ export default function Mainapp({width}) {
 	const [error, setError] = useState({});
 	const history = useHistory();
 
+	useEffect(() => {
+        const source = axios.CancelToken.source();
+        const postData = async() => {
+            try {
+                const result = await axios.put(`${SER.HOST}/api/users/${id}`, user)
+                console.log("Result== ", result);
+            } catch (err) {
+                console.log("ERRROOR", err);
+            }
+        }
+        if (update)
+            postData();
+
+        return () => {
+            source.cancel();
+        }
+    }, [user])
+
 	useEffect(async () => {
 		const token = localStorage.getItem('accessToken');
 		if (!token || !id)
@@ -38,6 +56,7 @@ export default function Mainapp({width}) {
 			  });
 				return result.data;
 		});
+		setUpdate(true);
 		console.log(userResult);
 		setUser(userResult);
 		console.log("returned data");
