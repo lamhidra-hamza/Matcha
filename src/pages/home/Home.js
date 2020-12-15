@@ -17,16 +17,20 @@ import getData from "../../tools/globalFunctions";
 
 export class Home extends Component {
   async componentDidMount() {
-    let result = await axios.get(
-      "http://localhost:5000/api/users/checksession",
-      {
-        withCredentials: true,
+    const token = localStorage.getItem("userId");
+    const id = localStorage.getItem("accessToken");
+    if (token && id) {
+      let result = await axios.get(
+        "http://localhost:5000/api/users/checksession",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(result);
+      if (result && result.data.status === 1) {
+        console.log("Redirect");
+        this.props.history.push("/app");
       }
-    );
-    console.log(result);
-    if (result && result.data.status === 1) {
-      console.log("Redirect");
-      this.props.history.push("/app");
     }
   }
 

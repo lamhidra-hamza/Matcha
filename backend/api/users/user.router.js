@@ -12,18 +12,18 @@ var {
   removeOne,
   getMany,
   createOne,
+  updateEmailConfirm
 } = require("./user.controller");
 
 router.route("/gettoken").post(getToken);
 router.route("/signin").post(signIn);
 router.route("/signup").post(signUp);
 router.route("/signout").post(signOut);
-router.route("/signout").post(signOut);
 router.route("/checksession").get(checkSession);
 
 router.route("/:id")
     .get(getOne)
-    .put(updateOne)
+    .put(updateEmailConfirm, updateOne)
     .delete(removeOne);
 
 router.route("/")

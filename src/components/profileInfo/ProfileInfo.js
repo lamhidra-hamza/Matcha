@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './ProfileInfo.scss';
 import LikeViewItems from '../likeAndView/LikeViewItems'
-import { Slider, Input, Select, Button } from 'antd';
+import { Slider, Input, Select, Button, message } from 'antd';
 import { useHistory } from 'react-router-dom'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { UserContext } from '../../contexts/UserContext';
@@ -25,7 +25,8 @@ const ProfileInfo = (props) => {
     }
 
     const emailUpdate = () => {
-        setUser({...user, email: email});
+        setUser({...user, email: email, verified: 0});
+        message.warning(`Your email has updated, please go to your ${email} address to confirm it !!`);
         setEmailValue("");
     }
 
@@ -36,17 +37,20 @@ const ProfileInfo = (props) => {
 
     const firstNameUpdate = () => {
         setUser({...user, firstName: firstName});
+        message.success(`Your first name has updated to ${firstName}`);
         setFirstname("");
     }
 
     const lastNameUpdate = () => {
         setUser({...user, lastName: lastName});
+        message.success(`Your last name has updated to ${lastName}`);
         setLastname("");
     }
 
     const handelEmailChange = ({target: {value}}) => {
         setEmailValue(value);
     }
+
     const handelPassChange = ({target: {value}}) => {
         setPassValue(value);
     }

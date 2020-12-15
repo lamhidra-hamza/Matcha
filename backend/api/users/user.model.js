@@ -76,7 +76,8 @@ class User {
             minAge='${data.minAge}',
             maxAge='${data.maxAge}',
             maxDistance='${data.maxDistance}',
-            refreshToken = '${data.refreshToken}'
+            refreshToken = '${data.refreshToken}',
+            verified='${data.verified}'
             where id = '${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
