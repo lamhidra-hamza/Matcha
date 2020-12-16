@@ -1,22 +1,20 @@
-const userID = "4bff877d-0c8a-447a-accd-732aaa1f1710";
-
 const getMany = (module) => async(req, res) => {
     try {
-        const data = await module.findall(userID);
+        const data = await module.findall(req.user.id);
         res.status(200).json({
             data: data,
         });
     } catch (err) {
         console.log(err);
         res.status(400).end({
-            msg: `Error userID = ${userID} Does not exists`,
+            msg: `Error UserID = ${req.user.id} Does not exists`,
         });
     }
 };
 
-const getOne =(module) => async(req, res) => {
+const getOne = (module) => async(req, res) => {
     try {
-        const data = await module.findOne(userID, req.params.id);
+        const data = await module.findOne(req.user.id, req.params.id);
         if (!data) {
             res.status(400).end();
         }
@@ -33,10 +31,14 @@ const getOne =(module) => async(req, res) => {
 
 const createOne = (module) => async(req, res) => {
     try {
-        await module.create(userID, req.body);
-        res.status(201).send({
-            msg: "create Done!!",
-        });
+        if (req.status === 0 || req.status === -1)
+            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+        else {
+            await module.create(req.user.id, req.body);
+            res.status(201).send({
+                msg: "create Done!!",
+            });
+        }
     } catch (err) {
         console.log(err);
         res.status(400).end({
@@ -47,7 +49,7 @@ const createOne = (module) => async(req, res) => {
 
 const updateOne = (module) => async(req, res) => {
     try {
-        await module.findOneAndUpdate(userID, req.params.id, req.body);
+        await module.findOneAndUpdate(req.user.id, req.params.id, req.body);
         res.status(201).send({
             msg: "Update Done!!",
         });
@@ -61,7 +63,7 @@ const updateOne = (module) => async(req, res) => {
 
 const removeOne = (module) => async(req, res) => {
     try {
-        await module.findOneAndRemove(userID, req.params.id);
+        await module.findOneAndRemove(req.user.id, req.params.id);
         res.status(201).send({
             msg: "Remove Done!!",
         });

@@ -54,7 +54,7 @@ export default function Mainapp({width}) {
 				  token: token
 				}
 			  });
-				return result.data;
+			return result.data;
 		});
 		setUpdate(true);
 		console.log(userResult);

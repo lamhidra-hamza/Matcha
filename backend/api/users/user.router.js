@@ -2,32 +2,32 @@ var express = require("express");
 var router = express.Router();
 const verify = require("../../utils/auth");
 var {
-  signIn,
-  signUp,
-  signOut,
-  getToken,
-  checkSession,
-  getOne,
-  updateOne,
-  removeOne,
-  getMany,
-  createOne,
-  updateEmailConfirm
+    signIn,
+    signUp,
+    signOut,
+    getToken,
+    checkSession,
+    getOne,
+    updateOne,
+    removeOne,
+    getMany,
+    createOne,
+    updateEmailConfirm
 } = require("./user.controller");
 
-router.route("/gettoken").post(getToken);
+router.route("/gettoken").post(verify, getToken);
 router.route("/signin").post(signIn);
 router.route("/signup").post(signUp);
 router.route("/signout").post(signOut);
 router.route("/checksession").get(checkSession);
 
 router.route("/:id")
-    .get(getOne)
-    .put(updateEmailConfirm, updateOne)
-    .delete(removeOne);
+    .get(verify, getOne)
+    .put(verify, updateEmailConfirm, updateOne)
+    .delete(verify, removeOne);
 
 router.route("/")
-    .get(getMany)
-    .post(createOne);
+    .get(verify, getMany)
+    .post(verify, createOne);
 
 module.exports = router;

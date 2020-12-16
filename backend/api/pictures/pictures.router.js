@@ -3,6 +3,7 @@ var router = express.Router();
 var { controllers, uploadImage } = require('./pictures.controller')
 var multer = require('multer');
 const path = require('path');
+const verify = require('../../utils/auth');
 
 
 const storage = multer.diskStorage({
@@ -21,6 +22,8 @@ const fileFilter = (req, file, cb) => {
     }
 }
 const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+router.use(verify);
 
 router.route('/')
     .get(controllers.getMany)

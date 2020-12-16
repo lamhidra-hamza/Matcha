@@ -89,7 +89,7 @@ export default function EditProfile(props) {
   const { Option } = Select;
 
   const saveButtonClick = async() => {
-
+	const token = localStorage.getItem('accessToken');
     const formData = new FormData();
     images.map(image => {
       if (image.file)
@@ -101,8 +101,10 @@ export default function EditProfile(props) {
       url: "http://localhost:5000/api/pictures",
       data: formData,
       headers: {
-          "Content-Type": "multipart/form-data"
-      }
+		  "Content-Type": "multipart/form-data",
+		  token: token,
+	  },
+	  
   });
 
     history.goBack();

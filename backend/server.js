@@ -2,7 +2,7 @@ var express = require('express');
 const createDb = require('./createDB/createdb.controller');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-var cors = require('cors')
+var cors = require('cors');
 
 
 
