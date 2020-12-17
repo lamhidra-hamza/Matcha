@@ -25,7 +25,7 @@ export default function Mainapp({width}) {
         const source = axios.CancelToken.source();
         const postData = async() => {
             try {
-                const result = await axios.put(`${SER.HOST}/api/users/${id}`, user)
+                const result = await axios.put(`${SER.HOST}/api/users/${id}`, user);
                 console.log("Result== ", result);
             } catch (err) {
                 console.log("ERRROOR", err);
@@ -41,19 +41,24 @@ export default function Mainapp({width}) {
 
 
 
-	useEffect(async () => {
-		const token = localStorage.getItem('accessToken');
-		if (!token || !id)
-		{
-			console.log("Redirect");
-			history.push("/");
-			localStorage.clear();
-			return;
+	useEffect(() => {
+		async function fetchData() {
+			setLoading(true);
+			const token = localStorage.getItem('accessToken');
+			if (!token || !id)
+			{
+				console.log("Redirect");
+				history.push("/");
+				localStorage.clear();
+				return;
+			}
+			const userResult = await getData(`api/users/${id}`, {}, false);
+			setUser(userResult.data);
+			setLoading(false);
+			setUpdate(true);
 		}
-		const userResult = await getData(`api/users/${id}`, {}, false);
-		setLoading(false);
-		setUser(userResult.data);
-		setUpdate(true);
+
+		fetchData();
 	}, [])
 	
 
