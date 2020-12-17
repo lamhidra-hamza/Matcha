@@ -4,8 +4,8 @@ import './Mainapp.scss'
 import MobileSection from '../components/mobileSection/MobileSection'
 import DesktopSection from '../components/desktopSection/DesktopSection'
 import axios from 'axios';
-import { Spin } from 'antd';
-import {getData} from "../tools/globalFunctions";
+import { Spin, message } from 'antd';
+import { getData } from "../tools/globalFunctions";
 
 import { SER } from '../conf/config';
 
@@ -16,7 +16,8 @@ export default function Mainapp({width}) {
 	const id = localStorage.getItem("userId");
 	const [user, setUser] = useState({});
 	const [update, setUpdate] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [warning, setWarning ] =  useState(true);
 	const [error, setError] = useState({});
 	const history = useHistory();
 
@@ -56,23 +57,24 @@ export default function Mainapp({width}) {
 			  });
 			return result.data;
 		});
+		setLoading(false);
 		setUpdate(true);
-		console.log(userResult);
 		setUser(userResult);
-		console.log("returned data");
-		console.log(userResult);
 	}, [])
-
-	
 
 	return (
 		<UserContext.Provider value={{user: user, setUser: setUser}}>
 			<div className="containerMainapp">
 				{loading ?
-				<div className="loading">
-					<Spin size="large" />
+					<div className="loading">
+						<Spin size="large" />
 					</div>
-					: width > 760 ? <DesktopSection width={width}/> : <MobileSection/>
+						:<>
+							{!user.verified && warning &&
+								message.warning(`Your email is not verified, Please check your email to verify it !!`) 
+								&& setWarning(false)}
+							{width > 760 ? <DesktopSection width={width}/> : <MobileSection/>}
+						</>
 					}
 			</div>
 		</UserContext.Provider>
