@@ -36,7 +36,9 @@ export default function Mainapp({width}) {
         return () => {
             source.cancel();
         }
-    }, [user])
+	}, [user]);
+
+
 
 	useEffect(async () => {
 		const token = localStorage.getItem('accessToken');
@@ -44,25 +46,16 @@ export default function Mainapp({width}) {
 		{
 			console.log("Redirect");
 			history.push("/");
-			localStorage.setItem('accessToken', "");
-			localStorage.setItem('userId', "");
+			localStorage.clear();
 			return;
 		}
-		const userResult = await getData(async(token) => {
-			const result = await axios.get(`http://localhost:5000/api/users/${id}`,  {
-				params: {
-				  token: token
-				}
-			  });
-			return result.data;
-		});
+		const userResult = await getData(`api/users/${id}`, {}, false);
+		setUser(userResult.data);
 		setUpdate(true);
-		console.log(userResult);
-		setUser(userResult);
+		console.log(userResult.data);
 		console.log("returned data");
-		console.log(userResult);
+		console.log(user);
 	}, [])
-
 	
 
 	return (

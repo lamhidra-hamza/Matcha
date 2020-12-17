@@ -34,7 +34,7 @@ const createOne = (module) => async(req, res) => {
         if (req.status === 0 || req.status === -1)
             res.status(200).send({ status: req.status, message: "token is invalid or expired" });
         else {
-            await module.create(req.user.id, req.body);
+            await module.create(req.id, req.body);
             res.status(201).send({
                 msg: "create Done!!",
             });
@@ -49,7 +49,7 @@ const createOne = (module) => async(req, res) => {
 
 const updateOne = (module) => async(req, res) => {
     try {
-        await module.findOneAndUpdate(req.user.id, req.params.id, req.body);
+        await module.findOneAndUpdate(req.id, req.id, req.body);
         res.status(201).send({
             msg: "Update Done!!",
         });

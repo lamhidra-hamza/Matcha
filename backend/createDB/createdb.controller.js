@@ -51,7 +51,7 @@ const chatTable = {
     failMessage: "the CHAT Table hasn't been created",
 };
 
-const messagesTable = {
+const messagesTable =  {
     sql: `CREATE TABLE IF NOT EXISTS messages(id INT AUTO_INCREMENT PRIMARY KEY, chat_id INT, content TEXT,
         sender_id VARCHAR(255), date DATETIME, seen BOOLEAN, FOREIGN KEY (chat_id) REFERENCES chat(id))`,
     successMessage: "the MESSAGE Table has been created",
@@ -60,7 +60,7 @@ const messagesTable = {
 
 const locationTable = {
     sql: `CREATE TABLE IF NOT EXISTS location(id INT AUTO_INCREMENT PRIMARY KEY, longitude FLOAT, 
-        latitude FLOAT, user_id VARCHAR(255), FOREIGN KEY (user_id) REFERENCES users(id))        `,
+        latitude FLOAT, user_id VARCHAR(255), location_name VARCHAR(255), FOREIGN KEY (user_id) REFERENCES users(id))        `,
     successMessage: "the LOCATION Table has been created",
     failMessage: "the LOCATION Table hasn't been created",
 };

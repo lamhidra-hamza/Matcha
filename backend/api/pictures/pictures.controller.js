@@ -2,6 +2,7 @@ const controllers = require('../../utils/crud');
 const model = require('./pictures.model');
 
 const uploadImage = (req, res, next) => {
+    console.log(req.id)
     try {
         req.body = req.files;
         next();

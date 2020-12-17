@@ -15,7 +15,7 @@ var {
     updateEmailConfirm
 } = require("./user.controller");
 
-router.route("/gettoken").post(verify, getToken);
+router.route("/gettoken").post(getToken);
 router.route("/signin").post(signIn);
 router.route("/signup").post(signUp);
 router.route("/signout").post(signOut);

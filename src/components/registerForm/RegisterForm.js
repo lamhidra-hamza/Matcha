@@ -61,7 +61,7 @@ const RegisterForm = (props) => {
           visible={props.visible}
           onOk={"this.handleOk"}
           onCancel={props.handleCancel}
-          bodyStyle={getStyle()}
+          bodyStyle={getStyle()} 
           width={props.mobile ? '100vw' : '50vw'}
           centered={true}
           footer = {[
