@@ -4,8 +4,8 @@ import './Mainapp.scss'
 import MobileSection from '../components/mobileSection/MobileSection'
 import DesktopSection from '../components/desktopSection/DesktopSection'
 import axios from 'axios';
-import { Spin } from 'antd';
-import {getData} from "../tools/globalFunctions";
+import { Spin, message } from 'antd';
+import { getData } from "../tools/globalFunctions";
 
 import { SER } from '../conf/config';
 
@@ -16,7 +16,8 @@ export default function Mainapp({width}) {
 	const id = localStorage.getItem("userId");
 	const [user, setUser] = useState({});
 	const [update, setUpdate] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [warning, setWarning ] =  useState(true);
 	const [error, setError] = useState({});
 	const history = useHistory();
 
@@ -24,7 +25,7 @@ export default function Mainapp({width}) {
         const source = axios.CancelToken.source();
         const postData = async() => {
             try {
-                const result = await axios.put(`${SER.HOST}/api/users/${id}`, user)
+                const result = await axios.put(`${SER.HOST}/api/users/${id}`, user);
                 console.log("Result== ", result);
             } catch (err) {
                 console.log("ERRROOR", err);
@@ -40,21 +41,24 @@ export default function Mainapp({width}) {
 
 
 
-	useEffect(async () => {
-		const token = localStorage.getItem('accessToken');
-		if (!token || !id)
-		{
-			console.log("Redirect");
-			history.push("/");
-			localStorage.clear();
-			return;
+	useEffect(() => {
+		async function fetchData() {
+			setLoading(true);
+			const token = localStorage.getItem('accessToken');
+			if (!token || !id)
+			{
+				console.log("Redirect");
+				history.push("/");
+				localStorage.clear();
+				return;
+			}
+			const userResult = await getData(`api/users/${id}`, {}, false);
+			setUser(userResult.data);
+			setLoading(false);
+			setUpdate(true);
 		}
-		const userResult = await getData(`api/users/${id}`, {}, false);
-		setUser(userResult.data);
-		setUpdate(true);
-		console.log(userResult.data);
-		console.log("returned data");
-		console.log(user);
+
+		fetchData();
 	}, [])
 	
 
@@ -62,10 +66,15 @@ export default function Mainapp({width}) {
 		<UserContext.Provider value={{user: user, setUser: setUser}}>
 			<div className="containerMainapp">
 				{loading ?
-				<div className="loading">
-					<Spin size="large" />
+					<div className="loading">
+						<Spin size="large" />
 					</div>
-					: width > 760 ? <DesktopSection width={width}/> : <MobileSection/>
+						:<>
+							{!user.verified && warning &&
+								message.warning(`Your email is not verified, Please check your email to verify it !!`) 
+								&& setWarning(false)}
+							{width > 760 ? <DesktopSection width={width}/> : <MobileSection/>}
+						</>
 					}
 			</div>
 		</UserContext.Provider>
