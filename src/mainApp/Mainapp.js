@@ -15,6 +15,7 @@ export default function Mainapp({width}) {
 
 	const id = localStorage.getItem("userId");
 	const [user, setUser] = useState({});
+	const [userImages, setUserImages] = useState({});
 	const [update, setUpdate] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [warning, setWarning ] =  useState(true);
@@ -39,12 +40,8 @@ export default function Mainapp({width}) {
         }
 	}, [user]);
 
-
-
 	useEffect(() => {
-		async function fetchData() {
-			setLoading(true);
-			const token = localStorage.getItem('accessToken');
+		const token = localStorage.getItem('accessToken');
 			if (!token || !id)
 			{
 				console.log("Redirect");
@@ -52,18 +49,23 @@ export default function Mainapp({width}) {
 				localStorage.clear();
 				return;
 			}
+		async function fetchData() {
+			setLoading(true);
 			const userResult = await getData(`api/users/${id}`, {}, false);
+			const pictureResult = await getData(`api/pictures/${id}`, {}, false);
+			console.log("picture== {", pictureResult.data)
 			setUser(userResult.data);
+			setUserImages(pictureResult.data.user);
 			setLoading(false);
 			setUpdate(true);
 		}
-
 		fetchData();
+
 	}, [])
 	
 
 	return (
-		<UserContext.Provider value={{user: user, setUser: setUser}}>
+		<UserContext.Provider value={{user: user, setUser: setUser, userImages: userImages, setUserImages}}>
 			<div className="containerMainapp">
 				{loading ?
 					<div className="loading">

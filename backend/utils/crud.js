@@ -1,6 +1,6 @@
 const getMany = (module) => async(req, res) => {
     try {
-        const data = await module.findall(req.user.id);
+        const data = await module.findall(req.id);
         res.status(200).json({
             data: data,
         });
@@ -14,7 +14,7 @@ const getMany = (module) => async(req, res) => {
 
 const getOne = (module) => async(req, res) => {
     try {
-        const data = await module.findOne(req.user.id, req.params.id);
+        const data = await module.findOne(req.id, req.params.id);
         if (!data) {
             res.status(400).end();
         }
@@ -64,7 +64,7 @@ const updateOne = (module) => async(req, res) => {
 
 const removeOne = (module) => async(req, res) => {
     try {
-        await module.findOneAndRemove(req.user.id, req.params.id);
+        await module.findOneAndRemove(req.id, req.params.id);
         res.status(201).send({
             msg: "Remove Done!!",
         });

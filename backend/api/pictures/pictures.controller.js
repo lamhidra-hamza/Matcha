@@ -1,5 +1,5 @@
-const controllers = require("../../utils/crud");
-const model = require("./pictures.model");
+const controllers = require('../../utils/crud');
+const model = require('./pictures.model');
 
 const uploadImage = (req, res, next) => {
   try {
@@ -12,21 +12,21 @@ const uploadImage = (req, res, next) => {
 
 async function getMany(req, res) {
   try {
-    const data = await model.findall(req.user.id);
+    const data = await model.findall(req.id);
     res.status(200).json({
       data: data,
     });
   } catch (err) {
     console.log(err);
     res.status(400).end({
-      msg: `Error UserID = ${req.user.id} Does not exists`,
+      msg: `Error UserID = ${req.id} Does not exists`,
     });
   }
 }
 
 async function getOne(req, res) {
   try {
-    const data = await model.findOne(req.user.id, req.params.id);
+    const data = await model.findOne(req.id, req.params.id);
     if (!data) {
       res.status(400).end();
     }
@@ -80,7 +80,7 @@ async function updateOne(req, res) {
 
 async function removeOne(req, res) {
   try {
-    await model.findOneAndRemove(req.user.id, req.params.id);
+    await model.findOneAndRemove(req.id, req.params.id);
     res.status(201).send({
       msg: "Remove Done!!",
     });
@@ -94,10 +94,10 @@ async function removeOne(req, res) {
 
 const controller = controllers(model);
 module.exports = {
-  uploadImage: uploadImage,
-  getMany: getMany,
-  getOne: getOne,
-  createOne: createOne,
-  updateOne: updateOne,
-  removeOne: removeOne,
+    getMany: getMany,
+    getOne: getOne,
+    createOne: createOne,
+    updateOne: updateOne,
+    removeOne: removeOne,
+    uploadImage: uploadImage
 };

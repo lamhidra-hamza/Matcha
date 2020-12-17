@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { UserOutlined, LeftOutlined, LogoutOutlined, NotificationOutlined} from '@ant-design/icons';
 import {Avatar, Typography, Tooltip, Badge, Popover} from 'antd'
 import './NavbarApp.scss'
 import { useHistory, useRouteMatch, Link} from 'react-router-dom'
-import axios from 'axios';
-import {logOut} from '../../tools/globalFunctions';
-
+import { logOut } from '../../tools/globalFunctions';
+import { UserContext } from '../../contexts/UserContext';
+import { SER } from '../../conf/config'
 
 const { Title } = Typography;
 
@@ -13,6 +13,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
 
     const history = useHistory();
     const match = useRouteMatch();
+    const context = useContext(UserContext);
 
     const logout = async () => {
         await logOut();
@@ -63,7 +64,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                 <Avatar
                     onClick={handelProfileClick}
                     style={{border: '2px #ffffff solid',marginTop: '6px', marginLeft: "50px"}}
-                    src='https://purewows3.imgix.net/images/articles/2020_05/summer_hats_for_women_ale_by_alessandra_straw_hat_with_denim.png?auto=format,compress&cs=strip' size={40} icon={<UserOutlined />} />
+                    src={`${SER.HOST}/${context.userImages.picture_1}`} size={40} icon={<UserOutlined />} />
                 <Title
                     onClick={handelProfileClick}
                     style={titleStyle} 

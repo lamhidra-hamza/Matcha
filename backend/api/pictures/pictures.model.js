@@ -22,7 +22,8 @@ class Pictures {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM pictures WHERE user_id='${userId}' AND id='${id}'`;
+        console.log("userId == ", userId)
+        const sql = `SELECT * FROM pictures WHERE user_id='${userId}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
