@@ -31,21 +31,25 @@ async function auth(req, res, next) {
     let accessToken = req.body.token;
     accessToken = req.headers['token'];
     req.status = 1;
-    if (!accessToken) {
-        req.status = -1;
-    }
-    try {
-        const result = await jwt.verify(accessToken, "matcha-secret-code");
-        req.id = result.id;
-        console.log("loooze");
-    } catch (err) {
-        let errorMessage = -1;
-        if (err.expiredAt)
-            errorMessage = 0;
-        req.status = errorMessage;
-        console.log("errro");
-    }
+    req.id = req.headers['id'];
+    console.log(req.id);
+    // if (!accessToken) {
+    //     req.status = -1;
+    // }
+    // try {
+    //     const result = await jwt.verify(accessToken, "matcha-secret-code");
+    //     req.id = result.id;
+    //     console.log("loooze");
+    // } catch (err) {
+    //     let errorMessage = -1;
+    //     if (err.expiredAt)
+    //         errorMessage = 0;
+    //     req.status = errorMessage;
+    //     console.log("errro");
+    //     console.log(err)
+    // }
     next();
+
 }
 
 module.exports = auth;

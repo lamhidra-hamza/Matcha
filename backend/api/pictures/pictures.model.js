@@ -3,7 +3,7 @@ var uuid = require('uuid');
 
 class Pictures {
 
-    async create(userId, data) { 
+    async create(userId, data) {
         console.log("the data is ==>");
         console.log(data);
         let info = {
@@ -23,7 +23,8 @@ class Pictures {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM pictures WHERE user_id='${userId}' AND id='${id}'`;
+        console.log("userId == ", userId)
+        const sql = `SELECT * FROM pictures WHERE user_id='${userId}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
