@@ -13,25 +13,18 @@ import PasswordForgot from "../../components/passwordRecoverForm/PasswordForgot"
 import VerifyEmailMsg from "../../components/verifyEmailMsg/verifyEmailMsg";
 import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery";
 import axios from "axios";
-import getData from "../../tools/globalFunctions";
+import { getData } from "../../tools/globalFunctions";
 
 export class Home extends Component {
   async componentDidMount() {
-    const token = localStorage.getItem("userId");
-    const id = localStorage.getItem("accessToken");
-    if (token && id) {
-      let result = await axios.get(
-        "http://localhost:5000/api/users/checksession",
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(result);
-      if (result && result.data.status === 1) {
-        console.log("Redirect");
-        this.props.history.push("/app");
-      }
+    let result = await getData("api/users/checksession", {}, true);
+    console.log("the HOme componenet result is ");
+    console.log(result.data);
+    if (result.data != null && result.data.status ===1){
+      console.log("Redirect");
+      this.props.history.push("/app");
     }
+
   }
 
   state = {

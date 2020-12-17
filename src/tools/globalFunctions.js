@@ -1,43 +1,108 @@
 import axios from "axios";
 
 async function getNewToken() {
-    let result = await axios.post(
-        "http://localhost:5000/api/users/gettoken", {}, {
-            withCredentials: true,
-        }
-    );
-    if (result.data.status === 1)
-        return result.data.accessToken;
-    return null;
-}
-// check the token and fetch data
-async function getData(callBackFctn) {
-    const token = localStorage.getItem("accessToken");
-    if (!token)
-        return ({
-            status: -1,
-        })
-    console.log(`the token from fetch data is ${token}`);
-    let result = await callBackFctn(token);
-    console.log(result.id);
-    if (result.status === 0) {
-        let newToken = await getNewToken();
-        result = await callBackFctn(newToken);
+  let result = await axios.post(
+    "http://localhost:5000/api/users/gettoken",
+    {},
+    {
+      withCredentials: true,
     }
-    return result;
+  );
+  if (result.data.status === 1) return result.data.accessToken;
+  return null;
+}
+
+// check the token and fetch data
+async function getData(route, params, credential) {
+  const token = localStorage.getItem("accessToken");
+  const id = localStorage.getItem("userId");
+  if (!token)
+    return {
+      status: -1,
+    };
+  let result = await axios.get(
+    `http://localhost:5000/${route}`,
+    {
+      params: params,
+      headers: { token: token, id: id },
+      withCredentials: credential
+    }
+  );
+  if (result.data.status === 0) {
+    let newToken = await getNewToken();
+    localStorage.setItem("accessToken", newToken);
+    result = await axios.get(
+      `http://localhost:5000/${route}`,
+      {
+        params: params,
+        headers: { token: newToken, id: id },
+        withCredentials: credential 
+      }
+    );
+  }
+  return result;
+}
+
+// check the token and fetch data
+async function postData(route, params) {
+  const token = localStorage.getItem("accessToken");
+  const id = localStorage.getItem("userId");
+  if (!token)
+    return {
+      status: -1,
+    };
+  let result = axios.post(`http://localhost:5000/${route}`, params, {
+    headers: { token: token, id: id },
+  });
+  if (result.status === 0) {
+    let newToken = await getNewToken();
+    localStorage.setItem("accessToken", newToken);
+    result = axios.post(`http://localhost:5000/${route}`, params, {
+      headers: { token: newToken, id: id },
+    });
+  }
+  return result;
+}
+
+// check the token and fetch data
+async function putData(route, params) {
+  const token = localStorage.getItem("accessToken");
+  const id = localStorage.getItem("userId");
+  if (!token)
+    return {
+      status: -1,
+    };
+  let result = axios.put(`http://localhost:5000/${route}`, params, {
+    headers: { token: token, id: id },
+  });
+  if (result.status === 0) {
+    let newToken = await getNewToken();
+    localStorage.setItem("accessToken", newToken);
+    result = axios.put(`http://localhost:5000/${route}`, params, {
+      headers: { token: newToken, id: id },
+    });
+  }
+  return result;
 }
 
 async function logOut() {
+  const id = localStorage.getItem("userId");
+ try {
+    const token = localStorage.getItem("accessToken");
     const id = localStorage.getItem("userId");
-    await axios.put(`http://localhost:5000/api/users/${id}`, { refreshToken: "", id: id }, {
-        withCredentials: true,
+    if (!token)
+      return {
+        status: -1,
+      };
+    let result = axios.put(`http://localhost:5000/api/users/${id}`, {}, {
+      headers: { token: token, id: id },
     });
-    localStorage.setItem("accessToken", null);
-    localStorage.setItem("userId", null);
-    return;
+ }catch(err)
+ {
+
+ }
+  localStorage.clear();
+  return;
 }
 
-export {
-    getData,
-    logOut
-}
+export { getData, postData, putData, logOut };
