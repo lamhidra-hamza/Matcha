@@ -1,4 +1,4 @@
 node_modules
 backend/node_modules
 uploads
-backend/config/
+backend/config

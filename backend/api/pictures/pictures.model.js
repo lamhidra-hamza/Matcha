@@ -2,7 +2,6 @@ var connection = require('../../utils/db');
 var uuid = require('uuid');
 
 class Pictures {
-
     async create(userId, data) { 
         console.log("the data is ==>");
         console.log(data);

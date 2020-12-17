@@ -12,7 +12,7 @@ const uploadImage = (req, res, next) => {
 
 async function getMany(req, res) {
   try {
-    const data = await module.findall(req.user.id);
+    const data = await model.findall(req.user.id);
     res.status(200).json({
       data: data,
     });
@@ -26,7 +26,7 @@ async function getMany(req, res) {
 
 async function getOne(req, res) {
   try {
-    const data = await module.findOne(req.user.id, req.params.id);
+    const data = await model.findOne(req.user.id, req.params.id);
     if (!data) {
       res.status(400).end();
     }
@@ -42,14 +42,16 @@ async function getOne(req, res) {
 }
 
 async function createOne(req, res) {
-  console.log("create one pictures");
+  console.log("create one pictures=========== ===================================");
   try {
-    if (req.status === 0 || req.status === -1)
-      res
-        .status(200)
-        .send({ status: req.status, message: "token is invalid or expired" });
+    if (req.status === 0 || req.status === -1){
+        console.log(`the req.status is ${req.status}`);
+        res
+          .status(200)
+          .send({ status: req.status, message: "token is invalid or expired" });
+    }    
     else {
-      await module.create(req.id, req.body);
+      await model.create(req.id, req.body);
       res.status(201).send({
         msg: "create Done!!",
       });
@@ -64,7 +66,7 @@ async function createOne(req, res) {
 
 async function updateOne(req, res) {
   try {
-    await module.findOneAndUpdate(req.id, req.id, req.body);
+    await model.findOneAndUpdate(req.id, req.id, req.body);
     res.status(201).send({
       msg: "Update Done!!",
     });
@@ -78,7 +80,7 @@ async function updateOne(req, res) {
 
 async function removeOne(req, res) {
   try {
-    await module.findOneAndRemove(req.user.id, req.params.id);
+    await model.findOneAndRemove(req.user.id, req.params.id);
     res.status(201).send({
       msg: "Remove Done!!",
     });

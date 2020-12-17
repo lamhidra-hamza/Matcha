@@ -95,17 +95,6 @@ export default function EditProfile(props) {
     images.map((image) => {
       if (image.file) formData.append("image", image.file);
     });
-
-    // await uploadImage(formData);
-    // axios({
-    //   method: "POST",
-    //   url: "http://localhost:5000/api/pictures",
-    //   data: formData,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     token: token,
-    //   },
-    // });
     await uploadPictures(formData);
     history.goBack();
   };

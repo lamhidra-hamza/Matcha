@@ -48,7 +48,7 @@ async function postData(route, params) {
   let result = axios.post(`http://localhost:5000/${route}`, params, {
     headers: { token: token, id: id },
   });
-  if (result.status === 0) {
+  if (result.data.status === 0) {
     let newToken = await getNewToken();
     localStorage.setItem("accessToken", newToken);
     result = axios.post(`http://localhost:5000/${route}`, params, {
@@ -69,7 +69,7 @@ async function putData(route, params) {
   let result = axios.put(`http://localhost:5000/${route}`, params, {
     headers: { token: token, id: id },
   });
-  if (result.status === 0) {
+  if (result.data.status === 0) {
     let newToken = await getNewToken();
     localStorage.setItem("accessToken", newToken);
     result = axios.put(`http://localhost:5000/${route}`, params, {
@@ -83,6 +83,7 @@ async function putData(route, params) {
 async function uploadPictures(data) {
   const token = localStorage.getItem("accessToken");
   const id = localStorage.getItem("userId");
+  console.log("uploadPictures functions");
   if (!token)
     return {
       status: -1,
@@ -97,7 +98,8 @@ async function uploadPictures(data) {
       id: id,
     },
   });
-  if (result.status === 0) {
+  if (result.data.status === 0) {
+    console.log("let get a new token");
     let newToken = await getNewToken();
     localStorage.setItem("accessToken", newToken);
     result = result = await axios({
