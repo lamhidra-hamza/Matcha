@@ -12,17 +12,6 @@ var PORT = process.env.PORT || 5000;
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header('Access-Control-Allow-Headers', 'x-www-form-urlencoded, Origin, X-Requested-With, Content-Type, Accept, Authorization, *');
-//     if (req.method === 'OPTIONS'){
-//         res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, PATCH, DELETE, OPTIONS');
-//         res.setHeader('Access-Control-Allow-Credentials', true);
-//         return res.status(200).json({});
-//     }
-//     next();
-// });
-
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 
@@ -42,7 +31,6 @@ app.use('/api/messages', require('./api/messages/messages.router'));
 app.use('/api/notifications', require('./api/notifications/notifications.router'));
 app.use('/api/tags', require('./api/tags/tags.router'));
 app.use('/confirmation/:id', require('./utils/emailConfirm'))
-
 
 const start = async() => {
     createDb();

@@ -30,6 +30,7 @@ const getOne = (module) => async(req, res) => {
 };
 
 const createOne = (module) => async(req, res) => {
+    console.log("create one pictures");
     try {
         if (req.status === 0 || req.status === -1)
             res.status(200).send({ status: req.status, message: "token is invalid or expired" });
