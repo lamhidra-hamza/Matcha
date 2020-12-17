@@ -5,6 +5,7 @@ import ProfileImgEmpty from "../profileImgIEmpty/profileImgIEmpty";
 import { Slider, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import {uploadPictures} from "../../tools/globalFunctions";
 
 export default function EditProfile(props) {
   const currentView = props && props.mobile ? "mobile" : "";
@@ -33,7 +34,7 @@ export default function EditProfile(props) {
 
   const [imageLink, setImageLink] = useState(["", "", "", "", ""]);
 
-  const RenderProfileImage = ({index}) => {
+  const RenderProfileImage = ({ index }) => {
     if (images[index].preview) {
       return (
         <ProfileImgItem
@@ -61,7 +62,7 @@ export default function EditProfile(props) {
         key={index}
         view={`${currentView}`}
         id={index}
-        add={(preview, file)=> addNewImage(preview, file, index)}
+        add={(preview, file) => addNewImage(preview, file, index)}
       />
     );
   };
@@ -78,7 +79,7 @@ export default function EditProfile(props) {
     let newImages = [...images];
     let newImagesLink = [...imageLink];
 
-    newImages[index] = { preview:null,  file: null };
+    newImages[index] = { preview: null, file: null };
     newImagesLink[index] = "";
     setImages(newImages);
     setImageLink(newImagesLink);
@@ -88,25 +89,24 @@ export default function EditProfile(props) {
 
   const { Option } = Select;
 
-  const saveButtonClick = async() => {
-	const token = localStorage.getItem('accessToken');
+  const saveButtonClick = async () => {
+    const token = localStorage.getItem("accessToken");
     const formData = new FormData();
-    images.map(image => {
-      if (image.file)
-        formData.append("image", image.file);
-    });    
+    images.map((image) => {
+      if (image.file) formData.append("image", image.file);
+    });
 
-    await axios({
-      method: "POST",
-      url: "http://localhost:5000/api/pictures",
-      data: formData,
-      headers: {
-		  "Content-Type": "multipart/form-data",
-		  token: token,
-	  },
-	  
-  });
-
+    // await uploadImage(formData);
+    // axios({
+    //   method: "POST",
+    //   url: "http://localhost:5000/api/pictures",
+    //   data: formData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     token: token,
+    //   },
+    // });
+    await uploadPictures(formData);
     history.goBack();
   };
 
@@ -119,18 +119,18 @@ export default function EditProfile(props) {
       <div className="editProfileCard">
         <div className="EditProfileInfo">
           <div className="profileImgs">
-            <RenderProfileImage index={0}/>
-            <RenderProfileImage index={1}/>
-            <RenderProfileImage index={2}/>
-            <RenderProfileImage index={3}/>
-            <RenderProfileImage index={4}/>
+            <RenderProfileImage index={0} />
+            <RenderProfileImage index={1} />
+            <RenderProfileImage index={2} />
+            <RenderProfileImage index={3} />
+            <RenderProfileImage index={4} />
           </div>
           <div className="profileInfoConatainer">
             <div className="accountSet">
               <h2 className="setTitle">ACCOUNT SETTINGS</h2>
               <div className="setBox rowsetBox">
                 <h3 className="boxParam">Email</h3>
-                
+
                 <Input
                   placeholder="amal@gmail.com"
                   style={{

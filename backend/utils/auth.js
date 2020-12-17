@@ -30,11 +30,11 @@ function timeConverter(UNIX_timestamp) {
 async function auth(req, res, next) {
     // console.log(req)
     console.log(req.headers['token'])
-    let accessToken = req.body.token;
     // if (!accessToken)
     //     accessToken = req.query.token;
     // if (!accessToken)
-    accessToken = req.headers['token'];
+    let accessToken = req.headers['token'];
+    let id = req.headers['id'];
     req.status = 1;
     if (!accessToken) {
         req.status = -1;
@@ -43,6 +43,8 @@ async function auth(req, res, next) {
         const result = await jwt.verify(accessToken, "matcha-secret-code");
         console.log("id ====================================> ", result.id);
         req.id = result.id;
+        if (req.id != id)
+            req.status = -1;
     } catch (err) {
         let errorMessage = -1;
         if (err.expiredAt)
