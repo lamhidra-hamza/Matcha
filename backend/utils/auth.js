@@ -28,12 +28,7 @@ function timeConverter(UNIX_timestamp) {
 }
 
 async function auth(req, res, next) {
-    // console.log(req)
-    console.log(req.headers['token'])
     let accessToken = req.body.token;
-    // if (!accessToken)
-    //     accessToken = req.query.token;
-    // if (!accessToken)
     accessToken = req.headers['token'];
     req.status = 1;
     if (!accessToken) {
@@ -41,15 +36,14 @@ async function auth(req, res, next) {
     }
     try {
         const result = await jwt.verify(accessToken, "matcha-secret-code");
-        console.log("id ====================================> ", result.id);
         req.id = result.id;
+        console.log("loooze");
     } catch (err) {
         let errorMessage = -1;
         if (err.expiredAt)
             errorMessage = 0;
         req.status = errorMessage;
-        //console.log(err);
-        console.log("the error of the token is ==============>");
+        console.log("errro");
     }
     next();
 }
