@@ -32,7 +32,7 @@ export default function EditProfile(props) {
     },
   ]);
 
-  const [imageLink, setImageLink] = useState(["", "", "", "", ""]);
+  const [imageLink, setImageLink] = useState(["", "adsfad", "sdfasd", "", ""]);
 
   const RenderProfileImage = ({ index }) => {
     if (images[index].preview) {
@@ -95,6 +95,7 @@ export default function EditProfile(props) {
     images.map((image) => {
       if (image.file) formData.append("image", image.file);
     });
+
     await uploadPictures(formData);
     history.goBack();
   };
