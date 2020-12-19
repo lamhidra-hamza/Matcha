@@ -80,7 +80,7 @@ async function putData(route, params) {
 }
 
 //
-async function uploadPictures(data) {
+async function uploadPictures(data, pic_id) {
   const token = localStorage.getItem("accessToken");
   const id = localStorage.getItem("userId");
   console.log("uploadPictures functions");
@@ -90,7 +90,7 @@ async function uploadPictures(data) {
     };
   let result = await axios({
     method: "POST",
-    url: "http://localhost:5000/api/pictures",
+    url: `http://localhost:5000/api/pictures/${pic_id}`,
     data: data,
     headers: {
       "Content-Type": "multipart/form-data",
@@ -104,7 +104,7 @@ async function uploadPictures(data) {
     localStorage.setItem("accessToken", newToken);
     result = result = await axios({
       method: "POST",
-      url: "http://localhost:5000/api/pictures",
+      url: `http://localhost:5000/api/pictures/${pic_id}`,
       data: data,
       headers: {
         "Content-Type": "multipart/form-data",

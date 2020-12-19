@@ -14,7 +14,8 @@ export default function NavbarApp({setShowProfile, showProfile}) {
     const history = useHistory();
     const match = useRouteMatch();
     const context = useContext(UserContext);
-
+    const pic = context.userImages && context.userImages.picture_1 ? `${SER.PicPath}/${context.userImages.picture_1}` : "";
+ 
     const logout = async () => {
         await logOut();
         console.log("Redirect");
@@ -64,7 +65,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                 <Avatar
                     onClick={handelProfileClick}
                     style={{border: '2px #ffffff solid',marginTop: '6px', marginLeft: "50px"}}
-                    src={`${SER.HOST}/${context.userImages.picture_1}`} size={40} icon={<UserOutlined />} />
+                    src={pic} size={40} icon={<UserOutlined />} />
                 <Title
                     onClick={handelProfileClick}
                     style={titleStyle} 

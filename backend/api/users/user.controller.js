@@ -127,13 +127,9 @@ async function checkSession(req, res) {
 }
 
 async function getOne(req, res) {
-    console.log(`get One function`);
-    console.log(`the status of this request is ${req.status}`);
     try {
-        console.log(`trying getone function`);
         const data = await model.findOne(req.id, req.id);
         if (!data || req.status === 0 || req.status === -1) {
-            console.log("no data");
             res.status(200).send({
                 status: req.status,
             });
