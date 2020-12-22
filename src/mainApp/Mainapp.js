@@ -82,22 +82,24 @@ export default function Mainapp({width}) {
 		fetchData();
 
 	}, [])
-	
+
+	if (loading)
+		return (
+			<div className="containerMainapp">
+				<div className="loading">
+					<Spin size="large" />
+				</div>
+			</div>
+		)
 
 	return (
-		<UserContext.Provider value={{user: user, setUser: setUser, userImages: userImages, setUserImages: setUserImages}}>
+		<UserContext.Provider
+			value={{user: user, setUser: setUser, userImages: userImages, setUserImages: setUserImages}}>
 			<div className="containerMainapp">
-				{loading ?
-					<div className="loading">
-						<Spin size="large" />
-					</div>
-						:<>
-							{!user.verified && warning &&
-								message.warning(`Your email is not verified, Please check your email to verify it !!`) 
-								&& setWarning(false)}
-							{width > 760 ? <DesktopSection width={width}/> : <MobileSection/>}
-						</>
-					}
+				{!user.verified && warning &&
+						message.warning(`Your email is not verified, Please check your email to verify it !!`) 
+						&& setWarning(false)}
+					{width > 760 ? <DesktopSection width={width}/> : <MobileSection/>}
 			</div>
 		</UserContext.Provider>
 	)

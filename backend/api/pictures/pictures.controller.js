@@ -14,17 +14,17 @@ const uploadImage = async(req, res) => {
             const data = await model.findOneById(req.params.id);
             let arr = [data[0].picture_1, data[0].picture_2, data[0].picture_3, data[0].picture_4, data[0].picture_5];
             arr = arr.filter(value => { return value != null });
-            console.log(req.files);
             req.files.map((value) => { arr.push(value.filename); });
-            await model.findOneAndUpdate(req.id, req.params.id, {
+            const result = await model.findOneAndUpdate(req.id, req.params.id, {
                 picture_1: arr[0] ? arr[0] : null,
                 picture_2: arr[1] ? arr[1] : null,
                 picture_3: arr[2] ? arr[2] : null,
                 picture_4: arr[3] ? arr[3] : null,
                 picture_5: arr[4] ? arr[4] : null,
             });
-            res.status(201).send({
-                msg: "Add New pictures Done!!",
+            console.log("result upload == ", arr)
+            res.status(201).json({
+                arr,
             });
         }
     } catch (err) {

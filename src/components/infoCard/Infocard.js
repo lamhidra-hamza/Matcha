@@ -7,8 +7,16 @@ import {
 } from '@ant-design/icons'
 import { useLocation, useRouteMatch, useHistory } from 'react-router-dom'
 import './InfoCard.css'
+import { SER } from '../../conf/config'
 
 const Infocard = (props) => {
+  const { user, userImage } = props;
+  const images = [
+		  userImage.picture_1,
+		  userImage.picture_2,
+		  userImage.picture_3,
+		  userImage.picture_4,
+		  userImage.picture_5];
   const info = {
     firstName: 'Amal',
     age: 20,
@@ -43,9 +51,10 @@ const Infocard = (props) => {
       <div className="infoCardContainer">
         <div className="infoPage">
           <Carousel dotPosition={'top'}>
-            {info.images.map((image) => (
+            {images.map((image) => (
+				    image &&
               <div className="fiximg">
-                <img alt="img-card" className="imgCard" src={image} />
+                <img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
               </div>
             ))}
           </Carousel>

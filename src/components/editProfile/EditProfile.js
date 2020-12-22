@@ -105,19 +105,27 @@ export default function EditProfile(props) {
 	const { Option } = Select;
 
 	const saveButtonClick = async () => {
-		setUserImages({
-			...userImages,
-			picture_1: imageLink[0],
-			picture_2: imageLink[1],
-			picture_3: imageLink[2],
-			picture_4: imageLink[3],
-			picture_5: imageLink[4],
-		})
+		await axios.put(`${SER.HOST}/api/pictures/${userImages.id}`,
+			{...userImages,
+				picture_1: imageLink[0],
+				picture_2: imageLink[1],
+				picture_3: imageLink[2],
+				picture_4: imageLink[3],
+				picture_5: imageLink[4]
+			});
 		const formData = new FormData();
 		images.map((image) => {
 		  if (image.file) formData.append("image", image.file);
 		});
-		await uploadPictures(formData, userImages.id);
+		const result = await uploadPictures(formData, userImages.id);
+		setUserImages({
+			...userImages,
+			picture_1: result.data.arr[0] ? result.data.arr[0] : null,
+			picture_2: result.data.arr[1] ? result.data.arr[1] : null,
+			picture_3: result.data.arr[2] ? result.data.arr[2] : null,
+			picture_4: result.data.arr[3] ? result.data.arr[3] : null,
+			picture_5: result.data.arr[4] ? result.data.arr[4] : null
+		})
 		history.goBack();
 	};
 
@@ -141,7 +149,6 @@ export default function EditProfile(props) {
 							<h2 className="setTitle">ACCOUNT SETTINGS</h2>
 							<div className="setBox rowsetBox">
 								<h3 className="boxParam">Email</h3>
-
 								<Input
 									placeholder="amal@gmail.com"
 									style={{
