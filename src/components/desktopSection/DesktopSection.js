@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Maintab from '../mainTab/Maintab.js'
 import NavbarApp from '../navbarApp/NavbarApp'
 import ProfileInfo from '../profileInfo/ProfileInfo'
@@ -9,12 +9,17 @@ import EditProfile from '../editProfile/EditProfile'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import './DesktopSection.css'
 import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext'
+
 
 function DesktopSection(props) {
     const { state } = useLocation();
     const [showProfile, setShowProfile] = useState(state && state.mobileKey === "5");
     const { width } = props;
     let match = useRouteMatch();
+    const context = useContext(UserContext);
+    const user = context.user;
+    const userImage = context.userImages;
 
     return (
         <div className="mainRow">
@@ -23,7 +28,7 @@ function DesktopSection(props) {
                 {showProfile ? <ProfileInfo /> : <Maintab/>}
             </div>
             <Switch>
-                <Route exact path={`${match.url}/profile`} component={Infocard} />
+                <Route exact path={`${match.url}/profile`} render={(props) => (<Infocard {...props} user={user} userImage={userImage}/>)} />
                 <Route path={`${match.url}/infocard`} component={Infocard} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/messages/chatbox`}>

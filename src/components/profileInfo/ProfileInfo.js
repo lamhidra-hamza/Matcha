@@ -127,12 +127,13 @@ const ProfileInfo = (props) => {
         style={{ width: props && props.mobile ? "100%" : "400px" }}
         className="profileInfoConatainer"
       >
-        <div className="floatBtn">
-          <Button shape="round" className={"saveProfileBtn"} onClick={update}>
-            Save
-          </Button>
-        </div>
-        = <LikeViewItems />
+        {props && props.mobile &&
+            <div className="floatBtn">
+                <Button shape="round" className={'saveProfileBtn'} onClick={saveButtonClick}>
+                    Save
+                </Button>
+            </div>}
+            <LikeViewItems />
         <div className="accountSet">
           <h2 className="setTitle">ACCOUNT SETTINGS</h2>
           <div className="setBox rowsetBox">

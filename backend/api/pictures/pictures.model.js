@@ -3,8 +3,6 @@ var uuid = require('uuid');
 
 class Pictures {
     async create(userId, data) {
-        console.log("the data is ==>");
-        console.log(data);
         let info = {
             user_id: userId,
             picture_1: data[0] ? data[0].filename : null,
