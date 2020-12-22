@@ -60,15 +60,19 @@ async function postData(route, params) {
 
 // check the token and fetch data
 async function putData(route, params) {
+  console.log(`put data and the route is ${route}`);
+  
   const token = localStorage.getItem("accessToken");
   const id = localStorage.getItem("userId");
   if (!token)
     return {
       status: -1,
     };
-  let result = axios.put(`http://localhost:5000/${route}`, params, {
+  let result = await axios.put(`http://localhost:5000/${route}`, params, {
     headers: { token: token, id: id },
   });
+  console.log("the staus probem is ");
+  console.log(result.data);
   if (result.data.status === 0) {
     let newToken = await getNewToken();
     localStorage.setItem("accessToken", newToken);
@@ -80,7 +84,7 @@ async function putData(route, params) {
 }
 
 //
-async function uploadPictures(route, data, method) {
+async function uploadPictures(data, pic_id) {
   const token = localStorage.getItem("accessToken");
   const id = localStorage.getItem("userId");
   console.log("uploadPictures functions");
@@ -89,8 +93,8 @@ async function uploadPictures(route, data, method) {
       status: -1,
     };
   let result = await axios({
-    method: method,
-    url: `http://localhost:5000${route}`,
+    method: "POST",
+    url: `http://localhost:5000/api/pictures/${pic_id}`,
     data: data,
     headers: {
       "Content-Type": "multipart/form-data",
@@ -103,8 +107,8 @@ async function uploadPictures(route, data, method) {
     let newToken = await getNewToken();
     localStorage.setItem("accessToken", newToken);
     result = result = await axios({
-      method: method,
-      url: `http://localhost:5000${route}`,
+      method: "POST",
+      url: `http://localhost:5000/api/pictures/${pic_id}`,
       data: data,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -137,4 +141,52 @@ async function logOut() {
   return;
 }
 
-export { getData, postData, putData, uploadPictures, logOut };
+function getLocation(longitude, latitude) {
+  const citiesData = require("../locationData/cities.json");
+  const countriesData = require("../locationData/countries.json");
+
+  let result = {
+    longitude: 0,
+    latitude: 0, 
+    name : ""
+  }
+  let distance = Math.abs(
+    Math.abs(
+      Math.abs(parseFloat(citiesData[0].lat)) - Math.abs(latitude)
+    ) +
+      Math.abs(
+        Math.abs(parseFloat(citiesData[0].lng)) -
+          Math.abs(longitude)
+      )
+  );
+  citiesData.forEach(function (item, index) {
+    if (
+      Math.abs(
+        Math.abs(parseFloat(item.lat)) - Math.abs(latitude)
+      ) +
+        Math.abs(
+          Math.abs(parseFloat(item.lng)) - Math.abs(longitude)
+        ) <
+      distance
+    ) {
+      result.name = item.name;
+      countriesData.forEach(function(country, index){
+        if (country.code == item.country){
+          result.name += ", " + country.name;
+        }
+      });
+      result.latitude = item.lat;
+      result.longitude = item.lng;
+      distance =
+        Math.abs(
+          Math.abs(parseFloat(item.lat)) - Math.abs(latitude)
+        ) +
+        Math.abs(
+          Math.abs(parseFloat(item.lng)) - Math.abs(longitude)
+        );
+    }
+  });
+  return result;
+}
+
+export { getData, postData, putData, uploadPictures, logOut, getLocation };

@@ -2,16 +2,16 @@ var connection = require('../../utils/db');
 var uuid = require('uuid');
 
 class Pictures {
-    async create(userId, data) { 
+    async create(userId, data) {
         console.log("the data is ==>");
         console.log(data);
         let info = {
             user_id: userId,
-            picture_1: data[0] ? data[0].path : null,
-            picture_2: data[1] ? data[1].path : null,
-            picture_3: data[2] ? data[2].path : null,
-            picture_4: data[3] ? data[3].path : null,
-            picture_5: data[4] ? data[4].path : null
+            picture_1: data[0] ? data[0].filename : null,
+            picture_2: data[1] ? data[1].filename : null,
+            picture_3: data[2] ? data[2].filename : null,
+            picture_4: data[3] ? data[3].filename : null,
+            picture_5: data[4] ? data[4].filename : null
         };
         await connection.promise().query("INSERT INTO pictures SET ?", info);
     }
@@ -22,18 +22,21 @@ class Pictures {
     }
 
     async findOne(userId, id) {
-        console.log("userId == ", userId)
-        const sql = `SELECT * FROM pictures WHERE user_id='${userId}'`;
+        const sql = `SELECT * FROM pictures WHERE user_id='${id}'`;
+        const [result, filed] = await connection.promise().query(sql);
+        return result;
+    }
+
+    async findOneById(id) {
+        const sql = `SELECT * FROM pictures WHERE id='${id}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndUpdate(userId, id, data) {
-        // const sql = `UPDATE pictures SET 
-        //     viewed_user='${data.viewed_user}'
-        //     WHERE id = '${id}' AND user='${userId}'`;
-        // const [result, filed] = await connection.promise().query(sql);
-        // return result;
+        const sql = `UPDATE pictures SET ?`;
+        const [result, filed] = await connection.promise().query(sql, data, `WHERE id = '${id}'`);
+        return result;
     }
 
     async findOneAndRemove(userId, id) {

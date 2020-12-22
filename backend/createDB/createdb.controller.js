@@ -60,7 +60,7 @@ const messagesTable =  {
 
 const locationTable = {
     sql: `CREATE TABLE IF NOT EXISTS location(id INT AUTO_INCREMENT PRIMARY KEY, longitude FLOAT, 
-        latitude FLOAT, user_id VARCHAR(255), location_name VARCHAR(255), FOREIGN KEY (user_id) REFERENCES users(id))        `,
+        latitude FLOAT, user_id VARCHAR(255), location_name VARCHAR(255), real_location BOOLEAN, FOREIGN KEY (user_id) REFERENCES users(id))        `,
     successMessage: "the LOCATION Table has been created",
     failMessage: "the LOCATION Table hasn't been created",
 };

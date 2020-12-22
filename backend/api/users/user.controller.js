@@ -127,13 +127,9 @@ async function checkSession(req, res) {
 }
 
 async function getOne(req, res) {
-    console.log(`get One function`);
-    console.log(`the status of this request is ${req.status}`);
     try {
-        console.log(`trying getone function`);
         const data = await model.findOne(req.id, req.id);
         if (!data || req.status === 0 || req.status === -1) {
-            console.log("no data");
             res.status(200).send({
                 status: req.status,
             });
@@ -184,22 +180,19 @@ async function createOne(req, res) {
 async function updateOne(req, res) {
     const body = req.body;
     try {
-        const data = await model.findOne(req.params.id, req.params.id);
+        const data = await model.findOne(req.id, req.id);
+        console.log("the data is ", data[0]);
         for (const [key, value] of Object.entries(body)) {
             console.log(`${key}: ${value}`);
             data[0][key] = value;
         }
-        const updateResult = await model.findOneAndUpdate(
-            body.id,
-            body.id,
+        await model.findOneAndUpdate(
+            req.id,
+            req.id,
             data[0]
         );
-        console.log(updateResult);
         console.log("the new data is ==>");
         console.log(data[0]);
-        res.status(200).cookie("authcookie", "", { httpOnly: true }).send({
-            msg: "Update Done!!",
-        });
     } catch (err) {
         console.log(err);
         res.status(400).end({

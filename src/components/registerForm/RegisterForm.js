@@ -10,6 +10,8 @@ import {
   Button,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { uploadPictures } from "../../tools/globalFunctions";
+
 
 const formItemLayout = {
   labelCol: {
@@ -46,14 +48,22 @@ const RegisterForm = (props) => {
 
   const [form] = Form.useForm();
 
-  const onFinish = values => {
+  const onFinish = async (values) => {
 	props.showModal(values.email);
 	console.log(values)
-	axios.post(`http://localhost:5000/api/users/signup`, values)
-		.then(res => {
-			console.log(res);
-		})
-  };
+	const formData = new FormData();
+	const result = await axios.post(`http://localhost:5000/api/users/signup`, values);
+
+	await axios.post(`http://localhost:5000/api/pictures`, 
+			{
+				user_id: result.data.id,
+				picture_1: null,
+				picture_2: null,
+				picture_3: null,
+				picture_4: null,
+				picture_5: null
+			})
+		};
 
   return (
     <div className="registerForm">

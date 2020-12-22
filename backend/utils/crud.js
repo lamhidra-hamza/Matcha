@@ -14,6 +14,7 @@ const getMany = (module) => async(req, res) => {
 
 const getOne = (module) => async(req, res) => {
     try {
+        console.log("id getOne === ", req.id)
         const data = await module.findOne(req.id, req.params.id);
         if (!data) {
             res.status(400).end();
