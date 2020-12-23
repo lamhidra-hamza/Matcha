@@ -16,8 +16,9 @@ export default function Mainapp({width}) {
 	const id = localStorage.getItem("userId");
 	const [user, setUser] = useState({});
 	const [userImages, setUserImages] = useState(null);
+	const [tags, setTags] = useState([""]);
+
 	const [update, setUpdate] = useState(false);
-	const [updatePic, setUpdatePic] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [warning, setWarning ] =  useState(true);
 	const [error, setError] = useState({});
@@ -42,24 +43,6 @@ export default function Mainapp({width}) {
 	}, [user]);
 
 	useEffect(() => {
-        const source = axios.CancelToken.source();
-        const putData = async() => {
-            try {
-                const result = await axios.put(`${SER.HOST}/api/pictures/${userImages.id}`, userImages);
-                console.log("Result== ", result);
-            } catch (err) {
-                console.log("ERRROOR", err);
-            }
-        }
-        if (updatePic)
-            putData();
-
-        return () => {
-            source.cancel();
-        }
-	}, [userImages]);
-
-	useEffect(() => {
 		const token = localStorage.getItem('accessToken');
 			if (!token || !id)
 			{
@@ -72,12 +55,12 @@ export default function Mainapp({width}) {
 			setLoading(true);
 			const userResult = await getData(`api/users/${id}`, {}, false);
 			const pictureResult = await getData(`api/pictures/${id}`, {}, false);
-			console.log("picture== {", pictureResult.data)
+			const tags = await getData(`api/tags/`, {}, false);
 			setUser(userResult.data);
 			setUserImages(pictureResult.data);
+			setTags(tags.data.data);
 			setLoading(false);
 			setUpdate(true);
-			setUpdatePic(true);
 		}
 		fetchData();
 
@@ -94,12 +77,20 @@ export default function Mainapp({width}) {
 
 	return (
 		<UserContext.Provider
-			value={{user: user, setUser: setUser, userImages: userImages, setUserImages: setUserImages}}>
+			value={{
+				user: user,
+				setUser: setUser,
+				userImages: userImages,
+				setUserImages: setUserImages,
+				tags: tags,
+				setTags: setTags
+				}}>
 			<div className="containerMainapp">
 				{!user.verified && warning &&
 						message.warning(`Your email is not verified, Please check your email to verify it !!`) 
 						&& setWarning(false)}
 					{width > 760 ? <DesktopSection width={width}/> : <MobileSection/>}
+				{console.log(tags)}
 			</div>
 		</UserContext.Provider>
 	)

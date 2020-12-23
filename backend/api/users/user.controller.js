@@ -182,7 +182,6 @@ async function updateOne(req, res) {
     try {
         const data = await model.findOne(req.params.id, req.params.id);
         for (const [key, value] of Object.entries(body)) {
-            console.log(`${key}: ${value}`);
             data[0][key] = value;
         }
         const updateResult = await model.findOneAndUpdate(
@@ -190,9 +189,6 @@ async function updateOne(req, res) {
             body.id,
             data[0]
         );
-        console.log(updateResult);
-        console.log("the new data is ==>");
-        console.log(data[0]);
         res.status(200).cookie("authcookie", "", { httpOnly: true }).send({
             msg: "Update Done!!",
         });

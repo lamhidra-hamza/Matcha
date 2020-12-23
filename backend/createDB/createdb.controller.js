@@ -4,7 +4,7 @@ const {
 
 const usersTable = {
     sql: `CREATE TABLE IF NOT EXISTS users(id VARCHAR(255) PRIMARY KEY, username VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255),
-        email VARCHAR(255), password VARCHAR(255), refreshToken VARCHAR(255), lastConnection DATETIME, 
+        email VARCHAR(255), password VARCHAR(255),job VARCHAR(255), refreshToken VARCHAR(255), lastConnection DATETIME, 
         lastNotification DATETIME, gender VARCHAR(255), interessted VARCHAR(255), biography VARCHAR(255), bornDate DATETIME, verified BOOLEAN, infoCompleted BOOLEAN, minAge INT, maxAge INT, maxDistance INT)`,
     successMessage: "the USER Table has been created",
     failMessage: "the USER Table hasn't been created",
@@ -51,7 +51,7 @@ const chatTable = {
     failMessage: "the CHAT Table hasn't been created",
 };
 
-const messagesTable =  {
+const messagesTable = {
     sql: `CREATE TABLE IF NOT EXISTS messages(id INT AUTO_INCREMENT PRIMARY KEY, chat_id INT, content TEXT,
         sender_id VARCHAR(255), date DATETIME, seen BOOLEAN, FOREIGN KEY (chat_id) REFERENCES chat(id))`,
     successMessage: "the MESSAGE Table has been created",

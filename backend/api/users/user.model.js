@@ -1,7 +1,6 @@
 var connection = require("../../utils/db");
 var uuid = require("uuid");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 class User {
 
@@ -69,7 +68,7 @@ class User {
             email = '${data.email}',
             password = '${data.password}',
             biography= '${data.biography}',
-            gender= '${data.gender}',
+            gender='${data.gender}',
             interessted= '${data.interessted}',
             firstName='${data.firstName}',
             lastName='${data.lastName}',

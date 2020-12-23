@@ -1,6 +1,7 @@
 const getMany = (module) => async(req, res) => {
     try {
         const data = await module.findall(req.id);
+        console.log("id==", req.id, "data==", data);
         res.status(200).json({
             data: data,
         });
