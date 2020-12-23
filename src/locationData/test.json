@@ -1,0 +1,473 @@
+[ {
+  "country": "ZW",
+  "name": "Chinhoyi",
+  "lat": "-17.36667",
+  "lng": "30.2"
+},{
+  "country": "DE",
+  "name": "Kevelaer",
+  "lat": "51.58243",
+  "lng": "6.24603"
+},
+{
+  "country": "DE",
+  "name": "Ketzin",
+  "lat": "52.47809",
+  "lng": "12.8453"
+},
+{
+  "country": "DE",
+  "name": "Kettig",
+  "lat": "50.4",
+  "lng": "7.46667"
+},
+{
+  "country": "DE",
+  "name": "Kettershausen",
+  "lat": "48.18333",
+  "lng": "10.26667"
+},
+{
+  "country": "DE",
+  "name": "Kettenkamp",
+  "lat": "52.58333",
+  "lng": "7.83333"
+},
+{
+  "country": "DE",
+  "name": "Ketsch",
+  "lat": "49.36778",
+  "lng": "8.53111"
+},
+{
+  "country": "DE",
+  "name": "Kessin",
+  "lat": "53.72928",
+  "lng": "13.30773"
+},
+{
+  "country": "DE",
+  "name": "Kerzenheim",
+  "lat": "49.57639",
+  "lng": "8.05972"
+},
+{
+  "country": "DE",
+  "name": "Kerpen",
+  "lat": "50.86991",
+  "lng": "6.69691"
+},
+{
+  "country": "DE",
+  "name": "Kenzingen",
+  "lat": "48.1963",
+  "lng": "7.76974"
+},
+{
+  "country": "DE",
+  "name": "Kenn",
+  "lat": "49.8",
+  "lng": "6.71667"
+},
+{
+  "country": "DE",
+  "name": "Kempten (Allgäu)",
+  "lat": "47.72674",
+  "lng": "10.31389"
+},
+{
+  "country": "DE",
+  "name": "Kempenich",
+  "lat": "50.42024",
+  "lng": "7.11698"
+},
+{
+  "country": "DE",
+  "name": "Kempen",
+  "lat": "51.36432",
+  "lng": "6.41858"
+},
+{
+  "country": "DE",
+  "name": "Kemnitz",
+  "lat": "54.07723",
+  "lng": "13.53528"
+},
+{
+  "country": "DE",
+  "name": "Kemnath",
+  "lat": "49.87007",
+  "lng": "11.89077"
+},
+{
+  "country": "DE",
+  "name": "Kemmern",
+  "lat": "49.95486",
+  "lng": "10.87784"
+},
+{
+  "country": "DE",
+  "name": "Kemberg",
+  "lat": "51.77189",
+  "lng": "12.63227"
+},
+{
+  "country": "DE",
+  "name": "Kelsterbach",
+  "lat": "50.06135",
+  "lng": "8.52916"
+},
+{
+  "country": "DE",
+  "name": "Kellmünz",
+  "lat": "48.12159",
+  "lng": "10.12811"
+},
+{
+  "country": "DE",
+  "name": "Kellinghusen",
+  "lat": "53.95202",
+  "lng": "9.71959"
+},
+{
+  "country": "DE",
+  "name": "Kellenhusen",
+  "lat": "54.19338",
+  "lng": "11.06165"
+},
+{
+  "country": "DE",
+  "name": "Kell",
+  "lat": "49.63425",
+  "lng": "6.8239"
+},
+{
+  "country": "DE",
+  "name": "Kelkheim (Taunus)",
+  "lat": "50.13703",
+  "lng": "8.4502"
+},
+{
+  "country": "DE",
+  "name": "Kelheim",
+  "lat": "48.91725",
+  "lng": "11.88618"
+},
+{
+  "country": "DE",
+  "name": "Kelbra",
+  "lat": "51.43528",
+  "lng": "11.04143"
+},
+{
+  "country": "DE",
+  "name": "Kelberg",
+  "lat": "50.29164",
+  "lng": "6.9195"
+},
+{
+  "country": "DE",
+  "name": "Keitum",
+  "lat": "54.89333",
+  "lng": "8.37083"
+},
+{
+  "country": "DE",
+  "name": "Kehrig",
+  "lat": "50.28333",
+  "lng": "7.21667"
+},
+{
+  "country": "DE",
+  "name": "Kehl",
+  "lat": "48.57297",
+  "lng": "7.81523"
+},
+{
+  "country": "DE",
+  "name": "Kefenrod",
+  "lat": "50.34475",
+  "lng": "9.21141"
+},
+{
+  "country": "DE",
+  "name": "Kayna",
+  "lat": "50.99414",
+  "lng": "12.2371"
+},
+{
+  "country": "DE",
+  "name": "Kayhude",
+  "lat": "53.75629",
+  "lng": "10.13232"
+},
+{
+  "country": "DE",
+  "name": "Kavelstorf",
+  "lat": "54.00596",
+  "lng": "12.19082"
+},
+{
+  "country": "DE",
+  "name": "Kaulsdorf",
+  "lat": "52.51732",
+  "lng": "13.58871"
+},
+{
+  "country": "DE",
+  "name": "Kaulsdorf",
+  "lat": "50.6167",
+  "lng": "11.43295"
+},
+{
+  "country": "DE",
+  "name": "Kaufering",
+  "lat": "48.09121",
+  "lng": "10.87913"
+},
+{
+  "country": "DE",
+  "name": "Kaufbeuren",
+  "lat": "47.88238",
+  "lng": "10.62192"
+},
+{
+  "country": "DE",
+  "name": "Kaub",
+  "lat": "50.08831",
+  "lng": "7.76069"
+},
+{
+  "country": "DE",
+  "name": "Katzweiler",
+  "lat": "49.5",
+  "lng": "7.7"
+},
+{
+  "country": "DE",
+  "name": "Katzhütte",
+  "lat": "50.55191",
+  "lng": "11.05293"
+},
+{
+  "country": "DE",
+  "name": "Katzenelnbogen",
+  "lat": "50.26745",
+  "lng": "7.97322"
+},
+{
+  "country": "DE",
+  "name": "Katharinenberg",
+  "lat": "51.18137",
+  "lng": "10.26084"
+},
+{
+  "country": "DE",
+  "name": "Kastorf",
+  "lat": "53.74569",
+  "lng": "10.56723"
+},
+{
+  "country": "DE",
+  "name": "Kastl",
+  "lat": "49.83333",
+  "lng": "11.9"
+},
+{
+  "country": "DE",
+  "name": "Kastl",
+  "lat": "49.3696",
+  "lng": "11.68261"
+},
+{
+  "country": "DE",
+  "name": "Kastl",
+  "lat": "48.2",
+  "lng": "12.7"
+},
+{
+  "country": "DE",
+  "name": "Kastellaun",
+  "lat": "50.06922",
+  "lng": "7.44154"
+},
+{
+  "country": "DE",
+  "name": "Kassel",
+  "lat": "51.31667",
+  "lng": "9.5"
+},
+{
+  "country": "DE",
+  "name": "Kasseedorf",
+  "lat": "54.16667",
+  "lng": "10.71667"
+},
+{
+  "country": "DE",
+  "name": "Kasendorf",
+  "lat": "50.03665",
+  "lng": "11.35203"
+},
+{
+  "country": "DE",
+  "name": "Kasel",
+  "lat": "49.7617",
+  "lng": "6.73222"
+},
+{
+  "country": "DE",
+  "name": "Karstädt",
+  "lat": "53.16215",
+  "lng": "11.74242"
+},
+{
+  "country": "DE",
+  "name": "Karsdorf",
+  "lat": "51.27134",
+  "lng": "11.65775"
+},
+{
+  "country": "DE",
+  "name": "Karsbach",
+  "lat": "50.04091",
+  "lng": "9.78534"
+},
+{
+  "country": "DE",
+  "name": "Karow",
+  "lat": "52.60904",
+  "lng": "13.48117"
+},
+{
+  "country": "DE",
+  "name": "Karlstadt",
+  "lat": "49.96034",
+  "lng": "9.77239"
+},
+{
+  "country": "DE",
+  "name": "Karlsruhe",
+  "lat": "49.00937",
+  "lng": "8.40444"
+},
+{
+  "country": "DE",
+  "name": "Karlskron",
+  "lat": "48.68333",
+  "lng": "11.41667"
+},
+{
+  "country": "DE",
+  "name": "Karlshuld",
+  "lat": "48.6819",
+  "lng": "11.28503"
+},
+{
+  "country": "DE",
+  "name": "Karlshorst",
+  "lat": "52.48419",
+  "lng": "13.53185"
+},
+{
+  "country": "DE",
+  "name": "Karlshagen",
+  "lat": "54.11107",
+  "lng": "13.83193"
+},
+{
+  "country": "DE",
+  "name": "Bad Karlshafen",
+  "lat": "51.64263",
+  "lng": "9.45477"
+},
+{
+  "country": "DE",
+  "name": "Karlsfeld",
+  "lat": "48.22697",
+  "lng": "11.47573"
+},
+{
+  "country": "DE",
+  "name": "Karben",
+  "lat": "50.23019",
+  "lng": "8.77155"
+},
+{
+  "country": "DE",
+  "name": "Karbach",
+  "lat": "49.86701",
+  "lng": "9.63806"
+},
+{
+  "country": "DE",
+  "name": "Kapsweyer",
+  "lat": "49.04389",
+  "lng": "8.02167"
+},
+{
+  "country": "DE",
+  "name": "Kappelrodeck",
+  "lat": "48.59182",
+  "lng": "8.11692"
+},
+{
+  "country": "DE",
+  "name": "Kappeln",
+  "lat": "54.66122",
+  "lng": "9.9313"
+},
+{
+  "country": "DE",
+  "name": "Kannawurf",
+  "lat": "51.26667",
+  "lng": "11.13333"
+},
+{
+  "country": "DE",
+  "name": "Kandern",
+  "lat": "47.71393",
+  "lng": "7.66237"
+},
+{
+  "country": "DE",
+  "name": "Kandel",
+  "lat": "49.08277",
+  "lng": "8.1972"
+},
+{
+  "country": "DE",
+  "name": "Kamsdorf",
+  "lat": "50.64312",
+  "lng": "11.45401"
+},
+{
+  "country": "DE",
+  "name": "Kamp-Lintfort",
+  "lat": "51.50467",
+  "lng": "6.54587"
+},
+{
+  "country": "DE",
+  "name": "Kamp-Bornhofen",
+  "lat": "50.22282",
+  "lng": "7.62364"
+},
+{
+  "country": "DE",
+  "name": "Kammerstein",
+  "lat": "49.29317",
+  "lng": "10.97277"
+},
+{
+  "country": "DE",
+  "name": "Kamenz",
+  "lat": "51.26798",
+  "lng": "14.09374"
+},
+{
+  "country": "DE",
+  "name": "Kamen",
+  "lat": "51.59231",
+  "lng": "7.6638"
+}]

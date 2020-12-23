@@ -23,7 +23,7 @@ router.route("/checksession").get(checkSession);
 
 router.route("/:id")
     .get(verify, getOne)
-    .put(verify, updateEmailConfirm, updateOne)
+    .put(verify, updateOne)
     .delete(verify, removeOne);
 
 router.route("/")
