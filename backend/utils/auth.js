@@ -53,7 +53,7 @@ async function auth(req, res, next) {
             errorMessage = 0;
         req.status = errorMessage;
         // console.log(err);
-        // console.log("the error of the token is ==============>");
+        console.log("the error of the token is ==============>");
     }
     next();
 

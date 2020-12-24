@@ -2,10 +2,14 @@ const model = require('./tags.model');
 
 const getMany = async(req, res) => {
     try {
-        const data = await model.findall(req.id);
-        res.status(200).json({
-            data: [...data.map((item => { return item.tag }))],
-        });
+        if (req.status === 0 || req.status === -1)
+            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+        else {
+            const data = await model.findall(req.id);
+            res.status(200).json({
+                data: [...data.map((item => { return item.tag }))],
+            });
+        }
     } catch (err) {
         console.log(err);
         res.status(400).end({
@@ -36,9 +40,22 @@ const createOne = async(req, res) => {
         if (req.status === 0 || req.status === -1)
             res.status(200).send({ status: req.status, message: "token is invalid or expired" });
         else {
-            await model.create(req.id, req.body);
+            const newTags = req.body;
+            let data = await model.findall(req.id);
+            const oldTags = await [...data.map((item => { return item.tag }))];
+            newTags.map((item) => {
+                if (!oldTags.includes(item)) {
+                    model.create(req.id, item);
+                }
+            })
+            oldTags.map((item, index) => {
+                if (!newTags.includes(item)) {
+                    model.findOneAndRemove(req.id, data[index].id);
+                }
+            })
+            data = await model.findall(req.id);
             res.status(201).send({
-                msg: "create Done!!",
+                tags: [...data.map((item => { return item.tag }))],
             });
         }
     } catch (err) {

@@ -8,18 +8,19 @@ import axios from "axios";
 import { uploadPictures } from "../../tools/globalFunctions";
 import { UserContext } from '../../contexts/UserContext';
 import { SER } from '../../conf/config';
+import { putData, postData } from "../../tools/globalFunctions";
 
 
 export default function EditProfile(props) {
 	const currentView = props && props.mobile ? "mobile" : "";
-	const { userImages, user, setUserImages, setUser, tags } = useContext(UserContext);
+	const { userImages, user, setUserImages, setUser, tags, setTags } = useContext(UserContext);
 
 	const picHost = `${SER.PicPath}`;
 
 	const [about, setabout] = useState(user.biography);
 	const [gender, setGender] = useState(user.gender);
-	const [jobtitle, setJobtitle] = useState("student");
-	const [newTags, setTags] = useState(tags);
+	const [jobtitle, setJobtitle] = useState(user.job);
+	const [newTags, setNewTags] = useState(tags);
  
 	const [images, setImages] = useState([
 		{
@@ -97,7 +98,6 @@ export default function EditProfile(props) {
 	const clearImage = (index) => {
 		let newImages = [...images];
 		let newImagesLink = [...imageLink];
-
 		newImages[index] = { preview: null, file: null };
 		newImagesLink[index] = null;
 		setImages(newImages);
@@ -109,7 +109,7 @@ export default function EditProfile(props) {
 	const { Option } = Select;
 
 	const saveButtonClick = async () => {
-		await axios.put(`${SER.HOST}/api/pictures/${userImages.id}`,
+		await putData(`api/pictures/${userImages.id}`,
 			{...userImages,
 				picture_1: imageLink[0],
 				picture_2: imageLink[1],
@@ -130,8 +130,9 @@ export default function EditProfile(props) {
 			picture_4: result.data.arr[3] ? result.data.arr[3] : null,
 			picture_5: result.data.arr[4] ? result.data.arr[4] : null
 		})
-		setUser({...user, biography: about, gender: gender});
-		
+		setUser({...user, biography: about, gender: gender, job: jobtitle});
+		await postData(`api/tags/`, newTags);
+		setTags(newTags);
 		history.goBack();
 	};
 
@@ -148,7 +149,8 @@ export default function EditProfile(props) {
 	}
 
 	const handleTagChange = (value) => {
-		setTags(value);
+		setNewTags(value);
+		console.log("new tag => ", value);
 	}
 
 	return (
@@ -176,6 +178,7 @@ export default function EditProfile(props) {
 										border: "0px",
 										textAlign: "left",
 									}}
+									value={about}
 									onChange={handleAboutChange}
 								/>
 							</div>
@@ -184,9 +187,10 @@ export default function EditProfile(props) {
 							<h2 className="setTitle">JOB TITLE</h2>
 							<div className="setBox rowsetBox">
 								<Input
-									placeholder="Student"
+									placeholder={user.job}
 									onChange={handelJobChange}
-								/>
+									value={jobtitle}
+									/>
 							</div>
 						</div>
 						<div className="accountSet">
@@ -211,7 +215,7 @@ export default function EditProfile(props) {
 									style={{ width: '100%' }}
 									onChange={handleGenderChange}
 								>
-									<Option value="men">Man</Option>
+									<Option value="man">Man</Option>
 									<Option value="woman">Woman</Option>
 									<Option value="other">Other</Option>
 								</Select>

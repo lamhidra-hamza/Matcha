@@ -12,6 +12,7 @@ class User {
             password: await bcrypt.hash(data.password, 11),
             biography: "",
             gender: "men",
+            job: "",
             firstName: data.firstName,
             lastName: data.lastName,
             minAge: 18,
@@ -22,6 +23,7 @@ class User {
             interessted: "both",
             verified: false,
             infoCompleted: false,
+            bornDate: data.bornDate.slice(0, 19).replace("T", " ")
         };
         await connection.promise().query("INSERT INTO users SET ?", info);
 
@@ -63,22 +65,23 @@ class User {
     }
 
     async findOneAndUpdate(userId, id, data) {
-        const sql = `UPDATE users SET
-            username = '${data.username}', 
-            email = '${data.email}',
-            password = '${data.password}',
-            biography= '${data.biography}',
-            gender='${data.gender}',
-            interessted= '${data.interessted}',
-            firstName='${data.firstName}',
-            lastName='${data.lastName}',
-            minAge='${data.minAge}',
-            maxAge='${data.maxAge}',
-            maxDistance='${data.maxDistance}',
-            refreshToken = '${data.refreshToken}',
-            verified='${data.verified}'
-            where id = '${id}'`;
-        const [result, filed] = await connection.promise().query(sql);
+        const sql = `UPDATE users SET ?`;
+        const info = {
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            biography: data.biography,
+            gender: data.gender,
+            interessted: data.interessted,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            minAge: data.minAge,
+            maxAge: data.maxAge,
+            maxDistance: data.maxDistance,
+            refreshToken: data.refreshToken,
+            verified: data.verified
+        }
+        const [result, filed] = await connection.promise().query(sql, info, `where id = '${id}'`);
         return result;
     }
 

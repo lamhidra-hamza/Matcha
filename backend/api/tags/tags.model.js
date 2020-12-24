@@ -19,13 +19,20 @@ class Tags {
         return 1;
     }
 
-    async create(userId, data) {
-        await this.findTagId(data.tag);
+    async create(userId, tag) {
+        await this.findTagId(tag);
         let info = {
             user_id: userId,
-            tag_id: await this.findTagId(data.tag),
+            tag_id: await this.findTagId(tag),
         };
         await connection.promise().query("INSERT INTO tags SET ?", info);
+    }
+
+    async findallTagArr(userId) {
+        const [result, fields] = await connection
+            .promise()
+            .query(`SELECT tag FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id='${userId}'`);
+        return result;
     }
 
     async findall(userId) {

@@ -11,7 +11,6 @@ import {
 	getLocation,
 	logOut,
   } from "../tools/globalFunctions";
-import { SER } from '../conf/config';
 
 import { UserContext } from '../contexts/UserContext';
 
@@ -72,7 +71,7 @@ export default function Mainapp({width}) {
 			console.log("the userlocation real location", userLocation.real_location);
 			if (userLocation.real_location) {
 				if (navigator.geolocation) {
-				navigator.geolocation.watchPosition(function (position) {
+					navigator.geolocation.watchPosition(function (position) {
 					let locationResult = getLocation(position.coords.longitude, position.coords.latitude);
 					let newLocation = { ...userLocation };
 					newLocation.location_name = locationResult.name;
@@ -80,6 +79,7 @@ export default function Mainapp({width}) {
 					newLocation.longitude = locationResult.longitude;
 					setUpdateLocation(true);
 					setUserLocation(newLocation);
+					console.log("the new locatino is ", newLocation);
 				});
 				} else {
 				setUpdateLocation(true);
@@ -118,7 +118,7 @@ return (
         userLocation: userLocation,
 		setUserLocation: setUserLocation,
 		tags: tags,
-				setTags: setTags
+		setTags: setTags
       }}
     >
       <div className="containerMainapp">

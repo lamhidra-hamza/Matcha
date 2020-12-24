@@ -12,7 +12,6 @@ var {
     removeOne,
     getMany,
     createOne,
-    updateEmailConfirm
 } = require("./user.controller");
 
 router.route("/gettoken").post(getToken);
