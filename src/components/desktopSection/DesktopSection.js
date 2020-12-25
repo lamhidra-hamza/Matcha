@@ -17,9 +17,7 @@ function DesktopSection(props) {
     const [showProfile, setShowProfile] = useState(state && state.mobileKey === "5");
     const { width } = props;
     let match = useRouteMatch();
-    const context = useContext(UserContext);
-    const user = context.user;
-    const userImage = context.userImages;
+    const {user, userImages, tags} = useContext(UserContext);
 
     return (
         <div className="mainRow">
@@ -28,7 +26,7 @@ function DesktopSection(props) {
                 {showProfile ? <ProfileInfo /> : <Maintab/>}
             </div>
             <Switch>
-                <Route exact path={`${match.url}/profile`} render={(props) => (<Infocard {...props} user={user} userImage={userImage}/>)} />
+                <Route exact path={`${match.url}/profile`} render={(props) => (<Infocard {...props} tags={tags} user={user} userImages={userImages}/>)} />
                 <Route path={`${match.url}/infocard`} component={Infocard} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/messages/chatbox`}>

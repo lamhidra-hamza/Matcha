@@ -1,6 +1,5 @@
 const controllers = require('../../utils/crud');
 const model = require('./pictures.model');
-const { findOneById } = require('./pictures.model');
 var fs = require('fs');
 
 const uploadImage = async(req, res) => {
@@ -126,7 +125,6 @@ async function removeOne(req, res) {
     }
 }
 
-const controller = controllers(model);
 module.exports = {
     getMany: getMany,
     getOne: getOne,

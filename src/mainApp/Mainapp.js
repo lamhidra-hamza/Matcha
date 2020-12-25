@@ -1,33 +1,15 @@
-// ip = await axios.get("https://api.ipify.org/?format=json");
-
-// console.log("ip");
-// console.log(ip);
-// console.log("ipp");
-// let geoIpResult = await axios.get(`https://api.ipgeolocation.io/ipgeo?apiKey=978b0a54a29146d0a338c509fee94dab&ip=${ip.data.ip}`);
-
-// console.log(geoIpResult);
-
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition((position) => {
-//       console.log(
-//         `the position is ${position.coords.longitude} and ${position.coords.latitude}`
-//       );
-//     });
-//   }
-
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import "./Mainapp.scss";
-import MobileSection from "../components/mobileSection/MobileSection";
-import DesktopSection from "../components/desktopSection/DesktopSection";
-import axios from "axios";
-import { Spin, message } from "antd";
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom';
+import './Mainapp.scss'
+import MobileSection from '../components/mobileSection/MobileSection'
+import DesktopSection from '../components/desktopSection/DesktopSection'
+import axios from 'axios';
+import { Spin, message } from 'antd';
 import {
-  getData,
-  putData,
-  getLocation,
   logOut,
   getCoords,
+  getData,
+	putData,
 } from "../tools/globalFunctions";
 import { SER } from "../conf/config";
 import { UserContext } from "../contexts/UserContext";
@@ -48,23 +30,24 @@ export default function Mainapp({ width }) {
   const [updatePic, setUpdatePic] = useState(false);
   const [loading, setLoading] = useState(false);
   const [realCoordinates, setRealCoordinates] = useState({...userLocation});
+  const [tags, setTags] = useState([""]);
   const [warning, setWarning] = useState(true);
   const [error, setError] = useState({});
   const history = useHistory();
 
   useEffect(() => {
-    const source = axios.CancelToken.source();
-    const postData = async () => {
-      console.log("update user informatin in the database");
-      let result = await putData(`api/users/${id}`, user);
-      console.log("the result of the put user is ", result.data);
-    };
-    if (update) postData();
-
-    return () => {
-      source.cancel();
-    };
-  }, [user]);
+		const source = axios.CancelToken.source();
+		const postData = async () => {
+		  console.log("update user informatin in the database");
+		  let result = await putData(`api/users/${id}`, user);
+		  console.log("the result of the put user is ", result.data);
+		};
+		if (update) postData();
+	
+		return () => {
+		  source.cancel();
+		};
+	  }, [user]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -137,10 +120,20 @@ export default function Mainapp({ width }) {
       setLoading(false);
       setUpdate(true);
       setUpdatePic(true);
+      setTags(tags.data.data);
       setUpdateLocation(true);
     }
     fetchData();
   }, []);
+
+  if (loading)
+return (
+	<div className="containerMainapp">
+		<div className="loading">
+			<Spin size="large" />
+		</div>
+	</div>
+)
 
   return (
     <UserContext.Provider
@@ -151,7 +144,9 @@ export default function Mainapp({ width }) {
         setUserImages: setUserImages,
         userLocation: userLocation,
         setUserLocation: setUserLocation,
-        realCoordinates: realCoordinates
+        realCoordinates: realCoordinates,
+		    tags: tags,
+		setTags: setTags
       }}
     >
       <div className="containerMainapp">

@@ -5,38 +5,45 @@ class Tags {
     async findTagId(tag) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT * FROM tags WHERE tag='${tag}'`);
+            .query(`SELECT * FROM tag_content WHERE tag='${tag}'`);
         if (result[0]) return result[0].id;
         else {
-            await connection.promise().query(`INSERT INTO tags SET ?`, {
+            await connection.promise().query(`INSERT INTO tag_content SET ?`, {
                 tag: tag,
             });
             const [result, fields] = await connection
                 .promise()
-                .query(`SELECT * FROM tags WHERE tag='${tag}'`);
+                .query(`SELECT * FROM tag_content WHERE tag='${tag}'`);
             if (result[0]) return result[0].id;
         }
         return 1;
     }
 
-    async create(userId, data) {
-        await this.findTagId(data.tag);
+    async create(userId, tag) {
+        await this.findTagId(tag);
         let info = {
             user_id: userId,
-            tag_id: await this.findTagId(data.tag),
+            tag_id: await this.findTagId(tag),
         };
-        await connection.promise().query("INSERT INTO user_tag SET ?", info);
+        await connection.promise().query("INSERT INTO tags SET ?", info);
+    }
+
+    async findallTagArr(userId) {
+        const [result, fields] = await connection
+            .promise()
+            .query(`SELECT tag FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id='${userId}'`);
+        return result;
     }
 
     async findall(userId) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT tag FROM user_tag INNER JOIN tags ON user_tag.tag_id=tags.id WHERE user_id='${userId}'`);
+            .query(`SELECT tag, tags.id FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id='${userId}'`);
         return result;
     }
 
     async findOne(userId, id) {
-        // const sql = `SELECT * FROM user_tag WHERE user_id='${userId}' AND id='${id}'`;
+        // const sql = `SELECT * FROM tags WHERE user_id='${userId}' AND id='${id}'`;
         // const [result, filed] = await connection.promise().query(sql);
         // return result;
     }
@@ -50,7 +57,7 @@ class Tags {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM user_tag WHERE id='${id}' AND user_id='${userId}'`;
+        const sql = `DELETE FROM tags WHERE id='${id}' AND user_id='${userId}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

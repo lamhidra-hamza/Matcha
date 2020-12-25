@@ -8,15 +8,20 @@ import axios from "axios";
 import { uploadPictures } from "../../tools/globalFunctions";
 import { UserContext } from '../../contexts/UserContext';
 import { SER } from '../../conf/config';
+import { putData, postData } from "../../tools/globalFunctions";
 
 
 export default function EditProfile(props) {
 	const currentView = props && props.mobile ? "mobile" : "";
-	const userContext = useContext(UserContext);
-	const userImages = userContext.userImages;
-	const setUserImages = userContext.setUserImages;
+	const { userImages, user, setUserImages, setUser, tags, setTags } = useContext(UserContext);
+
 	const picHost = `${SER.PicPath}`;
 
+	const [about, setabout] = useState(user.biography);
+	const [gender, setGender] = useState(user.gender);
+	const [jobtitle, setJobtitle] = useState(user.job);
+	const [newTags, setNewTags] = useState(tags);
+ 
 	const [images, setImages] = useState([
 		{
 			preview: null,
@@ -93,7 +98,6 @@ export default function EditProfile(props) {
 	const clearImage = (index) => {
 		let newImages = [...images];
 		let newImagesLink = [...imageLink];
-
 		newImages[index] = { preview: null, file: null };
 		newImagesLink[index] = null;
 		setImages(newImages);
@@ -105,7 +109,7 @@ export default function EditProfile(props) {
 	const { Option } = Select;
 
 	const saveButtonClick = async () => {
-		await axios.put(`${SER.HOST}/api/pictures/${userImages.id}`,
+		await putData(`api/pictures/${userImages.id}`,
 			{...userImages,
 				picture_1: imageLink[0],
 				picture_2: imageLink[1],
@@ -126,12 +130,28 @@ export default function EditProfile(props) {
 			picture_4: result.data.arr[3] ? result.data.arr[3] : null,
 			picture_5: result.data.arr[4] ? result.data.arr[4] : null
 		})
+		setUser({...user, biography: about, gender: gender, job: jobtitle});
+		await postData(`api/tags/`, newTags);
+		setTags(newTags);
 		history.goBack();
 	};
 
-	const handleChange = () => {
-		console.log("done!!");
+	const handleGenderChange = (value) => {
+		setGender(value);
 	};
+
+	const handleAboutChange = ({target: {value}}) => {
+		setabout(value);
+	}
+
+	const handelJobChange = ({target: {value}}) => {
+		setJobtitle(value);
+	}
+
+	const handleTagChange = (value) => {
+		setNewTags(value);
+		console.log("new tag => ", value);
+	}
 
 	return (
 		<div className={`${currentView}editProfileContainer`}>
@@ -146,97 +166,59 @@ export default function EditProfile(props) {
 					</div>
 					<div className="profileInfoConatainer">
 						<div className="accountSet">
-							<h2 className="setTitle">ACCOUNT SETTINGS</h2>
-							<div className="setBox rowsetBox">
-								<h3 className="boxParam">Email</h3>
-								<Input
-									placeholder="amal@gmail.com"
+							<h2 className="setTitle">ABOUT {user.firstName.toUpperCase()}</h2>
+							<div className="setBox rowsetBox ">
+								<Input.TextArea
+									rows={4}
+									placeholder={user.biography}
 									style={{
-										height: "2vh",
-										borderRadius: "10px",
-										width: "200px",
+										height: "4vh",
+										borderRadius: "0px",
+										width: "100%",
 										border: "0px",
-										textAlign: "right",
+										textAlign: "left",
 									}}
-								/>
-							</div>
-							<div className="setBox borderTopNone rowsetBox">
-								<h3 className="boxParam">Password</h3>
-								<Input
-									placeholder="........"
-									style={{
-										height: "2vh",
-										borderRadius: "10px",
-										width: "200px",
-										border: "0px",
-										textAlign: "right",
-									}}
-								/>
-							</div>
-							<div className="setBox borderTopNone rowsetBox">
-								<h3 className="boxParam">First Name</h3>
-								<Input
-									placeholder="Amal"
-									style={{
-										height: "2vh",
-										borderRadius: "10px",
-										width: "200px",
-										border: "0px",
-										textAlign: "right",
-									}}
-								/>
-							</div>
-							<div className="setBox borderTopNone rowsetBox">
-								<h3 className="boxParam">Last Name</h3>
-								<Input
-									placeholder="bentbaha"
-									style={{
-										height: "2vh",
-										borderRadius: "10px",
-										width: "200px",
-										border: "0px",
-										textAlign: "right",
-									}}
+									value={about}
+									onChange={handleAboutChange}
 								/>
 							</div>
 						</div>
 						<div className="accountSet">
-							<h2 className="setTitle">DISCOVERY SETTINGS</h2>
+							<h2 className="setTitle">JOB TITLE</h2>
 							<div className="setBox rowsetBox">
-								<h3 className="boxParam">Location</h3>
-								<h3 className="boxValue">Marrakech, Morocco</h3>
+								<Input
+									placeholder={user.job}
+									onChange={handelJobChange}
+									value={jobtitle}
+									/>
 							</div>
-							<div className="setBox columnsetBox borderTopNone">
-								<div className="rowsetBox">
-									<h3 className="boxParam">Maximun Distance</h3>
-									<h3 className="boxValue">11 km.</h3>
-								</div>
-								<Slider defaultValue={30} />
-							</div>
-							<div className="setBox borderTopNone rowsetBox">
-								<h3 className="boxParam">Looking for</h3>
-								<Select
-									defaultValue="lucy"
-									style={{ width: 150 }}
-									onChange={handleChange}
+						</div>
+						<div className="accountSet">
+							<h2 className="setTitle">Tags</h2>
+							<div className="setBox rowsetBox">
+							<Select
+								mode="tags"
+								style={{ width: '100%', margin: '4px', marginRight: '5px' }}
+								placeholder="Enter Your Tags"
+								onChange={handleTagChange}
+								defaultValue={newTags}
 								>
-									<Option value="men">Men</Option>
-									<Option value="lucy">Women</Option>
-									<Option value="Yiminghe">Men & Women</Option>
+
 								</Select>
 							</div>
-							<div className="setBox borderTopNone columnsetBox">
-								<div className="rowsetBox">
-									<h3 className="boxParam">Age Range</h3>
-									<h3 className="boxValue">18-39</h3>
-								</div>
-								<Slider
-									range
-									step={1}
-									min={18}
-									max={39}
-									defaultValue={[22, 28]}
-								/>
+						</div>
+						<div className="accountSet">
+							<h2 className="setTitle">Gender</h2>
+							<div className="setBox rowsetBox">
+								<Select
+									defaultValue={user.gender}
+									style={{ width: '100%' }}
+									onChange={handleGenderChange}
+								>
+									<Option value="man">Man</Option>
+									<Option value="woman">Woman</Option>
+									<Option value="other">Other</Option>
+								</Select>
 							</div>
 						</div>
 					</div>

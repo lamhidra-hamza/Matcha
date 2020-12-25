@@ -7,10 +7,10 @@ import {
   Input,
   Tooltip,
   Checkbox,
-  Button,
+  Button, DatePicker
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { uploadPictures } from "../../tools/globalFunctions";
+import { SER } from '../../conf/config';
 
 
 const formItemLayout = {
@@ -51,10 +51,8 @@ const RegisterForm = (props) => {
   const onFinish = async (values) => {
 	props.showModal(values.email);
 	console.log(values)
-	const formData = new FormData();
-	const result = await axios.post(`http://localhost:5000/api/users/signup`, values);
-
-	await axios.post(`http://localhost:5000/api/pictures`, 
+	const result = await axios.post(`${SER.HOST}/api/users/signup`, values);
+	await axios.post(`${SER.HOST}/api/pictures`, 
 			{
 				user_id: result.data.id,
 				picture_1: null,
@@ -62,8 +60,9 @@ const RegisterForm = (props) => {
 				picture_3: null,
 				picture_4: null,
 				picture_5: null
-			})
-		};
+			});
+	// await axios.post(`${SER.HOST}/api/pictures`,)
+ };
 
   return (
     <div className="registerForm">
@@ -135,6 +134,12 @@ const RegisterForm = (props) => {
 						 whitespace: true }]} 
 					>
 					<Input />
+				</Form.Item>
+				<Form.Item
+					name="bornDate"
+					label="Born Date"
+					>
+					<DatePicker style={{width: '100%'}} />
 				</Form.Item>
 				<Form.Item style={{display: "flex", flexWrap: "wrap",justifyContent: "space-between"}}
 					name="password"

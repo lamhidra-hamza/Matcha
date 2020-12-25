@@ -8,15 +8,18 @@ import {
 import { useLocation, useRouteMatch, useHistory } from 'react-router-dom'
 import './InfoCard.css'
 import { SER } from '../../conf/config'
+import { calculate_age } from '../../tools/globalFunctions'
+
 
 const Infocard = (props) => {
-  const { user, userImage } = props;
+  const { user, userImages, tags } = props;
   const images = [
-		  userImage.picture_1,
-		  userImage.picture_2,
-		  userImage.picture_3,
-		  userImage.picture_4,
-		  userImage.picture_5];
+		  userImages.picture_1,
+		  userImages.picture_2,
+		  userImages.picture_3,
+		  userImages.picture_4,
+      userImages.picture_5];
+    
   const info = {
     firstName: 'Amal',
     age: 20,
@@ -59,9 +62,10 @@ const Infocard = (props) => {
             ))}
           </Carousel>
           <div className="rowboxCard" style={{ marginTop: '15px' }}>
-            <h2 className="fisrtNameCard"> {info.firstName}</h2>
+            <h2 className="fisrtNameCard"> {user.firstName}</h2>
             <h4 style={{ margin: '10px' }} className="smallfontCard">
-              {info.age}
+              {calculate_age(user.bornDate)}
+              {console.log(user.bornDate)}
             </h4>
           </div>
           <div className="rowboxCard">
@@ -79,7 +83,7 @@ const Infocard = (props) => {
               marginLeft: '15px',
             }}
           >
-            {info.tags.map((tag) => (
+            {tags.map((tag) => (
               <Tag
                 color="blue"
                 style={{
@@ -98,7 +102,7 @@ const Infocard = (props) => {
           <Divider orientation="center">Status</Divider>
           <div className="rowboxCard">
             <h4 style={{ color: '#939292', fontSize: '1.3rem' }}>
-              {info.status}
+              {user.biography}
             </h4>
           </div>
           <Divider />

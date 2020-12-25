@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const serInfo = require("../../config/index");
 const serverInfo = require("../../config/index");
 const nodemailer = require("nodemailer");
+const e = require("express");
 
 let transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -180,19 +181,25 @@ async function createOne(req, res) {
 async function updateOne(req, res) {
     const body = req.body;
     try {
-        const data = await model.findOne(req.id, req.id);
-        console.log("the data is ", data[0]);
-        for (const [key, value] of Object.entries(body)) {
-            console.log(`${key}: ${value}`);
-            data[0][key] = value;
+        if (req.status === 0 || req.status === -1) {
+            // console.log(`the req.status is ${req.status}`);
+            res
+                .status(200)
+                .send({ status: req.status, message: "token is invalid or expired" });
+        } else {
+            const data = await model.findOne(req.id, req.id);
+            // console.log("the data is ", data[0]);
+            for (const [key, value] of Object.entries(body)) {
+                data[0][key] = value;
+            }
+            await model.findOneAndUpdate(
+                req.id,
+                req.id,
+                data[0]
+            );
+            // console.log("the new data is ==>");
+            // console.log(data[0]);
         }
-        await model.findOneAndUpdate(
-            req.id,
-            req.id,
-            data[0]
-        );
-        console.log("the new data is ==>");
-        console.log(data[0]);
     } catch (err) {
         console.log(err);
         res.status(400).end({
