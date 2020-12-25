@@ -96,6 +96,8 @@ export default function Mainapp({ width }) {
     }
 
     async function fetchData() {
+
+      
       setLoading(false);
 
       const userResult = await getData(`api/users/${id}`, {}, false);
