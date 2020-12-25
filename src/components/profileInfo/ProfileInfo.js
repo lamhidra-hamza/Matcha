@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { UserContext } from "../../contexts/UserContext";
 import { AutoComplete } from "antd";
+import { getCoords } from "../../tools/globalFunctions";
 
 const citiesData = require("../../locationData/cities.json");
 const countriesData = require("../../locationData/countries.json");
@@ -13,12 +14,20 @@ const countriesData = require("../../locationData/countries.json");
 const { Option } = Select;
 
 const ProfileInfo = (props) => {
-  const { user, setUser, userLocation, setUserLocation } = useContext(
-    UserContext
-  );
-  const [newUser, setNewUser] = useState({ ...user});
-  const [coords, setCoords] = useState({ ...userLocation });
+  const {
+    user,
+    setUser,
+    userLocation,
+    setUserLocation,
+    realCoordinates,
+  } = useContext(UserContext);
+  const [newUser, setNewUser] = useState({ ...user });
+  const [coords, setCoords] = useState({
+    ...userLocation,
+    real_location: userLocation.real_location == 1 ? true : false,
+  });
   const [cities, setCities] = useState([]);
+  const [userCity, setUserCity] = useState("");
 
   const history = useHistory();
 
@@ -29,19 +38,19 @@ const ProfileInfo = (props) => {
   };
 
   const handelEmailChange = ({ target: { value } }) => {
-    setNewUser({...newUser, email: value});
+    setNewUser({ ...newUser, email: value });
   };
 
   const handelPassChange = ({ target: { value } }) => {
-    setNewUser({...newUser, password: value});
+    setNewUser({ ...newUser, password: value });
   };
 
   const handelFirstChange = ({ target: { value } }) => {
-    setNewUser({...newUser, firstName: value});
+    setNewUser({ ...newUser, firstName: value });
   };
 
   const handelLastChange = ({ target: { value } }) => {
-    setNewUser({...newUser, lastName: value});
+    setNewUser({ ...newUser, lastName: value });
   };
 
   const AgeRangeChange = (range) => {
@@ -52,18 +61,25 @@ const ProfileInfo = (props) => {
     setNewUser({ ...newUser, maxDistance: dis });
   };
 
-  const handelRealLocationChange = () => {
-    if (coords.real_location)
+  const handelRealLocationChange = async () => {
+    if (coords.real_location) {
       setCoords({
         ...coords,
-        real_location: !coords.real_location,
-        location_name: userLocation.location_name,
+        real_location: false,
       });
-    else setCoords({ ...coords, real_location: !coords.real_location });
+    } else {
+      setCoords({
+        real_location: true,
+        longitude: realCoordinates.longitude,
+        latitude: realCoordinates.latitude,
+        location_name: realCoordinates.location_name,
+      });
+    }
   };
 
   const handleSearch = (value) => {
     let res = [];
+    setUserCity(value);
     if (value.length == 0) {
       setCities([]);
       return;
@@ -95,6 +111,7 @@ const ProfileInfo = (props) => {
 
   const handleSelect = (value) => {
     const result = cities.filter((city) => city.name == value);
+    setUserCity(value);
     let newCoords = {
       longitude: parseFloat(result[0].longitude),
       latitude: parseFloat(result[0].latitude),
@@ -110,8 +127,7 @@ const ProfileInfo = (props) => {
     // message.warning(
     //   `Your email has updated, please go to your ${email} address to confirm it !!`
     // );
-   
-    
+
     setUserLocation({
       longitude: coords.longitude,
       latitude: coords.latitude,
@@ -127,13 +143,18 @@ const ProfileInfo = (props) => {
         style={{ width: props && props.mobile ? "100%" : "400px" }}
         className="profileInfoConatainer"
       >
-        {props && props.mobile &&
-            <div className="floatBtn">
-                <Button shape="round" className={'saveProfileBtn'} onClick={saveButtonClick}>
-                    Save
-                </Button>
-            </div>}
-            <LikeViewItems />
+        {props && props.mobile && (
+          <div className="floatBtn">
+            <Button
+              shape="round"
+              className={"saveProfileBtn"}
+              onClick={saveButtonClick}
+            >
+              Save
+            </Button>
+          </div>
+        )}
+        <LikeViewItems />
         <div className="accountSet">
           <h2 className="setTitle">ACCOUNT SETTINGS</h2>
           <div className="setBox rowsetBox">
@@ -223,9 +244,10 @@ const ProfileInfo = (props) => {
                 width: 200,
               }}
               onSearch={handleSearch}
-              placeholder={userLocation.location_name}
+              placeholder={coords.location_name}
               disabled={coords.real_location}
               onSelect={handleSelect}
+              value={coords.real_location ? coords.location_name : userCity}
             >
               {cities.map((city, index) => (
                 <Option key={index} value={city.name}>

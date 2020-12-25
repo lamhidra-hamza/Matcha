@@ -27,6 +27,7 @@ import {
   putData,
   getLocation,
   logOut,
+  getCoords,
 } from "../tools/globalFunctions";
 import { SER } from "../conf/config";
 import { UserContext } from "../contexts/UserContext";
@@ -46,6 +47,7 @@ export default function Mainapp({ width }) {
   const [update, setUpdate] = useState(false);
   const [updatePic, setUpdatePic] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [realCoordinates, setRealCoordinates] = useState({...userLocation});
   const [warning, setWarning] = useState(true);
   const [error, setError] = useState({});
   const history = useHistory();
@@ -72,9 +74,9 @@ export default function Mainapp({ width }) {
           `${SER.HOST}/api/pictures/${userImages.id}`,
           userImages
         );
-        console.log("Result== ", result);
+        //console.log("Result== ", result);
       } catch (err) {
-        console.log("ERRROOR", err);
+        //console.log("ERRROOR", err);
       }
     };
     if (updatePic) putData();
@@ -115,35 +117,21 @@ export default function Mainapp({ width }) {
 
       const userResult = await getData(`api/users/${id}`, {}, false);
       const pictureResult = await getData(`api/pictures/${id}`, {}, false);
-      const locationResult = await getData(`api/location/${id}`, {}, false);
-
+      let locationResult = await getData(`api/location/${id}`, {}, false);
       userLocation.latitude = locationResult.data.latitude;
       userLocation.longitude = locationResult.data.longitude;
       userLocation.location_name = locationResult.data.location_name;
       userLocation.real_location = locationResult.data.real_location;
-
-      console.log("the userlocation real location", userLocation.real_location);
-      if (userLocation.real_location) {
-        if (navigator.geolocation) {
-          navigator.geolocation.watchPosition(function (position) {
-            let locationResult = getLocation(position.coords.longitude, position.coords.latitude);
-            let newLocation = { ...userLocation };
-            newLocation.location_name = locationResult.name;
-            newLocation.latitude = locationResult.latitude;
-            newLocation.longitude = locationResult.longitude;
-            setUpdateLocation(true);
-            setUserLocation(newLocation);
-          });
-        } else {
-          setUpdateLocation(true);
-
-          // let ip = await axios.get("https://api.ipify.org/?format=json");
-          // let geoIpResult = await axios.get(
-          //   `https://api.ipgeolocation.io/ipgeo?apiKey=978b0a54a29146d0a338c509fee94dab&ip=${ip.data.ip}`
-          // );
+      locationResult = await getCoords(userLocation);
+      let newLocation = {...userLocation};
+        newLocation.location_name = locationResult.location_name;
+        newLocation.latitude = locationResult.latitude;
+        newLocation.longitude = locationResult.longitude;
+        setUpdateLocation(true);
+        setRealCoordinates(newLocation);
+        if (userLocation.real_location){
+          setUserLocation(newLocation);
         }
-      }
-
       setUser(userResult.data);
       setUserImages(pictureResult.data);
       setLoading(false);
@@ -163,6 +151,7 @@ export default function Mainapp({ width }) {
         setUserImages: setUserImages,
         userLocation: userLocation,
         setUserLocation: setUserLocation,
+        realCoordinates: realCoordinates
       }}
     >
       <div className="containerMainapp">
