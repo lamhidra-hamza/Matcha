@@ -203,7 +203,6 @@ export default function EditProfile(props) {
 								onChange={handleTagChange}
 								defaultValue={newTags}
 								>
-
 								</Select>
 							</div>
 						</div>

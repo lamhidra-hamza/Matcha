@@ -42,10 +42,10 @@ class Tags {
         return result;
     }
 
-    async findOne(userId, id) {
-        // const sql = `SELECT * FROM tags WHERE user_id='${userId}' AND id='${id}'`;
-        // const [result, filed] = await connection.promise().query(sql);
-        // return result;
+    async AllTags() {
+        const sql = `SELECT * FROM tag_content`;
+        const [result, filed] = await connection.promise().query(sql);
+        return result;
     }
 
     async findOneAndUpdate(userId, id, data) {

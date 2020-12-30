@@ -1,5 +1,24 @@
 const model = require('./tags.model');
 
+const getAll = async(req, res) => {
+    try {
+        if (req.status === 0 || req.status === -1)
+            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+        else {
+            const result = await model.AllTags();
+            console.log(result);
+            res.status(200).json({
+                tags: result,
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).end({
+            msg: `Error UserID = ${req.user.id} Does not exists`,
+        });
+    }
+}
+
 const getMany = async(req, res) => {
     try {
         if (req.status === 0 || req.status === -1)
@@ -100,4 +119,5 @@ module.exports = {
     createOne: createOne,
     updateOne: updateOne,
     removeOne: removeOne,
+    getAll: getAll
 };

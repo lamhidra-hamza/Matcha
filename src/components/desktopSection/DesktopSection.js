@@ -17,7 +17,7 @@ function DesktopSection(props) {
     const [showProfile, setShowProfile] = useState(state && state.mobileKey === "5");
     const { width } = props;
     let match = useRouteMatch();
-    const {user, userImages, tags} = useContext(UserContext);
+    const { user, userImages, tags } = useContext(UserContext);
 
     return (
         <div className="mainRow">
@@ -35,7 +35,7 @@ function DesktopSection(props) {
                         {width > 1300 && <UserInfo />}
                     </div>
                 </Route>
-                <Route path={`${match.url}/`} component={DisplayUsers} />
+                <Route path={`${match.url}/`} render={(props) => (<DisplayUsers {...props} user={user}/>)}/>
             </Switch>
         </div>
     )

@@ -150,16 +150,18 @@ async function getOne(req, res) {
 }
 
 async function getMany(req, res) {
-    const body = req.body;
+    const filters = req.query;
+    console.log("body==>", filters)
     try {
-        const data = await model.findall(body.userID);
+        const data = await model.findall(req.id, filters);
+        console.log(data);
         res.status(200).json({
-            data: data,
+            users: data,
         });
     } catch (err) {
         console.log(err);
         res.status(400).end({
-            msg: `Error userID = ${body.userID} Does not exists`,
+            msg: `Error userID = Does not exists`,
         });
     }
 }

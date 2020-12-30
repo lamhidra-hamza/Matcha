@@ -31,17 +31,60 @@ class User {
     }
 
     async updateRefreshToken(userId, refreshToken) {
-        const sql = `UPDATE users SET
-       refreshToken = '${refreshToken}'
-       WHERE id = '${userId}'`;
-        const [result, filed] = await connection.promise().query(sql);
-        return result;
-    }
+            const sql = `UPDATE users SET
+            refreshToken = '${refreshToken}'
+            WHERE id = '${userId}'`;
+            const [result, filed] = await connection.promise().query(sql);
+            return result;
+        }
+        // SELECT users.id, COUNT(tag) from users
+        // INNER JOIN tags ON tags.user_id=users.id
+        // INNER JOIN tag_content ON tag_content.id=tags.tag_id
+        // WHERE tag_content.tag IN ('swiming', 'coding')
+        // GROUP BY users.id
+        // HAVING COUNT(tag) > 0
 
-    async findall(userId) {
+    // SELECT users.id,
+    // COUNT(tag),
+    // users.firstName,
+    // TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+    // pictures.picture_1
+    // from users
+    // INNER JOIN tags ON tags.user_id=users.id
+    // INNER JOIN tag_content ON tag_content.id=tags.tag_id
+    // INNER JOIN pictures ON pictures.user_id=users.id
+    // WHERE tag_content.tag IN ('swiming', 'coding', 'traveling')
+    // GROUP BY users.id, pictures.picture_1, users.firstName
+    // HAVING age BETWEEN ${filters.minAge} AND ${filters.maxAge} AND COUNT(tag) > 0 AND users.id !='${userId}'
+    // ORDER BY `COUNT(tag)`  DESC
+    // LIMIT 0, 5
+
+
+    // query("IN (?)", [])
+    // filter?page=1
+    // 5 * (page - 1), 5
+
+    async findall(userId, filters) {
+        const injectedString = filters.tags.map(c => `'${c}'`).join(', ');
+        const sql = `SELECT users.id,
+                    COUNT(tag),
+                    users.firstName,
+                    TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+                    pictures.picture_1
+                    from users
+                    INNER JOIN tags ON tags.user_id=users.id
+                    INNER JOIN tag_content ON tag_content.id=tags.tag_id
+                    INNER JOIN pictures ON pictures.user_id=users.id
+                    WHERE tag_content.tag IN (${injectedString})
+                    GROUP BY users.id, pictures.picture_1, users.firstName
+                    HAVING age BETWEEN ${filters.minAge} AND ${filters.maxAge}
+                    AND COUNT(tag) > 0 AND users.id !='${userId}'
+                    ORDER BY COUNT(tag)  DESC
+                    LIMIT 0, 5
+            `;
         const [result, fields] = await connection
             .promise()
-            .query("SELECT * FROM users ");
+            .query(sql);
         return result;
     }
 
@@ -65,7 +108,7 @@ class User {
     }
 
     async findOneAndUpdate(userId, id, data) {
-        const sql = `UPDATE users SET ?`;
+        const sql = `UPDATE users SET ? WHERE id = '${id}'`;
         const info = {
             username: data.username,
             email: data.email,
@@ -79,9 +122,10 @@ class User {
             maxAge: data.maxAge,
             maxDistance: data.maxDistance,
             refreshToken: data.refreshToken,
-            verified: data.verified
+            verified: data.verified,
+            job: data.job,
         }
-        const [result, filed] = await connection.promise().query(sql, info, `where id = '${id}'`);
+        const [result, filed] = await connection.promise().query(sql, info);
         return result;
     }
 

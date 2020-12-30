@@ -100,6 +100,7 @@ export default function Mainapp({width}) {
 	}, [])
 
 
+
 if (loading)
 return (
 	<div className="containerMainapp">
