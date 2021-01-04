@@ -31,10 +31,14 @@ const ProfileInfo = (props) => {
 
   const history = useHistory();
 
-  const interestingChange = (value) => {};
+  const interestingChange = (value) => {
+    setNewUser({...newUser, interessted: value});
+  };
 
   const saveButtonClick = () => {
     history.goBack();
+    update();
+    setUser(newUser);
   };
 
   const handelEmailChange = ({ target: { value } }) => {
@@ -122,7 +126,7 @@ const ProfileInfo = (props) => {
   };
 
   const update = () => {
-    // message.success(`Your first name has updated to ${firstName}`);
+    message.success(`Your Info has updated !!`);
 
     // message.warning(
     //   `Your email has updated, please go to your ${email} address to confirm it !!`
@@ -143,24 +147,23 @@ const ProfileInfo = (props) => {
         style={{ width: props && props.mobile ? "100%" : "400px" }}
         className="profileInfoConatainer"
       >
-        {props && props.mobile && (
-          <div className="floatBtn">
+
+          <div className={props.mobile ? "floatBtn" : "floatBtnDes"}>
             <Button
               shape="round"
-              className={"saveProfileBtn"}
+              className={props.mobile ? "saveProfileBtn" : "saveProfileBtnDes"}
               onClick={saveButtonClick}
             >
               Save
             </Button>
           </div>
-        )}
         <LikeViewItems />
         <div className="accountSet">
           <h2 className="setTitle">ACCOUNT SETTINGS</h2>
           <div className="setBox rowsetBox">
             <h3 className="boxParam">Email</h3>
             <Input
-              placeholder={user.email}
+              placeholder={newUser.email}
               style={{
                 height: "2vh",
                 borderRadius: "10px",
@@ -196,7 +199,7 @@ const ProfileInfo = (props) => {
           <div className="setBox borderTopNone rowsetBox">
             <h3 className="boxParam">First Name</h3>
             <Input
-              placeholder={user.firstName}
+              placeholder={newUser.firstName}
               style={{
                 height: "2vh",
                 borderRadius: "10px",
@@ -212,7 +215,7 @@ const ProfileInfo = (props) => {
           <div className="setBox borderTopNone rowsetBox">
             <h3 className="boxParam">Last Name</h3>
             <Input
-              placeholder={user.lastName}
+              placeholder={newUser.lastName}
               style={{
                 height: "2vh",
                 borderRadius: "10px",
@@ -259,12 +262,12 @@ const ProfileInfo = (props) => {
           <div className="setBox columnsetBox borderTopNone">
             <div className="rowsetBox">
               <h3 className="boxParam">Maximun Distance</h3>
-              <h3 className="boxValue">{user.maxDistance} km.</h3>
+              <h3 className="boxValue">{newUser.maxDistance} km.</h3>
             </div>
-            {user.maxDistance && (
+            {newUser.maxDistance && (
               <Slider
                 max={200}
-                defaultValue={user.maxDistance}
+                defaultValue={newUser.maxDistance}
                 onChange={handelDistanceChange}
                 style={{ marginBottom: "15px" }}
               />
@@ -274,7 +277,7 @@ const ProfileInfo = (props) => {
             <h3 className="boxParam">Loking for</h3>
             {user.interessted && (
               <Select
-                defaultValue={user.interessted}
+                defaultValue={newUser.interessted}
                 style={{ width: 150, marginBottom: "9px" }}
                 onChange={interestingChange}
               >
@@ -288,16 +291,16 @@ const ProfileInfo = (props) => {
             <div className="rowsetBox">
               <h3 className="boxParam">Age Range</h3>
               <h3 className="boxValue">
-                {user.minAge}-{user.maxAge}
+                {newUser.minAge}-{newUser.maxAge}
               </h3>
             </div>
-            {user.minAge && user.maxAge && (
+            {newUser.minAge && newUser.maxAge && (
               <Slider
                 range
                 step={1}
                 min={18}
                 max={39}
-                defaultValue={[user.minAge, user.maxAge]}
+                defaultValue={[newUser.minAge, newUser.maxAge]}
                 style={{ marginBottom: "15px" }}
                 onChange={AgeRangeChange}
               />

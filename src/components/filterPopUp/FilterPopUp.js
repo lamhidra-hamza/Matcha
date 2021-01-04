@@ -1,17 +1,18 @@
-import { React, useState, useEffect, Children } from 'react'
+import React, { useState, useEffect, Children } from 'react'
 import { Modal, Button } from 'antd'
 import { Select, Slider, Rate, Checkbox, Spin } from 'antd'
 import './FilterPopUp.scss'
 import { getData } from "../../tools/globalFunctions"
-
+import { faLandmark } from '@fortawesome/free-solid-svg-icons'
 
 export default function FilterPopUp(props) {
 	const { Option } = Select
+	const { filterParams, setFilerParams, sortedBy, setSortedBy } = props;
 
-	const [sortValue, setSortValue] = useState([false, false, false, false])
-	const [visible, setVisible] = useState([false, true]);
+	const [sortValue, setSortValue] = useState(sortedBy);
 	const [loading, setLoading] = useState(true);
 	const [alltags, setAlltags]  = useState([]);
+	const [newFilterParams, setNewFilterParams] =  useState(filterParams);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -33,6 +34,16 @@ export default function FilterPopUp(props) {
 			else return false
 		}),
 		)
+		if (key === 0 && value)
+			setNewFilterParams({...newFilterParams, sortedBy: 'tags'});
+		if (key === 1 && value)
+			setNewFilterParams({...newFilterParams, sortedBy: 'distance'});
+		if (key === 2 && value)
+			setNewFilterParams({...newFilterParams, sortedBy: 'age'});
+		if (key === 3 && value)
+			setNewFilterParams({...newFilterParams, sortedBy: 'frameRate'});
+		if (!value)
+			setNewFilterParams({...newFilterParams, sortedBy: ''});
 	}
 
 	const children = []
@@ -42,8 +53,15 @@ export default function FilterPopUp(props) {
 		)
 	}
 
-	function handleChange(value) {
-		console.log(`selected ${value}`)
+	function handleTagsChange(value) {
+		let arr = [];
+		Object.keys(value).map(function(key, index) {
+			if (isNaN(value[key]))
+				arr.push(value[key])
+			else
+				arr.push(alltags[value[key] - 1].tag);
+		  });
+		setNewFilterParams({...newFilterParams, tags: arr});
 	}
 
 	function getStyle() {
@@ -52,6 +70,24 @@ export default function FilterPopUp(props) {
 		borderRadius: '50px',
 		height: props.mobile ? '30vh' : '500px',
 		}
+	}
+
+	const handleOk = () => {
+		setFilerParams(newFilterParams);
+		setSortedBy(sortValue);
+		props.handleCancel();
+	}
+
+	const handleDistanceChange = (value) => {
+		setNewFilterParams({...newFilterParams, maxDistance: value});
+	}
+
+	const handleAgeChange = (value) => {
+		setNewFilterParams({...newFilterParams, minAge: value[0], maxAge: value[1]})
+	}
+
+	const handleRateChange = (value) => {
+		console.log('Rating ==>', value);
 	}
 
 	if (loading)
@@ -70,8 +106,8 @@ export default function FilterPopUp(props) {
 			bodyStyle={getStyle()}
 			centered={true}
 			width={props.mobile ? '100vw' : '50vw'}
-			footer={[
-			]}
+			onOk={handleOk}
+			
 		>
 			<div className="filterUsers">
 			<div className="filterRow">
@@ -80,26 +116,33 @@ export default function FilterPopUp(props) {
 					mode="tags"
 					style={{ width: '50%', margin: '4px', marginRight: '5px' }}
 					placeholder="Enter Your Tags"
-					onChange={handleChange}
+					onChange={handleTagsChange}
+					loading={loading}
+					defaultValue={newFilterParams.tags}
 						>
-							{alltags.map(item => {return (<Option key={item.id}>{item.tag}</Option>)})}
+						{alltags.map(item => {return (<Option key={item.id}>{item.tag}</Option>)})}
 				</Select>
 			</div>
 			<div className="filterRow">
 				<h4 style={{ fontWeight: '900', color: '#5b5b5b' }}>
 				Distance (km):{' '}
 				</h4>
-				<Slider defaultValue={30} style={{ width: '50%' }} max={1000} />
+				<Slider
+					defaultValue={newFilterParams.maxDistance}
+					style={{ width: '50%' }}
+					max={150}
+					onAfterChange={handleDistanceChange} />
 			</div>
 			<div className="filterRow">
 				<h4 style={{ fontWeight: '900', color: '#5b5b5b' }}>Age: </h4>
 				<Slider
-				style={{ width: '50%' }}
-				range
-				step={1}
-				min={18}
-				max={70}
-				defaultValue={[22, 28]}
+					style={{ width: '50%' }}
+					range
+					step={1}
+					min={18}
+					max={40}
+					defaultValue={[newFilterParams.minAge, newFilterParams.maxAge]}
+					onAfterChange={handleAgeChange}
 				/>
 			</div>
 			<div className="filterRow">
@@ -109,6 +152,7 @@ export default function FilterPopUp(props) {
 					allowHalf
 					defaultValue={2.5}
 					style={{ fontWeight: '900', color: '#f8a9ac' }}
+					onChange={handleRateChange}
 				/>
 				</div>
 			</div>

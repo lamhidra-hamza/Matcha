@@ -40,7 +40,7 @@ const UserCard = ({ user }) => {
                     </div>
                     <div className="rowboxCard">
                         <EnvironmentTwoTone style={{fontSize: '1.2rem'}} />
-                        <h4 className="smallfontCard" style={{color: '#a3a3a3'}}>{info.distance} kilometers away</h4>
+                        <h4 className="smallfontCard" style={{color: '#a3a3a3'}}>{user.distance_in_km} kilometers away</h4>
                     </div>
                 </div>
             </div>

@@ -1,35 +1,57 @@
 .profileInfoConatainer {
-    height: 100vh; 
+    height: 100vh;
     overflow: auto;
     padding-bottom: 150px;
     align-items: center;
     .floatBtn {
-      position: absolute;
-      display: flex;
-      justify-content: flex-end;
-      z-index: 100;
-      bottom: 5px;
-      right: 20px;
-      width: 100%;
+        position: absolute;
+        display: flex;
+        justify-content: flex-end;
+        z-index: 100;
+        bottom: 5px;
+        right: 20px;
+        width: 100%;
     }
-    
+    .floatBtnDes {
+        position: absolute;
+        z-index: 100;
+        bottom: 3%;
+        left: 5%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
     .saveProfileBtn {
-      color: white !important;
-      background: rgb(245, 34, 45) !important;
-      background: linear-gradient(262deg, #ff7854, #fd267d) !important;
-      border: none !important;
-      cursor: pointer;
-      width: 75px !important;
-      height: 30px !important;
-      font-size: 1em !important;
-      font-weight: 500 !important;
-      padding: 0 !important;
-      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.27) !important;
+        color: white !important;
+        background: rgb(245, 34, 45) !important;
+        background: linear-gradient(262deg, #ff7854, #fd267d) !important;
+        border: none !important;
+        cursor: pointer;
+        width: 75px !important;
+        height: 30px !important;
+        font-size: 1em !important;
+        font-weight: 500 !important;
+        padding: 0 !important;
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.27) !important;
+    }
+    .saveProfileBtnDes {
+        color: white !important;
+        background: rgb(245, 34, 45) !important;
+        background: linear-gradient(262deg, #ff7854, #fd267d) !important;
+        border: none !important;
+        cursor: pointer;
+        width: 200px !important;
+        height: 40px !important;
+        font-size: 1em !important;
+        font-weight: 500 !important;
+        padding: 0 !important;
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.27) !important;
     }
 }
 
 ::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .accountSet {

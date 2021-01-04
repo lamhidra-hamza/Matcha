@@ -10,12 +10,15 @@ import { Spin } from 'antd';
 const DisplayUsers = ({user}) => {
 	const [filterVisible, SetFilterVisible] = useState([false, false]);
 	const [filterParams, setFilerParams] = useState({
-		tags: ["traveling", "swiming"],
-		Distance: user.Distance,
+		tags: [],
+		maxDistance: user.maxDistance,
 		minAge: user.minAge,
 		maxAge: user.maxAge,
-		sortBy: ""
+		interessted: user.interessted,
+		gender: user.gender,
+		sortedBy: ''
 	})
+	const [sortedBy, setSortedBy] = useState([false, false, false, false]);
 	const [loading, setloading] = useState(true);
 	const [usersBrowsing, setUsersBrowsing] = useState([]);
 
@@ -29,7 +32,7 @@ const DisplayUsers = ({user}) => {
 		}
 		fetchUsers();
 		
-	}, [])
+	}, [filterParams])
 
 	function showLogin() {
 		SetFilterVisible([!filterVisible[0], filterVisible[1]])
@@ -55,7 +58,9 @@ const DisplayUsers = ({user}) => {
 			<div className="filter">
 				<div className="filterButton" >
 					<Tooltip title="Filter">
-					<ControlOutlined onClick={showRegister} style={{fontSize: '40px', color: "#ff75a7"}}/>
+					<ControlOutlined
+						onClick={showRegister}
+						style={{fontSize: '40px', color: "#ff75a7"}}/>
 					</Tooltip>
 				</div>
 			</div>
@@ -68,6 +73,10 @@ const DisplayUsers = ({user}) => {
 				visible={filterVisible[1]}
 				handleCancel={handleCancel}
 				mobile={true}
+				filterParams={filterParams}
+				setFilerParams={setFilerParams}
+				sortedBy={sortedBy}
+				setSortedBy={setSortedBy}
 			/>
 		</div>
 	)

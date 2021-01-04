@@ -136,6 +136,7 @@ async function getOne(req, res) {
             });
             return;
         }
+
         delete data[0].password;
         delete data[0].refreshToken;
         data[0].status = 1;
@@ -154,9 +155,16 @@ async function getMany(req, res) {
     console.log("body==>", filters)
     try {
         const data = await model.findall(req.id, filters);
+        if (!data || req.status === 0 || req.status === -1) {
+            res.status(200).send({
+                status: req.status,
+            });
+            return;
+        }
         console.log(data);
         res.status(200).json({
             users: data,
+            status: 1
         });
     } catch (err) {
         console.log(err);
@@ -199,8 +207,7 @@ async function updateOne(req, res) {
                 req.id,
                 data[0]
             );
-            // console.log("the new data is ==>");
-            // console.log(data[0]);
+            res.status(200).send({ status: req.status, msg: "updating Done" });
         }
     } catch (err) {
         console.log(err);
