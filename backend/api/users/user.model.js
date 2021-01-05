@@ -25,7 +25,8 @@ class User {
             interessted: "both",
             verified: false,
             infoCompleted: false,
-            bornDate: data.bornDate.slice(0, 19).replace("T", " ")
+            bornDate: data.bornDate.slice(0, 19).replace("T", " "),
+            frameRate: 1
         };
         await connection.promise().query("INSERT INTO users SET ?", info);
 
@@ -73,6 +74,7 @@ class User {
         let filterGender = '';
         let n_tags = '';
         let orderBy = '';
+        let limit = filters.numberOfItem * filters.page;
         let distanceBetween = `CEILING(111.111 *
             DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
              * COS(RADIANS(location.latitude))
@@ -124,6 +126,7 @@ class User {
                                 pictures.picture_1,
                                 location.longitude,
                                 location.latitude,
+                                users.frameRate as rate,
                                 ${n_tags}
                                 ${distanceBetween}
                                 from users
@@ -136,13 +139,11 @@ class User {
         const sql = `${joinTablesQuery} ${tagsQuery} 
                      GROUP BY users.id, pictures.picture_1, users.firstName, location.longitude, location.latitude
                     HAVING age BETWEEN ${filters.minAge} AND ${filters.maxAge}
-                    AND distance_in_km < ${filters.maxDistance} 
+                    AND distance_in_km < ${filters.maxDistance} AND rate >= ${filters.frameRate}
                     ${tagsCount}
                     AND users.id !='${userId}'
                     ${orderBy}
-                    LIMIT 0, 10 `;
-
-        console.log(sql);
+                    LIMIT ${limit}, ${filters.numberOfItem} `;
 
         const [result, fields] = await connection
             .promise()

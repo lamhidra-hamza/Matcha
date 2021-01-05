@@ -161,7 +161,8 @@ async function getMany(req, res) {
             });
             return;
         }
-        console.log(data);
+        console.log("data ========== get many========", data);
+
         res.status(200).json({
             users: data,
             status: 1

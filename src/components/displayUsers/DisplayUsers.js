@@ -6,6 +6,7 @@ import FilterPopUp from '../filterPopUp/FilterPopUp';
 import { ControlOutlined } from '@ant-design/icons';
 import { getData } from "../../tools/globalFunctions";
 import { Spin } from 'antd';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const DisplayUsers = ({user}) => {
 	const [filterVisible, SetFilterVisible] = useState([false, false]);
@@ -16,11 +17,25 @@ const DisplayUsers = ({user}) => {
 		maxAge: user.maxAge,
 		interessted: user.interessted,
 		gender: user.gender,
-		sortedBy: ''
+		frameRate: 0,
+		sortedBy: '',
+		page : 0,
+		numberOfItem: 4
 	})
 	const [sortedBy, setSortedBy] = useState([false, false, false, false]);
 	const [loading, setloading] = useState(true);
+	const [loadMore, setLoadMore] = useState(true);
 	const [usersBrowsing, setUsersBrowsing] = useState([]);
+	const [page, setPage] = useState(1);
+
+	const getUsers = async () => {
+		setPage(page + 1);
+		const result = await getData(`api/users/`, {...filterParams, page: page }, false);
+		console.log(result.data.users);
+		if (result.data.users.length === 0)
+			setLoadMore(false);
+		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
+	}
 
 	useEffect(() => {
 		async function fetchUsers() {
@@ -31,7 +46,7 @@ const DisplayUsers = ({user}) => {
 			setloading(false);
 		}
 		fetchUsers();
-		
+
 	}, [filterParams])
 
 	function showLogin() {
@@ -64,11 +79,30 @@ const DisplayUsers = ({user}) => {
 					</Tooltip>
 				</div>
 			</div>
-			<div className="dusersContent">
-				{usersBrowsing.map((item) => {
-					return (<UserCard key={item.id} user={item}/>)
-				})}
+			<div id="scrollingDiv" className="dusersContent">
+				<InfiniteScroll
+					dataLength={usersBrowsing.length}
+					next={()=> setTimeout(getUsers, 1000) }
+					hasMore={loadMore}
+					style={{ display: 'flex', flexWrap: 'wrap',
+					justifyContent: 'center' }}
+					loader={
+						<div className="Scrollloading">
+							<Spin />
+						</div>
+						}
+					scrollableTarget="scrollingDiv"
+					endMessage={
+						<p style={{ textAlign: 'center' }}>
+						<b>Yay! You have seen it all</b>
+						</p>
+					}>
+					{usersBrowsing.map((item) => {
+						return (<UserCard key={item.id} user={item}/>)
+					})}
+				</InfiniteScroll>
 			</div>
+			
 			<FilterPopUp
 				visible={filterVisible[1]}
 				handleCancel={handleCancel}

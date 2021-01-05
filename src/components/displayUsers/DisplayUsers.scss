@@ -13,7 +13,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    overflow-y: auto;
+    overflow-y: scroll;
     padding-bottom: 80px;
 }
 
@@ -25,4 +25,9 @@
 .filterButton {
     margin-top: 20px;
     margin-right: 20px;
+}
+
+.Scrollloading {
+    display: flex;
+    justify-content: center;
 }

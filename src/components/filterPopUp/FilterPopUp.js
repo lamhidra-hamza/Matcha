@@ -87,7 +87,7 @@ export default function FilterPopUp(props) {
 	}
 
 	const handleRateChange = (value) => {
-		console.log('Rating ==>', value);
+		setNewFilterParams({...newFilterParams, frameRate: value});
 	}
 
 	if (loading)
@@ -150,7 +150,7 @@ export default function FilterPopUp(props) {
 				<div className="fameRate">
 				<Rate
 					allowHalf
-					defaultValue={2.5}
+					defaultValue={newFilterParams.frameRate}
 					style={{ fontWeight: '900', color: '#f8a9ac' }}
 					onChange={handleRateChange}
 				/>

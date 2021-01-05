@@ -4,7 +4,7 @@ var uuid = require("uuid");
 class Location {
     async create(userId, data) {
         let info = {
-            user_id: userId,
+            user_id: data.user_id,
             longitude: data.longitude,
             latitude: data.latitude,
         };
