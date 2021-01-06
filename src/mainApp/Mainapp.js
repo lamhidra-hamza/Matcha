@@ -133,8 +133,8 @@ export default function Mainapp({ width }) {
 			userLocation: userLocation,
 			setUserLocation: setUserLocation,
 			realCoordinates: realCoordinates,
-				tags: tags,
-				setTags: setTags
+			tags: tags,
+			setTags: setTags
 		}}
 		>
 		<div className="containerMainapp">

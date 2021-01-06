@@ -30,4 +30,14 @@
 .Scrollloading {
     display: flex;
     justify-content: center;
+    position: absolute;
+    bottom: 1%;
+    z-index: 100;
+}
+
+.endMessage {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0.5%;
 }

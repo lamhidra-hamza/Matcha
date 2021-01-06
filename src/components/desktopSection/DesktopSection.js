@@ -7,6 +7,7 @@ import ChatBox from '../chatBox/ChatBox'
 import UserInfo from '../userInfo/UserInfo'
 import EditProfile from '../editProfile/EditProfile'
 import DisplayUsers from '../displayUsers/DisplayUsers'
+import InfocardUsers from '../InfoCardUsers/InfocardUsers'
 import './DesktopSection.css'
 import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext'
@@ -27,7 +28,7 @@ function DesktopSection(props) {
             </div>
             <Switch>
                 <Route exact path={`${match.url}/profile`} render={(props) => (<Infocard {...props} tags={tags} user={user} userImages={userImages}/>)} />
-                <Route path={`${match.url}/infocard`} component={Infocard} />
+                <Route path={`${match.url}/infocard/:id`} component={InfocardUsers} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/messages/chatbox`}>
                     <div className="rightSide">

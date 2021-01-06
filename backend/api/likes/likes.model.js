@@ -3,19 +3,12 @@ var uuid = require('uuid')
 
 class Likes {
 
-    constructor() {
-        // const sql = `CREATE TABLE IF NOT EXISTS users (id VARCHAR(255),
-        //     name VARCHAR(255), email VARCHAR(255), password VARCHAR(255))`;
-        // connection.query(sql, (err) => {
-        //     if (err) throw err;
-        // })
-    }
-
     async create(userId, data) {
         console.log(data);
         let info = {
             user_id: userId,
             liked_user: data.liked_user,
+            date: new Date().toISOString().slice(0, 19).replace("T", " ")
         };
         await connection.promise().query("INSERT INTO likes SET ?", info);
     }

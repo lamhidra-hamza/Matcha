@@ -39,17 +39,18 @@ const getMany = async(req, res) => {
 
 const getOne = async(req, res) => {
     try {
-        const data = await model.findOne(req.id, req.params.id);
-        if (!data) {
-            res.status(400).end();
+        if (req.status === 0 || req.status === -1)
+            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+        else {
+            const data = await model.findall(req.params.id);
+            res.status(200).json({
+                data: [...data.map((item => { return item.tag }))],
+            });
         }
-        res.status(200).json({
-            user: data[0]
-        });
     } catch (err) {
         console.log(err);
         res.status(400).end({
-            msg: `Error in getOne`,
+            msg: `Error UserID = ${req.user.id} Does not exists`,
         });
     }
 };

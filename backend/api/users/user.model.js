@@ -2,7 +2,6 @@ var connection = require("../../utils/db");
 var uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const e = require("express");
-const { faFilePrescription } = require("@fortawesome/free-solid-svg-icons");
 
 class User {
 
@@ -34,38 +33,13 @@ class User {
     }
 
     async updateRefreshToken(userId, refreshToken) {
-            const sql = `UPDATE users SET
+        const sql = `UPDATE users SET
             refreshToken = '${refreshToken}'
             WHERE id = '${userId}'`;
-            const [result, filed] = await connection.promise().query(sql);
-            return result;
-        }
-        // SELECT users.id, COUNT(tag) from users
-        // INNER JOIN tags ON tags.user_id=users.id
-        // INNER JOIN tag_content ON tag_content.id=tags.tag_id
-        // WHERE tag_content.tag IN ('swiming', 'coding')
-        // GROUP BY users.id
-        // HAVING COUNT(tag) > 0
+        const [result, filed] = await connection.promise().query(sql);
+        return result;
+    }
 
-    // SELECT users.id,
-    // COUNT(tag),
-    // users.firstName,
-    // TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
-    // pictures.picture_1
-    // from users
-    // INNER JOIN tags ON tags.user_id=users.id
-    // INNER JOIN tag_content ON tag_content.id=tags.tag_id
-    // INNER JOIN pictures ON pictures.user_id=users.id
-    // WHERE tag_content.tag IN ('swiming', 'coding', 'traveling')
-    // GROUP BY users.id, pictures.picture_1, users.firstName
-    // HAVING age BETWEEN ${filters.minAge} AND ${filters.maxAge} AND COUNT(tag) > 0 AND users.id !='${userId}'
-    // ORDER BY `COUNT(tag)`  DESC
-    // LIMIT 0, 5
-
-
-    // query("IN (?)", [])
-    // filter?page=1
-    // 5 * (page - 1), 5
 
     async findall(userId, filters) {
         let joinTagsTable = '';
@@ -118,7 +92,6 @@ class User {
             filterGender = `WHERE users.gender='man' AND
                 (users.interessted='both' OR users.interessted='women')`;
 
-        console.log("Filter Gender== ", filterGender);
 
         const joinTablesQuery = `SELECT users.id,
                                 users.firstName,
@@ -144,6 +117,45 @@ class User {
                     AND users.id !='${userId}'
                     ${orderBy}
                     LIMIT ${limit}, ${filters.numberOfItem} `;
+
+        console.log("Filter Gender== ", sql);
+
+
+        const [result, fields] = await connection
+            .promise()
+            .query(sql);
+        return result;
+    }
+
+    async findOneInfoCard(userId, id) {
+        let distanceBetween = `CEILING(111.111 *
+            DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+             * COS(RADIANS(location.latitude))
+             * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
+             + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+             * SIN(RADIANS(location.latitude)))))) AS distance_in_km`
+
+        const sql = `SELECT users.id,
+            users.firstName,
+            TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+            location.longitude,
+            location.latitude,
+            users.biography,
+            users.frameRate as rate,
+            pictures.picture_1,
+            pictures.picture_2,
+            pictures.picture_3,
+            pictures.picture_4,
+            pictures.picture_5,
+            ${distanceBetween}
+            FROM users
+            
+            INNER JOIN pictures ON pictures.user_id=users.id
+            INNER JOIN location ON location.user_id=users.id
+            
+            WHERE users.id = '${id}'
+            AND users.id NOT IN (SELECT likes.liked_user FROM likes WHERE likes.user_id = '${userId}')
+            `;
 
         const [result, fields] = await connection
             .promise()

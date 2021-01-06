@@ -3,7 +3,6 @@ import './UserCard.scss'
 import { EnvironmentTwoTone } from '@ant-design/icons'
 import { Skeleton } from 'antd';
 import { useRouteMatch, useHistory } from 'react-router-dom'
-import { calculate_age } from '../../tools/globalFunctions.js'
 import { SER } from '../../conf/config.js'
 
 
@@ -22,7 +21,7 @@ const UserCard = ({ user }) => {
 
     const handelClick = () => {
         console.log(match)
-        history.push(`${match.url}/infocard`)
+        history.push(`${match.url}/infocard/${user.id}`)
     }
 
     return (

@@ -127,6 +127,26 @@ async function checkSession(req, res) {
     }
 }
 
+async function getOneForInfoCard(req, res) {
+    try {
+        const data = await model.findOneInfoCard(req.id, req.params.id);
+        if (!data || req.status === 0 || req.status === -1) {
+            res.status(200).send({
+                status: req.status,
+            });
+            return;
+        }
+        data[0].status = 1;
+        res.status(200).json(data[0]);
+    } catch (err) {
+        console.log("error");
+        console.log(err);
+        res.status(400).end({
+            msg: `Error in getOne`,
+        });
+    }
+}
+
 async function getOne(req, res) {
     try {
         const data = await model.findOne(req.id, req.id);
@@ -244,4 +264,5 @@ module.exports = {
     getToken: getToken,
     checkSession: checkSession,
     updateEmailConfirm: updateEmailConfirm,
+    getOneForInfoCard: getOneForInfoCard
 };

@@ -1,4 +1,5 @@
-import { React, useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext} from 'react';
+import axios from 'axios'
 import './DisplayUsers.scss';
 import UserCard from '../userCard/UserCard.js';
 import { Tooltip } from 'antd';
@@ -8,7 +9,7 @@ import { getData } from "../../tools/globalFunctions";
 import { Spin } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const DisplayUsers = ({user}) => {
+const DisplayUsers = ({ user }) => {
 	const [filterVisible, SetFilterVisible] = useState([false, false]);
 	const [filterParams, setFilerParams] = useState({
 		tags: [],
@@ -22,6 +23,7 @@ const DisplayUsers = ({user}) => {
 		page : 0,
 		numberOfItem: 4
 	})
+
 	const [sortedBy, setSortedBy] = useState([false, false, false, false]);
 	const [loading, setloading] = useState(true);
 	const [loadMore, setLoadMore] = useState(true);
@@ -38,6 +40,8 @@ const DisplayUsers = ({user}) => {
 	}
 
 	useEffect(() => {
+		const source = axios.CancelToken.source();
+
 		async function fetchUsers() {
 			setloading(true)
 			const result = await getData(`api/users/`, filterParams, false);
@@ -46,6 +50,10 @@ const DisplayUsers = ({user}) => {
 			setloading(false);
 		}
 		fetchUsers();
+
+		return () => {
+			source.cancel();
+		};
 
 	}, [filterParams])
 
@@ -93,7 +101,7 @@ const DisplayUsers = ({user}) => {
 						}
 					scrollableTarget="scrollingDiv"
 					endMessage={
-						<p style={{ textAlign: 'center' }}>
+						<p className="endMessage">
 						<b>Yay! You have seen it all</b>
 						</p>
 					}>
