@@ -115,11 +115,10 @@ class User {
                     AND distance_in_km < ${filters.maxDistance} AND rate >= ${filters.frameRate}
                     ${tagsCount}
                     AND users.id !='${userId}'
+                    AND users.id NOT IN (SELECT liked_user FROM likes WHERE user_id='${userId}')
+                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
                     ${orderBy}
                     LIMIT ${limit}, ${filters.numberOfItem} `;
-
-        console.log("Filter Gender== ", sql);
-
 
         const [result, fields] = await connection
             .promise()
@@ -154,7 +153,6 @@ class User {
             INNER JOIN location ON location.user_id=users.id
             
             WHERE users.id = '${id}'
-            AND users.id NOT IN (SELECT likes.liked_user FROM likes WHERE likes.user_id = '${userId}')
             `;
 
         const [result, fields] = await connection

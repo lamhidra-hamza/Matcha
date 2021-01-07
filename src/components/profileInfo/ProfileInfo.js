@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { UserContext } from "../../contexts/UserContext";
 import { AutoComplete } from "antd";
-import { getCoords } from "../../tools/globalFunctions";
 
 const citiesData = require("../../locationData/cities.json");
 const countriesData = require("../../locationData/countries.json");

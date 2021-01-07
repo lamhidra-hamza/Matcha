@@ -49,12 +49,28 @@ const Infocard = () => {
 
 	const handleBlockClick = () => {
 		postData(`api/block`, {blocked_user: id})
-		history.goBack();
+		history.push({
+			pathname: '/app',
+			state: {
+				mobileKey: "1",
+				desKey: "1", 
+				mobile: false,
+				blocked_user: id
+			},
+		})
 	}
 
 	const handleLikeClick = () => {
 		postData(`api/likes`, {liked_user: id});
-		history.goBack();
+		history.push({
+			pathname: '/app',
+			state: {
+				mobileKey: "1",
+				desKey: "1", 
+				mobile: false,
+				liked_user: id
+			},
+		})
 	}
 
 	if (loading)

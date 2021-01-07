@@ -4,6 +4,7 @@ import { EnvironmentTwoTone } from '@ant-design/icons'
 import { Skeleton } from 'antd';
 import { useRouteMatch, useHistory } from 'react-router-dom'
 import { SER } from '../../conf/config.js'
+import { postData } from '../../tools/globalFunctions'
 
 
 
@@ -20,8 +21,9 @@ const UserCard = ({ user }) => {
     let history = useHistory();
 
     const handelClick = () => {
-        console.log(match)
-        history.push(`${match.url}/infocard/${user.id}`)
+        history.push(`${match.url}/infocard/${user.id}`);
+        postData(`api/views`, {viewed_user: user.id});
+
     }
 
     return (

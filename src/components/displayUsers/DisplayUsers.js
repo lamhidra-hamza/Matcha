@@ -8,6 +8,7 @@ import { ControlOutlined } from '@ant-design/icons';
 import { getData } from "../../tools/globalFunctions";
 import { Spin } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useLocation } from 'react-router-dom';
 
 const DisplayUsers = ({ user }) => {
 	const [filterVisible, SetFilterVisible] = useState([false, false]);
@@ -23,7 +24,7 @@ const DisplayUsers = ({ user }) => {
 		page : 0,
 		numberOfItem: 4
 	})
-
+	const { state } = useLocation();
 	const [sortedBy, setSortedBy] = useState([false, false, false, false]);
 	const [loading, setloading] = useState(true);
 	const [loadMore, setLoadMore] = useState(true);
@@ -38,10 +39,23 @@ const DisplayUsers = ({ user }) => {
 			setLoadMore(false);
 		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
 	}
+	useEffect(() => {
+		const element = document.getElementById('scrollingDiv').getBoundingClientRect();
+		const surface = (element.height - 100) * (element.width - 100);
+		const numOfItemsPossible =  Math.floor(surface / (310 * 360));
+		if (numOfItemsPossible !== filterParams.numberOfItem)
+			setFilerParams({...filterParams, numberOfItem: numOfItemsPossible});
+		if (state && state.liked_user)
+			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.liked_user)]);
+		if (state && state.blocked_user)
+			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.blocked_user)]);
+	}, []);
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
-
+		
+		setLoadMore(true);
+		setPage(1);
 		async function fetchUsers() {
 			setloading(true)
 			const result = await getData(`api/users/`, filterParams, false);
@@ -71,8 +85,10 @@ const DisplayUsers = ({ user }) => {
 	if (loading)
 		return (
 			<div className="DusersContainer">
-				<div className="loading">
-					<Spin size="large" />
+				<div id="scrollingDiv" className="dusersContent">
+					<div className="loading">
+						<Spin size="large" />
+					</div>
 				</div>
 			</div>
 		)
@@ -90,7 +106,7 @@ const DisplayUsers = ({ user }) => {
 			<div id="scrollingDiv" className="dusersContent">
 				<InfiniteScroll
 					dataLength={usersBrowsing.length}
-					next={()=> setTimeout(getUsers, 1000) }
+					next={getUsers}
 					hasMore={loadMore}
 					style={{ display: 'flex', flexWrap: 'wrap',
 					justifyContent: 'center' }}
