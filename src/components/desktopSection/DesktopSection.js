@@ -7,6 +7,7 @@ import ChatBox from '../chatBox/ChatBox'
 import UserInfo from '../userInfo/UserInfo'
 import EditProfile from '../editProfile/EditProfile'
 import DisplayUsers from '../displayUsers/DisplayUsers'
+import DisplayLikedMe from '../displayLikedMe/DisplayLikedMe'
 import InfocardUsers from '../InfoCardUsers/InfocardUsers'
 import './DesktopSection.css'
 import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
@@ -36,6 +37,7 @@ function DesktopSection(props) {
                         {width > 1300 && <UserInfo />}
                     </div>
                 </Route>
+                <Route path={`${match.url}/likedme`} render={(props) => (<DisplayLikedMe {...props} user={user}/>)}/>
                 <Route path={`${match.url}/`} render={(props) => (<DisplayUsers {...props} user={user}/>)}/>
             </Switch>
         </div>
