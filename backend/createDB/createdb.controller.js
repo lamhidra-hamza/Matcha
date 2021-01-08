@@ -45,15 +45,15 @@ const viewsTable = {
 const chatTable = {
     sql: `
         CREATE TABLE IF NOT EXISTS chat(id INT AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(255),
-        receiver_id VARCHAR(255), chat_id VARCHAR(255), date DATETIME, FOREIGN KEY (user_id) REFERENCES
+        receiver_id VARCHAR(255), chat_id VARCHAR(255) UNIQUE, date DATETIME, FOREIGN KEY (user_id) REFERENCES
         users(id), FOREIGN KEY (receiver_id) REFERENCES users(id))        `,
     successMessage: "the CHAT Table has been created",
     failMessage: "the CHAT Table hasn't been created",
 };
 
 const messagesTable = {
-    sql: `CREATE TABLE IF NOT EXISTS messages(id INT AUTO_INCREMENT PRIMARY KEY, chat_id INT, content TEXT,
-        sender_id VARCHAR(255), date DATETIME, seen BOOLEAN, FOREIGN KEY (chat_id) REFERENCES chat(id))`,
+    sql: `CREATE TABLE IF NOT EXISTS messages(id INT AUTO_INCREMENT PRIMARY KEY, chat_id VARCHAR(255), content TEXT,
+        sender_id VARCHAR(255), date DATETIME, seen BOOLEAN, FOREIGN KEY (chat_id) REFERENCES chat(chat_id))       `,
     successMessage: "the MESSAGE Table has been created",
     failMessage: "the MESSAGE Table hasn't been created",
 };

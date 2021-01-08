@@ -102,7 +102,6 @@ const ProfileInfo = (props) => {
       if (location.name.toLowerCase().includes(value.toLowerCase())) {
         location.longitude = item.lng;
         location.latitude = item.lat;
-
         res.push(location);
       }
       if (res.length > 4) {

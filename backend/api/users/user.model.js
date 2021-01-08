@@ -235,7 +235,7 @@ class User {
     async findOneById(userId) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT * FROM users WHERE id = '${userId}'`);
+            .query(`SELECT * FROM users INNER JOIN pictures on pictures.user_id = users.id WHERE users.id = '${userId}'`);
         return result;
     }
 

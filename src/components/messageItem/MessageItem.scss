@@ -1,59 +1,117 @@
 .MessageItem {
-    width: 100%;
-    height: 120px;
-    display: flex;
-    justify-content: space-between;
-      align-items: center;
-    padding: 10px;
-    padding-right: 0px;
-    &:hover {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  padding-right: 0px;
+  &:hover {
     transition: all 0.3s ease-out;
     box-shadow: 0px 6px 4px rgba(38, 38, 38, 0.2);
     top: -8px;
     background-color: #f0f0f0;
     cursor: pointer;
   }
-}
 
-.avatarMessage {
+  .avatarMessage {
     display: flex;
     flex-direction: row;
-}
+  }
 
-.MessageItemMessage {
+  .MessageItemMessage {
     flex: 3;
     display: flex;
     margin-left: 10px;
     margin-top: 10px;
     flex-direction: column;
     justify-content: space-around;
-}
+  }
 
-.MessageItemAvatar {
+  .MessageItemAvatar {
     flex: 1;
-}
+  }
 
-.MessageItemAvatarImg {
-      border-radius: 50%;
-        width: 80px;
-        height: 80px;
-       border: 3px solid #fd2c79;
-}   
+  .MessageItemAvatarImg {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border: 3px solid #fd2c79;
+  }
 
-.MessageItem:hover .msgItemSelected {
-
+  .MessageItem:hover .msgItemSelected {
     width: 4px;
     height: 120px;
     background-color: #fd2c79;
-}
+  }
 
-.userName {
+  .userName {
     flex: 1;
     padding: 4px;
+  }
+
+  .msgSnippets {
+    flex: 3;
+    padding: 4px;
+    color: rgb(175, 172, 172);
+  }
 }
 
-.msgSnippets {
+.MessageItemUnseen {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  padding-right: 0px;
+  &:hover {
+    transition: all 0.3s ease-out;
+    box-shadow: 0px 6px 4px rgba(38, 38, 38, 0.2);
+    top: -8px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+
+  .avatarMessage {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .MessageItemMessage {
     flex: 3;
-        padding: 4px;
+    display: flex;
+    margin-left: 10px;
+    margin-top: 10px;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .MessageItemAvatar {
+    flex: 1;
+  }
+
+  .MessageItemAvatarImg {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border: 3px solid #fd2c79;
+  }
+
+  .MessageItem:hover .msgItemSelected {
+    width: 4px;
+    height: 120px;
+    background-color: #fd2c79;
+  }
+
+  .userName {
+    flex: 1;
+    padding: 4px;
+  }
+
+  .msgSnippets {
+    flex: 3;
+    padding: 4px;
     color: rgb(175, 172, 172);
+  }
 }
