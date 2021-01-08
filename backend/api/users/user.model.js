@@ -94,19 +94,19 @@ class User {
 
 
         const joinTablesQuery = `SELECT users.id,
-                                users.firstName,
-                                TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
-                                pictures.picture_1,
-                                location.longitude,
-                                location.latitude,
-                                users.frameRate as rate,
-                                ${n_tags}
-                                ${distanceBetween}
-                                from users
-                                ${joinTagsTable}
-                                INNER JOIN pictures ON pictures.user_id=users.id
-                                INNER JOIN location ON location.user_id=users.id
-                                ${filterGender} `;
+                    users.firstName,
+                    TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+                    pictures.picture_1,
+                    location.longitude,
+                    location.latitude,
+                    users.frameRate as rate,
+                    ${n_tags}
+                    ${distanceBetween}
+                    from users
+                    ${joinTagsTable}
+                    INNER JOIN pictures ON pictures.user_id=users.id
+                    INNER JOIN location ON location.user_id=users.id
+                    ${filterGender} `;
 
 
         const sql = `${joinTablesQuery} ${tagsQuery} 
@@ -119,9 +119,6 @@ class User {
                     AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
                     ${orderBy}
                     LIMIT ${limit}, ${filters.numberOfItem} `;
-
-                    console.log(sql);
-                    
 
         const [result, fields] = await connection
             .promise()
@@ -168,30 +165,65 @@ class User {
     async findallLikedMe(userId, filters) {
         const limit = filters.numberOfItem * filters.page;
         const sql = `SELECT users.id,
-                    users.firstName,
-                    TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
-                    pictures.picture_1,
-                    location.longitude,
-                    location.latitude,
+            users.firstName,
+            TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+            pictures.picture_1,
+            location.longitude,
+            location.latitude,
 
-                    CEILING(111.111 *
-                                DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
-                                * COS(RADIANS(location.latitude))
-                                * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
-                                + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
-                                * SIN(RADIANS(location.latitude)))))) AS distance_in_km
-                    from users
+            CEILING(111.111 *
+            DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+            * COS(RADIANS(location.latitude))
+            * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
+            + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+            * SIN(RADIANS(location.latitude)))))) AS distance_in_km
+            from users
 
-                    INNER JOIN pictures ON pictures.user_id=users.id
-                    INNER JOIN location ON location.user_id=users.id
-                    INNER JOIN likes ON likes.user_id=users.id
-                                                    
-                    GROUP BY users.id, pictures.picture_1, users.firstName, location.longitude, location.latitude, age
-                                        
-                    HAVING users.id !='${userId}'
-                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
-                    AND '${userId}' IN (SELECT liked_user FROM likes WHERE user_id=users.id)
-                    LIMIT ${limit}, ${filters.numberOfItem} `; 
+            INNER JOIN pictures ON pictures.user_id=users.id
+            INNER JOIN location ON location.user_id=users.id
+            INNER JOIN likes ON likes.user_id=users.id
+                                            
+            GROUP BY users.id, pictures.picture_1, users.firstName, location.longitude, location.latitude, age
+                                
+            HAVING users.id !='${userId}'
+            AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
+            AND '${userId}' IN (SELECT liked_user FROM likes WHERE user_id=users.id)
+            LIMIT ${limit}, ${filters.numberOfItem} `;
+
+        const [result, fields] = await connection
+            .promise()
+            .query(sql);
+        return result;
+    }
+
+    async findallViewedMe(userId, filters) {
+        const limit = filters.numberOfItem * filters.page;
+        const sql = `SELECT users.id,
+            users.firstName,
+            TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+            pictures.picture_1,
+            location.longitude,
+            location.latitude,
+
+            CEILING(111.111 *
+            DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+            * COS(RADIANS(location.latitude))
+            * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
+            + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+            * SIN(RADIANS(location.latitude)))))) AS distance_in_km
+            from users
+
+            INNER JOIN pictures ON pictures.user_id=users.id
+            INNER JOIN location ON location.user_id=users.id
+
+            GROUP BY users.id, pictures.picture_1, users.firstName, location.longitude, location.latitude, age
+                                
+            HAVING users.id !='${userId}'
+            AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
+            AND '${userId}' IN (SELECT viewed_user FROM views WHERE user_id=users.id)
+            LIMIT ${limit}, ${filters.numberOfItem} `;
+
+        console.log(sql);
 
         const [result, fields] = await connection
             .promise()

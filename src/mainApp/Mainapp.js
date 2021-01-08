@@ -138,7 +138,6 @@ export default function Mainapp({ width }) {
 		}}
 		>
 		<div className="containerMainapp">
-			{console.log("loading==>", loading)}
 				{!user.verified &&
 				warning &&
 				message.warning(

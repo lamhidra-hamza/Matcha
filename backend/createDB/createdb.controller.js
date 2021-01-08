@@ -87,6 +87,14 @@ const tags = {
     failMessage: "the User_tag Table hasn't been created",
 };
 
+const matches = {
+    sql: `CREATE TABLE IF NOT EXISTS matches(id integer AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(255),
+    matched_user VARCHAR(255), date DATETIME, FOREIGN KEY (user_id) REFERENCES users(id),  
+    FOREIGN KEY (matched_user) REFERENCES users(id))`,
+    successMessage: "the matches Table has been created",
+    failMessage: "the matches Table hasn't been created",
+}
+
 const tableList = [
     usersTable,
     likesTable,

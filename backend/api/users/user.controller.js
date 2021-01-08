@@ -221,6 +221,30 @@ async function getManyUsersLikedMe(req, res) {
     }
 }
 
+async function getManyUsersViewedMe(req, res) {
+    const filters = req.query;
+    try {
+        const data = await model.findallViewedMe(req.id, filters);
+        if (!data || req.status === 0 || req.status === -1) {
+            res.status(200).send({
+                status: req.status,
+            });
+            return;
+        }
+        console.log("data ========== get many========", data);
+
+        res.status(200).json({
+            users: data,
+            status: 1
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).end({
+            msg: `Error userID = Does not exists`,
+        });
+    }
+}
+
 async function createOne(req, res) {
     try {
         await model.create(userID, req.body);
@@ -291,5 +315,6 @@ module.exports = {
     checkSession: checkSession,
     updateEmailConfirm: updateEmailConfirm,
     getOneForInfoCard: getOneForInfoCard,
-    getManyUsersLikedMe: getManyUsersLikedMe
+    getManyUsersLikedMe: getManyUsersLikedMe,
+    getManyUsersViewedMe: getManyUsersViewedMe
 };
