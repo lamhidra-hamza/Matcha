@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var controllers = require('./views.controller')
+const verify = require("../../utils/auth");
+
+
+router.use(verify);
 
 router.route('/')
     .get(controllers.getMany)

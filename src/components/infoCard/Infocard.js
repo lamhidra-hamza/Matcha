@@ -65,7 +65,6 @@ const Infocard = (props) => {
             <h2 className="fisrtNameCard"> {user.firstName}</h2>
             <h4 style={{ margin: '10px' }} className="smallfontCard">
               {calculate_age(user.bornDate)}
-              {console.log(user.bornDate)}
             </h4>
           </div>
           <div className="rowboxCard">

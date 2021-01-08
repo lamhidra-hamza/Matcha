@@ -99,7 +99,9 @@ async function updateOne(req, res) {
             fs.unlinkSync(data[0].picture_4);
         if (!body.picture_5 && data[0].picture_5 && fs.existsSync(data[0].picture_5))
             fs.unlinkSync(data[0].picture_5);
-        await model.findOneAndUpdate(req.id, req.params.id, req.body);
+        delete body.id;
+        delete body.user_id;
+        await model.findOneAndUpdate(req.id, req.params.id, body);
         res.status(201).send({
             msg: "Update Done!!",
         });

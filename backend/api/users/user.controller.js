@@ -128,6 +128,26 @@ async function checkSession(req, res) {
     }
 }
 
+async function getOneForInfoCard(req, res) {
+    try {
+        const data = await model.findOneInfoCard(req.id, req.params.id);
+        if (!data || req.status === 0 || req.status === -1) {
+            res.status(200).send({
+                status: req.status,
+            });
+            return;
+        }
+        data[0].status = 1;
+        res.status(200).json(data[0]);
+    } catch (err) {
+        console.log("error");
+        console.log(err);
+        res.status(400).end({
+            msg: `Error in getOne`,
+        });
+    }
+}
+
 async function getOne(req, res) {
     try {
         const data = await model.findOne(req.id, req.id);
@@ -137,6 +157,7 @@ async function getOne(req, res) {
             });
             return;
         }
+
         delete data[0].password;
         delete data[0].refreshToken;
         data[0].status = 1;
@@ -151,16 +172,52 @@ async function getOne(req, res) {
 }
 
 async function getMany(req, res) {
-    const body = req.body;
+    const filters = req.query;
+    console.log("body==>", filters)
     try {
-        const data = await model.findall(body.userID);
+        const data = await model.findall(req.id, filters);
+        if (!data || req.status === 0 || req.status === -1) {
+            res.status(200).send({
+                status: req.status,
+            });
+            return;
+        }
+        console.log("data ========== get many========", data);
+
         res.status(200).json({
-            data: data,
+            users: data,
+            status: 1
         });
     } catch (err) {
         console.log(err);
         res.status(400).end({
-            msg: `Error userID = ${body.userID} Does not exists`,
+            msg: `Error userID = Does not exists`,
+        });
+    }
+}
+
+
+async function getManyUsersLikedMe(req, res) {
+    const filters = req.query;
+    console.log("body==>", filters)
+    try {
+        const data = await model.findallLikedMe(req.id, filters);
+        if (!data || req.status === 0 || req.status === -1) {
+            res.status(200).send({
+                status: req.status,
+            });
+            return;
+        }
+        console.log("data ========== get many========", data);
+
+        res.status(200).json({
+            users: data,
+            status: 1
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).end({
+            msg: `Error userID = Does not exists`,
         });
     }
 }
@@ -198,11 +255,7 @@ async function updateOne(req, res) {
                 req.id,
                 data[0]
             );
-            res.status(200).send({
-                status: 1, message: "the user has beeen updateed"
-            })
-            // console.log("the new data is ==>");
-            // console.log(data[0]);
+            res.status(200).send({ status: req.status, msg: "updating Done" });
         }
     } catch (err) {
         console.log(err);
@@ -238,4 +291,6 @@ module.exports = {
     getToken: getToken,
     checkSession: checkSession,
     updateEmailConfirm: updateEmailConfirm,
+    getOneForInfoCard: getOneForInfoCard,
+    getManyUsersLikedMe: getManyUsersLikedMe
 };

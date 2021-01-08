@@ -7,6 +7,8 @@ import ChatBox from '../chatBox/ChatBox'
 import UserInfo from '../userInfo/UserInfo'
 import EditProfile from '../editProfile/EditProfile'
 import DisplayUsers from '../displayUsers/DisplayUsers'
+import DisplayLikedMe from '../displayLikedMe/DisplayLikedMe'
+import InfocardUsers from '../InfoCardUsers/InfocardUsers'
 import './DesktopSection.css'
 import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext'
@@ -18,7 +20,7 @@ function DesktopSection(props) {
     const [showProfile, setShowProfile] = useState(state && state.mobileKey === "5");
     const { width } = props;
     let match = useRouteMatch();
-    const {user, userImages, tags} = useContext(UserContext);
+    const { user, userImages, tags } = useContext(UserContext);
 
     return (
         <div className="mainRow">
@@ -28,7 +30,7 @@ function DesktopSection(props) {
             </div>
             <Switch>
                 <Route exact path={`${match.url}/profile`} render={(props) => (<Infocard {...props} tags={tags} user={user} userImages={userImages}/>)} />
-                <Route path={`${match.url}/infocard`} component={Infocard} />
+                <Route path={`${match.url}/infocard/:id`} component={InfocardUsers} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/messages/chatbox/:chat_id`}>
                     <div className="rightSide">
@@ -36,7 +38,8 @@ function DesktopSection(props) {
                         {width > 1300 && <UserInfo />}
                     </div>
                 </Route>
-                <Route path={`${match.url}/`} component={DisplayUsers} />
+                <Route path={`${match.url}/likedme`} render={(props) => (<DisplayLikedMe {...props} user={user}/>)}/>
+                <Route path={`${match.url}/`} render={(props) => (<DisplayUsers {...props} user={user}/>)}/>
             </Switch>
         </div>
     )

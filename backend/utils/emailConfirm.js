@@ -7,6 +7,7 @@ const confirmEmail = async(req, res) => {
     try {
         const info = jwt.verify(req.params.id, 'matcha-secret-code');
         const [data] = await model.findOne(null, info.id);
+        console.log("comfirmation ==>", data, "token Id ==>", info.id);
         data.verified = 1;
         data.lastConnection = new Date().toISOString().slice(0, 19).replace("T", " ");
         data.lastNotification = new Date().toISOString().slice(0, 19).replace("T", " ");

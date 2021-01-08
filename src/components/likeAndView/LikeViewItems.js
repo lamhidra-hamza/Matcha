@@ -1,11 +1,26 @@
 import React from 'react'
 import {HeartTwoTone, EyeTwoTone} from '@ant-design/icons';
+import { useHistory } from 'react-router-dom'
 import './LikeViewItems.scss'
 
 const LikeViewItems = () => {
+
+    const history = useHistory();
+
+    const handleLikeClick = () => {
+        history.push({
+				pathname: '/app/likedme',
+                state: {
+                    mobileKey: "3",
+                    desKey: "1",
+                    mobile: false,
+                }
+		})
+    }
+
     return (
         <div className="likeAndView">
-            <div className="boxItem likeItem">
+            <div className="boxItem likeItem" onClick={handleLikeClick}>
                 <div className="itemCircle">
                     <HeartTwoTone style={{marginTop: '11px'}} twoToneColor="#eb2f96" />
                 </div>

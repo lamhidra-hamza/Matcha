@@ -1,4 +1,3 @@
-
 .leftSide {
     color: #2d2d2d;
     background: #f6f7fa;
@@ -12,7 +11,7 @@
 .main {
     color: black;
     background: #f6f7fa;
-    border-left: 1px #c9c9c9 solid ;
+    border-left: 1px #c9c9c9 solid;
     border-color: #e0e4e9;
     width: 100%;
 }
@@ -20,6 +19,9 @@
 .mainRow {
     display: flex;
     flex-direction: row;
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
 }
 
 .rightSide {
@@ -28,4 +30,3 @@
     display: flex;
     border-left: 0.2px solid #d3d3d3;
 }
-

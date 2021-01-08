@@ -7,7 +7,6 @@ var {
     updateOne,
     removeOne,
     uploadImage,
-    uploadImage
 } = require('./pictures.controller')
 var multer = require('multer');
 const path = require('path');

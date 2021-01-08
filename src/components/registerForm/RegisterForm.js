@@ -61,7 +61,11 @@ const RegisterForm = (props) => {
 				picture_4: null,
 				picture_5: null
 			});
-	// await axios.post(`${SER.HOST}/api/pictures`,)
+	await axios.post(`${SER.HOST}/api/location`, {
+		user_id: result.data.id,
+        longitude: null,
+    	latitude: null,
+	})
  };
 
   return (

@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var { createOne, getOne, updateOne, removeOne, getMany } = require('./tags.controller');
+var { createOne, getOne, updateOne, removeOne, getMany, getAll } = require('./tags.controller');
 const verify = require("../../utils/auth");
 
 router.use(verify);
+
+router.route('/all').get(getAll);
 
 router.route('/')
     .get(getMany)

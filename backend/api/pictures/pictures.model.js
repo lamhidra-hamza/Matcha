@@ -32,8 +32,8 @@ class Pictures {
     }
 
     async findOneAndUpdate(userId, id, data) {
-        const sql = `UPDATE pictures SET ?`;
-        const [result, filed] = await connection.promise().query(sql, data, `WHERE id = '${id}'`);
+        const sql = `UPDATE pictures SET ? WHERE id = '${id}'`;
+        const [result, filed] = await connection.promise().query(sql, data);
         return result;
     }
 

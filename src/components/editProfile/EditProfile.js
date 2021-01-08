@@ -21,7 +21,7 @@ export default function EditProfile(props) {
 	const [gender, setGender] = useState(user.gender);
 	const [jobtitle, setJobtitle] = useState(user.job);
 	const [newTags, setNewTags] = useState(tags);
- 
+
 	const [images, setImages] = useState([
 		{
 			preview: null,
@@ -203,7 +203,6 @@ export default function EditProfile(props) {
 								onChange={handleTagChange}
 								defaultValue={newTags}
 								>
-
 								</Select>
 							</div>
 						</div>
@@ -217,7 +216,6 @@ export default function EditProfile(props) {
 								>
 									<Option value="man">Man</Option>
 									<Option value="woman">Woman</Option>
-									<Option value="other">Other</Option>
 								</Select>
 							</div>
 						</div>

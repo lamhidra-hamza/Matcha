@@ -1,7 +1,7 @@
 const controllers = require('../../utils/crud');
 const model = require('./location.model');
 
-async function getMany(req, res){
+async function getMany(req, res) {
     try {
         const data = await model.findall(req.id);
         res.status(200).json({
@@ -15,11 +15,11 @@ async function getMany(req, res){
     }
 };
 
-async function getOne (req, res){
+async function getOne(req, res) {
     console.log("the user id is ", req.id);
     try {
         const data = await model.findOne(req.id, req.id);
-        if (!data[0]  || (req.status && (req.status === 0 || req.status === -1))) {
+        if (!data[0] || (req.status && (req.status === 0 || req.status === -1))) {
             res.status(200).send({
                 status: req.status,
             });
@@ -36,7 +36,7 @@ async function getOne (req, res){
     }
 };
 
-async function createOne(req, res){
+async function createOne(req, res) {
     console.log("create one pictures");
     try {
         if (req.status === 0 || req.status === -1)
@@ -55,7 +55,7 @@ async function createOne(req, res){
     }
 };
 
-async function updateOne(req, res){
+async function updateOne(req, res) {
     console.log("the user id is ", req.id);
     console.log("the body isssssssssss ", req.body);
     try {
@@ -81,7 +81,7 @@ async function updateOne(req, res){
     }
 };
 
-async function removeOne (req, res){
+async function removeOne(req, res) {
     try {
         await model.findOneAndRemove(req.id, req.params.id);
         res.status(201).send({

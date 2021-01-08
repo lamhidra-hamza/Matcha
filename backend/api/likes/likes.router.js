@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var controllers = require('./likes.controller')
+var controllers = require('./likes.controller');
+const verify = require("../../utils/auth");
 
+
+router.use(verify);
 router.route('/')
     .get(controllers.getMany)
     .post(controllers.createOne)
