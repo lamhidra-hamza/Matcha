@@ -193,11 +193,11 @@ async function updateOne(req, res) {
             for (const [key, value] of Object.entries(body)) {
                 data[0][key] = value;
             }
-            // await model.findOneAndUpdate(
-            //     req.id,
-            //     req.id,
-            //     data[0]
-            // );
+            await model.findOneAndUpdate(
+                req.id,
+                req.id,
+                data[0]
+            );
             res.status(200).send({
                 status: 1, message: "the user has beeen updateed"
             })
