@@ -14,6 +14,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 function DesktopSection(props) {
     const { state } = useLocation();
+    //console.log("the message you are looking for is ", state.mobileKey);
     const [showProfile, setShowProfile] = useState(state && state.mobileKey === "5");
     const { width } = props;
     let match = useRouteMatch();
@@ -29,7 +30,7 @@ function DesktopSection(props) {
                 <Route exact path={`${match.url}/profile`} render={(props) => (<Infocard {...props} tags={tags} user={user} userImages={userImages}/>)} />
                 <Route path={`${match.url}/infocard`} component={Infocard} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
-                <Route path={`${match.url}/messages/chatbox`}>
+                <Route path={`${match.url}/messages/chatbox/:chat_id`}>
                     <div className="rightSide">
                         <ChatBox />
                         {width > 1300 && <UserInfo />}

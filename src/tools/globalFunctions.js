@@ -72,7 +72,7 @@ async function putData(route, params) {
     headers: { token: token, id: id },
   });
   console.log("the staus probem is ");
-  console.log(result.data);
+  console.log(result.data.status);
   if (result.data.status === 0) {
     let newToken = await getNewToken();
     localStorage.setItem("accessToken", newToken);
@@ -198,9 +198,8 @@ const getCoords = async (userLocation) => {
       newLocation.location_name = locationResult.name;
       newLocation.latitude = locationResult.latitude;
       newLocation.longitude = locationResult.longitude;
-      //console.log("current location is ", newLocation.location_name);
-      //console.log("getCoords and the return result is ", newLocation);
       console.log("getCoords out");
+      navigator.geolocation.clearWatch(1);
       resolve( newLocation);
     });    
   } else {

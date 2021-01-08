@@ -2,42 +2,83 @@ var connection = require("../../utils/db");
 var uuid = require("uuid");
 
 class Chat {
-    async create(userId, data) {
-        let info = {
-            user_id: userId,
-            receiver_id: data.receiver_id,
-            chat_id: uuid.v4(),
-            date: new Date().toISOString().slice(0, 19).replace("T", " "),
-        };
-        await connection.promise().query("INSERT INTO chat SET ?", info);
-    }
+  async create(userId, data) {
+    console.log(`create function is `, data);
+    let info = {
+      sender_id: userId,
+      chat_id: data.chat_id,
+      content: data.content,
+      date: data.date,
+      seen: 0,
+    };
+    const [result, filed] = await connection
+      .promise()
+      .query("INSERT INTO messages SET ?", info);
 
-    async findall(userId) {
-        const [result, fields] = await connection
-            .promise()
-            .query(`SELECT * FROM chat where user_id ='${userId}'`);
-        return result;
-    }
+    await connection
+      .promise()
+      .query(
+        `UPDATE chat SET date = ? WHERE chat_id = '${data.chat_id}'`,
+        info.date
+      );
 
-    async findOne(userId, id) {
-        const sql = `SELECT * FROM chat WHERE user_id='${userId}' AND id='${id}'`;
-        const [result, filed] = await connection.promise().query(sql);
-        return result;
-    }
+    return result.insertId;
+  }
 
-    async findOneAndUpdate(userId, id, data) {
-        // const sql = `UPDATE chat SET
-        //     viewed_user='${data.viewed_user}'
-        //     WHERE id = '${id}' AND user='${userId}'`;
-        // const [result, filed] = await connection.promise().query(sql);
-        // return result;
-    }
+  async createChat(userId, data) {
+    let info = {
+      user_id: userId,
+      receiver_id: data.receiver_id,
+      chat_id: uuid.v4(),
+      date: null,
+    };
+    await connection.promise().query("INSERT INTO chat SET ?", info);
+  }
 
-    async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM chat WHERE id = '${id}' AND user_id='${userId}'`;
-        const [result, filed] = await connection.promise().query(sql);
-        return result;
-    }
+  //find last conversations for the user
+  async findall(userId) {
+    const [result, fields] = await connection
+      .promise()
+      .query(
+        `SELECT chat.chat_id, chat.user_id, chat.receiver_id, messages.date, messages.content, messages.seen FROM chat,messages,users where messages.chat_id = chat.chat_id and chat.receiver_id = users.id and messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id)`
+      );
+    return result;
+  }
+
+  //find last conversations for the user
+  async findOne(msgId) {
+    console.log("the findONe function and the msgId is ", msgId);
+    const sql = `SELECT * FROM messages WHERE id= ${msgId}`;
+    const [result, fields] = await connection.promise().query(sql);
+    return result;
+  }
+
+  //find the last messages in this conversation
+  async findLast(chat_id, index, length) {
+    const sql = `SELECT * FROM messages WHERE chat_id = '${chat_id}' ORDER BY date DESC LIMIT ${index}, ${length}`;
+    const [result, filed] = await connection.promise().query(sql);
+    return result;
+  }
+
+  async findChatById(chatId) {
+    const sql = `SELECT * FROM chat WHERE chat_id='${chatId}'`;
+    const [result, filed] = await connection.promise().query(sql);
+    return result;
+  }
+
+  async findOneAndUpdate(userId, id, data) {
+    // const sql = `UPDATE chat SET
+    //     viewed_user='${data.viewed_user}'
+    //     WHERE id = '${id}' AND user='${userId}'`;
+    // const [result, filed] = await connection.promise().query(sql);
+    // return result;
+  }
+
+  async findOneAndRemove(userId, id) {
+    const sql = `DELETE FROM chat WHERE id = '${id}' AND user_id='${userId}'`;
+    const [result, filed] = await connection.promise().query(sql);
+    return result;
+  }
 }
 
 module.exports = new Chat();

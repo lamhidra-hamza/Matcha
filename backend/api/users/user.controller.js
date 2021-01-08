@@ -44,13 +44,14 @@ async function signIn(req, res) {
     const body = req.body;
     const result = await model.findOneByEmail(null, body.email);
     if (!result[0] || !body.password || !body.email) {
+        console.log("this email doesn't exist");
         res.status(403).send({ status: 0, message: "you dont have an account" });
     } else {
         body.password = await bcrypt.hash(body.password, 11);
 
         if (bcrypt.compare(result[0].password, body.password)) {
             const access_token = await jwt.sign({ id: result[0].id, type: "access-token" },
-                "matcha-secret-code", { expiresIn: "20s" }
+                "matcha-secret-code", { expiresIn: "20d" }
             );
             const refresh_token = await jwt.sign({
                     id: result[0].id,
@@ -192,11 +193,14 @@ async function updateOne(req, res) {
             for (const [key, value] of Object.entries(body)) {
                 data[0][key] = value;
             }
-            await model.findOneAndUpdate(
-                req.id,
-                req.id,
-                data[0]
-            );
+            // await model.findOneAndUpdate(
+            //     req.id,
+            //     req.id,
+            //     data[0]
+            // );
+            res.status(200).send({
+                status: 1, message: "the user has beeen updateed"
+            })
             // console.log("the new data is ==>");
             // console.log(data[0]);
         }
