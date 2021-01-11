@@ -11,9 +11,7 @@ import {
 	getData,
 	putData,
 } from "../tools/globalFunctions";
-import { SER } from "../conf/config";
 import { UserContext } from "../contexts/UserContext";
-import { parse } from "@fortawesome/fontawesome-svg-core";
 
 export default function Mainapp({ width }) {
 	const id = localStorage.getItem("userId");
@@ -38,7 +36,7 @@ export default function Mainapp({ width }) {
 		const source = axios.CancelToken.source();
 		const postData = async () => {
 		console.log("update user informatin in the database");
-		let result = await putData(`api/users/${id}`, user);
+		await putData(`api/users/${id}`, user);
 		};
 		if (update) postData();
 	

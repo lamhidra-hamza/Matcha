@@ -12,8 +12,21 @@ class Matches {
         await connection.promise().query("INSERT INTO matches SET ?", info);
     }
 
-    async findall(userId) {
-        const [result, fields] = await connection.promise().query(`SELECT * FROM matches where user_id='${userId}'`);
+    async findall(userId, params) {
+        const limit = params.numberOfItem * params.page;
+
+        const sql = `SELECT users.id,
+            users.firstName,
+            TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age, pictures.picture_1
+            FROM matches, users, pictures 
+            WHERE (users.id=matched_user OR users.id = matches.user_id)
+            AND (matches.user_id = '${userId}' OR matched_user='${userId}')
+            AND pictures.user_id=users.id AND users.id != '${userId}'
+            GROUP BY users.id,  pictures.picture_1, age, users.firstName
+            LIMIT ${limit}, ${params.numberOfItem}
+            `
+
+        const [result, fields] = await connection.promise().query(sql);
         return result;
     }
 

@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var controllers = require('./matches.controller');
+var { getMany, createOne, getOne, updateOne, removeOne } = require('./matches.controller');
 const verify = require("../../utils/auth");
 
 
 router.use(verify);
 router.route('/')
-    .get(controllers.getMany)
-    .post(controllers.createOne)
+    .get(getMany)
+    .post(createOne)
 
 router.route('/:id')
-    .get(controllers.getOne)
-    .put(controllers.updateOne)
-    .delete(controllers.removeOne)
+    .get(getOne)
+    .put(updateOne)
+    .delete(removeOne)
 
 module.exports = router;

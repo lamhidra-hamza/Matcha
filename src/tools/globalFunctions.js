@@ -186,7 +186,7 @@ function getLocation(longitude, latitude) {
 const getCoords = async(userLocation) => {
     return new Promise(async(resolve, reject) => {
         console.warn("getCoords function");
-        if (navigator.geolocation) {
+        if (navigator.geolocation && false) {
             console.log("nice a sat");
             navigator.geolocation.watchPosition(function(position) {
                 console.log("getLocation function");

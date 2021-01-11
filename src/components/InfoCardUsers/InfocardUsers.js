@@ -14,11 +14,11 @@ import { getData, postData } from '../../tools/globalFunctions'
 
 const Infocard = () => {
 		
-	const {id}  = useParams();
+	const { id }  = useParams();
 	const history = useHistory();
 	const [UserInfo, setUserInfo] = useState({});
 	const [Tags, setTags] = useState([]);
-	const [images, setImages] = useState([])
+	const [IsLikedMe, setIsLikedMe] = useState(false);
 	const [loading, setloading] = useState(true);
 
 	useEffect(() => {
@@ -28,6 +28,9 @@ const Infocard = () => {
 			setloading(true);
 			const result = await getData(`api/users/infocard/${id}`, {}, false);
 			const tags = await getData(`api/tags/${id}`, {}, false);
+			const likedMe = await getData(`api/likes/${id}`, {}, false);
+			if (likedMe.data.user)
+				setIsLikedMe(true);
 			setUserInfo({...result.data, images: [
 				result.data.picture_1,
 				result.data.picture_2,
@@ -38,7 +41,7 @@ const Infocard = () => {
 			setTags(tags.data.data);
 			setloading(false);
 		}
-		
+
 		fetchData();
 
 		return () => {
@@ -61,7 +64,8 @@ const Infocard = () => {
 	}
 
 	const handleLikeClick = () => {
-		postData(`api/likes`, {liked_user: id});
+		postData(`api/likes`, { liked_user: id });
+		IsLikedMe && postData(`api/matches`, { matched_user: id});
 		history.push({
 			pathname: '/app',
 			state: {
@@ -96,8 +100,6 @@ const Infocard = () => {
 						<img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
 					</div>
 					))}
-					{console.log(images)}
-					{console.log(UserInfo)}
 				</Carousel>
 				<div className="rowboxCard" style={{ marginTop: '15px' }}>
 					<h2 className="fisrtNameCard"> {UserInfo.firstName}</h2>

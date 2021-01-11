@@ -1,16 +1,13 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './DisplayLikedMe.scss';
 import UserCard from '../userCard/UserCard.js';
-import { Tooltip } from 'antd';
-import FilterPopUp from '../filterPopUp/FilterPopUp';
-import { ControlOutlined } from '@ant-design/icons';
 import { getData } from "../../tools/globalFunctions";
 import { Spin } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useLocation } from 'react-router-dom';
 
-const DisplayLikedMe = ({ user }) => {
+const DisplayLikedMe = () => {
 	const [Params, setParams] = useState({
 		page : 0,
 		numberOfItem: 4

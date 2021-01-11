@@ -9,12 +9,6 @@ import { postData } from '../../tools/globalFunctions'
 
 
 const UserCard = ({ user }) => {
-    const info = {
-        firstName: "Amal",
-        age: 20,
-        distance: '14',
-        img : "https://i.pinimg.com/originals/1a/20/b2/1a20b2ad94d5b6d6a25565c3ccc61ece.jpg",
-    }
 
     const image = user.picture_1 ? `${SER.PicPath}/${user.picture_1}` : null;
     let match = useRouteMatch();
