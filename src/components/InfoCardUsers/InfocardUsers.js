@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { Carousel, Tag, Divider, Skeleton} from 'antd'
 import axios from 'axios'
 import {
@@ -10,16 +10,19 @@ import { useHistory, useParams } from 'react-router-dom'
 import './InfoCardUsers.css'
 import { SER } from '../../conf/config'
 import { getData, postData } from '../../tools/globalFunctions'
+import { UserContext } from '../../contexts/UserContext';
 
 
 const Infocard = () => {
 		
 	const { id }  = useParams();
+	const myId = localStorage.getItem("userId");
 	const history = useHistory();
 	const [UserInfo, setUserInfo] = useState({});
 	const [Tags, setTags] = useState([]);
 	const [IsLikedMe, setIsLikedMe] = useState(false);
 	const [loading, setloading] = useState(true);
+	const { socket } = useContext(UserContext);
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
@@ -63,8 +66,13 @@ const Infocard = () => {
 		})
 	}
 
-	const handleLikeClick = () => {
+	const handleLikeClick = async () => {
 		postData(`api/likes`, { liked_user: id });
+		const result = await postData(`api/notifications`, {
+			notifiedId: id,
+            type: "like",
+		})
+		socket.emit("newNotification", { userId: myId , notifiedUser: id, notifyId: result.data.id });
 		IsLikedMe && postData(`api/matches`, { matched_user: id});
 		history.push({
 			pathname: '/app',

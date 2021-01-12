@@ -15,7 +15,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
     const match = useRouteMatch();
     const context = useContext(UserContext);
     const pic = context.userImages && context.userImages.picture_1 ? `${SER.PicPath}/${context.userImages.picture_1}` : "";
- 
+
     const logout = async () => {
         await logOut();
         console.log("Redirect");
@@ -44,7 +44,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
           <p>Content</p>
         </div>
       );
-    const text = <span>Title</span>;
+    const text = <span>n</span>;
 
     return (
         <div className="desNavbar">
@@ -74,7 +74,12 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                     
             </div>
             <div className="navLogout">
-                <Popover placement="bottomRight" title={text} content={content} trigger="click">
+                <Popover
+                    placement="bottomRight"
+                    title={<span>Notifications</span>}
+                    content={content}
+                    trigger="click"
+                    >
                     <Badge dot count={5} style={{margin: '1.5px 17px'}}>
                         <NotificationOutlined className="logoutIcon" style={{ fontSize: '1.7rem',marginRight: '15px'}}/>
                     </Badge>

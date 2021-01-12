@@ -173,7 +173,6 @@ async function getOne(req, res) {
 
 async function getMany(req, res) {
     const filters = req.query;
-    console.log("body==>", filters)
     try {
         const data = await model.findall(req.id, filters);
         if (!data || req.status === 0 || req.status === -1) {
@@ -182,7 +181,6 @@ async function getMany(req, res) {
             });
             return;
         }
-        console.log("data ========== get many========", data);
 
         res.status(200).json({
             users: data,
@@ -199,7 +197,6 @@ async function getMany(req, res) {
 
 async function getManyUsersLikedMe(req, res) {
     const filters = req.query;
-    console.log("body==>", filters)
     try {
         const data = await model.findallLikedMe(req.id, filters);
         if (!data || req.status === 0 || req.status === -1) {
@@ -208,7 +205,7 @@ async function getManyUsersLikedMe(req, res) {
             });
             return;
         }
-        console.log("data ========== get many========", data);
+        // console.log("data ========== get many========", data);
 
         res.status(200).json({
             users: data,
@@ -232,7 +229,7 @@ async function getManyUsersViewedMe(req, res) {
             });
             return;
         }
-        console.log("data ========== get many========", data);
+        // console.log("data ========== get many========", data);
 
         res.status(200).json({
             users: data,

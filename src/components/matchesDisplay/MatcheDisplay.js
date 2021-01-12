@@ -61,7 +61,7 @@ export default function MatcheDisplay(props) {
 					next={getUsers}
 					hasMore={loadMore}
 					style={{ display: 'flex', flexWrap: 'wrap',
-					justifyContent: 'center' }}
+					justifyContent: 'center'  }}
 					loader={
 						<div className="Scrollloading">
 							<Spin />

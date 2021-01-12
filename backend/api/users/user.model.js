@@ -29,7 +29,7 @@ class User {
         };
         await connection.promise().query("INSERT INTO users SET ?", info);
 
-        return { name: "zakaria", user: "nadi", id: info.id };
+        return { id: info.id };
     }
 
     async updateRefreshToken(userId, refreshToken) {
@@ -223,7 +223,7 @@ class User {
             AND '${userId}' IN (SELECT viewed_user FROM views WHERE user_id=users.id)
             LIMIT ${limit}, ${filters.numberOfItem} `;
 
-        console.log(sql);
+        // console.log(sql);
 
         const [result, fields] = await connection
             .promise()

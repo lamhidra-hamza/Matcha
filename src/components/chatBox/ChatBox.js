@@ -3,10 +3,8 @@ import { Avatar, Input, Button, Spin } from "antd";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
-//import { UserContext } from "../../contexts/UserContext";
 import { io } from "socket.io-client";
-import { UserContext } from "../../contexts/UserContext";
-import { getData, postData, putData } from "../../tools/globalFunctions";
+import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from 'react-router-dom';
 
 /*
@@ -28,14 +26,11 @@ const ChatBox = (props) => {
   var messagesEndRef = useRef();
   const id = localStorage.getItem("userId");
 
-  const { user } = useContext(UserContext);
-
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { chat_id } = useParams();
-  const startIndex = 10;
 
   useEffect(async () => {
     const messagesResult = await getData(

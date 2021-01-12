@@ -12,6 +12,14 @@ import {
 	putData,
 } from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
+import { io } from "socket.io-client";
+
+var socket = io("http://localhost:8000", {
+  withCredentials: true,
+  extraHeaders: {
+    token: "the real token is ",
+  },
+});
 
 export default function Mainapp({ width }) {
 	const id = localStorage.getItem("userId");
@@ -43,6 +51,7 @@ export default function Mainapp({ width }) {
 		return () => {
 			source.cancel();
 		};
+
 	}, [user]);
 
 	useEffect(() => {
@@ -60,13 +69,18 @@ export default function Mainapp({ width }) {
 	}, [userLocation]);
 
 	useEffect(() => {
+		socket.emit("joinNotification", {}, (error) => {
+			if (error) {
+			  alert(error);
+			}
+		  });
 		const token = localStorage.getItem("accessToken");
 		if (!token || !id || token === null || id === null) {
-		console.log("Redirect");
-		logOut();
-		history.push("/");
-		localStorage.clear();
-		return;
+			console.log("Redirect");
+			logOut();
+			history.push("/");
+			localStorage.clear();
+			return ;
 		}
 		const source = axios.CancelToken.source();
 
@@ -132,7 +146,8 @@ export default function Mainapp({ width }) {
 			setUserLocation: setUserLocation,
 			realCoordinates: realCoordinates,
 			tags: tags,
-			setTags: setTags
+			setTags: setTags,
+			socket: socket
 		}}
 		>
 		<div className="containerMainapp">
