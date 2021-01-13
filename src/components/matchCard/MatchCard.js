@@ -1,20 +1,23 @@
 import React from 'react'
 import './MatchCard.scss'
-import {useRouteMatch, useHistory} from 'react-router-dom'
+import { useRouteMatch, useHistory } from 'react-router-dom'
+import { SER } from '../../conf/config'
 
 export default function MatcheCard(props) {
+    const { user } = props;
     let match = useRouteMatch();
     let history = useHistory();
+    const picPath = user.picture_1 ? `${SER.PicPath}/${user.picture_1}` : "";
 
     const handelClick = () => {
         history.push({
-            pathname: `${match.path}/messages/chatbox`,
+            pathname: `${match.path}/messages/chatbox/${user.id}`,
             state: {
                     mobileKey: "4",
                     desKey: "1",
                     mobile: props.mobile
             }
-    })
+        })
     }
 
     return (
@@ -22,10 +25,12 @@ export default function MatcheCard(props) {
                 <div className="matcheItems">
                     <div className="matcheItem">
                         <div className="identity">
-                            <div className="firstNameStyle">Amal </div> 
-                            <div style={{fontSize: '1rem', marginLeft: '3px'}} className="firstNameStyle">20</div>
+                            <div className="firstNameStyle">{user.firstName} </div> 
+                            <div style={{fontSize: '1rem', marginLeft: '3px'}} className="firstNameStyle">
+                                {user.age}
+                            </div>
                         </div>
-                        <img alt= "card" className="imageMatche" src="https://i.pinimg.com/originals/1a/20/b2/1a20b2ad94d5b6d6a25565c3ccc61ece.jpg"></img>
+                        <img alt= "card" className="imageMatche" src={`${SER.PicPath}/${user.picture_1}`}></img>
                     </div>
                 </div>
             </div>

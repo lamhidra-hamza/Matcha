@@ -1,5 +1,4 @@
 var connection = require('../../utils/db');
-var uuid = require('uuid')
 
 class Likes {
 
@@ -19,7 +18,7 @@ class Likes {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM likes WHERE user_id='${userId}' AND id='${id}'`;
+        const sql = `SELECT * FROM likes WHERE user_id='${id}' AND liked_user='${userId}'`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

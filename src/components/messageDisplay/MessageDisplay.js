@@ -15,7 +15,7 @@ const MessageDisplay = (props) => {
   //   };
 
   const { user } = useContext(UserContext);
-  
+
   const [params, setParams] = useState({
     // page: 0,
     // numberOfItem: 4,
@@ -30,18 +30,20 @@ const MessageDisplay = (props) => {
   const [loading, setLoading] = useState(true);
 
   const getMessages = async () => {
-    const result = await getData(`api/chat/`, { ...params, startIndex: params.startIndex + params.length }, false);
-	console.log("the messages result is", result.data.data);
-	setParams({ ...params, startIndex: params.startIndex + params.length });
+    const result = await getData(
+      `api/chat/`,
+      { ...params, startIndex: params.startIndex + params.length },
+      false
+    );
+    console.log("the messages result is", result.data.data);
+    setParams({ ...params, startIndex: params.startIndex + params.length });
     if (result.data.data.length === 0) setLoadMore(false);
-	setMessages([...messages, ...result.data.data]);
-};
+    setMessages([...messages, ...result.data.data]);
+  };
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-
     setLoadMore(true);
-
     async function fetchUsers() {
       setLoading(true);
       const result = await getData(`api/chat/`, params, false);
@@ -51,6 +53,8 @@ const MessageDisplay = (props) => {
     }
 
     fetchUsers();
+    setLoading(false);
+
     return () => {
       source.cancel();
     };

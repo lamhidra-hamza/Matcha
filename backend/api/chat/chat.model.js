@@ -8,7 +8,7 @@ class Chat {
       sender_id: userId,
       chat_id: data.chat_id,
       content: data.content,
-      date: Date.now(),
+      date: data.date,
       seen: 0,
     };
     console.log("the info are", info);
@@ -19,7 +19,7 @@ class Chat {
     await connection
       .promise()
       .query(
-        `UPDATE chat SET date = ${info.date} WHERE chat_id = '${data.chat_id}'`);
+        `UPDATE chat SET date = '${info.date}' WHERE chat_id = '${info.chat_id}'`);
 
     return result.insertId;
   }

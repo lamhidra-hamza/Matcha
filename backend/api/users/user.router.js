@@ -13,7 +13,8 @@ var {
     getMany,
     createOne,
     getOneForInfoCard,
-    getManyUsersLikedMe
+    getManyUsersLikedMe,
+    getManyUsersViewedMe
 } = require("./user.controller");
 
 router.route("/gettoken").post(getToken);
@@ -23,6 +24,7 @@ router.route("/signout").post(signOut);
 router.route("/checksession").get(checkSession);
 router.route("/infocard/:id").get(verify, getOneForInfoCard);
 router.route("/likedme").get(verify, getManyUsersLikedMe);
+router.route("/viewedme").get(verify, getManyUsersViewedMe);
 
 router.route("/:id")
     .get(verify, getOne)

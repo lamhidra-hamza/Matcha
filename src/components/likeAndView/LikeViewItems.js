@@ -18,6 +18,17 @@ const LikeViewItems = () => {
 		})
     }
 
+    const handleViewClick = () => {
+        history.push({
+				pathname: '/app/Viewedme',
+                state: {
+                    mobileKey: "4",
+                    desKey: "1",
+                    mobile: false,
+                }
+		})
+    }
+
     return (
         <div className="likeAndView">
             <div className="boxItem likeItem" onClick={handleLikeClick}>
@@ -26,7 +37,7 @@ const LikeViewItems = () => {
                 </div>
                 <div className="titleItem">0 like</div>
             </div>
-            <div className="boxItem viewItem">
+            <div className="boxItem viewItem" onClick={handleViewClick}>
                 <div className="itemCircle">
                     <EyeTwoTone style={{marginTop: '11px'}} />
                 </div>

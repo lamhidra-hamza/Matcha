@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import axios from 'axios'
-import './DisplayLikedMe.scss';
+import './DisplayViewedMe.scss';
 import UserCard from '../userCard/UserCard.js';
 import { getData } from "../../tools/globalFunctions";
 import { Spin } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useLocation } from 'react-router-dom';
 
-const DisplayLikedMe = () => {
+const DisplayLikedMe = ({ user }) => {
 	const [Params, setParams] = useState({
 		page : 0,
 		numberOfItem: 4
@@ -20,7 +20,7 @@ const DisplayLikedMe = () => {
 
 	const getUsers = async () => {
 		setPage(page + 1);
-		const result = await getData(`api/users/likedme`, {...Params, page: page }, false);
+		const result = await getData(`api/users/viewedme`, {...Params, page: page }, false);
 		console.log(result.data.users);
 		if (result.data.users.length === 0)
 			setLoadMore(false);
@@ -47,7 +47,7 @@ const DisplayLikedMe = () => {
 
 		async function fetchUsers() {
 			setloading(true)
-			const result = await getData(`api/users/likedme`, Params, false);
+			const result = await getData(`api/users/viewedme`, Params, false);
 			console.log(result.data.users);
 			setUsersBrowsing(result.data.users);
 			setloading(false);

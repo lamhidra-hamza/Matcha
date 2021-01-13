@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { Carousel, Tag, Divider, Skeleton} from 'antd'
 import axios from 'axios'
 import {
@@ -10,16 +10,19 @@ import { useHistory, useParams } from 'react-router-dom'
 import './InfoCardUsers.css'
 import { SER } from '../../conf/config'
 import { getData, postData } from '../../tools/globalFunctions'
+import { UserContext } from '../../contexts/UserContext';
 
 
 const Infocard = () => {
 		
-	const {id}  = useParams();
+	const { id }  = useParams();
+	const myId = localStorage.getItem("userId");
 	const history = useHistory();
 	const [UserInfo, setUserInfo] = useState({});
 	const [Tags, setTags] = useState([]);
-	const [images, setImages] = useState([])
+	const [IsLikedMe, setIsLikedMe] = useState(false);
 	const [loading, setloading] = useState(true);
+	const { socket } = useContext(UserContext);
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
@@ -28,6 +31,9 @@ const Infocard = () => {
 			setloading(true);
 			const result = await getData(`api/users/infocard/${id}`, {}, false);
 			const tags = await getData(`api/tags/${id}`, {}, false);
+			const likedMe = await getData(`api/likes/${id}`, {}, false);
+			if (likedMe.data.user)
+				setIsLikedMe(true);
 			setUserInfo({...result.data, images: [
 				result.data.picture_1,
 				result.data.picture_2,
@@ -38,7 +44,7 @@ const Infocard = () => {
 			setTags(tags.data.data);
 			setloading(false);
 		}
-		
+
 		fetchData();
 
 		return () => {
@@ -60,8 +66,14 @@ const Infocard = () => {
 		})
 	}
 
-	const handleLikeClick = () => {
-		postData(`api/likes`, {liked_user: id});
+	const handleLikeClick = async () => {
+		postData(`api/likes`, { liked_user: id });
+		const result = await postData(`api/notifications`, {
+			notifiedId: id,
+            type: "like",
+		})
+		socket.emit("newNotification", { userId: myId , notifiedUser: id, notifyId: result.data.id });
+		IsLikedMe && postData(`api/matches`, { matched_user: id});
 		history.push({
 			pathname: '/app',
 			state: {
@@ -96,8 +108,6 @@ const Infocard = () => {
 						<img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
 					</div>
 					))}
-					{console.log(images)}
-					{console.log(UserInfo)}
 				</Carousel>
 				<div className="rowboxCard" style={{ marginTop: '15px' }}>
 					<h2 className="fisrtNameCard"> {UserInfo.firstName}</h2>

@@ -1,4 +1,4 @@
-const model = require("./notifications.model");
+const model = require("./matches.model");
 
 const getMany = async(req, res) => {
     const filters = req.query;
@@ -35,12 +35,15 @@ const getOne = async(req, res) => {
 };
 
 const createOne = async(req, res) => {
+    console.log("create one pictures");
     try {
         if (req.status === 0 || req.status === -1)
             res.status(200).send({ status: req.status, message: "token is invalid or expired" });
         else {
-            let result = await model.create(req.id, req.body);
-            res.status(201).send(result);
+            await model.create(req.id, req.body);
+            res.status(201).send({
+                msg: "create Done!!",
+            });
         }
     } catch (err) {
         console.log(err);

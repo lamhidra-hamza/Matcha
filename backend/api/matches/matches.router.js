@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getMany, createOne, getOne, updateOne, removeOne } = require('./notifications.controller')
+var { getMany, createOne, getOne, updateOne, removeOne } = require('./matches.controller');
 const verify = require("../../utils/auth");
 
 
