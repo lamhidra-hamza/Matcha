@@ -9,13 +9,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { getData, postData, putData } from "../../tools/globalFunctions";
 import { useParams } from 'react-router-dom';
 
-/*
-  message object : {
-    text: "ksdjf",
-    id : "user_id",
-    time: Date
-  }
-*/
+
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -29,7 +23,10 @@ const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
 
   const { user } = useContext(UserContext);
-
+  const [Params, setParams] = useState({
+		page : 0,
+		numberOfItem: 4
+	});
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -55,8 +52,9 @@ const ChatBox = (props) => {
       }
     });
     setLoading(false);
-    messagesEndRef.current.scrollIntoView({ block: "end" });
-    //scrollDown();
+    if (!loading) {
+      messagesEndRef.current.scrollIntoView({ block: "end" });
+    }    //scrollDown();
   }, [room, chat_id]);
 
   useEffect(async () => {
@@ -71,7 +69,6 @@ const ChatBox = (props) => {
         false
       );
       setMessages((messages) => [...messages, lastMsg.data.data[0]]);
-    
     });
   }, []);
 

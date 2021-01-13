@@ -29,11 +29,14 @@ start();
 
 //chat
 io.on("connect", (socket) => {
+
+
   socket.on("join", ({ userId, room }) => {
+    
     socket.join(room);
     //socket.emit('message', { user: 'admin', text: `${userId} has joined!` });
     //socket.broadcast
-    // .to("room")
+    //.to("room")
     //.emit("message", { user: "admin", text: `${userId} has joined!` });
   });
 
@@ -42,6 +45,7 @@ io.on("connect", (socket) => {
     //io.to("room").emit('message', { user: userId, text: message });
     socket.broadcast.to(room).emit("message", { msgId: msgId });
   });
+
 });
 
 const port = 8000;

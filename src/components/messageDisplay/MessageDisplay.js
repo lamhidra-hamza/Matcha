@@ -4,25 +4,56 @@ import MessageItem from "../messageItem/MessageItem";
 import { UserContext } from "../../contexts/UserContext";
 import { getData } from "../../tools/globalFunctions";
 import { Spin } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
 
 const MessageDisplay = (props) => {
-  let params = {
-    startIndex: 0,
-    endIndex: 10,
-    lastMessageDate: null,
-  };
+  //   let params = {
+  //     startIndex: 0,
+  //     endIndex: 10,
+  //     lastMessageDate: null,
+  //   };
 
   const { user } = useContext(UserContext);
+  
+  const [params, setParams] = useState({
+    // page: 0,
+    // numberOfItem: 4,
+    startIndex: 0,
+    length: 6,
+    lastMessageDate: null,
+  });
 
+  //const [page, setPage] = useState(1);
+  const [loadMore, setLoadMore] = useState(true);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(async () => {
-    const chatResults = await getData(`api/chat/`, params, false);
-    console.log(chatResults.data.data);
-    setMessages(chatResults.data.data);
-    console.log("the message are ", messages);
-    setLoading(false);
+  const getMessages = async () => {
+    const result = await getData(`api/chat/`, { ...params, startIndex: params.startIndex + params.length }, false);
+	console.log("the messages result is", result.data.data);
+	setParams({ ...params, startIndex: params.startIndex + params.length });
+    if (result.data.data.length === 0) setLoadMore(false);
+	setMessages([...messages, ...result.data.data]);
+};
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    setLoadMore(true);
+
+    async function fetchUsers() {
+      setLoading(true);
+      const result = await getData(`api/chat/`, params, false);
+      console.log(result.data.data);
+      setMessages(result.data.data);
+      setLoading(false);
+    }
+
+    fetchUsers();
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   if (loading)
@@ -34,10 +65,29 @@ const MessageDisplay = (props) => {
       </div>
     );
   return (
-    <div className="MessageContainer">
-      {messages.map((element) => {
-        return <MessageItem mobile={props.mobile} message={element} />;
-      })}
+    <div id="scrollingDiv" className="MessageContainer">
+      <InfiniteScroll
+        dataLength={messages.length}
+        next={getMessages}
+        hasMore={loadMore}
+        loader={
+          <div className="Scrollloading">
+            <Spin />
+          </div>
+        }
+        scrollableTarget="scrollingDiv"
+        endMessage={
+          <p className="endMessage">
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+      >
+        {messages.map((element, index) => {
+          return (
+            <MessageItem mobile={props.mobile} key={index} message={element} />
+          );
+        })}
+      </InfiniteScroll>
     </div>
   );
 };
