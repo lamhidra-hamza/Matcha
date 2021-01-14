@@ -3,17 +3,12 @@ import { Avatar, Input, Button, Spin } from "antd";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
+import axios from "axios";
 import { io } from "socket.io-client";
-import { getData, postData } from "../../tools/globalFunctions";
-import { useParams } from 'react-router-dom';
-
-/*
-  message object : {
-    text: "ksdjf",
-    id : "user_id",
-    time: Date
-  }
-*/
+import { UserContext } from "../../contexts/UserContext";
+import { getData, postData, putData } from "../../tools/globalFunctions";
+import { useParams } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -26,19 +21,37 @@ const ChatBox = (props) => {
   var messagesEndRef = useRef();
   const id = localStorage.getItem("userId");
 
-  const [room, setRoom] = useState("");
+  const { user } = useContext(UserContext);
+  const [params, setParams] = useState({
+    startIndex: 0,
+    length: 15,
+    msgId: -1,
+  });
+  const [loadMore, setLoadMore] = useState(true);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { chat_id } = useParams();
+  const [room, setRoom] = useState("");
+
+  const getMessages = async () => {
+    console.log("getMessages ");
+    const result =  await getData(
+      `api/chat/${chat_id}`,
+      { ...params, startIndex: params.startIndex + params.length },
+      false
+    );
+    console.log("the chatbox result is", result.data.data);
+    setParams({ ...params, startIndex: params.startIndex + params.length });
+    if (result.data.data.length === 0) setLoadMore(false);
+    setMessages([...messages, ...result.data.data]);
+  };
 
   useEffect(async () => {
     const messagesResult = await getData(
       `api/chat/${chat_id}`,
       {
-        startIndex: 0,
-        length: 10,
-        msgId: -1,
+        ...params,
       },
       false
     );
@@ -50,11 +63,13 @@ const ChatBox = (props) => {
       }
     });
     setLoading(false);
-    messagesEndRef.current.scrollIntoView({ block: "end" });
-    //scrollDown();
+    if (!loading) {
+      messagesEndRef.current.scrollIntoView({ block: "end" });
+    } //scrollDown();
   }, [room, chat_id]);
 
   useEffect(async () => {
+    const source = axios.CancelToken.source();
     await socket.on("message", async ({ msgId }) => {
       const lastMsg = await getData(
         `api/chat/${chat_id}`,
@@ -66,8 +81,13 @@ const ChatBox = (props) => {
         false
       );
       setMessages((messages) => [...messages, lastMsg.data.data[0]]);
-    
     });
+
+    setLoading(false);
+
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   useEffect(() => {
@@ -129,16 +149,33 @@ const ChatBox = (props) => {
         </div>
         <div className="matchDate">You matched with Hinata on 50/50/3020</div>
       </div>
-      <div className="chatBoxbody">
-        <div>
-          {messages.map((element) => {
-            if (element.sender_id === id)
-              return <MessageSent message={element} />;
-            return <MessageReceived message={element} />;
-          })}
-        </div>
-        <div ref={messagesEndRef}></div>
+      <div   id="scrollingDiv" className="chatBoxbody">
+
+          <InfiniteScroll
+            dataLength={messages.length}
+            next={getMessages}
+            hasMore={true}
+            inverse={true}
+            loader={
+              <div className="Scrollloading">
+                <Spin />
+              </div>
+            }
+            scrollableTarget="scrollingDiv"
+            endMessage={
+              <p className="endMessage">
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            {messages.map((element) => {
+              if (1 || element.sender_id === id)
+                return <MessageSent message={element} />;
+              return <MessageReceived message={element} />;
+            })}
+          </InfiniteScroll>
       </div>
+      <div ref={messagesEndRef}></div>
       <div className="chatBoxInput">
         <div className="chatInput">
           <Input

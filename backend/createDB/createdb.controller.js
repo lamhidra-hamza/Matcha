@@ -107,6 +107,7 @@ const tableList = [
     notificationsTable,
     tagsTable,
     tags,
+    matches
 ];
 
 const createDB = async() => {

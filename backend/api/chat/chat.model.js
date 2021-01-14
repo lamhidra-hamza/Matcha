@@ -11,6 +11,7 @@ class Chat {
       date: data.date,
       seen: 0,
     };
+    console.log("the info are", info);
     const [result, filed] = await connection
       .promise()
       .query("INSERT INTO messages SET ?", info);
@@ -18,9 +19,7 @@ class Chat {
     await connection
       .promise()
       .query(
-        `UPDATE chat SET date = ? WHERE chat_id = '${data.chat_id}'`,
-        info.date
-      );
+        `UPDATE chat SET date = '${info.date}' WHERE chat_id = '${info.chat_id}'`);
 
     return result.insertId;
   }
@@ -36,11 +35,12 @@ class Chat {
   }
 
   //find last conversations for the user
-  async findall(userId) {
+  async findall(userId, body) {
+    console.log("findall function and the user is", userId, "and the data is", body);
     const [result, fields] = await connection
       .promise()
       .query(
-        `SELECT chat.chat_id, chat.user_id, chat.receiver_id, messages.date, messages.content, messages.seen FROM chat,messages,users where messages.chat_id = chat.chat_id and chat.receiver_id = users.id and messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id)`
+        `SELECT chat.chat_id, chat.user_id, chat.receiver_id, messages.date, messages.content, messages.seen FROM chat,messages,users where messages.chat_id = chat.chat_id and chat.receiver_id = "${userId}" OR chat.user_id = "${userId}" and  messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id) LIMIT ${body.startIndex},${body.length}`
       );
     return result;
   }

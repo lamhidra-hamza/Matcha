@@ -16,18 +16,19 @@ async function getChatLastUpdate(chatId) {
 
 //
 async function getMany(req, res) {
-  const body = req.body;
+  const body = req.query;
   try {
     if (req.status === 0 || req.status === -1) {
       res
         .status(200)
         .send({ status: req.status, message: "token is invalid or expired" });
     } else {
+      console.log("getMany functions and the body is ", body);
       let data = await model.findall(req.id, body);
-      data = data.filter((data) => {
-        return data.content != null;
-      });
-      data = data.slice(body.startIndex, body.endIndex);
+      // data = data.filter((data) => {
+      //   return data.content != null;
+      // });
+      // data = data.slice(body.startIndex, body.endIndex);
       for (var i = 0; i < data.length; i++) {
         let receiver_id =
           data[i].user_id == req.id ? data[i].receiver_id : data[i].user_id;
@@ -91,6 +92,7 @@ async function getLastMessages(req, res) {
     });
   }
 }
+
 //create ONe message
 async function createOne(req, res) {
   console.log("create one pictures");
@@ -118,6 +120,7 @@ async function createOne(req, res) {
     });
   }
 }
+
 //Create new Chat conversation
 async function createNewChat(req, res) {
   console.log("create one pictures");

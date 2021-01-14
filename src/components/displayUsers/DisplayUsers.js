@@ -59,8 +59,8 @@ const DisplayUsers = ({ user }) => {
 		async function fetchUsers() {
 			setloading(true)
 			const result = await getData(`api/users/`, filterParams, false);
-			console.log(result.data.users);
-			setUsersBrowsing(result.data.users);
+			if (result)
+				setUsersBrowsing(result.data.users);
 			setloading(false);
 		}
 		fetchUsers();

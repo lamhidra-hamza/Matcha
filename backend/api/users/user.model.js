@@ -278,7 +278,6 @@ class User {
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
-
 }
 
 module.exports = new User();
