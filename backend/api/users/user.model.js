@@ -279,7 +279,6 @@ class User {
         return result;
     }
 
-
 }
 
 module.exports = new User();

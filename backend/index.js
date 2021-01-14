@@ -35,7 +35,7 @@ io.on("connect", (socket) => {
 
     socket.on("newNotification", ({ userId, notifiedUser, notifyId }) => {
         console.log("notification here  ============     ", notifyId);
-        socket.broadcast.to("MatchaNotify").emit("notification", { notifiedUser, notifyId });
+        io.to("MatchaNotify").emit("notification", { notifiedUser, notifyId });
     })
 
     socket.on("sendMessage", ({ room, msgId }) => {

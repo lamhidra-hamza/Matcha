@@ -72,8 +72,32 @@ const Infocard = () => {
 			notifiedId: id,
             type: "like",
 		})
-		socket.emit("newNotification", { userId: myId , notifiedUser: id, notifyId: result.data.id });
-		IsLikedMe && postData(`api/matches`, { matched_user: id});
+		socket.emit("newNotification", {
+			userId: myId,
+			notifiedUser: id,
+			notifyId: result.data.id
+		});
+		if (IsLikedMe) {
+			await postData(`api/matches`, { matched_user: id});
+			const resultN = await postData(`api/notifications`, {
+				notifiedId: id,
+				type: "matche",
+			})
+			socket.emit("newNotification", {
+				userId: myId,
+				notifiedUser: id,
+				notifyId: resultN.data.id
+			});
+			const resultNme = await postData(`api/notifications`, {
+				notifiedId: myId,
+				type: "matche",
+			})
+			socket.emit("newNotification", {
+				userId: myId,
+				notifiedUser: myId,
+				notifyId: resultNme.data.id
+			});
+		}
 		history.push({
 			pathname: '/app',
 			state: {

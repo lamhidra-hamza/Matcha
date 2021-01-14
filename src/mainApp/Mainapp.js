@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
 import './Mainapp.scss'
 import MobileSection from '../components/mobileSection/MobileSection'
 import DesktopSection from '../components/desktopSection/DesktopSection'
 import axios from 'axios';
-import { Spin, message } from 'antd';
+import { Spin, message, notification } from 'antd';
 import {
 	logOut,
 	getCoords,
@@ -12,6 +12,7 @@ import {
 	putData,
 } from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
+import { NotificationsContext } from "../contexts/Notifications";
 import { io } from "socket.io-client";
 
 var socket = io("http://localhost:8000", {
@@ -39,6 +40,42 @@ export default function Mainapp({ width }) {
 	const [warning, setWarning] = useState(true);
 	const [error, setError] = useState({});
 	const history = useHistory();
+
+	const { setNotification } = useContext(NotificationsContext)
+
+	useEffect(async () => {
+		socket.emit("joinNotification", {}, (error) => {
+			if (error) {
+			  alert(error);
+			}
+		  });
+		socket.on("notification", async ({ notifiedUser, notifyId }) => {
+			if (notifiedUser === id)
+			{
+				const result = await getData(`api/notifications/${notifyId}`, {}, false);
+				const notify = result.data.data;
+				if (notify)
+				{
+					let message = "You have new notification !!";
+					if (notify.type === "like")
+						message = "Yow Someone Like You lets Go !!";
+					if (notify.type === "matche" )
+						message = "Yow Congratulation you got New MATCHE !!"
+					notification['info']({ message: message });
+					// console.log('Notification ====> ', Notification);
+					console.log('Notify ====> ', notify);
+					setNotification((Notification) => {
+						console.log("Prev ==== ", Notification)
+						return [...Notification, notify];
+				});
+				}
+				
+			}
+		});
+
+		return () => socket.disconnect();
+
+	}, [])
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
@@ -69,11 +106,7 @@ export default function Mainapp({ width }) {
 	}, [userLocation]);
 
 	useEffect(() => {
-		socket.emit("joinNotification", {}, (error) => {
-			if (error) {
-			  alert(error);
-			}
-		  });
+		
 		const token = localStorage.getItem("accessToken");
 		if (!token || !id || token === null || id === null) {
 			console.log("Redirect");
@@ -137,18 +170,10 @@ export default function Mainapp({ width }) {
 
 	return (
 		<UserContext.Provider
-		value={{
-			user: user,
-			setUser: setUser,
-			userImages: userImages,
-			setUserImages: setUserImages,
-			userLocation: userLocation,
-			setUserLocation: setUserLocation,
-			realCoordinates: realCoordinates,
-			tags: tags,
-			setTags: setTags,
-			socket: socket
-		}}
+			value={{
+				user, setUser, userImages, setUserImages, userLocation,
+				setUserLocation, realCoordinates, tags, setTags, socket
+			}}
 		>
 		<div className="containerMainapp">
 				{!user.verified &&

@@ -24,7 +24,7 @@ const getOne = async(req, res) => {
             res.status(400).end();
         }
         res.status(200).json({
-            user: data[0]
+            data: data[0]
         });
     } catch (err) {
         console.log(err);
