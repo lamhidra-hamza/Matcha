@@ -1,11 +1,11 @@
 var connection = require("../../utils/db");
-var uuid = require("uuid");
 
 class Notifications {
     async create(userId, data) {
         let info = {
             user_id: data.notifiedId,
             type: data.type,
+            readed: 0,
             date: new Date().toISOString().slice(0, 19).replace("T", " "),
         };
         let ret = await connection.promise().query("INSERT INTO notifications SET ?", info);
@@ -15,7 +15,7 @@ class Notifications {
     async findall(userId) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT * FROM notifications where user_id='${userId}'`);
+            .query(`SELECT * FROM notifications where user_id='${userId}' AND readed='0'`);
         return result;
     }
 
@@ -26,7 +26,9 @@ class Notifications {
     }
 
     async findOneAndUpdate(userId, id, data) {
-
+        const sql = `UPDATE notifications SET readed='${data.readed}' WHERE user_id='${userId}' AND id='${id}'`;
+        const [result, filed] = await connection.promise().query(sql);
+        return result;
     }
 
     async findOneAndRemove(userId, id) {

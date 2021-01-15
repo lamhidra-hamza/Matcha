@@ -12,7 +12,6 @@ import {
 	putData,
 } from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
-import { NotificationsContext } from "../contexts/Notifications";
 import { io } from "socket.io-client";
 
 var socket = io("http://localhost:8000", {
@@ -40,8 +39,7 @@ export default function Mainapp({ width }) {
 	const [warning, setWarning] = useState(true);
 	const [error, setError] = useState({});
 	const history = useHistory();
-
-	const { setNotification } = useContext(NotificationsContext)
+	const [Notification, setNotification] = useState([])
 
 	useEffect(async () => {
 		socket.emit("joinNotification", {}, (error) => {
@@ -67,9 +65,8 @@ export default function Mainapp({ width }) {
 					setNotification((Notification) => {
 						console.log("Prev ==== ", Notification)
 						return [...Notification, notify];
-				});
+					});
 				}
-				
 			}
 		});
 
@@ -80,8 +77,8 @@ export default function Mainapp({ width }) {
 	useEffect(() => {
 		const source = axios.CancelToken.source();
 		const postData = async () => {
-		console.log("update user informatin in the database");
-		await putData(`api/users/${id}`, user);
+			console.log("update user informatin in the database");
+			await putData(`api/users/${id}`, user);
 		};
 		if (update) postData();
 	
@@ -124,6 +121,7 @@ export default function Mainapp({ width }) {
 			console.log("USSSSERR==>", userResult)
 			const pictureResult = await getData(`api/pictures/${id}`, {}, false);
 			const tags = await getData(`api/tags/`, {}, false);
+			const notiResult = await getData(`api/notifications/`, {}, false);
 			let locationResult = await getData(`api/location/${id}`, {}, false);
 
 			userLocation.latitude = locationResult.data.latitude;
@@ -148,6 +146,7 @@ export default function Mainapp({ width }) {
 			setUser(userResult.data);
 			setUserImages(pictureResult.data);
 			setTags(tags.data.data);
+			setNotification(notiResult.data.data);
 			setUpdateLocation(true);
 			setLoading(false);
 			setUpdate(true);
@@ -172,7 +171,8 @@ export default function Mainapp({ width }) {
 		<UserContext.Provider
 			value={{
 				user, setUser, userImages, setUserImages, userLocation,
-				setUserLocation, realCoordinates, tags, setTags, socket
+				setUserLocation, realCoordinates, tags, setTags, socket,
+				Notification, setNotification
 			}}
 		>
 		<div className="containerMainapp">

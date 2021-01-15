@@ -40,9 +40,11 @@ const DisplayUsers = ({ user }) => {
 		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
 	}
 	useEffect(() => {
-		const element = document.getElementById('scrollingDiv').getBoundingClientRect();
+		const element = document.getElementById('scrollingDisplayUser').getBoundingClientRect();
 		const surface = (element.height - 100) * (element.width - 100);
 		const numOfItemsPossible =  Math.floor(surface / (310 * 360));
+
+		console.log("numOfItemsPossible ===> ", numOfItemsPossible);
 		if (numOfItemsPossible !== filterParams.numberOfItem)
 			setFilerParams({...filterParams, numberOfItem: numOfItemsPossible});
 		if (state && state.liked_user)
@@ -85,7 +87,7 @@ const DisplayUsers = ({ user }) => {
 	if (loading)
 		return (
 			<div className="DusersContainer">
-				<div id="scrollingDiv" className="dusersContent">
+				<div id="scrollingDisplayUser" className="dusersContent">
 					<div className="loading">
 						<Spin size="large" />
 					</div>
@@ -103,7 +105,7 @@ const DisplayUsers = ({ user }) => {
 					</Tooltip>
 				</div>
 			</div>
-			<div id="scrollingDiv" className="dusersContent">
+			<div id="scrollingDisplayUser" className="dusersContent">
 				<InfiniteScroll
 					dataLength={usersBrowsing.length}
 					next={getUsers}
@@ -115,7 +117,7 @@ const DisplayUsers = ({ user }) => {
 							<Spin />
 						</div>
 						}
-					scrollableTarget="scrollingDiv"
+					scrollableTarget="scrollingDisplayUser"
 					endMessage={
 						<p className="endMessage">
 						<b>Yay! You have seen it all</b>

@@ -7,7 +7,6 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { NotificationsContext } from './contexts/Notifications'; 
 
 const App = () => {
   
@@ -16,8 +15,6 @@ const App = () => {
   || document.body.clientWidth;
 
   const [width, setWidth] = useState(getWidth());
-  const [Notification, setNotification] = useState([])
-
 
    useEffect(() => {
     const resizeListener = () => {
@@ -28,6 +25,7 @@ const App = () => {
       window.removeEventListener('resize', resizeListener);
     }
   })
+
   return (
     <Router>
       <div className="App">
@@ -36,11 +34,7 @@ const App = () => {
             <Home mobile={width < 760}/>
           </Route>
           <Route path="/app">
-            <NotificationsContext.Provider
-              value={{Notification, setNotification}}
-            >
               <MainApp width={width}/>
-            </NotificationsContext.Provider>
           </Route>
         </Switch>
       </div>

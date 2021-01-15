@@ -3,9 +3,8 @@ import { UserOutlined, LeftOutlined, LogoutOutlined, NotificationOutlined} from 
 import { Avatar, Typography, Tooltip, Badge, Popover, Empty } from 'antd'
 import './NavbarApp.scss'
 import { useHistory, useRouteMatch, Link} from 'react-router-dom'
-import { logOut } from '../../tools/globalFunctions';
+import { logOut, putData } from '../../tools/globalFunctions';
 import { UserContext } from '../../contexts/UserContext';
-import { NotificationsContext } from '../../contexts/Notifications';
 import { getDayString } from '../../tools/dateFuncts';
 import { SER } from '../../conf/config'
 
@@ -15,8 +14,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
 
     const history = useHistory();
     const match = useRouteMatch();
-    const { userImages } = useContext(UserContext);
-    const { Notification } = useContext(NotificationsContext);
+    const { userImages, Notification, setNotification } = useContext(UserContext);
     const pic = userImages && userImages.picture_1
         ? `${SER.PicPath}/${userImages.picture_1}` : "";
 
@@ -31,7 +29,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                 pathname: `${match.path}/profile`,
                 state: {
                     mobileKey: "5",
-                    desKey: "1", 
+                    desKey: "1",
                     mobile: false,
                 },
         })
@@ -40,6 +38,12 @@ export default function NavbarApp({setShowProfile, showProfile}) {
 
     const handelBackfrom = () => {
         setShowProfile(false)
+    }
+
+    const handleNotificationBtnClick = async () => {
+        Notification.map((item) => {
+            putData(`api/notifications/${item.id}`, { readed: 1 })
+        })
     }
 
     const content = (
@@ -102,9 +106,10 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                     title={<span>Notifications</span>}
                     content={content}
                     trigger="click"
+                    onVisibleChange={(visible) => !visible && setNotification([])}
                     >
                     <Badge count={Notification?.length}  style={{margin: '1.5px 17px'}}>
-                        <NotificationOutlined className="logoutIcon" style={{ fontSize: '1.7rem', marginRight: '15px'}}/>
+                        <NotificationOutlined onClick={handleNotificationBtnClick} className="logoutIcon" style={{ fontSize: '1.7rem', marginRight: '15px'}}/>
                     </Badge>
                 </Popover>
                 <Tooltip title="Logout">

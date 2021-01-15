@@ -52,7 +52,7 @@ const createOne = async(req, res) => {
 
 const updateOne = async(req, res) => {
     try {
-        await model.findOneAndUpdate(req.id, req.id, req.body);
+        await model.findOneAndUpdate(req.id, req.params.id, req.body);
         res.status(201).send({
             msg: "Update Done!!",
         });
