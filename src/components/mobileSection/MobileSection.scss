@@ -1,0 +1,50 @@
+.mobileSection {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .ant-tabs-nav .ant-tabs-nav-list,
+    .ant-tabs-nav .ant-tabs-nav-list {
+        width: 100%;
+        justify-content: space-around;
+    }
+    .mobileNavIcon {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding-left: 10px;
+        font-size: large;
+    }
+    .ant-tabs-tab {
+        margin: 0 0px 0 0;
+    }
+    .backred {
+        background: red;
+    }
+    .mobileTab {
+        height: 100vh !important;
+    }
+    .mobileTab::-webkit-scrollbar {
+        display: none !important;
+    }
+    .downNav {
+        height: 40px;
+        width: 100%;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+    }
+    .ant-btn-circle.ant-btn-lg {
+        box-shadow: 0 5px 8px 4px rgba(112, 125, 134, 0.14);
+    }
+    .scrollTab {
+        overflow: scroll;
+    }
+    .paddingBottomTab {
+        padding-bottom: 30%;
+    }
+    .ant-tabs-nav {
+        margin: 0;
+    }
+}

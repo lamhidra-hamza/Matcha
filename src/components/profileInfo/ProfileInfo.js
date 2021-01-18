@@ -155,7 +155,7 @@ const ProfileInfo = (props) => {
               Save
             </Button>
           </div>
-        <LikeViewItems />
+        {props && !props.mobile && <LikeViewItems />}
         <div className="accountSet">
           <h2 className="setTitle">ACCOUNT SETTINGS</h2>
           <div className="setBox rowsetBox">

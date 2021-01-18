@@ -68,7 +68,8 @@ export default function FilterPopUp(props) {
 		return {
 		textAlign: 'center',
 		borderRadius: '50px',
-		height: props.mobile ? '30vh' : '500px',
+		height: '80%',
+		maxWidth: '700px'
 		}
 	}
 
@@ -105,7 +106,6 @@ export default function FilterPopUp(props) {
 			onCancel={props.handleCancel}
 			bodyStyle={getStyle()}
 			centered={true}
-			width={props.mobile ? '100vw' : '50vw'}
 			onOk={handleOk}
 			
 		>
@@ -136,7 +136,7 @@ export default function FilterPopUp(props) {
 			<div className="filterRow">
 				<h4 style={{ fontWeight: '900', color: '#5b5b5b' }}>Age: </h4>
 				<Slider
-					style={{ width: '50%' }}
+					style={{ width: '50%'}}
 					range
 					step={1}
 					min={18}

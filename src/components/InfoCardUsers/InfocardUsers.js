@@ -7,14 +7,14 @@ import {
   MinusCircleTwoTone,
 } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import './InfoCardUsers.css'
+import './InfoCardUsers.scss'
 import { SER } from '../../conf/config'
 import { getData, postData } from '../../tools/globalFunctions'
 import { UserContext } from '../../contexts/UserContext';
 
 
-const Infocard = () => {
-		
+const Infocard = (props) => {
+	const currentView = props && props.mobile ? "mobile" : "";
 	const { id }  = useParams();
 	const myId = localStorage.getItem("userId");
 	const history = useHistory();
@@ -122,7 +122,7 @@ const Infocard = () => {
 			</div>)
 
 	return (
-		<div className="rightSideCard">
+		<div className={`${currentView}rightSideCard`}>
 			<div className="infoCardContainer">
 				<div className="infoPage">
 				<Carousel dotPosition={'top'}>

@@ -11,12 +11,11 @@ import { postData } from '../../tools/globalFunctions'
 const UserCard = ({ user }) => {
 
     const image = user.picture_1 ? `${SER.PicPath}/${user.picture_1}` : null;
-    let match = useRouteMatch();
     let history = useHistory();
 
     const handelClick = () => {
-        history.push(`${match.url}/infocard/${user.id}`);
-        postData(`api/views`, {viewed_user: user.id});
+        history.push(`/app/infocard/${user.id}`);
+        postData(`api/views`, { viewed_user: user.id });
 
     }
 
