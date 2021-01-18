@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { UserOutlined, LeftOutlined, LogoutOutlined, NotificationOutlined} from '@ant-design/icons';
-import {Avatar, Typography, Tooltip, Badge, Popover} from 'antd'
+import { Avatar, Typography, Tooltip, Badge, Popover, Empty } from 'antd'
 import './NavbarApp.scss'
 import { useHistory, useRouteMatch, Link} from 'react-router-dom'
-import { logOut } from '../../tools/globalFunctions';
+import { logOut, putData } from '../../tools/globalFunctions';
 import { UserContext } from '../../contexts/UserContext';
+import { getDayString } from '../../tools/dateFuncts';
 import { SER } from '../../conf/config'
 
 const { Title } = Typography;
@@ -13,8 +14,9 @@ export default function NavbarApp({setShowProfile, showProfile}) {
 
     const history = useHistory();
     const match = useRouteMatch();
-    const context = useContext(UserContext);
-    const pic = context.userImages && context.userImages.picture_1 ? `${SER.PicPath}/${context.userImages.picture_1}` : "";
+    const { userImages, Notification, setNotification } = useContext(UserContext);
+    const pic = userImages && userImages.picture_1
+        ? `${SER.PicPath}/${userImages.picture_1}` : "";
 
     const logout = async () => {
         await logOut();
@@ -27,7 +29,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                 pathname: `${match.path}/profile`,
                 state: {
                     mobileKey: "5",
-                    desKey: "1", 
+                    desKey: "1",
                     mobile: false,
                 },
         })
@@ -38,13 +40,38 @@ export default function NavbarApp({setShowProfile, showProfile}) {
         setShowProfile(false)
     }
 
+    const handleNotificationBtnClick = async () => {
+        Notification.map((item) => {
+            putData(`api/notifications/${item.id}`, { readed: 1 })
+        })
+    }
+
     const content = (
         <div>
-          <p>Content</p>
-          <p>Content</p>
+            {Notification?.length ?
+                Notification.map((item, index) => {
+                const itemTime = new Date(Date.parse(item.date));
+                const dateNow = new Date(Date.now());
+                if (item.type === "like")
+                    return <p key={item.id}>
+                        New Like at {getDayString(dateNow, itemTime)
+                        }</p>
+                if (item.type === "matche")
+                    return <p key={item.id}>
+                        New Matche at {getDayString(dateNow, itemTime)
+                        }</p>
+            }) :
+            <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                    <span>
+                     No Notification
+                    </span>
+                  }
+                />
+        }
         </div>
       );
-    const text = <span>n</span>;
 
     return (
         <div className="desNavbar">
@@ -79,9 +106,10 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                     title={<span>Notifications</span>}
                     content={content}
                     trigger="click"
+                    onVisibleChange={(visible) => !visible && setNotification([])}
                     >
-                    <Badge dot count={5} style={{margin: '1.5px 17px'}}>
-                        <NotificationOutlined className="logoutIcon" style={{ fontSize: '1.7rem',marginRight: '15px'}}/>
+                    <Badge count={Notification?.length}  style={{margin: '1.5px 17px'}}>
+                        <NotificationOutlined onClick={handleNotificationBtnClick} className="logoutIcon" style={{ fontSize: '1.7rem', marginRight: '15px'}}/>
                     </Badge>
                 </Popover>
                 <Tooltip title="Logout">
@@ -96,5 +124,5 @@ const titleStyle = {
     color: '#ffffff',
     fontWeight: '300',
     marginLeft: '5px',
-    marginTop: '12px',    
+    marginTop: '12px'
 }

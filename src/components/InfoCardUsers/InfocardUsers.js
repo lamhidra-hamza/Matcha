@@ -7,14 +7,14 @@ import {
   MinusCircleTwoTone,
 } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import './InfoCardUsers.css'
+import './InfoCardUsers.scss'
 import { SER } from '../../conf/config'
 import { getData, postData } from '../../tools/globalFunctions'
 import { UserContext } from '../../contexts/UserContext';
 
 
-const Infocard = () => {
-		
+const Infocard = (props) => {
+	const currentView = props && props.mobile ? "mobile" : "";
 	const { id }  = useParams();
 	const myId = localStorage.getItem("userId");
 	const history = useHistory();
@@ -72,8 +72,32 @@ const Infocard = () => {
 			notifiedId: id,
             type: "like",
 		})
-		socket.emit("newNotification", { userId: myId , notifiedUser: id, notifyId: result.data.id });
-		IsLikedMe && postData(`api/matches`, { matched_user: id});
+		socket.emit("newNotification", {
+			userId: myId,
+			notifiedUser: id,
+			notifyId: result.data.id
+		});
+		if (IsLikedMe) {
+			await postData(`api/matches`, { matched_user: id});
+			const resultN = await postData(`api/notifications`, {
+				notifiedId: id,
+				type: "matche",
+			})
+			socket.emit("newNotification", {
+				userId: myId,
+				notifiedUser: id,
+				notifyId: resultN.data.id
+			});
+			const resultNme = await postData(`api/notifications`, {
+				notifiedId: myId,
+				type: "matche",
+			})
+			socket.emit("newNotification", {
+				userId: myId,
+				notifiedUser: myId,
+				notifyId: resultNme.data.id
+			});
+		}
 		history.push({
 			pathname: '/app',
 			state: {
@@ -98,7 +122,7 @@ const Infocard = () => {
 			</div>)
 
 	return (
-		<div className="rightSideCard">
+		<div className={`${currentView}rightSideCard`}>
 			<div className="infoCardContainer">
 				<div className="infoPage">
 				<Carousel dotPosition={'top'}>

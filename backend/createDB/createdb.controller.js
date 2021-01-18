@@ -68,7 +68,7 @@ const locationTable = {
 const notificationsTable = {
     sql: `
     CREATE TABLE IF NOT EXISTS notifications(id INT AUTO_INCREMENT PRIMARY KEY, type VARCHAR(50),
-    date DATETIME, user_id VARCHAR(255), FOREIGN KEY (user_id) REFERENCES users(id))        `,
+    date DATETIME, readed BOOLEAN, user_id VARCHAR(255), FOREIGN KEY (user_id) REFERENCES users(id))        `,
     successMessage: "the NOTIFICATIONS Table has been created",
     failMessage: "the NOTIFICATIONS Table hasn't been created",
 };

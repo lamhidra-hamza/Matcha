@@ -24,7 +24,7 @@ const getOne = async(req, res) => {
             res.status(400).end();
         }
         res.status(200).json({
-            user: data[0]
+            data: data[0]
         });
     } catch (err) {
         console.log(err);
@@ -52,7 +52,7 @@ const createOne = async(req, res) => {
 
 const updateOne = async(req, res) => {
     try {
-        await model.findOneAndUpdate(req.id, req.id, req.body);
+        await model.findOneAndUpdate(req.id, req.params.id, req.body);
         res.status(201).send({
             msg: "Update Done!!",
         });

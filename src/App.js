@@ -28,17 +28,17 @@ const App = () => {
 
   return (
     <Router>
-        <div className="App">
-          <Switch>
-            <Route exact path="/">
-              <Home mobile={width < 760}/>
-            </Route>
-            <Route path="/app">
+      <div className="App">
+        <Switch>
+          <Route exact path="/">
+            <Home mobile={width < 760}/>
+          </Route>
+          <Route path="/app">
               <MainApp width={width}/>
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   )
 }
 

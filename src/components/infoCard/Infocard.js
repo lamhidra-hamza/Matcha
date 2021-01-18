@@ -54,9 +54,9 @@ const Infocard = (props) => {
       <div className="infoCardContainer">
         <div className="infoPage">
           <Carousel dotPosition={'top'}>
-            {images.map((image) => (
+            {images.map((image, index) => (
 				    image &&
-              <div className="fiximg">
+              <div className="fiximg" key={index}>
                 <img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
               </div>
             ))}

@@ -1,31 +1,34 @@
   .filterUsers {
-        padding: 1.5% 5%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        font-size: 1rem;
-    }
-
-    .filterRow {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-between;
-        height: 100%;
-    }
-    .ant-select-selection-placeholder {
-        color: #ffafb7 !important;
-    }
-
-    .fameRate {
-        width: 50%;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .sortBy {
-        width: 50%;
-        display: flex;
-        justify-content: space-evenly;
-    }
+      padding: 1.5% 5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 1rem;
+  }
+  
+  .filterRow {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      height: 100%;
+  }
+  
+  .ant-select-selection-placeholder {
+      color: #ffafb7 !important;
+  }
+  
+  .fameRate {
+      width: 50%;
+      display: flex;
+      justify-content: space-around;
+  }
+  
+  .sortBy {
+      width: 50%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+  }
