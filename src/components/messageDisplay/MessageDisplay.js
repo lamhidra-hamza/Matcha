@@ -74,6 +74,7 @@ const MessageDisplay = (props) => {
         dataLength={messages.length}
         next={getMessages}
         hasMore={loadMore}
+        inverse={true}
         loader={
           <div className="Scrollloading">
             <Spin />

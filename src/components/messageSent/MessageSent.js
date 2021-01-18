@@ -47,10 +47,11 @@ const MessageSent = (props) => {
     const dateNow = new Date(Date.now());
     const difference = new Date(dateNow - messageTime);
     setTime(getDayString(dateNow, messageTime));
+    
   }, []);
 
   return (
-    <div>
+    <div >
       <div className="messageSent">
         <div className="messageSentContent">
           <span>{props.message.content}</span>

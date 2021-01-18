@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+  useCallback,
+} from "react";
 import { Avatar, Input, Button, Spin } from "antd";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
@@ -8,7 +14,7 @@ import { io } from "socket.io-client";
 import { UserContext } from "../../contexts/UserContext";
 import { getData, postData, putData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfinteScrollReverse from "react-infinite-scroll-reverse";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -27,16 +33,20 @@ const ChatBox = (props) => {
     length: 15,
     msgId: -1,
   });
-  const [loadMore, setLoadMore] = useState(true);
+
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadMore, setLoadMore] = useState(true);
+  const [endMessage, setEndMessage] = useState(false);
+  let scrollDone = false;
   const { chat_id } = useParams();
   const [room, setRoom] = useState("");
 
   const getMessages = async () => {
     console.log("getMessages ");
-    const result =  await getData(
+    //setLoading(true);
+    const result = await getData(
       `api/chat/${chat_id}`,
       { ...params, startIndex: params.startIndex + params.length },
       false
@@ -44,10 +54,12 @@ const ChatBox = (props) => {
     console.log("the chatbox result is", result.data.data);
     setParams({ ...params, startIndex: params.startIndex + params.length });
     if (result.data.data.length === 0) setLoadMore(false);
-    setMessages([...messages, ...result.data.data]);
+    //setLoading(false);
+    setMessages([...result.data.data, ...messages]);
   };
 
   useEffect(async () => {
+    setLoading(true);
     const messagesResult = await getData(
       `api/chat/${chat_id}`,
       {
@@ -56,16 +68,12 @@ const ChatBox = (props) => {
       false
     );
     setMessages(messagesResult.data.data);
-
     socket.emit("join", { userId: id, room: chat_id }, (error) => {
       if (error) {
         alert(error);
       }
     });
     setLoading(false);
-    if (!loading) {
-      messagesEndRef.current.scrollIntoView({ block: "end" });
-    } //scrollDown();
   }, [room, chat_id]);
 
   useEffect(async () => {
@@ -80,7 +88,7 @@ const ChatBox = (props) => {
         },
         false
       );
-      setMessages((messages) => [...messages, lastMsg.data.data[0]]);
+      setMessages((messages) => [lastMsg.data.data, ...messages]);
     });
 
     setLoading(false);
@@ -89,12 +97,6 @@ const ChatBox = (props) => {
       source.cancel();
     };
   }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      messagesEndRef.current.scrollIntoView({ block: "end" });
-    }
-  }, [messages]);
 
   const sendMessage = async (event) => {
     console.log(messages);
@@ -130,9 +132,13 @@ const ChatBox = (props) => {
     setMessage(value);
   };
 
+  const scrolling = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
   if (loading)
     return (
-      <div className="containerMainapp">
+      <div className="chatBox">
         <div className="loading">
           <Spin size="large" />
         </div>
@@ -149,33 +155,40 @@ const ChatBox = (props) => {
         </div>
         <div className="matchDate">You matched with Hinata on 50/50/3020</div>
       </div>
-      <div   id="scrollingDiv" className="chatBoxbody">
-
-          <InfiniteScroll
-            dataLength={messages.length}
-            next={getMessages}
-            hasMore={true}
-            inverse={true}
-            loader={
-              <div className="Scrollloading">
-                <Spin />
-              </div>
-            }
-            scrollableTarget="scrollingDiv"
-            endMessage={
-              <p className="endMessage">
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
-            {messages.map((element) => {
-              if (1 || element.sender_id === id)
-                return <MessageSent message={element} />;
-              return <MessageReceived message={element} />;
-            })}
-          </InfiniteScroll>
-      </div>
-      <div ref={messagesEndRef}></div>
+      <InfinteScrollReverse
+        className="chatBoxbody"
+        hasMore={loadMore}
+        isLoading={loading}
+        loadMore={getMessages}
+      >
+        {messages.map((element, index) => {
+          {
+            console.log(
+              "the element length is ",
+              messages.length,
+              "and the index is ",
+              index
+            );
+          }
+          if (messages.length != index + 1) {
+            if (element.sender_id === id)
+              return <MessageSent message={element} />;
+            return <MessageReceived message={element} />;
+          } else {
+            if (true || element.sender_id === id)
+              return (
+                <>
+                    <MessageSent ref={messagesEndRef} message={element} />
+                </>
+              );
+            return (
+              <>
+                  <MessageReceived ref={messagesEndRef} message={element} />
+              </>
+            );
+          }
+        })}
+      </InfinteScrollReverse>
       <div className="chatBoxInput">
         <div className="chatInput">
           <Input
@@ -189,7 +202,7 @@ const ChatBox = (props) => {
           />
         </div>
         <div className="chatButton">
-          <Button shape="round" className={"sentBtn"} onClick={sendMessage}>
+          <Button shape="round" className={"sentBtn"} onClick={scrolling}>
             Send
           </Button>
         </div>
