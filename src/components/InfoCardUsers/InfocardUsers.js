@@ -97,6 +97,7 @@ const Infocard = (props) => {
 				notifiedUser: myId,
 				notifyId: resultNme.data.id
 			});
+			await postData(`api/chat/new`, { receiver_id: id });
 		}
 		history.push({
 			pathname: '/app',

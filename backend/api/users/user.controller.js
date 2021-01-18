@@ -130,14 +130,16 @@ async function checkSession(req, res) {
 
 async function getOneForInfoCard(req, res) {
     try {
+        console.log("req.params ====> ", req.params.id);
         const data = await model.findOneInfoCard(req.id, req.params.id);
+        console.log("data params ==> ", data)
         if (!data || req.status === 0 || req.status === -1) {
             res.status(200).send({
                 status: req.status,
             });
             return;
         }
-        data[0].status = 1;
+        data[0] && (data[0].status = 1);
         res.status(200).json(data[0]);
     } catch (err) {
         console.log("error");

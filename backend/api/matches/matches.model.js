@@ -17,15 +17,20 @@ class Matches {
 
         const sql = `SELECT users.id,
             users.firstName,
-            TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age, pictures.picture_1
-            FROM matches, users, pictures 
+            TIMESTAMPDIFF (YEAR, users.bornDate, CURDATE()) AS age,
+            pictures.picture_1,
+            chat.chat_id
+            FROM matches, users, pictures, chat 
             WHERE (users.id=matched_user OR users.id = matches.user_id)
             AND (matches.user_id = '${userId}' OR matched_user='${userId}')
             AND pictures.user_id=users.id AND users.id != '${userId}'
-            GROUP BY users.id,  pictures.picture_1, age, users.firstName
+            AND ((users.id=chat.receiver_id AND chat.user_id ='${userId}' ) OR (
+                users.id=chat.user_id AND chat.receiver_id='${userId}'))
+            GROUP BY users.id,  pictures.picture_1, age, users.firstName, chat.chat_id
             LIMIT ${limit}, ${params.numberOfItem}
             `
 
+        console.log(sql)
         const [result, fields] = await connection.promise().query(sql);
         return result;
     }
