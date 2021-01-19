@@ -120,7 +120,7 @@ class User {
                     ${orderBy}
                     LIMIT ${limit}, ${filters.numberOfItem} `;
 
-        console.log(sql);
+        // console.log(sql);
         const [result, fields] = await connection
             .promise()
             .query(sql);

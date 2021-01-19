@@ -11,7 +11,7 @@ export default function MatcheCard(props) {
 
     const handelClick = () => {
         history.push({
-            pathname: `${match.path}/messages/chatbox/${user.id}`,
+            pathname: `${match.path}/messages/chatbox/${user.chat_id}`,
             state: {
                     mobileKey: "4",
                     desKey: "1",
