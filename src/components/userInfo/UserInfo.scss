@@ -1,101 +1,98 @@
-
 .userInfo {
-    //flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 0.2px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25vw;
+  max-width: 400px;
+  height: 100vh;
+
+  .fiximg {
+    flex: 5;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    border-left : 0.2px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    width: 25vw;
-    max-width: 400px;
-    height: 100%;
-    .fiximg {
-        max-height: 800px;
-        max-width: 400px;
-        position: relative;
-        display: block;
-        flex-direction: column;
-    }
-    
-    .imgCard {
-        max-height: 100%;
-        max-width: 100%;
-    }
-}
-
-
-
-.userImgs{
-    height: 50vh;
-   //box-shadow: 0 4px 8px 0px rgba(0,0,0,0.2);
-}
-
- .slick-dots-bottom  li{
-    background-color: #fd267d !important;
-}
-
-.userNameInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 40vh;
     justify-content: flex-start;
-    padding: 10px;
-}
+    //background-color: #fd267d !important;
+    .imgCard {
+        flex: 1;
+        height: 100% !important;
+        width: 100% !important;
+    }
+  }
+  .userNameInfo {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    justify-content: flex-start;
 
-.userNameInfoName {
-    font-size: 25px;
-    font-weight: 900;
-}
+    .userNameInfoName {
+      flex: 1;
+      font-size: 25px;
+      font-weight: 900;
+    }
 
-.userNameInfoJob {
-    color: #979696;
-    margin-bottom: 70px;
-}
+    .userNameInfoJob {
+      flex: 1;
+      color: #979696;
+    }
 
-.userAction {
-    height: 7vh;
+    .userStatus {
+      flex: 1;
+    }
+  }
+
+  .userAction {
+    flex: 1;
     border-top: 0.2px solid #f0f0f0;
     display: flex;
-}
 
-.unmatch {
-    flex: 1;
-    background-color: #f6f7fb;
-    color: #b3b3b8;
-    font-size: 15px;
-    font-weight: 900;
-    display: flex;
-     align-items: center;
-    justify-content: center;
-    border-right: 0.2px solid #f0f0f0;
-    &:hover{
+    .unmatch {
+      flex: 1;
+      background-color: #f6f7fb;
+      color: #b3b3b8;
+      font-size: 15px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 0.2px solid #f0f0f0;
+      &:hover {
         cursor: pointer;
         background-color: #c7c7ca;
         color: #f6f7fb;
-        box-shadow: 0px 0px 6px 0 rgba(0,0,0,.27);
-
+        box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.27);
+      }
     }
-}
 
-.block {
-    flex: 1;
-    background-color: #f6f7fb;
-    color: #b3b3b8;
-    font-size: 15px;
-    font-weight: 900;
-     display: flex;
-     align-items: center;
-    justify-content: center;
-    &:hover{
+    .block {
+      flex: 1;
+      background-color: #f6f7fb;
+      color: #b3b3b8;
+      font-size: 15px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
         cursor: pointer;
         background-color: #c7c7ca;
         color: #f6f7fb;
-        box-shadow: 0px 0px 6px 0 rgba(0,0,0,.27);
-
+        box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.27);
+      }
     }
+  }
+}
+
+.ant-carousel .slick-dots li {
+  background-color: #fd267d !important;
+}
+
+.slick-dots .slick-dots-bottom {
+  position: absolute !important;
+  bottom: 550px !important;
 }

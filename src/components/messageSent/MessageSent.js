@@ -51,14 +51,14 @@ const MessageSent = (props) => {
   }, []);
 
   return (
-    <div >
+    <div>
       <div className="messageSent">
         <div className="messageSentContent">
           <span>{props.message.content}</span>
         </div>
       </div>
       <div className="messageSentInfo">
-        <div className="messageSentTime">
+        <div className="messageSentTime" >
           <span>{time}</span>
         </div>
       </div>
