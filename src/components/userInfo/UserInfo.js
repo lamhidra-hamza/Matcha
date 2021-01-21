@@ -1,9 +1,10 @@
 import React from 'react'
 import { Divider } from 'antd'
-import { Carousel } from 'antd'
+import { Carousel } from 'antd';
 import './UserInfo.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+
 
 export default function ChatBox() {
   const info = {
@@ -17,25 +18,34 @@ export default function ChatBox() {
             "https://i.pinimg.com/474x/66/94/7d/66947da4b8bba10226afd00ae5fa7eaa.jpg",
     ]
 }
+
+const contentStyle = {
+  height: '450px',
+  width: '100%',
+  color: '#fff',
+  lineHeight: '200px',
+  textAlign: 'center',
+  background: '#364d79',
+};
   return (
     <div className="userInfo">
-      <div style={{position: 'relative'}}>
-        <Carousel dotPosition={'bottom'}>
+      <div className="fiximg">
+        <Carousel>
             {info.images.map(image =>
-            <div className="fiximg">
-                <img alt="img-card" className="imgCard" src={image}/>
+            <div>
+                <img alt="img-card" style={contentStyle} src={image} />
             </div>)}
         </Carousel>
       </div>
-        <Divider />
+        {/* <Divider /> */}
       <div className="userNameInfo">
         <div className="userNameInfoName">Maria, 23</div>
         <div className="userNameInfoJob">
           <FontAwesomeIcon icon={faBriefcase} /> Software Developer
           <br />
           <FontAwesomeIcon icon={faMapMarkerAlt} /> 1 km away
+          <Divider />
         </div>
-        <Divider />
         <div className="userStatus">
           Hello my name is lkadjsf sldkfjsd adksjfuwe sdfjasdf kajsdflj 🤑❤️🔥🔥
         </div>

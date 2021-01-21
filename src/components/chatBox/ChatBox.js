@@ -24,22 +24,27 @@ var socket = io("http://localhost:8000", {
 });
 
 const ChatBox = (props) => {
-  var messagesEndRef = useRef();
   const id = localStorage.getItem("userId");
 
   const { user } = useContext(UserContext);
   const [params, setParams] = useState({
     startIndex: 0,
-    length: 15,
+    length: 30,
     msgId: -1,
   });
+
+  const setRef = useCallback((node) => {
+    if (node) {
+      node.scrollIntoView({ smooth: true });
+    }
+    console.log("scroll now");
+  }, []);
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadMore, setLoadMore] = useState(true);
   const [endMessage, setEndMessage] = useState(false);
-  let scrollDone = false;
   const { chat_id } = useParams();
   const [room, setRoom] = useState("");
 
@@ -132,10 +137,6 @@ const ChatBox = (props) => {
     setMessage(value);
   };
 
-  const scrolling = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-
   if (loading)
     return (
       <div className="chatBox">
@@ -155,54 +156,52 @@ const ChatBox = (props) => {
         </div>
         <div className="matchDate">You matched with Hinata on 50/50/3020</div>
       </div>
-      <InfinteScrollReverse
-        className="chatBoxbody"
-        hasMore={loadMore}
-        isLoading={loading}
-        loadMore={getMessages}
-      >
-        {messages.map((element, index) => {
-          {
-            console.log(
-              "the element length is ",
-              messages.length,
-              "and the index is ",
-              index
-            );
-          }
-          if (messages.length != index + 1) {
+      <div className="chatBoxbody">
+        <InfinteScrollReverse
+          className="chatBoxbody"
+          hasMore={loadMore}
+          isLoading={loading}
+          loadMore={getMessages}
+        >
+          {messages.map((element, index) => {
+            {
+              console.log(
+                "the element length is ",
+                messages.length,
+                "and the index is ",
+                index
+              );
+            }
+            const lastMessage = messages.length - 1 === index;
+            console.log("is that the last message", lastMessage);
             if (element.sender_id === id)
-              return <MessageSent message={element} />;
-            return <MessageReceived message={element} />;
-          } else {
-            if (true || element.sender_id === id)
               return (
-                <>
-                    <MessageSent ref={messagesEndRef} message={element} />
-                </>
+                <div ref={lastMessage ? setRef : null} key={index}>
+                  {<MessageSent message={element} key={index}></MessageSent>}
+                </div>
               );
             return (
-              <>
-                  <MessageReceived ref={messagesEndRef} message={element} />
-              </>
+              <div ref={lastMessage ? setRef : null} key={index}>
+                {
+                  <MessageReceived
+                    message={element}
+                    key={index}
+                  ></MessageReceived>
+                }
+              </div>
             );
-          }
-        })}
-      </InfinteScrollReverse>
+          })}
+        </InfinteScrollReverse>
+      </div>
       <div className="chatBoxInput">
-        <div className="chatInput">
-          <Input
-            placeholder="Type a message"
-            value={message}
-            onChange={handleMessageChange}
-            style={{
-              height: "4vh",
-              borderRadius: "10px",
-            }}
-          />
-        </div>
+        <Input
+          placeholder="Type a message"
+          value={message}
+          onChange={handleMessageChange}
+          className="chatInput"
+        />
         <div className="chatButton">
-          <Button shape="round" className={"sentBtn"} onClick={scrolling}>
+          <Button shape="round" className={"sentBtn"} onClick={sendMessage}>
             Send
           </Button>
         </div>
