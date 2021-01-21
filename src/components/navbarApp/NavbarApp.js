@@ -52,14 +52,9 @@ export default function NavbarApp({setShowProfile, showProfile}) {
                 Notification.map((item, index) => {
                 const itemTime = new Date(Date.parse(item.date));
                 const dateNow = new Date(Date.now());
-                if (item.type === "like")
-                    return <p key={item.id}>
-                        New Like at {getDayString(dateNow, itemTime)
-                        }</p>
-                if (item.type === "matche")
-                    return <p key={item.id}>
-                        New Matche at {getDayString(dateNow, itemTime)
-                        }</p>
+                return <p key={item.id}>
+                    New {item.type} at {getDayString(dateNow, itemTime)
+                    }</p>
             }) :
             <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}

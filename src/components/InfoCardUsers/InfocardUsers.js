@@ -11,6 +11,7 @@ import './InfoCardUsers.scss'
 import { SER } from '../../conf/config'
 import { getData, postData } from '../../tools/globalFunctions'
 import { UserContext } from '../../contexts/UserContext';
+import { ErrorStatusContext } from '../../contexts/ErrorContext';
 
 
 const Infocard = (props) => {
@@ -23,26 +24,31 @@ const Infocard = (props) => {
 	const [IsLikedMe, setIsLikedMe] = useState(false);
 	const [loading, setloading] = useState(true);
 	const { socket } = useContext(UserContext);
+	const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
 
 		const fetchData = async () => {
-			setloading(true);
-			const result = await getData(`api/users/infocard/${id}`, {}, false);
-			const tags = await getData(`api/tags/${id}`, {}, false);
-			const likedMe = await getData(`api/likes/${id}`, {}, false);
-			if (likedMe.data.user)
-				setIsLikedMe(true);
-			setUserInfo({...result.data, images: [
-				result.data.picture_1,
-				result.data.picture_2,
-				result.data.picture_3,
-				result.data.picture_4,
-				result.data.picture_5,
-			]});
-			setTags(tags.data.data);
-			setloading(false);
+			try {
+				setloading(true);
+				const result = await getData(`api/users/infocard/${id}`, {}, false);
+				const tags = await getData(`api/tags/${id}`, {}, false);
+				const likedMe = await getData(`api/likes/${id}`, {}, false);
+				if (likedMe.data.user)
+					setIsLikedMe(true);
+				setUserInfo({...result.data, images: [
+					result.data.picture_1,
+					result.data.picture_2,
+					result.data.picture_3,
+					result.data.picture_4,
+					result.data.picture_5,
+				]});
+				setTags(tags.data.data);
+				setloading(false);
+			} catch (err) {
+				setHttpCodeStatus(err.response.status);
+			}
 		}
 
 		fetchData();

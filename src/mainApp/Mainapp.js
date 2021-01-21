@@ -58,7 +58,9 @@ export default function Mainapp({ width }) {
 					if (notify.type === "like")
 						message = "Yow Someone Like You lets Go !!";
 					if (notify.type === "matche" )
-						message = "Yow Congratulation you got New MATCHE !!"
+						message = "Yow Congratulation you got New MATCHE !!";
+					if (notify.type === "view" )
+						message = "Someone viewed your profile !!";
 					notification['info']({ message: message });
 					// console.log('Notification ====> ', Notification);
 					console.log('Notify ====> ', notify);

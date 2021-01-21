@@ -5,6 +5,7 @@ const serInfo = require("../../config/index");
 const serverInfo = require("../../config/index");
 const nodemailer = require("nodemailer");
 const e = require("express");
+const { APIError, HttpStatusCode } = require("../../utils/errorHandler");
 
 let transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -128,7 +129,8 @@ async function checkSession(req, res) {
     }
 }
 
-async function getOneForInfoCard(req, res) {
+
+async function getOneForInfoCard(req, res, next) {
     try {
         console.log("req.params ====> ", req.params.id);
         const data = await model.findOneInfoCard(req.id, req.params.id);
@@ -139,14 +141,18 @@ async function getOneForInfoCard(req, res) {
             });
             return;
         }
-        data[0] && (data[0].status = 1);
-        res.status(200).json(data[0]);
+        if (data && data[0]) {
+            data[0].status = 1;
+            res.status(200).json(data[0]);
+        } else throw new APIError(
+            'NOT FOUND',
+            HttpStatusCode.NOT_FOUND,
+            true,
+            'detailed explanation'
+        );
+
     } catch (err) {
-        console.log("error");
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in getOne`,
-        });
+        next();
     }
 }
 
@@ -316,5 +322,5 @@ module.exports = {
     updateEmailConfirm: updateEmailConfirm,
     getOneForInfoCard: getOneForInfoCard,
     getManyUsersLikedMe: getManyUsersLikedMe,
-    getManyUsersViewedMe: getManyUsersViewedMe
+    getManyUsersViewedMe: getManyUsersViewedMe,
 };

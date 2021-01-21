@@ -42,7 +42,7 @@ const DisplayUsers = ({ user }) => {
 	useEffect(() => {
 		const element = document.getElementById('scrollingDisplayUser').getBoundingClientRect();
 		const surface = (element.height - 100) * (element.width - 100);
-		const numOfItemsPossible =  Math.floor(surface / (310 * 360));
+		const numOfItemsPossible =  Math.floor(surface / (310 * 360)) + 1;
 
 		console.log("numOfItemsPossible ===> ", numOfItemsPossible);
 		if (numOfItemsPossible !== filterParams.numberOfItem)
