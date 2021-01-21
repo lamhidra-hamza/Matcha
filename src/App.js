@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Home from './pages/home/Home.js'
 import './App.less';
 import MainApp from './mainApp/Mainapp'
+import ErrorHandler from './errorHandler/ErrorHandler'
+import NotFound from './pages/error/NotFound';
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,14 +31,19 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Switch>
-          <Route exact path="/">
-            <Home mobile={width < 760}/>
-          </Route>
-          <Route path="/app">
-              <MainApp width={width}/>
-          </Route>
-        </Switch>
+        <ErrorHandler>
+          <Switch>
+            <Route exact path="/">
+              <Home mobile={width < 760}/>
+            </Route>
+            <Route path="/app">
+                <MainApp width={width}/>
+            </Route>
+            <Route path="/error/404">
+              <NotFound />
+            </Route>
+          </Switch>
+        </ErrorHandler>
       </div>
     </Router>
   )

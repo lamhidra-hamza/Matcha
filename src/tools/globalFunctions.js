@@ -14,25 +14,30 @@ async function getNewToken() {
 async function getData(route, params, credential) {
     const token = localStorage.getItem("accessToken");
     const id = localStorage.getItem("userId");
+    let result = null;
     if (!token)
         return {
             status: -1,
         };
-    let result = await axios.get(`http://localhost:5000/${route}`, {
-        params: params,
-        headers: { token: token, id: id },
-        withCredentials: credential,
-    });
-    if (result.data.status === 0) {
-        let newToken = await getNewToken();
-        localStorage.setItem("accessToken", newToken);
-        result = await axios.get(`http://localhost:5000/${route}`, {
+    try {
+        let result = await axios.get(`http://localhost:5000/${route}`, {
             params: params,
-            headers: { token: newToken, id: id },
+            headers: { token: token, id: id },
             withCredentials: credential,
         });
+        if (result.data.status === 0) {
+            let newToken = await getNewToken();
+            localStorage.setItem("accessToken", newToken);
+            result = await axios.get(`http://localhost:5000/${route}`, {
+                params: params,
+                headers: { token: newToken, id: id },
+                withCredentials: credential,
+            });
+        }
+        return result;
+    } catch (err) {
+        throw err
     }
-    return result;
 }
 
 // check the token and fetch data
@@ -183,48 +188,49 @@ function getLocation(longitude, latitude) {
     return result;
 }
 
-const getCoords = async (userLocation) => {
-    return new Promise(async (resolve, reject) => {
-  console.warn("getCoords function");
-  if (navigator.geolocation && false) {
-    console.log("nice a sat");
-    navigator.geolocation.watchPosition(function (position) {
-      console.log("getLocation function");
-      let locationResult = getLocation(
-        position.coords.longitude,
-        position.coords.latitude
-      );
-      console.log("getLocation off");
-      let newLocation = { ...userLocation };
-      newLocation.location_name = locationResult.name;
-      newLocation.latitude = locationResult.latitude;
-      newLocation.longitude = locationResult.longitude;
-      console.log("getCoords out");
-      navigator.geolocation.clearWatch(1);
-      resolve( newLocation);
-    });    
-  } else {
-    // let ip = await axios.get("https://api.ipify.org/?format=json");
-    // let geoIpResult = await axios.get(
-    //   `https://api.ipgeolocation.io/ipgeo?apiKey=978b0a54a29146d0a338c509fee94dab&ip=${ip.data.ip}`
-    // );
-    // console.log("the result from geoIpResult", geoIpResult.data);
-    // let locationResult = getLocation(parseFloat(geoIpResult.data.longitude), parseFloat(geoIpResult.data.latitude));
-    // console.log(
-    //   "the coordinates are ",
-    //   parseFloat(geoIpResult.data.longitude),
-    //   parseFloat(geoIpResult.data.latitude)
-    // );
-    let newLocation = { ...userLocation };
-    newLocation.location_name = "locationResult.name";
-    newLocation.latitude = 3;
-    newLocation.longitude = 32;
-    console.log("getCoords out");
-    resolve( newLocation);
-    }
-  });} 
-  
-  function calculate_age(bornDate) {
+const getCoords = async(userLocation) => {
+    return new Promise(async(resolve, reject) => {
+        console.warn("getCoords function");
+        if (navigator.geolocation && false) {
+            console.log("nice a sat");
+            navigator.geolocation.watchPosition(function(position) {
+                console.log("getLocation function");
+                let locationResult = getLocation(
+                    position.coords.longitude,
+                    position.coords.latitude
+                );
+                console.log("getLocation off");
+                let newLocation = {...userLocation };
+                newLocation.location_name = locationResult.name;
+                newLocation.latitude = locationResult.latitude;
+                newLocation.longitude = locationResult.longitude;
+                console.log("getCoords out");
+                navigator.geolocation.clearWatch(1);
+                resolve(newLocation);
+            });
+        } else {
+            // let ip = await axios.get("https://api.ipify.org/?format=json");
+            // let geoIpResult = await axios.get(
+            //   `https://api.ipgeolocation.io/ipgeo?apiKey=978b0a54a29146d0a338c509fee94dab&ip=${ip.data.ip}`
+            // );
+            // console.log("the result from geoIpResult", geoIpResult.data);
+            // let locationResult = getLocation(parseFloat(geoIpResult.data.longitude), parseFloat(geoIpResult.data.latitude));
+            // console.log(
+            //   "the coordinates are ",
+            //   parseFloat(geoIpResult.data.longitude),
+            //   parseFloat(geoIpResult.data.latitude)
+            // );
+            let newLocation = {...userLocation };
+            newLocation.location_name = "locationResult.name";
+            newLocation.latitude = 3;
+            newLocation.longitude = 32;
+            console.log("getCoords out");
+            resolve(newLocation);
+        }
+    });
+}
+
+function calculate_age(bornDate) {
     let date = bornDate.split('T')[0].split('-');
     let dob = new Date(date[0], date[1], date[2]);
     var diff_ms = Date.now() - dob.getTime();

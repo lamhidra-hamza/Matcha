@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 var cors = require("cors");
 var app = express();
+const { errorHandler } = require('./utils/errorHandler')
 
 var PORT = process.env.PORT || 5000;
 
@@ -12,6 +13,7 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use("/api/users", require("./api/users/user.router"));
 app.use("/api/firstcheck", require("./api/firstcheck/firstcheck.router"));
 app.use("/posts", require("./post"));
@@ -30,9 +32,17 @@ app.use(
 app.use("/api/tags", require("./api/tags/tags.router"));
 app.use("/confirmation/:id", require("./utils/emailConfirm"));
 
+app.use(async(err, req, res, next) => {
+    if (!errorHandler.isTrustedError(err)) {
+        console.log("is TRusted")
+        next(err);
+    }
+    await errorHandler.handleError(err, res);
+});
+
 const start = async() => {
     createDb();
-    await app.listen(PORT, () => {
+    app.listen(PORT, () => {
         console.log("server start !!");
     });
 };

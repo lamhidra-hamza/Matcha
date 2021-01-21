@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
+import { useLocation, useHistory, useRouteMatch, Switch, Route } from 'react-router-dom'
 import './MobileSection.scss'
-import { Tabs, Divider, Button } from 'antd'
+import { Tabs, Divider, Button, Badge, Popover, Empty } from 'antd'
 import MobileProfile from '../mobileProfile/MobileProfile'
 import {
 	FireFilled,
@@ -8,10 +9,10 @@ import {
 	ContactsFilled,
 	HeartFilled,
 	LogoutOutlined,
-	EyeFilled
+	EyeFilled,
+	NotificationOutlined
 } from '@ant-design/icons'
 import MessageDisplay from '../messageDisplay/MessageDisplay'
-import { useLocation, useHistory, useRouteMatch, Switch, Route } from 'react-router-dom'
 import DisplayUsers from '../displayUsers/DisplayUsers'
 import EditProfile from '../editProfile/EditProfile'
 import ProfileInfo from '../profileInfo/ProfileInfo'
@@ -19,7 +20,8 @@ import InfocardUsers from '../InfoCardUsers/InfocardUsers'
 import DisplayLikedMe from '../displayLikedMe/DisplayLikedMe'
 import DisplayViewedMe from '../displayViewedMe/DisplayViewedMe'
 import ChatBox from '../chatBox/ChatBox';
-import { logOut } from '../../tools/globalFunctions';
+import { logOut, putData } from '../../tools/globalFunctions';
+import { getDayString } from '../../tools/dateFuncts';
 import { UserContext } from '../../contexts/UserContext'
 
 
@@ -30,7 +32,7 @@ function MobileSection() {
 	let { state } = useLocation();
 	const history = useHistory();
 	const match = useRouteMatch();
-	const { user, userImages, tags } = useContext(UserContext);
+	const { user, userImages, Notification, setNotification } = useContext(UserContext);
 
 
 	const handelDefaultKey = () => {
@@ -55,6 +57,34 @@ function MobileSection() {
 		console.log("Redirect");
 		history.push("/");
 	}
+
+	const handleNotificationBtnClick = async () => {
+        Notification.map((item) => {
+            putData(`api/notifications/${item.id}`, { readed: 1 })
+        })
+    }
+
+    const content = (
+        <div>
+            {Notification?.length ?
+                Notification.map((item, index) => {
+                const itemTime = new Date(Date.parse(item.date));
+                const dateNow = new Date(Date.now());
+                return <p key={item.id}>
+                    New {item.type} at {getDayString(dateNow, itemTime)
+                    }</p>
+            }) :
+            <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                    <span>
+                     No Notification
+                    </span>
+                  }
+                />
+        }
+        </div>
+      );
 
 	return (
 		<div className="mobileSection">
@@ -136,12 +166,31 @@ function MobileSection() {
 			<Divider style={{ margin: '0', width: '70%' }} />
 			<div className="downNav">
 				<Button
-					style={{ top: '-15px' }}
+					style={{ top: '-15px', left: '-5px'}}
 					type="primary"
 					size="large"
 					shape="circle"
 					icon={<LogoutOutlined />}
 					onClick={logout} />
+				<Popover
+                    placement="bottomRight"
+                    title={<span>Notifications</span>}
+                    content={content}
+                    trigger="click"
+                    onVisibleChange={(visible) => !visible && setNotification([])}
+                    >
+					<Button
+						style={{ top: '-15px', right: '-5px' }}
+						type="primary"
+						size="large"
+						shape="circle"
+						icon={<Badge
+							count={Notification?.length} 
+							size="small"
+							style={{marginBottom: '10px'}}>
+								<NotificationOutlined /></Badge>}
+						onClick={handleNotificationBtnClick} />
+                </Popover>
 			</div>
 		</div>
 	)
