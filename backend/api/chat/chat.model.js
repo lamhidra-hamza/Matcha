@@ -40,7 +40,7 @@ class Chat {
     const [result, fields] = await connection
       .promise()
       .query(
-        `SELECT chat.chat_id, chat.user_id, chat.receiver_id, messages.date, messages.content, messages.seen FROM chat,messages,users where messages.chat_id = chat.chat_id and chat.receiver_id = "${userId}" OR chat.user_id = "${userId}" and  messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id) LIMIT ${body.startIndex},${body.length}`
+        `SELECT chat.chat_id, chat.user_id, chat.receiver_id, messages.date, messages.content, messages.seen FROM chat,messages,users where messages.chat_id = chat.chat_id and (chat.receiver_id = "${userId}" OR chat.user_id = "${userId}") and  messages.id IN (SELECT MAX(id) FROM messages GROUP by chat_id) GROUP BY chat.chat_id LIMIT ${body.startIndex},${body.length}`
       );
     return result;
   }

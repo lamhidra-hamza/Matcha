@@ -1,54 +1,62 @@
-import React from 'react'
-import { Divider } from 'antd'
-import { Carousel } from 'antd';
-import './UserInfo.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBriefcase, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect, useState } from "react";
+import { Divider } from "antd";
+import { Carousel } from "antd";
+import "./UserInfo.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBriefcase, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { calculate_age } from "../../tools/globalFunctions";
+import { SER } from "../../conf/config";
 
 
-export default function ChatBox() {
-  const info = {
-    firstName: "Amal",
-    age: 20,
-    distance: '14',
-    tags: ["sport", "singing", "Netflix", "Travel", "Dance", "swiming"],
-    status: "Hey I'm looking for new frindes !",
-    images: ["https://i.pinimg.com/originals/1a/20/b2/1a20b2ad94d5b6d6a25565c3ccc61ece.jpg",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQScNAkshkRSpAWT0Qv-Mzrw5mUVSls-tGJ7g&usqp=CAU",
-            "https://i.pinimg.com/474x/66/94/7d/66947da4b8bba10226afd00ae5fa7eaa.jpg",
-    ]
-}
+export default function UserInfo(props) {
+  
+  const [images, setImages] = useState([]);
+  
+  useEffect(() => {
+    console.log("useEffect for userInfo");
+    let imageArray = [];
+    for (const [key, value] of Object.entries(props.matchedUser)) {
+      console.log(`${key}: ${value}`);
+      if (key.includes("picture") && value)
+        imageArray.push(value);
+    }
+    console.log("the images array array", imageArray);
+    setImages(imageArray);
+  }, []);
 
-const contentStyle = {
-  height: '450px',
-  width: '100%',
-  color: '#fff',
-  lineHeight: '200px',
-  textAlign: 'center',
-  background: '#364d79',
-};
+  const contentStyle = {
+    height: "450px",
+    width: "100%",
+    color: "#fff",
+    lineHeight: "200px",
+    textAlign: "center",
+    background: "#364d79",
+  };
   return (
     <div className="userInfo">
       <div className="fiximg">
         <Carousel>
-            {info.images.map(image =>
+          {images.map((image) => (
             <div>
-                <img alt="img-card" style={contentStyle} src={image} />
-            </div>)}
+              <img alt="img-card" style={contentStyle} src={`${SER.PicPath}/${image}`}/>
+            </div>
+          ))}
         </Carousel>
       </div>
-        {/* <Divider /> */}
+      {/* <Divider /> */}
       <div className="userNameInfo">
-        <div className="userNameInfoName">Maria, 23</div>
+        <div className="userNameInfoName">
+          {props.matchedUser.firstName.charAt(0).toUpperCase() +
+            props.matchedUser.firstName.slice(1)}
+          , {calculate_age(props.matchedUser.date)}
+        </div>
         <div className="userNameInfoJob">
-          <FontAwesomeIcon icon={faBriefcase} /> Software Developer
+          <FontAwesomeIcon icon={faBriefcase} /> {props.matchedUser.job}
           <br />
           <FontAwesomeIcon icon={faMapMarkerAlt} /> 1 km away
           <Divider />
         </div>
-        <div className="userStatus">
-          Hello my name is lkadjsf sldkfjsd adksjfuwe sdfjasdf kajsdflj 🤑❤️🔥🔥
-        </div>
+        <div className="userStatus">{props.matchedUser.biography} </div>
       </div>
 
       <div className="userAction">
@@ -56,5 +64,5 @@ const contentStyle = {
         <div className="block">BLOCK</div>
       </div>
     </div>
-  )
+  );
 }

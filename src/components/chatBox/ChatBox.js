@@ -15,6 +15,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { getData, postData, putData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
 import InfinteScrollReverse from "react-infinite-scroll-reverse";
+import { SER } from "../../conf/config";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -41,10 +42,10 @@ const ChatBox = (props) => {
   }, []);
 
   const [message, setMessage] = useState("");
+  const [receiver, setReceiver] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadMore, setLoadMore] = useState(true);
-  const [endMessage, setEndMessage] = useState(false);
   const { chat_id } = useParams();
   const [room, setRoom] = useState("");
 
@@ -72,6 +73,7 @@ const ChatBox = (props) => {
       },
       false
     );
+
     setMessages(messagesResult.data.data);
     socket.emit("join", { userId: id, room: chat_id }, (error) => {
       if (error) {
@@ -79,7 +81,7 @@ const ChatBox = (props) => {
       }
     });
     setLoading(false);
-  }, [room, chat_id]);
+  }, [room]);
 
   useEffect(async () => {
     const source = axios.CancelToken.source();
@@ -93,7 +95,8 @@ const ChatBox = (props) => {
         },
         false
       );
-      setMessages((messages) => [lastMsg.data.data, ...messages]);
+      console.log("the last message is ", lastMsg);
+      setMessages((messages) => [...messages, lastMsg.data.data[0]]);
     });
 
     setLoading(false);
@@ -137,6 +140,13 @@ const ChatBox = (props) => {
     setMessage(value);
   };
 
+  const handleKeyDown = (event) => {
+    console.log("key down and the key is ", event.key);
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  };
+
   if (loading)
     return (
       <div className="chatBox">
@@ -151,10 +161,10 @@ const ChatBox = (props) => {
         <div className="avatar">
           <Avatar
             size={50}
-            src="https://static01.nyt.com/images/2020/01/13/arts/13billboard-item/13billboard-item-superJumbo.jpg"
-          />
+            src={`${SER.PicPath}/${props.matchedUser.picture_1}`} />
         </div>
-        <div className="matchDate">You matched with Hinata on 50/50/3020</div>
+        {console.log("the matched user is", props.matchedUser)}
+        <div className="matchDate">You matched with {props.matchedUser.firstName.charAt(0).toUpperCase() + props.matchedUser.firstName.slice(1)} on {props.matchedUser.date.split('T')[0]}</div>
       </div>
       <div className="chatBoxbody">
         <InfinteScrollReverse
@@ -164,31 +174,24 @@ const ChatBox = (props) => {
           loadMore={getMessages}
         >
           {messages.map((element, index) => {
-            {
-              console.log(
-                "the element length is ",
-                messages.length,
-                "and the index is ",
-                index
-              );
-            }
             const lastMessage = messages.length - 1 === index;
-            console.log("is that the last message", lastMessage);
             if (element.sender_id === id)
               return (
-                <div ref={lastMessage ? setRef : null} key={index}>
-                  {<MessageSent message={element} key={index}></MessageSent>}
-                </div>
+                <>
+                  {<MessageSent message={element} key={element.id}></MessageSent>}
+                  <div ref={lastMessage ? setRef : null} key={index}></div>
+                </>
               );
             return (
-              <div ref={lastMessage ? setRef : null} key={index}>
+              <>
                 {
                   <MessageReceived
                     message={element}
                     key={index}
                   ></MessageReceived>
                 }
-              </div>
+                <div ref={lastMessage ? setRef : null} key={element.id}></div>
+              </>
             );
           })}
         </InfinteScrollReverse>
@@ -201,7 +204,12 @@ const ChatBox = (props) => {
           className="chatInput"
         />
         <div className="chatButton">
-          <Button shape="round" className={"sentBtn"} onClick={sendMessage}>
+          <Button
+            shape="round"
+            className={"sentBtn"}
+            onClick={sendMessage}
+            onKeyDown={handleKeyDown}
+          >
             Send
           </Button>
         </div>

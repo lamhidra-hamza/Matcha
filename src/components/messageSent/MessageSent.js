@@ -51,7 +51,7 @@ const MessageSent = (props) => {
   }, []);
 
   return (
-    <div>
+    <div className="messageSentComponent">
       <div className="messageSent">
         <div className="messageSentContent">
           <span>{props.message.content}</span>
@@ -62,7 +62,7 @@ const MessageSent = (props) => {
           <span>{time}</span>
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 

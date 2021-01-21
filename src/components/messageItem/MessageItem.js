@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Divider, Badge, message } from "antd";
 import "./MessageItem.scss";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import { SER } from "../../conf/config";
 
 const MessageItem = (props) => {
   let match = useRouteMatch();
@@ -25,13 +26,15 @@ const MessageItem = (props) => {
     <div onClick={handelClick}>
       <div className="MessageItem">
         <div className="avatarMessage">
-          <div className="MessageItemAvatar">
+          <Badge count = {props.message.seen == 1 ? "" : 1} style={{ margin: "1.5px 17px"}}>
+            <div className="MessageItemAvatar">
               <img
                 alt={props.message.username}
                 className="MessageItemAvatarImg"
-                src={props.message.picture_1}
+                src={`${SER.PicPath}/${props.message.picture_1}`}
               />
-          </div>
+            </div>
+          </Badge>
           <div className="MessageItemMessage">
             <div className="userName">{props.message.username}</div>
             <div className="msgSnippets">{props.message.content}</div>
