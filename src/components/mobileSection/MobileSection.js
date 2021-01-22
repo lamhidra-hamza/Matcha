@@ -145,6 +145,7 @@ function MobileSection() {
 						</span>}>
 					<Route exact path={`${match.path}/messages`}><MessageDisplay mobile={true} /></Route>
 					<Route path={`${match.path}/messages/chatbox/:chat_id`} render={(props) => (<Chat {...props} mobile={true} />)} />
+					{/* <div style={{ height: "200px", backgroundColor: '#f6f7fa' }} /> */}
 				</TabPane>
 				<TabPane 
 					className="mobileTab"

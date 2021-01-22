@@ -1,18 +1,19 @@
 import React, {
   useEffect,
-  useRef,
   useState,
   useContext,
   useCallback,
 } from "react";
+import { useHistory } from 'react-router-dom'
 import { Avatar, Input, Button, Spin } from "antd";
+import { LeftOutlined } from '@ant-design/icons';
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { UserContext } from "../../contexts/UserContext";
-import { getData, postData, putData } from "../../tools/globalFunctions";
+import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
 import InfinteScrollReverse from "react-infinite-scroll-reverse";
 import { SER } from "../../conf/config";
@@ -48,6 +49,7 @@ const ChatBox = (props) => {
   const [loadMore, setLoadMore] = useState(true);
   const { chat_id } = useParams();
   const [room, setRoom] = useState("");
+  const history = useHistory();
 
   const getMessages = async () => {
     console.log("getMessages ");
@@ -147,6 +149,10 @@ const ChatBox = (props) => {
     }
   };
 
+  const handleClickBack = () => {
+	  history.goBack()
+  }
+
   if (loading)
     return (
       <div className="chatBox">
@@ -156,19 +162,23 @@ const ChatBox = (props) => {
       </div>
     );
   return (
-    <div className="chatBox">
+    <div className={props && props.mobile ? "mobileChatBox":  "chatBox"}>
       <div className="chatBoxHeader">
         <div className="avatar">
+			{props && props.mobile &&
+				<div onClick={handleClickBack}>
+					<LeftOutlined style={{fontSize: '25px', color: "#3ca4ff"}} />
+				</div>}
+			<div>
           <Avatar
             size={50}
             src={`${SER.PicPath}/${props.matchedUser.picture_1}`} />
+			</div>
         </div>
-        {console.log("the matched user is", props.matchedUser)}
         <div className="matchDate">You matched with {props.matchedUser.firstName.charAt(0).toUpperCase() + props.matchedUser.firstName.slice(1)} on {props.matchedUser.date.split('T')[0]}</div>
       </div>
       <div className="chatBoxbody">
         <InfinteScrollReverse
-          className="chatBoxbody"
           hasMore={loadMore}
           isLoading={loading}
           loadMore={getMessages}
@@ -201,14 +211,16 @@ const ChatBox = (props) => {
           placeholder="Type a message"
           value={message}
           onChange={handleMessageChange}
-          className="chatInput"
+		  className="chatInput"
+		  onPressEnter={sendMessage}
         />
         <div className="chatButton">
           <Button
             shape="round"
             className={"sentBtn"}
-            onClick={sendMessage}
-            onKeyDown={handleKeyDown}
+			onClick={sendMessage}
+			// onKeyPress={handleKeyDown}
+            // onKeyDown={handleKeyDown}
           >
             Send
           </Button>
