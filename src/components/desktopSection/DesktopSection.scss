@@ -22,11 +22,13 @@
     position: fixed;
     overflow: hidden;
     width: 100%;
+   
 }
+
 
 .rightSide {
     width: 75vw;
-    height: 100vh;
+    height: 100%;
     display: flex;
     border-left: 0.2px solid #d3d3d3;
 }
