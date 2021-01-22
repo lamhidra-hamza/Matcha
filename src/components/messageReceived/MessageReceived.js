@@ -49,7 +49,7 @@ const MessageReceived = (props) => {
   }, []);
 
     return (
-        <div>
+        <div className="messageReceivedComponent">
             <div className="messageReceived">
           <div className="messageReceivedContent">
             <span>{props.message.content}</span>

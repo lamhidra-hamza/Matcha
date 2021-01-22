@@ -34,6 +34,24 @@ const getOne = async(req, res) => {
     }
 };
 
+const getAllInfo = async(req, res) => {
+    try {
+        console.log("id getOne === ", req.id)
+        const data = await model.findAllInfo(req.params.id, req.headers['id']);
+        if (!data) {
+            return res.status(400).end();
+        }
+        res.status(200).json({
+            user: data
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).end({
+            msg: `Error in getOne`,
+        });
+    }
+};
+
 const createOne = async(req, res) => {
     console.log("create one pictures");
     try {
@@ -88,4 +106,5 @@ module.exports = {
     getMany: getMany,
     getOne: getOne,
     createOne: createOne,
+    getAllInfo: getAllInfo
 };

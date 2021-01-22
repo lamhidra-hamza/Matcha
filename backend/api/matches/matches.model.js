@@ -12,6 +12,28 @@ class Matches {
         await connection.promise().query("INSERT INTO matches SET ?", info);
     }
 
+    async findAllInfo(chatId, userId) {
+        let [result, fields] = await connection.promise().query(`SELECT user_id, receiver_id from chat where chat_id = '${chatId}'`);
+        console.log("the result of find all infos is", result[0].receiver_id);
+        let matchedUser;
+        let lastResult = {};
+        if (result[0].receiver_id == userId)
+            matchedUser = result[0].user_id;
+        else
+            matchedUser = result[0].receiver_id;
+        console.log("the userId is ", userId, "and the matched user is ", matchedUser);
+        [result, fields] = await connection.promise().query(`SELECT date from matches where ((user_id = '${matchedUser}' and matched_user = '${userId}') OR  (user_id = '${userId}' and matched_user = '${matchedUser}'))`);
+        console.log("the date of matched are \n\n", result);
+        lastResult['date'] = result[0].date;
+        [result, fields] = await connection.promise().query(`SELECT users.username, users.firstName, users.job, users.biography, users.bornDate, pictures.picture_1, pictures.picture_2, pictures.picture_3, pictures.picture_4, pictures.picture_5, location.longitude, location.latitude 
+        from users, pictures, location 
+        WHERE users.id = pictures.user_id and users.id = location.user_id
+        and users.id = '${matchedUser}'`);
+
+        lastResult = {...lastResult, ...result[0]};
+        return lastResult;
+    }
+
     async findall(userId, params) {
         const limit = params.numberOfItem * params.page;
 

@@ -1,29 +1,38 @@
-.messageReceived {
-    height: auto;
-    display: flex;
-    justify-content: flex-start;
-    margin: 5px;
-    margin-bottom: 1px;
+.messageReceivedComponent {
+    min-height: 70px;
+    
+    .messageReceived {
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        margin: 5px;
+        margin-bottom: 1px;
+
+        .messageReceivedContent {
+            background-color: #e2e2e2;
+            height: auto;
+            max-width: 60%;
+            border-radius: 16px 16px 16px 4px;
+            color: #727272;
+            display: flex;
+            padding: 10px;
+            justify-content: space-between;
+            margin-left: 10px;
+        }
+    }
+
+    .messageReceivedInfo {
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        margin: 5px;
+        color: #adacac;
+        font-size: 12px;
+        font-style: italic;
+    }
 }
 
-.messageReceivedContent {
-    background-color: #e2e2e2;
-    height: auto;
-    max-width: 60%;
-    border-radius: 16px 16px 16px 4px;
-    color: #727272;
-    display: flex;
-    padding: 10px;
-    justify-content: space-between;
-    margin-left: 10px;
-}
 
-.messageReceivedInfo {
-    height: auto;
-    display: flex;
-    justify-content: flex-start;
-    margin: 5px;
-    color: #adacac;
-    font-size: 12px;
-    font-style: italic;
-}
+
+
+

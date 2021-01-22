@@ -1,29 +1,34 @@
-
-.messageSent {
+.messageSentComponent {
+  min-height: 75px;
+  flex: 1;
+  .messageSent {
     height: auto;
     display: flex;
     justify-content: flex-end;
     margin: 5px;
     margin-bottom: 1px;
-}
 
-.messageSentContent {
-    background-color: #3ca4ff;
-    height: auto;
-    max-width: 60%;
-    border-radius: 16px 16px 4px 16px;
-    color: white;
-    display: flex;
-    padding: 10px;
-    justify-content: space-between;
-}
+    .messageSentContent {
+      background-color: #3ca4ff;
+      height: auto;
+      max-width: 60%;
+      border-radius: 16px 16px 4px 16px;
+      color: white;
+      display: flex;
+      padding: 10px;
+      justify-content: space-between;
+    }
 
-.messageSentInfo {
+    
+  }
+
+  .messageSentInfo {
     height: auto;
     display: flex;
     justify-content: flex-end;
     margin: 5px;
     color: #adacac;
     font-size: 12px;
-    font-style: italic;;
+    font-style: italic;
+  }
 }

@@ -13,6 +13,7 @@ import InfocardUsers from '../InfoCardUsers/InfocardUsers'
 import './DesktopSection.css'
 import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext'
+import Chat from '../chat/Chat.js'
 
 
 function DesktopSection(props) {
@@ -34,10 +35,7 @@ function DesktopSection(props) {
                 <Route path={`${match.url}/infocard/:id`} component={InfocardUsers} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/messages/chatbox/:chat_id`}>
-                    <div className="rightSide">
-                        <ChatBox />
-                        {width > 1300 && <UserInfo />}
-                    </div>
+                    <Chat width = {width} />
                 </Route>
                 <Route path={`${match.url}/likedme`} render={(props) => (<DisplayLikedMe {...props} user={user}/>)}/>
                 <Route path={`${match.url}/viewedme`} render={(props) => (<DisplayViewedMe {...props} user={user}/>)}/>

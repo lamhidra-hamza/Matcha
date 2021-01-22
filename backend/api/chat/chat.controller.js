@@ -23,19 +23,13 @@ async function getMany(req, res) {
                 .status(200)
                 .send({ status: req.status, message: "token is invalid or expired" });
         } else {
-            console.log("getMany functions and the body is ", body);
             let data = await model.findall(req.id, body);
-            // data = data.filter((data) => {
-            //   return data.content != null;
-            // });
-            // data = data.slice(body.startIndex, body.endIndex);
             for (var i = 0; i < data.length; i++) {
                 let receiver_id =
                     data[i].user_id == req.id ? data[i].receiver_id : data[i].user_id;
                 let user = await userModel.findOneById(receiver_id);
                 delete user[0].password;
                 delete user[0].refreshToken;
-                // data[index] = {...message, ...user[0]};
                 data[i] = {
                     ...data[i],
                     ...user[0],

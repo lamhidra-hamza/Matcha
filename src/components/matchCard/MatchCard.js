@@ -15,13 +15,14 @@ export default function MatcheCard(props) {
             state: {
                     mobileKey: "4",
                     desKey: "1",
-                    mobile: props.mobile
+                    mobile: props.mobile,
             }
         })
     }
 
     return (
             <div className="MatchesCard" onClick={handelClick}>
+                {console.log("the user info are", user)}
                 <div className="matcheItems">
                     <div className="matcheItem">
                         <div className="identity">
