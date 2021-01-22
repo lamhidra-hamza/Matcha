@@ -10,7 +10,7 @@ import DisplayUsers from '../displayUsers/DisplayUsers'
 import DisplayLikedMe from '../displayLikedMe/DisplayLikedMe'
 import DisplayViewedMe from '../displayViewedMe/DisplayViewedMe'
 import InfocardUsers from '../InfoCardUsers/InfocardUsers'
-import './DesktopSection.css'
+import './DesktopSection.scss'
 import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext'
 import Chat from '../chat/Chat.js'

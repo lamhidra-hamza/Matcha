@@ -7,7 +7,7 @@
   overflow: hidden;
 
   .chatBoxHeader {
-      flex: 1;
+    flex: 1;
     display: flex;
     justify-content: space-evenly;
     width: 100%;
@@ -47,25 +47,21 @@
     margin-right: 10px;
 
     .chatInput {
-        flex: 1;
-        width: 60%;
-        height: 90%;
-        margin: 10px;
-        border-radius: 10px;
-      }
-      
-      .chatbutton {
-        flex: 1;
-        width: 30%;
-        height: 90%;
-        margin: 5px;
-      }
-      
+      flex: 1;
+      width: 60%;
+      height: 90%;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    .chatbutton {
+      flex: 1;
+      width: 30%;
+      height: 90%;
+      margin: 5px;
+    }
   }
-
-
 }
-
 
 .sentBtn {
   color: white !important;

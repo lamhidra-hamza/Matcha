@@ -22,7 +22,9 @@ import DisplayViewedMe from '../displayViewedMe/DisplayViewedMe'
 import ChatBox from '../chatBox/ChatBox';
 import { logOut, putData } from '../../tools/globalFunctions';
 import { getDayString } from '../../tools/dateFuncts';
-import { UserContext } from '../../contexts/UserContext'
+import { UserContext } from '../../contexts/UserContext';
+import Chat from '../chat/Chat.js'
+
 
 
 const { TabPane } = Tabs
@@ -141,8 +143,8 @@ function MobileSection() {
 							onClick={() => handelTabClick("/messages", "4", "2")}
 							className="mobileNavIcon"> <MessageFilled />
 						</span>}>
-					<Route path={`${match.path}/messages/chatbox`}><ChatBox /></Route>
-					<Route path={`${match.path}/messages`}><MessageDisplay mobile={true} /></Route>
+					<Route exact path={`${match.path}/messages`}><MessageDisplay mobile={true} /></Route>
+					<Route path={`${match.path}/messages/chatbox/:chat_id`} render={(props) => (<Chat {...props} mobile={true} />)} />
 				</TabPane>
 				<TabPane 
 					className="mobileTab"

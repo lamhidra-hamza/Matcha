@@ -13,7 +13,7 @@ const MessageItem = (props) => {
       pathname:
         match.path === "/app"
           ? `${match.path}/messages/chatbox/${props.message.chat_id}`
-          : `${match.path}/chatbox`,
+          : `${match.path}/chatbox/${props.message.chat_id}`,
       state: {
         mobileKey: "4",
         desKey: "2",

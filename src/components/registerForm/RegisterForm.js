@@ -113,7 +113,7 @@ const RegisterForm = (props) => {
 					name="username"
 					label={
 					<span>
-						Usename&nbsp;
+						Username&nbsp;
 						<Tooltip title="What do you want others to call you?">
 						<QuestionCircleOutlined />
 						</Tooltip>
