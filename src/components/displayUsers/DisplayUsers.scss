@@ -1,43 +1,38 @@
-.DusersContainer {
+.mainDusersContainer {
     color: #2d2d2d;
     background: #f6f7fa;
     height: 100vh;
     width: 100%;
     border-left: 1px #d6d6d6 solid;
     position: relative;
-}
-
-.dusersContent {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-y: scroll;
-    padding-bottom: 80px;
-}
-
-.filter {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.filterButton {
-    margin-top: 20px;
-    margin-right: 20px;
-}
-
-.Scrollloading {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    bottom: 1%;
-    z-index: 100;
-}
-
-.endMessage {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    bottom: 0.5%;
+    padding-bottom: 117px;
+    .dusersContent {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-y: scroll;
+        padding-bottom: 80px;
+    }
+    .filter {
+        width: 100%;
+        padding: 1%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .Scrollloading {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        bottom: 1%;
+        z-index: 100;
+    }
+    .endMessage {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        bottom: 0.5%;
+    }
 }
