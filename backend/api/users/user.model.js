@@ -12,7 +12,7 @@ class User {
             email: data.email,
             password: await bcrypt.hash(data.password, 11),
             biography: "",
-            gender: "men",
+            gender: "man",
             job: "",
             firstName: data.firstName,
             lastName: data.lastName,
@@ -72,26 +72,26 @@ class User {
             if (filters.sortedBy === 'tags')
                 orderBy = 'ORDER by n_tags DESC';
         }
-
-        if (filters.interessted === 'both' && filters.gender === 'man')
-            filterGender = `WHERE (users.gender='woman' OR users.gender='man')
-                AND (users.interessted='both' OR users.interessted='men')`;
-        if (filters.interessted === 'both' && filters.gender === 'woman')
-            filterGender = `WHERE (users.gender='woman' OR users.gender='man')
-                AND (users.interessted='both' OR users.interessted='women')`;
-        if (filters.interessted === 'men' && filters.gender === 'man')
-            filterGender = `WHERE users.gender='man' AND
-                (users.interessted='both' OR users.interessted='men')`;
-        if (filters.interessted === 'women' && filters.gender === 'man')
-            filterGender = `WHERE users.gender='woman' AND
-                (users.interessted='both' OR users.interessted='men')`;
-        if (filters.interessted === 'women' && filters.gender === 'woman')
-            filterGender = `WHERE users.gender='woman' AND
-                (users.interessted='both' OR users.interessted='women')`;
-        if (filters.interessted === 'men' && filters.gender === 'woman')
-            filterGender = `WHERE users.gender='man' AND
-                (users.interessted='both' OR users.interessted='women')`;
-
+        if (filters.browsingType === "Suggest") {
+            if (filters.interessted === 'both' && filters.gender === 'man')
+                filterGender = `WHERE (users.gender='woman' OR users.gender='man')
+                    AND (users.interessted='both' OR users.interessted='men')`;
+            if (filters.interessted === 'both' && filters.gender === 'woman')
+                filterGender = `WHERE (users.gender='woman' OR users.gender='man')
+                    AND (users.interessted='both' OR users.interessted='women')`;
+            if (filters.interessted === 'men' && filters.gender === 'man')
+                filterGender = `WHERE users.gender='man' AND
+                    (users.interessted='both' OR users.interessted='men')`;
+            if (filters.interessted === 'women' && filters.gender === 'man')
+                filterGender = `WHERE users.gender='woman' AND
+                    (users.interessted='both' OR users.interessted='men')`;
+            if (filters.interessted === 'women' && filters.gender === 'woman')
+                filterGender = `WHERE users.gender='woman' AND
+                    (users.interessted='both' OR users.interessted='women')`;
+            if (filters.interessted === 'men' && filters.gender === 'woman')
+                filterGender = `WHERE users.gender='man' AND
+                    (users.interessted='both' OR users.interessted='women')`;
+        }
 
         const joinTablesQuery = `SELECT users.id,
                     users.firstName,
@@ -120,7 +120,7 @@ class User {
                     ${orderBy}
                     LIMIT ${limit}, ${filters.numberOfItem} `;
 
-        // console.log(sql);
+        console.log(sql);
         const [result, fields] = await connection
             .promise()
             .query(sql);

@@ -35,7 +35,7 @@ function DesktopSection(props) {
                 <Route path={`${match.url}/infocard/:id`} component={InfocardUsers} />
                 <Route path={`${match.url}/profile/edit`} component={EditProfile} />
                 <Route path={`${match.url}/messages/chatbox/:chat_id`}>
-                    <Chat width = {width} />
+                    <Chat width={width} />
                 </Route>
                 <Route path={`${match.url}/likedme`} render={(props) => (<DisplayLikedMe {...props} user={user}/>)}/>
                 <Route path={`${match.url}/viewedme`} render={(props) => (<DisplayViewedMe {...props} user={user}/>)}/>

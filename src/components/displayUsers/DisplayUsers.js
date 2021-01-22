@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './DisplayUsers.scss';
 import UserCard from '../userCard/UserCard.js';
-import { Tooltip } from 'antd';
+import { Tooltip, Select, Radio } from 'antd';
 import FilterPopUp from '../filterPopUp/FilterPopUp';
 import { ControlOutlined } from '@ant-design/icons';
 import { getData } from "../../tools/globalFunctions";
@@ -22,7 +22,8 @@ const DisplayUsers = ({ user }) => {
 		frameRate: 0,
 		sortedBy: '',
 		page : 0,
-		numberOfItem: 4
+		numberOfItem: 4,
+		browsingType: "Suggest",
 	})
 	const { state } = useLocation();
 	const [sortedBy, setSortedBy] = useState([false, false, false, false]);
@@ -51,7 +52,7 @@ const DisplayUsers = ({ user }) => {
 			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.liked_user)]);
 		if (state && state.blocked_user)
 			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.blocked_user)]);
-	}, []);
+	}, [filterParams]);
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
@@ -84,9 +85,14 @@ const DisplayUsers = ({ user }) => {
 	function handleCancel() {
 		SetFilterVisible([false, false])
 	}
+
+	const handleSizeChange = e => {
+		setFilerParams((prev)=>  { return {...prev, browsingType: e.target.value }});
+	};
+	
 	if (loading)
 		return (
-			<div className="DusersContainer">
+			<div className="mainDusersContainer">
 				<div id="scrollingDisplayUser" className="dusersContent">
 					<div className="loading">
 						<Spin size="large" />
@@ -95,9 +101,15 @@ const DisplayUsers = ({ user }) => {
 			</div>
 		)
 	return (
-		<div className="DusersContainer">
+		<div className="mainDusersContainer">
 			<div className="filter">
-				<div className="filterButton" >
+				<div>
+					<Radio.Group value={filterParams.browsingType} onChange={handleSizeChange}>
+						<Radio.Button value="Suggest">Suggest</Radio.Button>
+						<Radio.Button value="Search">Search</Radio.Button>
+					</Radio.Group>
+				</div>
+				<div>
 					<Tooltip title="Filter">
 					<ControlOutlined
 						onClick={showRegister}

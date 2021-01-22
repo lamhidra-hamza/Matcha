@@ -22,8 +22,8 @@
     .backred {
         background: red;
     }
-    .mobileTab {
-        height: 100vh !important;
+    .ant-tabs-tabpane {
+        height: 90vh !important;
     }
     .mobileTab::-webkit-scrollbar {
         display: none !important;
@@ -47,6 +47,4 @@
     .ant-tabs-nav {
         margin: 0;
     }
-
 }
-
