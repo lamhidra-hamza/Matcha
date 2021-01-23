@@ -149,6 +149,9 @@ export default function EditProfile(props) {
 	}
 
 	const handleTagChange = (value) => {
+		console.log("the tags list is ", value);
+		console.log("the length of this tag is", value[value.length - 1].length);
+
 		setNewTags(value);
 		console.log("new tag => ", value);
 	}
@@ -180,6 +183,7 @@ export default function EditProfile(props) {
 									}}
 									value={about}
 									onChange={handleAboutChange}
+									maxLength= {249}
 								/>
 							</div>
 						</div>
@@ -190,6 +194,7 @@ export default function EditProfile(props) {
 									placeholder={user.job}
 									onChange={handelJobChange}
 									value={jobtitle}
+									maxLength= {100}
 									/>
 							</div>
 						</div>

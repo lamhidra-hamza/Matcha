@@ -27,17 +27,42 @@ const ProfileInfo = (props) => {
   });
   const [cities, setCities] = useState([]);
   const [userCity, setUserCity] = useState("");
+  const [password, setPassword] = useState("");
 
   const history = useHistory();
 
+  let errorMessage = [];
+
   const interestingChange = (value) => {
-    setNewUser({...newUser, interessted: value});
+    setNewUser({ ...newUser, interessted: value });
   };
 
   const saveButtonClick = () => {
-    history.goBack();
-    update();
-    setUser(newUser);
+    const emailRegex = new RegExp(
+      /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/
+    );
+    const NameRegex = new RegExp(/^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i);
+    const passRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+
+    console.log("the password is", newUser.password);
+    if (!emailRegex.test(newUser.email))
+      errorMessage.push("please enter a valid email");
+    if (!NameRegex.test(newUser.firstName))
+      errorMessage.push("please enter a valid First Name");
+    if (!NameRegex.test(newUser.lastName))
+      errorMessage.push("please enter a valid Last Name");
+    if ((newUser.password && newUser.password.length > 0) && !passRegex.test(newUser.password))
+      errorMessage.push("Minimum eight characters, at least one letter and one number");
+    if ((newUser.password && newUser.password.length > 0) && newUser.password !== password)
+      errorMessage.push("The two passwords that you entered do not match! ")
+    if (errorMessage.length == 0) {
+      history.goBack();
+      update();
+      setUser(newUser);
+    } else {
+      errorMessage.map(element => message.warning(element));
+      errorMessage = [];
+    }
   };
 
   const handelEmailChange = ({ target: { value } }) => {
@@ -46,6 +71,10 @@ const ProfileInfo = (props) => {
 
   const handelPassChange = ({ target: { value } }) => {
     setNewUser({ ...newUser, password: value });
+  };
+
+  const handelRePassChange = ({ target: { value } }) => {
+    setPassword(value);
   };
 
   const handelFirstChange = ({ target: { value } }) => {
@@ -145,16 +174,15 @@ const ProfileInfo = (props) => {
         style={{ width: props && props.mobile ? "100%" : "400px" }}
         className="profileInfoConatainer"
       >
-
-          <div className={props.mobile ? "floatBtn" : "floatBtnDes"}>
-            <Button
-              shape="round"
-              className={props.mobile ? "saveProfileBtn" : "saveProfileBtnDes"}
-              onClick={saveButtonClick}
-            >
-              Save
-            </Button>
-          </div>
+        <div className={props.mobile ? "floatBtn" : "floatBtnDes"}>
+          <Button
+            shape="round"
+            className={props.mobile ? "saveProfileBtn" : "saveProfileBtnDes"}
+            onClick={saveButtonClick}
+          >
+            Save
+          </Button>
+        </div>
         {props && !props.mobile && <LikeViewItems />}
         <div className="accountSet">
           <h2 className="setTitle">ACCOUNT SETTINGS</h2>
@@ -163,7 +191,7 @@ const ProfileInfo = (props) => {
             <Input
               placeholder={newUser.email}
               style={{
-                height: "2vh",
+                height: "80%",
                 borderRadius: "10px",
                 width: "200px",
                 border: "0px",
@@ -183,7 +211,7 @@ const ProfileInfo = (props) => {
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }
               style={{
-                height: "2vh",
+                height: "80%",
                 borderRadius: "10px",
                 width: "200px",
                 border: "0px",
@@ -195,11 +223,30 @@ const ProfileInfo = (props) => {
             />
           </div>
           <div className="setBox borderTopNone rowsetBox">
+            <h3 className="boxParam">Re-enter Password</h3>
+            <Input.Password
+              placeholder="     input password"
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
+              style={{
+                height: "80%",
+                borderRadius: "10px",
+                width: "200px",
+                border: "0px",
+                textAlign: "right",
+                marginBottom: "9px",
+              }}
+              value={password}
+              onChange={handelRePassChange}
+            />
+          </div>
+          <div className="setBox borderTopNone rowsetBox">
             <h3 className="boxParam">First Name</h3>
             <Input
               placeholder={newUser.firstName}
               style={{
-                height: "2vh",
+                height: "80%",
                 borderRadius: "10px",
                 width: "200px",
                 border: "0px",
@@ -215,7 +262,7 @@ const ProfileInfo = (props) => {
             <Input
               placeholder={newUser.lastName}
               style={{
-                height: "2vh",
+                height: "80%",
                 borderRadius: "10px",
                 width: "200px",
                 border: "0px",
