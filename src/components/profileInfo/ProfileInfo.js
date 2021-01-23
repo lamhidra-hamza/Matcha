@@ -44,15 +44,16 @@ const ProfileInfo = (props) => {
     const NameRegex = new RegExp(/^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i);
     const passRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
+    console.log("the password is", newUser.password);
     if (!emailRegex.test(newUser.email))
       errorMessage.push("please enter a valid email");
     if (!NameRegex.test(newUser.firstName))
       errorMessage.push("please enter a valid First Name");
     if (!NameRegex.test(newUser.lastName))
       errorMessage.push("please enter a valid Last Name");
-    if (!passRegex.test(newUser.password))
+    if ((newUser.password && newUser.password.length > 0) && !passRegex.test(newUser.password))
       errorMessage.push("Minimum eight characters, at least one letter and one number");
-    if (newUser.password !== password)
+    if ((newUser.password && newUser.password.length > 0) && newUser.password !== password)
       errorMessage.push("The two passwords that you entered do not match! ")
     if (errorMessage.length == 0) {
       history.goBack();

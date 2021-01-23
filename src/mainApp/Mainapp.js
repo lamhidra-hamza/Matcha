@@ -130,8 +130,10 @@ export default function Mainapp({ width }) {
 			userLocation.longitude = locationResult.data.longitude;
 			userLocation.location_name = locationResult.data.location_name;
 			userLocation.real_location = locationResult.data.real_location;
-
+			
+			console.log("call get coords");
 			locationResult = await getCoords(userLocation);
+			console.log(" main app the new Location are", locationResult);
 
 			let newLocation = {...userLocation};
 			newLocation.location_name = locationResult.location_name;

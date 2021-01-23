@@ -48,8 +48,9 @@ async function signIn(req, res) {
         console.log("this email doesn't exist");
         res.status(403).send({ status: 0, message: "you dont have an account" });
     } else {
+        console.log("the user password is ", body.password);
         body.password = await bcrypt.hash(body.password, 11);
-
+        
         if (bcrypt.compare(result[0].password, body.password)) {
             const access_token = await jwt.sign({ id: result[0].id, type: "access-token" },
                 "matcha-secret-code", { expiresIn: "20d" }
