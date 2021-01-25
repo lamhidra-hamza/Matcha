@@ -2,6 +2,8 @@ var connection = require("../../utils/db");
 var uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var SqlString = require('sqlstring');
+
 
 class User {
   constructor() {
@@ -24,7 +26,7 @@ class User {
       lastNotification: new Date().toISOString().slice(0, 19).replace("T", " "),
       interessted: "both",
     };
-    await connection.promise().query("INSERT INTO users SET ?", info);
+    await connection.promise().query(SqlString.format('INSERT INTO users SET ?', info));
     
     return { name: "zakaria", user: "nadi", id : info.id };
   }
@@ -37,20 +39,20 @@ class User {
   }
 
   async findOne(userId, email) {
-    const sql = `SELECT * FROM users WHERE email='${email}'`;
+    const sql = `SELECT * FROM users WHERE email=${SqlString.escape(email)}`;
     const [result, filed] = await connection.promise().query(sql);
     return result;
   }
 
   async findOneAndUpdate(userId, id, data) {
-    const sql = `UPDATE users SET username = '${data.username}', email = '${data.email}',
-            password = '${data.password}' WHERE id = '${id}'`;
+    const sql = `UPDATE users SET username = ${SqlString.escape(data.username)}, email = ${SqlString.escape(data.email)},
+            password = ${SqlString.escape(data.password)} WHERE id = ${SqlString.escape(id)}`;
     const [result, filed] = await connection.promise().query(sql);
     return result;
   }
 
   async findOneAndRemove(userId, id) {
-    const sql = `DELETE FROM users WHERE id = '${id}'`;
+    const sql = `DELETE FROM users WHERE id = ${SqlString.escape(id)}`;
     const [result, filed] = await connection.promise().query(sql);
     return result;
   }

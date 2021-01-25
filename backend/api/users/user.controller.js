@@ -5,6 +5,8 @@ const serInfo = require("../../config/index");
 const serverInfo = require("../../config/index");
 const nodemailer = require("nodemailer");
 const e = require("express");
+const SqlString = require('sqlstring');
+
 const { HTTP400Error, HTTP404Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
 
 let transporter = nodemailer.createTransport({

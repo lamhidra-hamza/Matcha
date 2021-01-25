@@ -1,11 +1,13 @@
 var connection = require("../../utils/db");
 var uuid = require("uuid");
+var SqlString = require('sqlstring');
+
 
 class Tags {
     async findTagId(tag) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT * FROM tag_content WHERE tag='${tag}'`);
+            .query(`SELECT * FROM tag_content WHERE tag=${SqlString.escape(tag)}`);
         if (result[0]) return result[0].id;
         else {
             await connection.promise().query(`INSERT INTO tag_content SET ?`, {
@@ -13,7 +15,7 @@ class Tags {
             });
             const [result, fields] = await connection
                 .promise()
-                .query(`SELECT * FROM tag_content WHERE tag='${tag}'`);
+                .query(`SELECT * FROM tag_content WHERE tag=${SqlString.escape(tag)}`);
             if (result[0]) return result[0].id;
         }
         return 1;
@@ -25,20 +27,20 @@ class Tags {
             user_id: userId,
             tag_id: await this.findTagId(tag),
         };
-        await connection.promise().query("INSERT INTO tags SET ?", info);
+        await connection.promise().query(SqlString.format('INSERT INTO tags SET ?', info));
     }
 
     async findallTagArr(userId) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT tag FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id='${userId}'`);
+            .query(`SELECT tag FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id=${SqlString.escape(userId)}`);
         return result;
     }
 
     async findall(userId) {
         const [result, fields] = await connection
             .promise()
-            .query(`SELECT tag, tags.id FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id='${userId}'`);
+            .query(`SELECT tag, tags.id FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id=${SqlString.escape(userId)}`);
         return result;
     }
 
@@ -57,7 +59,7 @@ class Tags {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM tags WHERE id='${id}' AND user_id='${userId}'`;
+        const sql = `DELETE FROM tags WHERE id= ${SqlString.escape(id)} AND user_id= ${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

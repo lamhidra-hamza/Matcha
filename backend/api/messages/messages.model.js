@@ -1,5 +1,6 @@
 var connection = require('../../utils/db');
 var uuid = require('uuid');
+var SqlString = require('sqlstring');
 
 class Messages {
 
@@ -10,7 +11,7 @@ class Messages {
             sender_id: data.sender_id,
             date: new Date().toISOString().slice(0, 19).replace('T', ' ')
         };
-        await connection.promise().query("INSERT INTO messages SET ?", info);
+        await connection.promise().query(SqlString.format('INSERT INTO messages SET ?', info));
     }
 
     async findall(userId) {
@@ -19,7 +20,7 @@ class Messages {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM messages WHERE id='${id}'`;
+        const sql = `SELECT * FROM messages WHERE id=${SqlString.escape(id)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
@@ -33,7 +34,7 @@ class Messages {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM messages WHERE id = '${id}'`;
+        const sql = `DELETE FROM messages WHERE id = ${SqlString.escape(id)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
