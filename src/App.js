@@ -39,9 +39,9 @@ const App = () => {
             <Route path="/app">
                 <MainApp width={width}/>
             </Route>
-            <Route path="/error/404">
+            {/* <Route path="/error/404">
               <NotFound />
-            </Route>
+            </Route> */}
           </Switch>
         </ErrorHandler>
       </div>

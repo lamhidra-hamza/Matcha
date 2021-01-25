@@ -145,7 +145,6 @@ function MobileSection() {
 						</span>}>
 					<Route exact path={`${match.path}/messages`}><MessageDisplay mobile={true} /></Route>
 					<Route path={`${match.path}/messages/chatbox/:chat_id`} render={(props) => (<Chat {...props} mobile={true} />)} />
-					{/* <div style={{ height: "200px", backgroundColor: '#f6f7fa' }} /> */}
 				</TabPane>
 				<TabPane 
 					className="mobileTab"
@@ -169,7 +168,7 @@ function MobileSection() {
 			<Divider style={{ margin: '0', width: '70%' }} />
 			<div className="downNav">
 				<Button
-					style={{ top: '-15px', left: '-5px'}}
+					style={{ top: '-2px', left: '-5px'}}
 					type="primary"
 					size="large"
 					shape="circle"
@@ -183,7 +182,7 @@ function MobileSection() {
                     onVisibleChange={(visible) => !visible && setNotification([])}
                     >
 					<Button
-						style={{ top: '-15px', right: '-5px' }}
+						style={{ top: '-2px', right: '-5px' }}
 						type="primary"
 						size="large"
 						shape="circle"

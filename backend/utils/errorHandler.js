@@ -3,12 +3,14 @@ const HttpStatusCode = {
     BAD_REQUEST: 400,
     NOT_FOUND: 404,
     INTERNAL_SERVER: 500,
+    ACCESS_FAILED: 403
+
 }
 
 class BaseError extends Error {
 
-    constructor(name, httpCode, description, isOperational) {
-        super(description);
+    constructor(name, httpCode, isOperational, message) {
+        super(message);
         Object.setPrototypeOf(this, new.target.prototype);
 
         this.name = name;
@@ -20,8 +22,8 @@ class BaseError extends Error {
 }
 
 class APIError extends BaseError {
-    constructor(name, httpCode = HttpStatusCode.INTERNAL_SERVER, isOperational = true, description = 'internal server error') {
-        super(name, httpCode, isOperational, description);
+    constructor(name, httpCode = HttpStatusCode.INTERNAL_SERVER, isOperational = true, message = 'internal server error') {
+        super(name, httpCode, isOperational, message);
     }
 }
 
@@ -30,11 +32,15 @@ class ErrorHandler {
         res.status(err.httpCode).json({
             status: "error",
             statusCode: err.httpCode,
-            msg: err.description
+            msg: err.message
         });
         console.log(
             'Error message from the centralized error-handling component',
-            err,
+            "\ncode ==== ", err.httpCode,
+            "\nmsg === ", err.message,
+            "\nopera ===", err.isOperational,
+            "\nname ====", err.name
+
         );
     }
 
@@ -46,8 +52,38 @@ class ErrorHandler {
     }
 }
 
+class HTTP400Error extends BaseError {
+    constructor(message = 'bad request') {
+        super('BAD REQUEST', HttpStatusCode.BAD_REQUEST, true, message);
+    }
+}
+
+class HTTP403Error extends BaseError {
+    constructor(message = 'access failed') {
+        super('ACCESS FAILED', HttpStatusCode.BAD_REQUEST, true, message);
+    }
+}
+
+
+class HTTP404Error extends BaseError {
+    constructor(message = 'not Found') {
+        super('NOT FOUND', HttpStatusCode.NOT_FOUND, true, message);
+    }
+}
+
+class HTTP500Error extends BaseError {
+    constructor(message = 'internal server') {
+        super('INTERNAL SERVER', HttpStatusCode.INTERNAL_SERVER, true, message);
+    }
+}
+
+
 module.exports = {
     errorHandler: new ErrorHandler(),
     APIError: APIError,
-    HttpStatusCode: HttpStatusCode
+    HttpStatusCode: HttpStatusCode,
+    HTTP400Error: HTTP400Error,
+    HTTP404Error: HTTP404Error,
+    HTTP500Error: HTTP500Error,
+    HTTP403Error: HTTP403Error
 }

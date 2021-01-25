@@ -12,18 +12,20 @@ var {
     createNewChat,
 } = require("./chat.controller");
 
-router.route("/new").post(verify, createNewChat); //create New chat
+router.use(verify);
+
+router.route("/new").post(createNewChat); //create New chat
 
 router
     .route("/:id")
-    .get(verify, getLastMessages) // get message from this chat
+    .get(getLastMessages) // get message from this chat
     .put(updateOne)
     .delete(removeOne)
-    .post(verify, createOne); //create one message
+    .post(createOne); //create one message
 
 
 router.route("/")
-    .get(verify, getMany)
+    .get(getMany)
     .post(createOne);
 
 module.exports = router;
