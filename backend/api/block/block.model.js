@@ -1,5 +1,7 @@
 var connection = require('../../utils/db');
 var uuid = require('uuid')
+const SqlString = require('sqlstring');
+
 
 class Block {
 
@@ -17,29 +19,29 @@ class Block {
             user_id: userId,
             blocked_user: data.blocked_user,
         };
-        await connection.promise().query("INSERT INTO block SET ?", info);
+        await connection.promise().query(SqlString.format('INSERT INTO block SET ?', info));
     }
 
     async findall(userId) {
-        const [result, fields] = await connection.promise().query(`SELECT * FROM block where user_id='${userId}'`);
+        const [result, fields] = await connection.promise().query(`SELECT * FROM block where user_id=${SqlString.escape(userId)}`);
         return result;
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM block WHERE user_id='${userId}' AND id='${id}'`;
+        const sql = `SELECT * FROM block WHERE user_id=${SqlString.escape(userId)} AND id=${SqlString.escape(id)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndUpdate(userId, id, data) {
-        const sql = `UPDATE block SET blocked_user = '${data.blocked_user}'
-            WHERE id = '${id}' AND user_id='${userId}'`;
+        const sql = `UPDATE block SET blocked_user = ${SqlString.escape(data.blocked_user)}
+            WHERE id = ${SqlString.escape(id)} AND user_id = ${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM block WHERE id = '${id}' AND user_id='${userId}'`;
+        const sql = `DELETE FROM block WHERE id = ${SqlString.escape(id)} AND user_id = ${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

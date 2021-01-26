@@ -1,5 +1,7 @@
 var connection = require('../../utils/db');
 const { HTTP500Error } = require("../../utils/errorHandler");
+var SqlString = require('sqlstring');
+
 
 class Pictures {
     async create(userId, data) {
@@ -25,7 +27,7 @@ class Pictures {
     async findall(userId) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const [result, fields] = await connection.promise().query(`SELECT * FROM pictures where user_id ='${userId}'`);
+                const [result, fields] = await connection.promise().query(`SELECT * FROM pictures where user_id =${SqlString.escape(userId)}`);
                 resolve(result)
             } catch (err) {
                 reject(new HTTP500Error('internal Error db'));
@@ -36,7 +38,7 @@ class Pictures {
     async findOne(userId, id) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `SELECT * FROM pictures WHERE user_id='${id}'`;
+                const sql = `SELECT * FROM pictures WHERE user_id=${SqlString.escape(id)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {
@@ -48,7 +50,7 @@ class Pictures {
     async findOneById(id) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `SELECT * FROM pictures WHERE id='${id}'`;
+                const sql = `SELECT * FROM pictures WHERE id=${SqlString.escape(id)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {
@@ -60,7 +62,7 @@ class Pictures {
     async findOneAndUpdate(userId, id, data) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `UPDATE pictures SET ? WHERE id = '${id}'`;
+                const sql = `UPDATE pictures SET ? WHERE id = ${SqlString.escape(id)}`;
                 const [result, filed] = await connection.promise().query(sql, data);
                 resolve(result)
             } catch (err) {
@@ -72,7 +74,7 @@ class Pictures {
     async findOneAndRemove(userId, id) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `DELETE FROM pictures WHERE id = '${id}' AND user_id='${userId}'`;
+                const sql = `DELETE FROM pictures WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {

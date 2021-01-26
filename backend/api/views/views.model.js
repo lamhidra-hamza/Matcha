@@ -1,5 +1,7 @@
 var connection = require('../../utils/db');
 const { HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
+const SqlString = require('sqlstring');
+
 
 class Views {
 
@@ -10,7 +12,7 @@ class Views {
                     user_id: userId,
                     viewed_user: data.viewed_user,
                 };
-                const result = await connection.promise().query("INSERT INTO views SET ?", info);
+                const result = await connection.promise().query(SqlString.format('INSERT INTO views SET ?', info));
                 resolve(result);
             } catch (err) {
                 reject(new HTTP500Error('internal error db'));

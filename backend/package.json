@@ -23,6 +23,7 @@
     "nodemailer": "^6.4.16",
     "nodemon": "^2.0.6",
     "socket.io": "^3.0.4",
+    "sqlstring": "^2.3.2",
     "uuid": "^8.3.1"
   }
 }

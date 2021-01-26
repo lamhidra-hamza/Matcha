@@ -1,5 +1,7 @@
 var connection = require("../../utils/db");
 var uuid = require("uuid");
+const SqlString = require('sqlstring');
+
 
 class Chat {
     async create(userId, data) {
@@ -14,12 +16,12 @@ class Chat {
         console.log("the info are", info);
         const [result, filed] = await connection
             .promise()
-            .query("INSERT INTO messages SET ?", info);
+            .query(SqlString.format('INSERT INTO messages SET ?', info));
 
         await connection
             .promise()
             .query(
-                `UPDATE chat SET date = '${info.date}' WHERE chat_id = '${info.chat_id}'`);
+                `UPDATE chat SET date = ${SqlString.escape(info.date)} WHERE chat_id = ${SqlString.escape(info.chat_id)}`);
 
         return result.insertId;
     }
@@ -31,7 +33,7 @@ class Chat {
             chat_id: uuid.v4(),
             date: null,
         };
-        await connection.promise().query("INSERT INTO chat SET ?", info);
+        await connection.promise().query(SqlString.format('INSERT INTO chat SET ?', info));
     }
 
     //find last conversations for the user
@@ -49,12 +51,12 @@ class Chat {
                     messages.seen
                 FROM chat,messages,users
                     where messages.chat_id = chat.chat_id 
-                    and (chat.receiver_id = "${userId}" OR chat.user_id = "${userId}")
+                    and (chat.receiver_id = ${SqlString.escape(userId)} OR chat.user_id = ${SqlString.escape(userId)})
                     and  messages.id IN (SELECT MAX(id) FROM messages GROUP by chat_id)
                 GROUP BY chat.chat_id, chat.user_id,
                     chat.receiver_id, messages.date,
                     messages.content, messages.seen
-                LIMIT ${body.startIndex},${body.length}`
+                LIMIT ${SqlString.escape(body.startIndex)},${SqlString.escape(body.length)}`
             );
         return result;
     }
@@ -62,20 +64,20 @@ class Chat {
     //find last conversations for the user
     async findOne(msgId) {
         console.log("the findONe function and the msgId is ", msgId);
-        const sql = `SELECT * FROM messages WHERE id= ${msgId}`;
+        const sql = `SELECT * FROM messages WHERE id= ${SqlString.escape(msgId)}`;
         const [result, fields] = await connection.promise().query(sql);
         return result;
     }
 
     //find the last messages in this conversation
     async findLast(chat_id, index, length) {
-        const sql = `SELECT * FROM messages WHERE chat_id = '${chat_id}' ORDER BY date DESC LIMIT ${index}, ${length}`;
+        const sql = `SELECT * FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} ORDER BY date DESC LIMIT ${SqlString.escape(index)}, ${SqlString.escape(length)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findChatById(chatId) {
-        const sql = `SELECT * FROM chat WHERE chat_id='${chatId}'`;
+        const sql = `SELECT * FROM chat WHERE chat_id= ${SqlString.escape(chatId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
@@ -89,7 +91,7 @@ class Chat {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM chat WHERE id = '${id}' AND user_id='${userId}'`;
+        const sql = `DELETE FROM chat WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

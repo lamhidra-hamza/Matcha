@@ -3,6 +3,8 @@ var uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const e = require("express");
 const { HTTP500Error } = require("../../utils/errorHandler");
+const SqlString = require('sqlstring');
+
 
 class User {
 
@@ -30,7 +32,7 @@ class User {
                     // bornDate: data.bornDate.slice(0, 19).replace("T", " "),
                     frameRate: 1
                 };
-                await connection.promise().query("INSERT INTO users SET ?", info);
+                await connection.promise().query(SqlString.format('INSERT INTO users SET ?', info));
 
                 resolve({ id: info.id });
             } catch (err) {
@@ -45,8 +47,8 @@ class User {
         return new Promise(async(resolve, reject) => {
             try {
                 const sql = `UPDATE users SET
-                    refreshToken = '${refreshToken}'
-                    WHERE id = '${userId}'`;
+                    refreshToken = ${SqlString.escape(refreshToken)}
+                    WHERE id = ${SqlString.escape(userId)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
@@ -67,10 +69,10 @@ class User {
                 let orderBy = '';
                 let limit = filters.numberOfItem * filters.page;
                 let distanceBetween = `CEILING(111.111 *
-                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                     * COS(RADIANS(location.latitude))
-                    * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
-                    + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = ${SqlString.escape(userId)}) - location.longitude))
+                    + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                     * SIN(RADIANS(location.latitude)))))) AS distance_in_km`
                 const injectedString = filters.tags ? filters.tags.map(c => `'${c}'`).join(', ') : '';
                 if (filters.sortedBy === 'distance')
@@ -131,9 +133,9 @@ class User {
                             HAVING age BETWEEN ${filters.minAge} AND ${filters.maxAge}
                             AND distance_in_km < ${filters.maxDistance} AND rate >= ${filters.frameRate}
                             ${tagsCount}
-                            AND users.id !='${userId}'
-                            AND users.id NOT IN (SELECT liked_user FROM likes WHERE user_id='${userId}')
-                            AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
+                            AND users.id !=${SqlString.escape(userId)}
+                            AND users.id NOT IN (SELECT liked_user FROM likes WHERE user_id=${SqlString.escape(userId)})
+                            AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
                             ${orderBy}
                             LIMIT ${limit}, ${filters.numberOfItem} `;
 
@@ -152,10 +154,10 @@ class User {
         return new Promise(async(resolve, reject) => {
             try {
                 let distanceBetween = `CEILING(111.111 *
-                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                      * COS(RADIANS(location.latitude))
-                     * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
-                     + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                     * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = ${SqlString.escape(userId)}) - location.longitude))
+                     + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                      * SIN(RADIANS(location.latitude)))))) AS distance_in_km`
 
                 const sql = `SELECT users.id,
@@ -176,7 +178,7 @@ class User {
                     INNER JOIN pictures ON pictures.user_id=users.id
                     INNER JOIN location ON location.user_id=users.id
                     
-                    WHERE users.id = '${id}'
+                    WHERE users.id = ${SqlString.escape(id)}
                     `;
 
                 const [result, fields] = await connection
@@ -202,10 +204,10 @@ class User {
                     location.latitude,
 
                     CEILING(111.111 *
-                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                     * COS(RADIANS(location.latitude))
-                    * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
-                    + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = ${SqlString.escape(userId)}) - location.longitude))
+                    + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                     * SIN(RADIANS(location.latitude)))))) AS distance_in_km
                     from users
 
@@ -215,9 +217,9 @@ class User {
                                                     
                     GROUP BY users.id, pictures.picture_1, users.firstName, location.longitude, location.latitude, age
                                         
-                    HAVING users.id !='${userId}'
-                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
-                    AND '${userId}' IN (SELECT liked_user FROM likes WHERE user_id=users.id)
+                    HAVING users.id !=${SqlString.escape(userId)}
+                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+                    AND ${SqlString.escape(userId)} IN (SELECT liked_user FROM likes WHERE user_id=users.id)
                     LIMIT ${limit}, ${filters.numberOfItem} `;
 
                 const [result, fields] = await connection
@@ -242,10 +244,10 @@ class User {
                     location.latitude,
         
                     CEILING(111.111 *
-                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                     * COS(RADIANS(location.latitude))
-                    * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = '${userId}') - location.longitude))
-                    + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = '${userId}')))
+                    * COS(RADIANS((SELECT location.longitude from location WHERE location.user_id = ${SqlString.escape(userId)}) - location.longitude))
+                    + SIN(RADIANS((SELECT location.latitude from location WHERE location.user_id = ${SqlString.escape(userId)})))
                     * SIN(RADIANS(location.latitude)))))) AS distance_in_km
                     from users
         
@@ -254,9 +256,9 @@ class User {
         
                     GROUP BY users.id, pictures.picture_1, users.firstName, location.longitude, location.latitude, age
                                         
-                    HAVING users.id !='${userId}'
-                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id='${userId}')
-                    AND '${userId}' IN (SELECT viewed_user FROM views WHERE user_id=users.id)
+                    HAVING users.id !=${SqlString.escape(userId)}
+                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+                    AND ${SqlString.escape(userId)} IN (SELECT viewed_user FROM views WHERE user_id=users.id)
                     LIMIT ${limit}, ${filters.numberOfItem} `;
 
                 // console.log(sql);
@@ -277,7 +279,7 @@ class User {
             try {
                 const [result, fields] = await connection
                     .promise()
-                    .query(`SELECT * FROM users INNER JOIN pictures on pictures.user_id = users.id WHERE users.id = '${userId}'`);
+                    .query(`SELECT * FROM users INNER JOIN pictures on pictures.user_id = users.id WHERE users.id = ${SqlString.escape(userId)}`);
                 resolve(result);
             } catch (err) {
                 reject(new HTTP500Error('Internal Error DB'));
@@ -288,7 +290,7 @@ class User {
     async findOne(userId, id) {
         return new Promise(async(resolve, reject) => {
             try {
-                const sql = `SELECT * FROM users WHERE id='${id}'`;
+                const sql = `SELECT * FROM users WHERE id=${SqlString.escape(id)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
@@ -300,7 +302,7 @@ class User {
     async findOneByEmail(userId, email) {
         return new Promise(async(resolve, reject) => {
             try {
-                const sql = userId ? `SELECT * FROM users WHERE id='${userId}'` : `SELECT * FROM users WHERE email='${email}'`;
+                const sql = userId ? `SELECT * FROM users WHERE id=${SqlString.escape(userId)}` : `SELECT * FROM users WHERE email=${SqlString.escape(email)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
@@ -313,7 +315,7 @@ class User {
     async findOneAndUpdate(userId, id, data) {
         return new Promise(async(resolve, reject) => {
             try {
-                const sql = `UPDATE users SET ? WHERE id = '${id}'`;
+                const sql = `UPDATE users SET ? WHERE id = ${SqlString.escape(id)}`;
                 const info = {
                     username: data.username,
                     email: data.email,
@@ -330,7 +332,7 @@ class User {
                     verified: data.verified,
                     job: data.job,
                 }
-                const [result, filed] = await connection.promise().query(sql, info);
+                const [result, filed] = await connection.promise().query(SqlString.format(sql, info));
                 resolve(result);
             } catch (err) {
                 reject(new HTTP500Error('Internal Error DB'));
@@ -341,7 +343,7 @@ class User {
     async findOneAndRemove(userId, id) {
         return new Promise(async(resolve, reject) => {
             try {
-                const sql = `DELETE FROM users WHERE id = '${id}'`;
+                const sql = `DELETE FROM users WHERE id = ${SqlString.escape(id)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {

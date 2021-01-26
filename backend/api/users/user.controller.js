@@ -5,6 +5,8 @@ const serInfo = require("../../config/index");
 const serverInfo = require("../../config/index");
 const nodemailer = require("nodemailer");
 const e = require("express");
+const SqlString = require('sqlstring');
+
 const { HTTP400Error, HTTP404Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
 
 let transporter = nodemailer.createTransport({
@@ -48,8 +50,11 @@ async function signIn(req, res, next) {
         if (!result[0] || !body.password || !body.email) {
             throw new HTTP403Error('your email is incorrect');
         } else {
-            body.password = await bcrypt.hash(body.password, 11);
-            if (bcrypt.compare(result[0].password, body.password)) {
+            let codeMatchResult = await bcrypt.compare(
+                body.password,
+                result[0].password
+            );
+            if (codeMatchResult) {
                 const access_token = jwt.sign({ id: result[0].id, type: "access-token" },
                     "matcha-secret-code", { expiresIn: "20d" }
                 );
@@ -75,6 +80,7 @@ async function signIn(req, res, next) {
         next(err);
     }
 }
+
 
 async function getToken(req, res) {
     try {
@@ -146,7 +152,6 @@ async function checkSession(req, res, next) {
         next(err);
     }
 }
-
 
 async function getOneForInfoCard(req, res, next) {
     try {
