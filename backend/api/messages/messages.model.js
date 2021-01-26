@@ -20,7 +20,7 @@ class Messages {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM messages WHERE id=${SqlString.escape(id)}`;
+        const sql = `SELECT * FROM messages WHERE id=${id}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
@@ -34,7 +34,7 @@ class Messages {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM messages WHERE id = ${SqlString.escape(id)}`;
+        const sql = `DELETE FROM messages WHERE id = ${id}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

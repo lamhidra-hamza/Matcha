@@ -88,7 +88,7 @@ class Tags {
     async findOneAndRemove(userId, id) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `DELETE FROM tags WHERE id=${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+                const sql = `DELETE FROM tags WHERE id=${id} AND user_id=${SqlString.escape(userId)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {

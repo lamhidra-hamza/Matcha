@@ -20,20 +20,20 @@ class Likes {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM likes WHERE user_id='${id}' AND liked_user=${SqlString.escape(userId)}`;
+        const sql = `SELECT * FROM likes WHERE user_id='${SqlString.escape(id)}' AND liked_user=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndUpdate(userId, id, data) {
         const sql = `UPDATE likes SET liked_user=${SqlString.escape(data.liked_user)}
-            WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+            WHERE id = ${id} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM likes WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+        const sql = `DELETE FROM likes WHERE id = ${id} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

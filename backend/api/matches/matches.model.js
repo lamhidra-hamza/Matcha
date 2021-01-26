@@ -60,20 +60,20 @@ class Matches {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM matches WHERE user_id=${SqlString.escape(userId)} AND id=${SqlString.escape(id)}`;
+        const sql = `SELECT * FROM matches WHERE user_id=${SqlString.escape(userId)} AND id=${id}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndUpdate(userId, id, data) {
         const sql = `UPDATE matches SET matched_user=${SqlString.escape(data.matched_user)}
-            WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+            WHERE id = ${id} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM matches WHERE id=${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+        const sql = `DELETE FROM matches WHERE id=${id} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

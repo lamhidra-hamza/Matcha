@@ -56,7 +56,7 @@ class Chat {
                 GROUP BY chat.chat_id, chat.user_id,
                     chat.receiver_id, messages.date,
                     messages.content, messages.seen
-                LIMIT ${SqlString.escape(body.startIndex)},${SqlString.escape(body.length)}`
+                LIMIT ${body.startIndex},${body.length}`
             );
         return result;
     }
@@ -71,7 +71,7 @@ class Chat {
 
     //find the last messages in this conversation
     async findLast(chat_id, index, length) {
-        const sql = `SELECT * FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} ORDER BY date DESC LIMIT ${SqlString.escape(index)}, ${SqlString.escape(length)}`;
+        const sql = `SELECT * FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} ORDER BY date DESC LIMIT ${index}, ${length}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
@@ -91,7 +91,7 @@ class Chat {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM chat WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+        const sql = `DELETE FROM chat WHERE id = ${id} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

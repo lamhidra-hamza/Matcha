@@ -38,7 +38,7 @@ class Location {
     }
 
     async findOneAndRemove(userId, id) {
-        const sql = `DELETE FROM location WHERE id = ${SqlString.escape(id)} AND user_id=${SqlString.escape(userId)}`;
+        const sql = `DELETE FROM location WHERE id = ${id} AND user_id=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
