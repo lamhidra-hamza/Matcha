@@ -11,7 +11,6 @@ var {
     updateOne,
     removeOne,
     getMany,
-    createOne,
     getOneForInfoCard,
     getManyUsersLikedMe,
     getManyUsersViewedMe
@@ -29,10 +28,9 @@ router.route("/viewedme").get(verify, getManyUsersViewedMe);
 router.route("/:id")
     .get(verify, getOne)
     .put(verify, updateOne)
-    .delete(verify, removeOne);
+    // .delete(verify, removeOne);
 
 router.route("/")
     .get(verify, getMany)
-    .post(verify, createOne);
 
 module.exports = router;

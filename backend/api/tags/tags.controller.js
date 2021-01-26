@@ -1,66 +1,60 @@
 const model = require('./tags.model');
+const { HTTP400Error, HTTP404Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
 
-const getAll = async(req, res) => {
+
+const getAll = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
             const result = await model.AllTags();
-            console.log(result);
-            res.status(200).json({
+            res.status(HttpStatusCode.OK).json({
                 tags: result,
             });
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error UserID = ${req.user.id} Does not exists`,
-        });
+        next(err)
     }
 }
 
-const getMany = async(req, res) => {
+const getMany = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
             const data = await model.findall(req.id);
-            res.status(200).json({
+            res.status(HttpStatusCode.OK).json({
                 data: [...data.map((item => { return item.tag }))],
             });
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error UserID = ${req.user.id} Does not exists`,
-        });
+        next(err)
     }
 };
 
-const getOne = async(req, res) => {
+const getOne = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
             const data = await model.findall(req.params.id);
-            res.status(200).json({
+            res.status(HttpStatusCode.OK).json({
                 data: [...data.map((item => { return item.tag }))],
             });
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error UserID = ${req.user.id} Does not exists`,
-        });
+        next(err)
     }
 };
 
-const createOne = async(req, res) => {
+const createOne = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
             const newTags = req.body;
+            if (!Array.isArray(newTags))
+                throw new HTTP400Error('invalid req data');
             let data = await model.findall(req.id);
             const oldTags = await [...data.map((item => { return item.tag }))];
             newTags.map((item) => {
@@ -74,43 +68,24 @@ const createOne = async(req, res) => {
                 }
             })
             data = await model.findall(req.id);
-            res.status(201).send({
+            res.status(HttpStatusCode.OK).send({
                 tags: [...data.map((item => { return item.tag }))],
             });
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in createOne`,
-        });
+        next(err)
     }
 };
 
-const updateOne = () => async(req, res) => {
-    try {
-        await model.findOneAndUpdate(req.id, req.id, req.body);
-        res.status(201).send({
-            msg: "Update Done!!",
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in updateOne`,
-        });
-    }
-};
 
-const removeOne = async(req, res) => {
+const removeOne = async(req, res, next) => {
     try {
         await model.findOneAndRemove(req.id, req.params.id);
-        res.status(201).send({
+        res.status(HttpStatusCode.OK).send({
             msg: "Remove Done!!",
         });
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in removeOne`,
-        });
+        next(err)
     }
 };
 
@@ -118,7 +93,6 @@ module.exports = {
     getMany: getMany,
     getOne: getOne,
     createOne: createOne,
-    updateOne: updateOne,
     removeOne: removeOne,
     getAll: getAll
 };

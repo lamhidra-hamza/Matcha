@@ -72,7 +72,7 @@ async function signIn(req, res, next) {
                 throw new HTTP403Error('your password is incorrect');
         }
     } catch (err) {
-        next();
+        next(err);
     }
 }
 
@@ -105,7 +105,6 @@ async function signUp(req, res, next) {
         const body = req.body;
         if (!body.username || !body.email || !body.bornDate ||
             !body.firstName || !body.lastName || !body.password) {
-            console.log(body);
             throw new HTTP400Error("Invalid request data");
         }
         const search = await model.findOneByEmail(null, body.email);
@@ -144,7 +143,7 @@ async function checkSession(req, res, next) {
             redirectUrl: "/app",
         });
     } catch (err) {
-        next();
+        next(err);
     }
 }
 
@@ -176,7 +175,7 @@ async function getOne(req, res, next) {
             });
             return;
         }
-        const data = await model.findOne(req.id, req.id);
+        const data = await model.findOne(req.id, req.params.id);
         if (data && data[0]) {
             delete data[0].password;
             delete data[0].refreshToken;
@@ -185,7 +184,7 @@ async function getOne(req, res, next) {
         } else
             throw new HTTP404Error('User Not Found');
     } catch (err) {
-        next();
+        next(err);
     }
 }
 
@@ -198,8 +197,7 @@ async function getMany(req, res, next) {
             return;
         }
         const filters = req.query;
-        if (filters && !isNaN(filters.numberOfItem) && !isNaN(filters.page) &&
-            filters.tags && filters.sortedBy && filters.browsingType &&
+        if (filters && !isNaN(filters.frameRate) && !isNaN(filters.numberOfItem) && !isNaN(filters.page) &&
             !isNaN(filters.minAge) && !isNaN(filters.maxAge) &&
             !isNaN(filters.maxDistance)) {
             const data = await model.findall(req.id, filters);
@@ -208,9 +206,9 @@ async function getMany(req, res, next) {
                 status: 1
             });
         } else
-            throw new HTTP400Error('Invalid filter params');
+            throw new HTTP400Error('Invalid query params');
     } catch (err) {
-        next();
+        next(err);
     }
 }
 
@@ -224,70 +222,55 @@ async function getManyUsersLikedMe(req, res, next) {
             return;
         }
         const filters = req.query;
-        const data = await model.findallLikedMe(req.id, filters);
-        if (!filters || !data)
-            throw new HTTP400Error();
-        else
+        if (!filters || isNaN(filters.page) || isNaN(filters.numberOfItem))
+            throw new HTTP400Error('invalid query params');
+        else {
+            const data = await model.findallLikedMe(req.id, filters);
             res.status(HttpStatusCode.OK).json({
                 users: data,
                 status: 1
             });
+        }
     } catch (err) {
-        next();
+        next(err);
     }
 }
 
 async function getManyUsersViewedMe(req, res, next) {
 
     try {
-        if (!data || req.status === 0 || req.status === -1) {
+        if (req.status === 0 || req.status === -1) {
             res.status(HttpStatusCode.OK).send({
                 status: req.status,
             });
             return;
         }
         const filters = req.query;
-        const data = await model.findallViewedMe(req.id, filters);
-        if (!filters || !data)
-            throw new HTTP400Error();
-        else
+        if (!filters || isNaN(filters.page) || isNaN(filters.numberOfItem))
+            throw new HTTP400Error('invalid query params');
+        else {
+            const data = await model.findallViewedMe(req.id, filters);
             res.status(HttpStatusCode.OK).json({
                 users: data,
                 status: 1
             });
+        }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error userID = Does not exists`,
-        });
+        next(err);
     }
 }
 
-async function createOne(req, res) {
-    try {
-        await model.create(userID, req.body);
-        res.status(201).send({
-            msg: "create Done!!",
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in createOne`,
-        });
-    }
-}
-
-async function updateOne(req, res) {
+async function updateOne(req, res, next) {
     const body = req.body;
     try {
         if (req.status === 0 || req.status === -1) {
-            // console.log(`the req.status is ${req.status}`);
             res
                 .status(HttpStatusCode.OK)
                 .send({ status: req.status, message: "token is invalid or expired" });
         } else {
             const data = await model.findOne(req.id, req.id);
-            // console.log("the data is ", data[0]);
+            if (data.length == 0)
+                throw HTTP404Error('user not Found');
             for (const [key, value] of Object.entries(body)) {
                 data[0][key] = value;
             }
@@ -299,10 +282,7 @@ async function updateOne(req, res) {
             res.status(HttpStatusCode.OK).send({ status: req.status, msg: "updating Done" });
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in updateOne`,
-        });
+        next(err);
     }
 }
 
@@ -323,7 +303,6 @@ async function removeOne(req, res) {
 module.exports = {
     getOne: getOne,
     getMany: getMany,
-    createOne: createOne,
     updateOne: updateOne,
     removeOne: removeOne,
     signIn: signIn,

@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var {
-    getMany,
     getOne,
     createOne,
     updateOne,
-    removeOne,
     uploadImage,
 } = require('./pictures.controller')
 var multer = require('multer');
@@ -32,13 +30,11 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.route('/')
-    .get(verify, getMany)
     .post(createOne);
 
 router.route('/:id')
-    .get(getOne)
-    .put(updateOne)
-    .delete(removeOne)
-    .post(upload.array('image', 5), uploadImage)
+    .get(verify, getOne)
+    .put(verify, updateOne)
+    .post(verify, upload.array('image', 5), uploadImage)
 
 module.exports = router;
