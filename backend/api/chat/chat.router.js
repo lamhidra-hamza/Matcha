@@ -11,6 +11,7 @@ var {
     createOne,
     accountStats,
     createNewChat,
+    markMessageSeen
 } = require("./chat.controller");
 
 router.use(verify);
@@ -18,6 +19,8 @@ router.use(verify);
 router.route("/new").post(createNewChat); //create New chat
 
 router.route("/count").get(accountStats); //count unread messages
+
+router.route("/markseen/:id").post(markMessageSeen);
 
 router
     .route("/:id")

@@ -42,6 +42,17 @@ const MessageDisplay = (props) => {
     setMessages([...messages, ...result.data.data]);
   };
 
+  const messageSeen = (msgIndex) => {
+  
+    setMessages(messages.map((element) => {
+      if (element.chat_id == msgIndex)
+      {
+        return {...element, seen : 1};
+      }
+      return {...element};
+    }));
+  }
+
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoadMore(true);
@@ -90,7 +101,7 @@ const MessageDisplay = (props) => {
       >
         {messages.map((element, index) => {
           return (
-            <MessageItem mobile={props.mobile} key={index} message={element} />
+            <MessageItem mobile={props.mobile} key={index} message={element} seen = {messageSeen}/>
           );
         })}
       </InfiniteScroll>
