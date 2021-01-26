@@ -62,8 +62,9 @@ export default function Mainapp({ width }) {
 						message = "Yow Congratulation you got New MATCHE !!";
 					if (notify.type === "view" )
 						message = "Someone viewed your profile !!";
+					if (notify.type === "message")
+						message = "you got a new message !!";
 					notification['info']({ message: message });
-					// console.log('Notification ====> ', Notification);
 					console.log('Notify ====> ', notify);
 					setNotification((Notification) => {
 						console.log("Prev ==== ", Notification)

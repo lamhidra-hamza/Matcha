@@ -40,7 +40,6 @@ io.on("connect", (socket) => {
 
     socket.on("sendMessage", ({ room, msgId }) => {
         console.log("the message id is", msgId);
-        //io.to("room").emit('message', { user: userId, text: message });
         socket.broadcast.to(room).emit("message", { msgId: msgId });
     });
 });

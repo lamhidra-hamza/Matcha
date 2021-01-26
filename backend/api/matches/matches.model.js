@@ -27,7 +27,7 @@ class Matches {
         [result, fields] = await connection.promise().query(`SELECT date from matches where ((user_id = ${SqlString.escape(matchedUser)} and matched_user = ${SqlString.escape(userId)}) OR  (user_id = ${SqlString.escape(userId)} and matched_user = ${SqlString.escape(matchedUser)}))`);
         console.log("the date of matched are \n\n", result);
         lastResult['date'] = result[0].date;
-        [result, fields] = await connection.promise().query(`SELECT users.username, users.firstName, users.job, users.biography, users.bornDate, pictures.picture_1, pictures.picture_2, pictures.picture_3, pictures.picture_4, pictures.picture_5, location.longitude, location.latitude 
+        [result, fields] = await connection.promise().query(`SELECT users.id, users.username, users.firstName, users.job, users.biography, users.bornDate, pictures.picture_1, pictures.picture_2, pictures.picture_3, pictures.picture_4, pictures.picture_5, location.longitude, location.latitude 
         from users, pictures, location 
         WHERE users.id = pictures.user_id and users.id = location.user_id
         and users.id = ${SqlString.escape(matchedUser)}`);
