@@ -28,11 +28,11 @@ class Location {
 
     async findOneAndUpdate(userId, data) {
         const sql = `UPDATE location SET 
-            longitude=${SqlString.escape(data.longitude)},
-            latitude=${SqlString.escape(data.latitude)},
-            location_name=${SqlString.escape(data.location_name)},
-            real_location=${SqlString.escape(data.real_location)}
-            where user_id=${SqlString.escape(userId)}`;
+            longitude= ${SqlString.escape(data.longitude)},
+            latitude= ${SqlString.escape(data.latitude)},
+            location_name= ${SqlString.escape(data.location_name)},
+            real_location= ${SqlString.escape(data.real_location)}
+            where user_id= ${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

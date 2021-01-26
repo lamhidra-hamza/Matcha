@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Tabs } from 'antd';
 import './Maintab.css'
 import MatcheDisplay from '../matchesDisplay/MatcheDisplay'
 import MessageDisplay from '../messageDisplay/MessageDisplay';
 import { Badge } from 'antd';
 import { useLocation, useHistory } from 'react-router-dom'
+import { UserContext } from "../../contexts/UserContext";
+
 
 
 const { TabPane } = Tabs;
@@ -12,6 +14,8 @@ const { TabPane } = Tabs;
 export default function Maintab() {
     let { state, pathname } = useLocation();
     const history = useHistory();
+    const { accountStats } = useContext(UserContext);
+
 	
 	const handelDefaultKey = () => {
 		if (state)
@@ -34,11 +38,11 @@ export default function Maintab() {
         <div className="tabs">
             <Tabs className="tabsstyle" defaultActiveKey={handelDefaultKey} style={{fontWeight: '800'}}>
                 <TabPane style={{ height: '100vh', width: '400px'}} tab={
-                    <span onClick={() => handelTabClick("", "1", "1")}>Matches <Badge count={25} /></span>} key="1">
+                    <span onClick={() => handelTabClick("", "1", "1")}>Matches <Badge count={accountStats.matches} /></span>} key="1">
                     <MatcheDisplay mobile={false}/>
                 </TabPane>
                 <TabPane style={{ height: '100vh', width: '400px'}}  tab={
-                 <span onClick={() => handelTabClick("", "2", "4")}>Messagees <Badge count={2} /></span>} key="2">
+                 <span onClick={() => handelTabClick("", "2", "4")}>Messagees <Badge count={accountStats.messages} /></span>} key="2">
                     <MessageDisplay mobile={false}/>
                 </TabPane>
             </Tabs>
