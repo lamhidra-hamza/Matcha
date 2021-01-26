@@ -1,94 +1,83 @@
 const controllers = require('../../utils/crud');
 const model = require('./pictures.model');
 var fs = require('fs');
+const { HTTP404Error, HTTP400Error, HttpStatusCode } = require("../../utils/errorHandler");
 
-const uploadImage = async(req, res) => {
+
+const uploadImage = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1) {
-            console.log(`the req.status is ${req.status}`);
             res
-                .status(200)
+                .status(HttpStatusCode.OK)
                 .send({ status: req.status, message: "token is invalid or expired" });
         } else {
             const data = await model.findOneById(req.params.id);
-            let arr = [data[0].picture_1, data[0].picture_2, data[0].picture_3, data[0].picture_4, data[0].picture_5];
+            if (!data.length)
+                throw new HTTP404Error('pictures not found');
+            let arr = [
+                data[0].picture_1,
+                data[0].picture_2,
+                data[0].picture_3,
+                data[0].picture_4,
+                data[0].picture_5
+            ];
             arr = arr.filter(value => { return value != null });
             req.files.map((value) => { arr.push(value.filename); });
-            const result = await model.findOneAndUpdate(req.id, req.params.id, {
+            await model.findOneAndUpdate(req.id, req.params.id, {
                 picture_1: arr[0] ? arr[0] : null,
                 picture_2: arr[1] ? arr[1] : null,
                 picture_3: arr[2] ? arr[2] : null,
                 picture_4: arr[3] ? arr[3] : null,
                 picture_5: arr[4] ? arr[4] : null,
             });
-            console.log("result upload == ", arr)
-            res.status(201).json({
-                arr,
+            res.status(HttpStatusCode.OK).json({
+                arr
             });
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in createOne`,
-        });
+        next(err);
     }
 };
 
-async function getMany(req, res) {
-    try {
-        const data = await model.findall(req.id);
-        res.status(200).json({
-            data: data,
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error UserID = ${req.id} Does not exists`,
-        });
-    }
-}
 
-async function getOne(req, res) {
+async function getOne(req, res, next) {
     try {
         const data = await model.findOne(req.id, req.params.id);
-        if (!data) {
-            res.status(400).end();
-        }
-        res.status(200).json(data[0]);
+        if (!data.length)
+            throw new HTTP404Error('picture not found');
+        res.status(HttpStatusCode.OK).json(data[0]);
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in getOne`,
-        });
+        next(err);
     }
 }
 
-async function createOne(req, res) {
+async function createOne(req, res, next) {
     console.log("create one pictures=========== ===================================");
     try {
         if (req.status === 0 || req.status === -1) {
-            console.log(`the req.status is ${req.status}`);
             res
-                .status(200)
+                .status(HttpStatusCode.OK)
                 .send({ status: req.status, message: "token is invalid or expired" });
         } else {
-            await model.create(req.body.user_id, req.body);
-            res.status(201).send({
-                msg: "create Done!!",
-            });
+            if (req.body && req.body.user_id) {
+                await model.create(req.body.user_id, req.body);
+                res.status(HttpStatusCode.OK).send({
+                    msg: "create Done!!",
+                });
+            } else
+                throw new HTTP400Error('invalid req params');
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in createOne`,
-        });
+        next(err);
     }
 }
 
-async function updateOne(req, res) {
+async function updateOne(req, res, next) {
     try {
         const body = req.body;
         const data = await model.findOneById(req.params.id);
+        if (!data.length)
+            throw new HTTP404Error('user not found');
         if (!body.picture_1 && data[0].picture_1 && fs.existsSync(data[0].picture_1))
             fs.unlinkSync(data[0].picture_1);
         if (!body.picture_2 && data[0].picture_2 && fs.existsSync(data[0].picture_2))
@@ -102,36 +91,17 @@ async function updateOne(req, res) {
         delete body.id;
         delete body.user_id;
         await model.findOneAndUpdate(req.id, req.params.id, body);
-        res.status(201).send({
+        res.status(HttpStatusCode.OK).send({
             msg: "Update Done!!",
         });
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in updateOne`,
-        });
-    }
-}
-
-async function removeOne(req, res) {
-    try {
-        await model.findOneAndRemove(req.id, req.params.id);
-        res.status(201).send({
-            msg: "Remove Done!!",
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in removeOne`,
-        });
+        next(err);
     }
 }
 
 module.exports = {
-    getMany: getMany,
     getOne: getOne,
     createOne: createOne,
     updateOne: updateOne,
-    removeOne: removeOne,
     uploadImage: uploadImage
 };

@@ -82,7 +82,7 @@ class User {
                 if (filters.sortedBy === 'frameRate')
                     orderBy = '';
 
-                if (filters.tags && filters.tags != []) {
+                if (filters.tags && filters.tags.length > 0) {
                     joinTagsTable = `INNER JOIN tags ON tags.user_id=users.id
                     INNER JOIN tag_content ON tag_content.id=tags.tag_id `;
                     tagsQuery = `AND tag_content.tag IN (${injectedString}) `;
@@ -139,12 +139,12 @@ class User {
                             ${orderBy}
                             LIMIT ${limit}, ${filters.numberOfItem} `;
 
-                // console.log(sql);
                 const [result, fields] = await connection
                     .promise()
                     .query(sql);
                 resolve(result);
             } catch (err) {
+                console.log(err)
                 reject(new HTTP500Error('Internal Error DB'));
             }
         })
