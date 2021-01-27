@@ -52,7 +52,7 @@ class Pictures {
     async findOneById(id) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `SELECT * FROM pictures WHERE id=${SqlString.escape(id)}`;
+                const sql = `SELECT * FROM pictures WHERE id=${id}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {
@@ -64,7 +64,7 @@ class Pictures {
     async findOneAndUpdate(userId, id, data) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `UPDATE pictures SET ? WHERE id = ${SqlString.escape(id)}`;
+                const sql = `UPDATE pictures SET ? WHERE id = ${id}`;
                 const [result, filed] = await connection.promise().query(sql, data);
                 resolve(result)
             } catch (err) {
@@ -76,9 +76,7 @@ class Pictures {
     async findOneAndRemove(userId, id) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const sql = `DELETE FROM pictures 
-                    WHERE id = ${SqlString.escape(id)}
-                    AND user_id=${SqlString.escape(userId)}`;
+                const sql = `DELETE FROM pictures WHERE id = ${id} AND user_id=${SqlString.escape(userId)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {

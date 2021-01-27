@@ -87,6 +87,36 @@ async function getLastMessages(req, res) {
     }
 }
 
+
+//get the last messages
+async function accountStats(req, res) {
+    let body = req.query;
+
+    try {
+        if (req.status === 0 || req.status === -1) {
+            res
+                .status(200)
+                .send({ status: req.status, message: "token is invalid or expired" });
+        } else {
+            let data;
+            data = await model.accountStats(
+                    req.id
+                );
+            res.status(200).json({
+                status: 1,
+                data: data[0],
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).end({
+            msg: `Error in getLastMessages`,
+            status: 0,
+        });
+    }
+}
+
+
 //create ONe message
 async function createOne(req, res) {
     console.log("create one pictures");
@@ -103,6 +133,29 @@ async function createOne(req, res) {
             res.status(201).send({
                 status: 1,
                 msg: "create Done!!",
+                id: result,
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).end({
+            status: -2,
+            msg: `Error in createOne`,
+        });
+    }
+}
+
+//create ONe message
+async function markMessageSeen(req, res) {
+    try {
+        if (req.status === 0 || req.status === -1)
+            res
+            .status(200)
+            .send({ status: req.status, message: "token is invalid or expired" });
+        else {
+            let result = await model.markSeen(req.params.id);
+            res.status(201).send({
+                status: 1,
                 id: result,
             });
         }
@@ -174,4 +227,6 @@ module.exports = {
     createOne: createOne,
     getChatLastUpdate: getChatLastUpdate,
     createNewChat: createNewChat,
+    accountStats: accountStats,
+    markMessageSeen: markMessageSeen
 };

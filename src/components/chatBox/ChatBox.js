@@ -53,16 +53,13 @@ const ChatBox = (props) => {
 
   const getMessages = async () => {
     console.log("getMessages ");
-    //setLoading(true);
     const result = await getData(
       `api/chat/${chat_id}`,
       { ...params, startIndex: params.startIndex + params.length },
       false
     );
-    console.log("the chatbox result is", result.data.data);
     setParams({ ...params, startIndex: params.startIndex + params.length });
     if (result.data.data.length === 0) setLoadMore(false);
-    //setLoading(false);
     setMessages([...result.data.data, ...messages]);
   };
 
@@ -97,7 +94,6 @@ const ChatBox = (props) => {
         },
         false
       );
-      console.log("the last message is ", lastMsg);
       setMessages((messages) => [...messages, lastMsg.data.data[0]]);
     });
 
@@ -118,10 +114,18 @@ const ChatBox = (props) => {
         date: date,
       });
       console.log(putMessage);
-      console.log("emit ");
       socket.emit("sendMessage", {
         room: chat_id,
         msgId: putMessage.data.id,
+      });
+      const result = await postData(`api/notifications`, {
+        notifiedId: props.matchedUser.id,
+        type: "message",
+      });
+      socket.emit("newNotification", {
+        userId: id,
+        notifiedUser: props.matchedUser.id,
+        notifyId: result.data.id,
       });
       setMessages((messages) => [
         ...messages,
