@@ -100,9 +100,9 @@ class Chat {
 
     async accountStats(userId) {
         const sql = `SELECT (SELECT count(*) from messages,chat where messages.chat_id = chat.chat_id and (chat.user_id =  ${SqlString.escape(userId)} or chat.receiver_id =  ${SqlString.escape(userId)}) and messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id) and sender_id != ${SqlString.escape(userId)} and seen = 0) as messages,
-        (SELECT count(*) from matches WHERE user_id = ${SqlString.escape(userId)} or matched_user = ${SqlString.escape(userId)}) as matches,
-        (SELECT count(*) from likes WHERE user_id = ${SqlString.escape(userId)} or liked_user = ${SqlString.escape(userId)}) as likes,
-        (Select count(*) from views WHERE user_id = ${SqlString.escape(userId)} OR viewed_user = ${SqlString.escape(userId)} ) as views`;
+        (SELECT count(*) from matches WHERE matched_user = ${SqlString.escape(userId)}) as matches,
+        (SELECT count(*) from likes WHERE  liked_user = ${SqlString.escape(userId)}) as likes,
+        (Select count(*) from views WHERE viewed_user = ${SqlString.escape(userId)} ) as views`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }

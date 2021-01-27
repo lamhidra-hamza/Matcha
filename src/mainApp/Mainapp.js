@@ -5,7 +5,7 @@ import MobileSection from "../components/mobileSection/MobileSection";
 import DesktopSection from "../components/desktopSection/DesktopSection";
 import axios from "axios";
 import { Spin, message, notification } from "antd";
-import { logOut, getCoords, getData, putData } from "../tools/globalFunctions";
+import { logOut, getCoords, getData, putData, notifyMe } from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
 import { io } from "socket.io-client";
 
@@ -74,6 +74,7 @@ export default function Mainapp({ width }) {
             console.log("Prev ==== ", Notification);
             return [...Notification, notify];
           });
+          notifyMe(message);
         }
       }
     });
