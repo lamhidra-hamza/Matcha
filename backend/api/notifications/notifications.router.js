@@ -7,11 +7,11 @@ const verify = require("../../utils/auth");
 router.use(verify);
 router.route('/')
     .get(getMany)
-    .post(createOne)
+    .post(createOne) //
 
 router.route('/:id')
-    .get(getOne)
-    .put(updateOne)
+    .get(getOne) //
+    .put(updateOne) //
     .delete(removeOne)
 
 module.exports = router;

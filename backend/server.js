@@ -23,7 +23,6 @@ app.use("/api/likes", require("./api/likes/likes.router"));
 app.use("/api/pictures", require("./api/pictures/pictures.router"));
 app.use("/api/chat", require("./api/chat/chat.router"));
 app.use("/api/location", require("./api/location/location.router"));
-app.use("/api/messages", require("./api/messages/messages.router"));
 app.use("/api/matches", require("./api/matches/matches.router"));
 app.use(
     "/api/notifications",
