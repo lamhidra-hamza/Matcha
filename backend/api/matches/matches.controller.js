@@ -1,110 +1,55 @@
 const model = require("./matches.model");
+const { HTTP400Error, HttpStatusCode } = require("../../utils/errorHandler");
 
-const getMany = async(req, res) => {
-    const filters = req.query;
+const getMany = async(req, res, next) => {
     try {
-        const data = await model.findall(req.id, filters);
-        console.log("id==", req.id, "data==", data);
-        res.status(200).json({
-            data: data,
-        });
+        const filters = req.query;
+        if (filters && !isNaN(filters.numberOfItem) && !isNaN(filters.page)) {
+            const data = await model.findall(req.id, filters);
+            res.status(HttpStatusCode.OK).json({
+                data: data,
+            });
+        } else
+            throw new HTTP400Error('Invalid req query params');
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error UserID = ${req.user.id} Does not exists`,
-        });
+        next(err);
     }
 };
 
-const getOne = async(req, res) => {
+const getAllInfo = async(req, res, next) => {
     try {
-        console.log("id getOne === ", req.id)
-        const data = await model.findOne(req.id, req.params.id);
-        if (!data) {
-            res.status(400).end();
-        }
-        res.status(200).json({
-            user: data[0]
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in getOne`,
-        });
-    }
-};
-
-const getAllInfo = async(req, res) => {
-    try {
-        console.log("id getOne === ", req.id)
         const data = await model.findAllInfo(req.params.id, req.headers['id']);
-        if (!data) {
-            return res.status(400).end();
-        }
-        res.status(200).json({
+        if (!data)
+            throw new HTTP400Error('Bad request')
+        res.status(HttpStatusCode.OK).json({
             user: data
         });
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in getOne`,
-        });
+        next(err);
     }
 };
 
-const createOne = async(req, res) => {
-    console.log("create one pictures");
+const createOne = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
-            await model.create(req.id, req.body);
-            res.status(201).send({
-                msg: "create Done!!",
-            });
+            if (req.body && req.body.matched_user) {
+                await model.create(req.id, req.body);
+                res.status(HttpStatusCode.Ok).send({
+                    msg: "create Done!!",
+                });
+            } else
+                throw new HTTP400Error('invalid params');
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in createOne`,
-        });
-    }
-};
-
-const updateOne = async(req, res) => {
-    try {
-        await model.findOneAndUpdate(req.id, req.id, req.body);
-        res.status(201).send({
-            msg: "Update Done!!",
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in updateOne`,
-        });
-    }
-};
-
-const removeOne = async(req, res) => {
-    try {
-        await model.findOneAndRemove(req.id, req.params.id);
-        res.status(201).send({
-            msg: "Remove Done!!",
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in removeOne`,
-        });
+        next(err);
     }
 };
 
 
 module.exports = {
-    removeOne: removeOne,
-    updateOne: updateOne,
     getMany: getMany,
-    getOne: getOne,
     createOne: createOne,
     getAllInfo: getAllInfo
 };

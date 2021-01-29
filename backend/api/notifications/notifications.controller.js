@@ -1,80 +1,69 @@
 const model = require("./notifications.model");
+const { HTTP404Error, HTTP400Error, HttpStatusCode } = require("../../utils/errorHandler");
 
-const getMany = async(req, res) => {
-    const filters = req.query;
+const getMany = async(req, res, next) => {
     try {
-        const data = await model.findall(req.id, filters);
-        console.log("id==", req.id, "data==", data);
-        res.status(200).json({
+        const data = await model.findall(req.id);
+        res.status(HttpStatusCode.OK).json({
             data: data,
         });
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error UserID = ${req.user.id} Does not exists`,
-        });
+        next(err);
     }
 };
 
-const getOne = async(req, res) => {
+const getOne = async(req, res, next) => {
     try {
-        console.log("id getOne === ", req.id)
         const data = await model.findOne(req.id, req.params.id);
-        if (!data) {
-            res.status(400).end();
-        }
-        res.status(200).json({
+        if (!data.length)
+            throw new HTTP404Error('user not fount');
+        res.status(HttpStatusCode.OK).json({
             data: data[0]
         });
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in getOne`,
-        });
+        next(err);
     }
 };
 
-const createOne = async(req, res) => {
+const createOne = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(200).send({ status: req.status, message: "token is invalid or expired" });
+            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
-            let result = await model.create(req.id, req.body);
-            res.status(201).send(result);
+            const body = req.body;
+            if (body && body.notifiedId && body.type) {
+                let result = await model.create(req.id, body);
+                res.status(HttpStatusCode.OK).send(result);
+            } else
+                throw new HTTP400Error('invalid req params');
         }
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in createOne`,
-        });
+        next(err);
     }
 };
 
-const updateOne = async(req, res) => {
+const updateOne = async(req, res, next) => {
     try {
-        await model.findOneAndUpdate(req.id, req.params.id, req.body);
-        res.status(201).send({
-            msg: "Update Done!!",
-        });
+        if (req.body && req.body.readed) {
+            await model.findOneAndUpdate(req.id, req.params.id, req.body);
+            res.status(HttpStatusCode.OK).send({
+                msg: "Update Done!!",
+            });
+        } else
+            throw new HTTP400Error('invalid req params');
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in updateOne`,
-        });
+        next(err);
     }
 };
 
-const removeOne = async(req, res) => {
+const removeOne = async(req, res, next) => {
     try {
         await model.findOneAndRemove(req.id, req.params.id);
-        res.status(201).send({
+        res.status(HttpStatusCode.OK).send({
             msg: "Remove Done!!",
         });
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in removeOne`,
-        });
+        next(err);
     }
 };
 

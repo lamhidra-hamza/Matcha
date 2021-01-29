@@ -27,7 +27,9 @@ class Pictures {
     async findall(userId) {
         return await new Promise(async(resolve, reject) => {
             try {
-                const [result, fields] = await connection.promise().query(`SELECT * FROM pictures where user_id =${SqlString.escape(userId)}`);
+                const [result, fields] = await connection
+                    .promise()
+                    .query(`SELECT * FROM pictures where user_id =${SqlString.escape(userId)}`);
                 resolve(result)
             } catch (err) {
                 reject(new HTTP500Error('internal Error db'));

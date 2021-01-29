@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 const e = require("express");
 const SqlString = require('sqlstring');
 
-const { HTTP400Error, HTTP404Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
+const { HTTP400Error, HTTP404Error, HTTP403Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
 
 let transporter = nodemailer.createTransport({
     service: "Gmail",

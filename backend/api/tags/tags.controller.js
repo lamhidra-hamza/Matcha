@@ -1,5 +1,5 @@
 const model = require('./tags.model');
-const { HTTP400Error, HTTP404Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
+const { HTTP400Error, HttpStatusCode } = require("../../utils/errorHandler");
 
 
 const getAll = async(req, res, next) => {
