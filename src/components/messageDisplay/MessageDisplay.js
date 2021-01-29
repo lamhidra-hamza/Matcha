@@ -83,10 +83,10 @@ const MessageDisplay = (props) => {
   return (
     <div id="scrollingDiv" className="MessageContainer">
       <InfiniteScroll
-        dataLength={messages.length}
+        dataLength={messages.length + 1}
         next={getMessages}
         hasMore={loadMore}
-        inverse={true}
+        inverse={false}
         loader={
           <div className="Scrollloading">
             <Spin />
@@ -95,7 +95,6 @@ const MessageDisplay = (props) => {
         scrollableTarget="scrollingDiv"
         endMessage={
           <p className="endMessage">
-            <b>Yay! You have seen it all</b>
           </p>
         }
       >

@@ -6,6 +6,21 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    .tabs {
+        height: 90% !important;
+        overflow-y: scroll;
+
+    }
+    .infinite-scroll-component__outerdiv{
+        height: 90% !important;
+        overflow-y: scroll;
+
+    }
+    .infinite-scroll-component{
+        height: 90% !important;
+        overflow-y: scroll;
+
+    }
 }
 
 .main {

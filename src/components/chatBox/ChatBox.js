@@ -1,12 +1,7 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-} from "react";
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import { Avatar, Input, Button, Spin } from "antd";
-import { LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined } from "@ant-design/icons";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
@@ -28,7 +23,9 @@ var socket = io("http://localhost:8000", {
 const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
 
-  const { user } = useContext(UserContext);
+  const { user, accountStats, setAccountStats } = useContext(UserContext);
+  
+
   const [params, setParams] = useState({
     startIndex: 0,
     length: 30,
@@ -79,7 +76,11 @@ const ChatBox = (props) => {
         alert(error);
       }
     });
+    setAccountStats({...accountStats, messages : accountStats.messages.filter(value => {
+      return value.chat_id != chat_id
+    })});
     setLoading(false);
+
   }, [room]);
 
   useEffect(async () => {
@@ -154,8 +155,8 @@ const ChatBox = (props) => {
   };
 
   const handleClickBack = () => {
-	  history.goBack()
-  }
+    history.goBack();
+  };
 
   if (loading)
     return (
@@ -166,20 +167,27 @@ const ChatBox = (props) => {
       </div>
     );
   return (
-    <div className={props && props.mobile ? "mobileChatBox":  "chatBox"}>
+    <div className={props && props.mobile ? "mobileChatBox" : "chatBox"}>
       <div className="chatBoxHeader">
         <div className="avatar">
-			{props && props.mobile &&
-				<div onClick={handleClickBack}>
-					<LeftOutlined style={{fontSize: '25px', color: "#3ca4ff"}} />
-				</div>}
-			<div>
-          <Avatar
-            size={50}
-            src={`${SER.PicPath}/${props.matchedUser.picture_1}`} />
-			</div>
+          {props && props.mobile && (
+            <div onClick={handleClickBack}>
+              <LeftOutlined style={{ fontSize: "25px", color: "#3ca4ff" }} />
+            </div>
+          )}
+          <div>
+            <Avatar
+              size={50}
+              src={`${SER.PicPath}/${props.matchedUser.picture_1}`}
+            />
+          </div>
         </div>
-        <div className="matchDate">You matched with {props.matchedUser.firstName.charAt(0).toUpperCase() + props.matchedUser.firstName.slice(1)} on {props.matchedUser.date.split('T')[0]}</div>
+        <div className="matchDate">
+          You matched with{" "}
+          {props.matchedUser.firstName.charAt(0).toUpperCase() +
+            props.matchedUser.firstName.slice(1)}{" "}
+          on {props.matchedUser.date.split("T")[0]}
+        </div>
       </div>
       <div className="chatBoxbody">
         <InfinteScrollReverse
@@ -192,7 +200,12 @@ const ChatBox = (props) => {
             if (element.sender_id === id)
               return (
                 <>
-                  {<MessageSent message={element} key={element.id}></MessageSent>}
+                  {
+                    <MessageSent
+                      message={element}
+                      key={element.id}
+                    ></MessageSent>
+                  }
                   <div ref={lastMessage ? setRef : null} key={index}></div>
                 </>
               );
@@ -215,17 +228,11 @@ const ChatBox = (props) => {
           placeholder="Type a message"
           value={message}
           onChange={handleMessageChange}
-		  className="chatInput"
-		  onPressEnter={sendMessage}
+          className="chatInput"
+          onPressEnter={sendMessage}
         />
         <div className="chatButton">
-          <Button
-            shape="round"
-            className={"sentBtn"}
-			onClick={sendMessage}
-			// onKeyPress={handleKeyDown}
-            // onKeyDown={handleKeyDown}
-          >
+          <Button shape="round" className={"sentBtn"} onClick={sendMessage}>
             Send
           </Button>
         </div>

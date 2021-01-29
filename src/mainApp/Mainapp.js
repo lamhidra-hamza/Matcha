@@ -18,7 +18,6 @@ var socket = io("http://localhost:8000", {
 
 export default function Mainapp({ width }) {
   const id = localStorage.getItem("userId");
-  const userInput = "Hi, <img src='' onerror='alert(0)' />";
   const [user, setUser] = useState({});
   const [userImages, setUserImages] = useState(null);
   const [userLocation, setUserLocation] = useState({
@@ -29,7 +28,7 @@ export default function Mainapp({ width }) {
   });
 
   const [accountStats, setAccountStats] = useState({
-    messages: 0,
+    messages: [],
     matches: 0,
     likes: 0,
     views: 0,

@@ -57,7 +57,7 @@ class Chat {
                     and  messages.id IN (SELECT MAX(id) FROM messages GROUP by chat_id)
                 GROUP BY chat.chat_id, chat.user_id,
                     chat.receiver_id, messages.date,
-                    messages.content, messages.seen
+                    messages.content, messages.seen ORDER BY chat.date DESC
                 LIMIT ${body.startIndex},${body.length}`
             );
         return result;
@@ -72,8 +72,9 @@ class Chat {
     }
 
     //find the last messages in this conversation
-    async findLast(chat_id, index, length) {
+    async findLast(chat_id, userId, index, length) {
         const sql = `SELECT * FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} ORDER BY date DESC LIMIT ${index}, ${length}`;
+        await connection.promise().query(`UPDATE messages set seen = 1 where id in (SELECT max(id) FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} and sender_id != ${SqlString.escape(userId)})`);
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
@@ -99,11 +100,16 @@ class Chat {
     }
 
     async accountStats(userId) {
-        const sql = `SELECT (SELECT count(*) from messages,chat where messages.chat_id = chat.chat_id and (chat.user_id =  ${SqlString.escape(userId)} or chat.receiver_id =  ${SqlString.escape(userId)}) and messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id) and sender_id != ${SqlString.escape(userId)} and seen = 0) as messages,
-        (SELECT count(*) from matches WHERE matched_user = ${SqlString.escape(userId)}) as matches,
+        const sqlChatId = `SELECT messages.chat_id from messages,chat where messages.chat_id = chat.chat_id and (chat.user_id =  ${SqlString.escape(userId)} or chat.receiver_id =  ${SqlString.escape(userId)}) and messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id) and sender_id != ${SqlString.escape(userId)} and seen = 0`;
+        const [chatIds, filedId] = await connection.promise().query(sqlChatId);
+        console.log("the chatId are", chatIds);
+        const sql = `SELECT (SELECT count(*) from matches WHERE matched_user = ${SqlString.escape(userId)}) as matches,
         (SELECT count(*) from likes WHERE  liked_user = ${SqlString.escape(userId)}) as likes,
         (Select count(*) from views WHERE viewed_user = ${SqlString.escape(userId)} ) as views`;
+        console.log("the sql of accountStats are", sql);
         const [result, filed] = await connection.promise().query(sql);
+        result[0].messages = chatIds;
+        console.log("the result are", result);
         return result;
     }
 

@@ -42,7 +42,7 @@ export default function Maintab() {
                     <MatcheDisplay mobile={false}/>
                 </TabPane>
                 <TabPane style={{ height: '100vh', width: '400px'}}  tab={
-                 <span onClick={() => handelTabClick("", "2", "4")}>Messagees <Badge count={accountStats.messages} /></span>} key="2">
+                 <span onClick={() => handelTabClick("", "2", "4")}>Messagees <Badge count={accountStats.messages.length} /></span>} key="2">
                     <MessageDisplay mobile={false}/>
                 </TabPane>
             </Tabs>

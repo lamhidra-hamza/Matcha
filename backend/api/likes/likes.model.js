@@ -20,7 +20,7 @@ class Likes {
     }
 
     async findOne(userId, id) {
-        const sql = `SELECT * FROM likes WHERE user_id='${SqlString.escape(id)}' AND liked_user=${SqlString.escape(userId)}`;
+        const sql = `SELECT * FROM likes WHERE user_id='${id}' AND liked_user=${SqlString.escape(userId)}`;
         const [result, filed] = await connection.promise().query(sql);
         return result;
     }
