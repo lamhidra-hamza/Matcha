@@ -13,7 +13,6 @@ const MessageItem = (props) => {
 
   const handelClick = async () => {
     props.seen(props.message.chat_id);
-    console.log("the message id is", props.message);
     if (props.message.seen == 0 && props.message.sender_id != id)
       await postData(`api/chat/markseen/${props.message.messageId}`, {});
     history.push({
@@ -32,7 +31,6 @@ const MessageItem = (props) => {
   return (
     <div onClick={handelClick}>
       <div className="MessageItem">
-        {console.log("the seen for this message is ", props.message.seen, "and the sender user is ", props.message.sender_id)}
         <div className="avatarMessage">
           <Badge count = {(props.message.seen == 0 && props.message.sender_id != id) ? 1: ""} style={{ margin: "1.5px 17px"}}>
             <div className="MessageItemAvatar">
@@ -45,7 +43,7 @@ const MessageItem = (props) => {
           </Badge>
           <div className="MessageItemMessage">
             <div className="userName">{props.message.username}</div>
-            <div className="msgSnippets">{props.message.content}</div>
+            <div className="msgSnippets">{props.message.content.substring(0, 30)}</div>
           </div>
         </div>
         <div className="msgItemSelected"></div>

@@ -23,8 +23,7 @@ var socket = io("http://localhost:8000", {
 const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
 
-  const { user, accountStats, setAccountStats } = useContext(UserContext);
-  
+  const { user, accountStats, setAccountStats} = useContext(UserContext);
 
   const [params, setParams] = useState({
     startIndex: 0,
@@ -36,7 +35,6 @@ const ChatBox = (props) => {
     if (node) {
       node.scrollIntoView({ smooth: true });
     }
-    console.log("scroll now");
   }, []);
 
   const [message, setMessage] = useState("");
@@ -49,7 +47,6 @@ const ChatBox = (props) => {
   const history = useHistory();
 
   const getMessages = async () => {
-    console.log("getMessages ");
     const result = await getData(
       `api/chat/${chat_id}`,
       { ...params, startIndex: params.startIndex + params.length },
@@ -69,18 +66,17 @@ const ChatBox = (props) => {
       },
       false
     );
-
     setMessages(messagesResult.data.data);
     socket.emit("join", { userId: id, room: chat_id }, (error) => {
       if (error) {
         alert(error);
       }
     });
-    setAccountStats({...accountStats, messages : accountStats.messages.filter(value => {
-      return value.chat_id != chat_id
-    })});
+    let newMessagesStats = accountStats.messages.filter((value) => {return value.chat_id != chat_id});
+    setAccountStats({
+      ...accountStats,
+      messages: newMessagesStats});
     setLoading(false);
-
   }, [room]);
 
   useEffect(async () => {
@@ -97,16 +93,13 @@ const ChatBox = (props) => {
       );
       setMessages((messages) => [...messages, lastMsg.data.data[0]]);
     });
-
     setLoading(false);
-
     return () => {
       source.cancel();
     };
   }, []);
 
   const sendMessage = async (event) => {
-    console.log(messages);
     event.preventDefault();
     let date = new Date().toISOString().slice(0, 19).replace("T", " ");
     if (message) {
@@ -114,7 +107,6 @@ const ChatBox = (props) => {
         content: message,
         date: date,
       });
-      console.log(putMessage);
       socket.emit("sendMessage", {
         room: chat_id,
         msgId: putMessage.data.id,
@@ -140,6 +132,7 @@ const ChatBox = (props) => {
         },
       ]);
       setMessage("");
+      setAccountStats({...accountStats, newMessage: true});
     }
   };
 
@@ -148,7 +141,6 @@ const ChatBox = (props) => {
   };
 
   const handleKeyDown = (event) => {
-    console.log("key down and the key is ", event.key);
     if (event.key === "Enter") {
       sendMessage();
     }

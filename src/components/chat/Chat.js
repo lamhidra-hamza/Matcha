@@ -22,6 +22,7 @@ function Chat(props) {
       {},
       false
     );
+    console.log("the matched user is ", matchedUserResult.data.user);
     setMatchedUser(matchedUserResult.data.user);
     setLoading(false);
   }, [chat_id]);

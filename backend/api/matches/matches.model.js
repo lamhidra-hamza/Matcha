@@ -45,6 +45,7 @@ class Matches {
                                 users.job,
                                 users.biography,
                                 users.bornDate,
+                                users.id,
                                 pictures.picture_1,
                                 pictures.picture_2,
                                 pictures.picture_3,
