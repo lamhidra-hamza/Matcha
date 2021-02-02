@@ -70,7 +70,6 @@ export default function MatcheDisplay(props) {
 					scrollableTarget="scrollingDiv"
 					endMessage={
 						<p className="endMessage">
-						<b>Yay! You have seen it all</b>
 						</p>
 					}>
 					{Matches.map((item) => {

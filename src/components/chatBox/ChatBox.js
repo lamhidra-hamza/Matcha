@@ -12,6 +12,8 @@ import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
 import InfinteScrollReverse from "react-infinite-scroll-reverse";
 import { SER } from "../../conf/config";
+import UnMatchPopup from "../unmatchpopup/unmatchpopup";
+
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -229,6 +231,7 @@ const ChatBox = (props) => {
           </Button>
         </div>
       </div>
+      <UnMatchPopup unmatched_user = {props.matchedUser.id} />
     </div>
   );
 };

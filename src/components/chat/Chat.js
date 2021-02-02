@@ -38,7 +38,7 @@ function Chat(props) {
   return (
     <div className="rightSide">
       <ChatBox matchedUser={matchedUser} mobile = {props.mobile}/>
-      {props.width > 1300 && <UserInfo matchedUser={matchedUser} />}
+      {props.width > 300 && <UserInfo matchedUser={matchedUser} />}
     </div>
   );
 }

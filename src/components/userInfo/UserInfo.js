@@ -11,6 +11,7 @@ import { SER } from "../../conf/config";
 export default function UserInfo(props) {
   
   const [images, setImages] = useState([]);
+  const [showUnmatchModel, setShowUnmatchModel] = useState(false);
   
   useEffect(() => {
     console.log("useEffect for userInfo");
@@ -43,7 +44,6 @@ export default function UserInfo(props) {
           ))}
         </Carousel>
       </div>
-      {/* <Divider /> */}
       <div className="userNameInfo">
         <div className="userNameInfoName">
           {props.matchedUser.firstName.charAt(0).toUpperCase() +
