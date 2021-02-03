@@ -79,6 +79,10 @@ export default function Mainapp({ width }) {
             message = "Yow Congratulation you got New MATCHE !!";
           if (notify.type === "view")
             message = "Someone viewed your profile !!";
+          if (notify.type === "unmatch")
+            message = "someone unliked you !!";
+          if (notify.type === "block")
+            message = "someone blocked you !!";
           if (notify.type === "message") {
             message = "you got a new message !!";
             newMessageUpdateStats();

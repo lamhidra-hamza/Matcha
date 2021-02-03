@@ -59,8 +59,8 @@ const Infocard = (props) => {
 
 	}, [])
 
-	const handleBlockClick = () => {
-		postData(`api/block`, {blocked_user: id})
+	const handleBlockClick = async () => {
+		await postData(`api/block`, {blocked_user: id})
 		history.push({
 			pathname: '/app',
 			state: {
@@ -73,7 +73,7 @@ const Infocard = (props) => {
 	}
 
 	const handleLikeClick = async () => {
-		postData(`api/likes`, { liked_user: id });
+		await postData(`api/likes`, { liked_user: id });
 		const result = await postData(`api/notifications`, {
 			notifiedId: id,
             type: "like",

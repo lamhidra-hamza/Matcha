@@ -11,7 +11,6 @@ import { SER } from "../../conf/config";
 export default function UserInfo(props) {
   
   const [images, setImages] = useState([]);
-  const [showUnmatchModel, setShowUnmatchModel] = useState(false);
   
   useEffect(() => {
     console.log("useEffect for userInfo");
@@ -60,8 +59,8 @@ export default function UserInfo(props) {
       </div>
 
       <div className="userAction">
-        <div className="unmatch">UNMATCH</div>
-        <div className="block">BLOCK</div>
+        <div className="unmatch" onClick = {props.showUnmatch}>UNMATCH</div>
+        <div className="block" onClick = {props.showBlock}>BLOCK</div>
       </div>
     </div>
   );

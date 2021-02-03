@@ -231,7 +231,6 @@ const ChatBox = (props) => {
           </Button>
         </div>
       </div>
-      <UnMatchPopup unmatched_user = {props.matchedUser.id} />
     </div>
   );
 };

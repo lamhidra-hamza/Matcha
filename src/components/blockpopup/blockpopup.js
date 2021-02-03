@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import "./unmatchpopup.scss";
+import "./blockpopup.scss";
 import { Modal, Button, Result } from "antd";
 import { Typography } from "antd";
 import { Divider } from "antd";
@@ -8,33 +8,32 @@ import BtnNoBackgrndIcon from "../btnNoBackgrndIcon/BtnNoBackgrndIcon";
 import BtnApp from "../btnApp/BtnApp";
 import { postData, putData } from "../../tools/globalFunctions";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import { UserContext } from '../../contexts/UserContext';
-
+import { UserContext } from "../../contexts/UserContext";
 
 const { Title, Paragraph } = Typography;
 
-const UnMatchPopup = (props) => {
+const BlockPopUp = (props) => {
   let { state, pathname } = useLocation();
   const { socket } = useContext(UserContext);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
 
-
   const handleOk = async () => {
     const myId = localStorage.getItem("userId");
-    console.log("the unmatched user is ", props.unmatched_user);
-    //await putData(`api/matches`, { unmatched_user: props.unmatched_user });
-		const result = await postData(`api/notifications`, {
-			notifiedId: props.unmatched_user,
-            type: "unmatch",
-		})
-		socket.emit("newNotification", {
-			userId: myId,
-			notifiedUser: props.unmatched_user,
-			notifyId: result.data.id
-		});
-    props.showUnmatch();
+    console.log("the unmatched user is ", props.block_user);
+    //await putData(`api/matches`, { block_user: props.block_user });
+    //await postData(`api/block`, {blocked_user: id});
+    const result = await postData(`api/notifications`, {
+      notifiedId: props.block_user,
+      type: "block",
+    });
+    socket.emit("newNotification", {
+      userId: myId,
+      notifiedUser: props.block_user,
+      notifyId: result.data.id,
+    });
+    props.showBlock();
     setShowMsg(true);
   };
 
@@ -59,7 +58,7 @@ const UnMatchPopup = (props) => {
               key="submit"
               type="primary"
               loading={loading}
-              onClick = {handleMsgOk}
+              onClick={handleMsgOk}
               size="middle"
             >
               ok
@@ -67,9 +66,8 @@ const UnMatchPopup = (props) => {
           ]}
         >
           <Result
-                status="success"
-
-            title={`The user has been unliked successfuly \n You are no longer matched with this user`}
+            status="success"
+            title={`The user has been blocked successfuly \n he/she can iteracte with you`}
           />
         </Modal>
       </div>
@@ -77,12 +75,12 @@ const UnMatchPopup = (props) => {
   return (
     <div class="unmatchpopup">
       <Modal
-        title="Unmatch with user X"
+        title="Block user"
         visible={props.isVisible}
         onOk={handleOk}
-        onCancel={props.showUnmatch}
+        onCancel={props.showBlock}
         footer={[
-          <Button key="back" onClick={props.showUnmatch}>
+          <Button key="back" onClick={props.showBlock}>
             Return
           </Button>,
           <Button
@@ -91,12 +89,12 @@ const UnMatchPopup = (props) => {
             loading={loading}
             onClick={handleOk}
           >
-            Unmatch
+            block
           </Button>,
         ]}
       >
         <Paragraph>
-          When you unmatch a user, you can't text him. but you can like him any
+          When you block a user, you can't text him. but you can like him any
           time as long as he likes you back. are you sure?
         </Paragraph>
       </Modal>
@@ -104,4 +102,4 @@ const UnMatchPopup = (props) => {
   );
 };
 
-export default UnMatchPopup;
+export default BlockPopUp;

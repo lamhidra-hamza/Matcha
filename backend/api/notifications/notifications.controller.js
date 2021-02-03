@@ -31,6 +31,7 @@ const createOne = async(req, res, next) => {
             res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
         else {
             const body = req.body;
+            console.log("the notified Id is", body.notifiedId);
             if (!body)
                 console.log("the body is invalid");
             if (!body.notifiedId)
