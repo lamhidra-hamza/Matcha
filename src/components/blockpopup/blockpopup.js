@@ -22,7 +22,6 @@ const BlockPopUp = (props) => {
   const handleOk = async () => {
     const myId = localStorage.getItem("userId");
     console.log("the unmatched user is ", props.block_user);
-    //await putData(`api/matches`, { block_user: props.block_user });
     //await postData(`api/block`, {blocked_user: id});
     const result = await postData(`api/notifications`, {
       notifiedId: props.block_user,

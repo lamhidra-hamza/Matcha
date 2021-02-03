@@ -34,6 +34,11 @@ class Chat {
             date: null,
         };
         await connection.promise().query(SqlString.format('INSERT INTO chat SET ?', info));
+
+        await connection.promise().query(`
+        INSERT INTO chat (user_id, receiver_id, chat_id, date) SELECT ${SqlString.escape(userId)}, ${SqlString.escape(data.receiver_id)}, ${uuid.v4()}, null 
+WHERE (SELECT COUNT(*) FROM chat WHERE ((user_id=${SqlString.escape(userId)} AND receiver_id=${SqlString.escape(data.receiver_id)}) OR (receiver_id=${SqlString.escape(userId)} AND chat_id=${SqlString.escape(data.receiver_id)}))) = 0
+        `);
     }
 
     //find last conversations for the user
@@ -54,6 +59,15 @@ class Chat {
                 FROM chat,messages,users
                     where messages.chat_id = chat.chat_id 
                     and (chat.receiver_id = ${SqlString.escape(userId)} OR chat.user_id = ${SqlString.escape(userId)})
+                    and (
+                        ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)
+                        or 
+                        ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.receiver_id ) = 1)
+                        OR
+                        ((SELECT count(*) from matches where matches.matched_user = ${SqlString.escape(userId)} and matches.matched_user = chat.receiver_id ) = 1)
+                        OR
+                        ((SELECT count(*) from matches where matches.matched_user = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)
+                        )
                     and  messages.id IN (SELECT MAX(id) FROM messages GROUP by chat_id)
                 GROUP BY chat.chat_id, chat.user_id,
                     chat.receiver_id, messages.date,
