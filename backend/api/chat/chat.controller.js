@@ -100,8 +100,8 @@ async function accountStats(req, res) {
         } else {
             let data;
             data = await model.accountStats(
-                    req.id
-                );
+                req.id
+            );
             res.status(200).json({
                 status: 1,
                 data: data[0],
@@ -191,20 +191,6 @@ async function createNewChat(req, res) {
     }
 }
 
-async function updateOne(req, res) {
-    try {
-        await model.findOneAndUpdate(req.id, req.id, req.body);
-        res.status(201).send({
-            msg: "Update Done!!",
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in updateOne`,
-        });
-    }
-}
-
 async function removeOne(req, res) {
     try {
         await model.findOneAndRemove(req.id, req.params.id);
@@ -221,7 +207,6 @@ async function removeOne(req, res) {
 
 module.exports = {
     removeOne: removeOne,
-    updateOne: updateOne,
     getMany: getMany,
     getLastMessages: getLastMessages,
     createOne: createOne,
