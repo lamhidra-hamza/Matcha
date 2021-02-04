@@ -4,7 +4,9 @@ const { HTTP404Error, HTTP400Error, HttpStatusCode } = require("../../utils/erro
 const createOne = async(req, res, next) => {
     try {
         if (req.status === 0 || req.status === -1)
-            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
+            res
+            .status(HttpStatusCode.OK)
+            .send({ status: req.status, message: "token is invalid or expired" });
         else {
             if (!req.body || !req.body.liked_user)
                 throw new HTTP400Error('invalid id');

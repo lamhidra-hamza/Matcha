@@ -85,6 +85,7 @@ class Chat {
                             messages.content, messages.seen ORDER BY chat.date DESC
                         LIMIT ${body.startIndex},${body.length}`
                     );
+
                 resolve(result);
             } catch (err) {
                 reject(new HTTP500Error('internal Error DB'))
@@ -149,14 +150,11 @@ class Chat {
             try {
                 const sqlChatId = `SELECT messages.chat_id from messages,chat where messages.chat_id = chat.chat_id and (chat.user_id =  ${SqlString.escape(userId)} or chat.receiver_id =  ${SqlString.escape(userId)}) and messages.id in (SELECT MAX(id) FROM messages GROUP by chat_id) and sender_id != ${SqlString.escape(userId)} and seen = 0`;
                 const [chatIds, filedId] = await connection.promise().query(sqlChatId);
-                console.log("the chatId are", chatIds);
                 const sql = `SELECT (SELECT count(*) from matches WHERE matched_user = ${SqlString.escape(userId)}) as matches,
                 (SELECT count(*) from likes WHERE  liked_user = ${SqlString.escape(userId)}) as likes,
                 (Select count(*) from views WHERE viewed_user = ${SqlString.escape(userId)} ) as views`;
-                console.log("the sql of accountStats are", sql);
                 const [result, filed] = await connection.promise().query(sql);
                 result[0].messages = chatIds;
-                console.log("the result are", result);
                 resolve(result);
             } catch (err) {
                 reject(new HTTP500Error('internal Error DB'))
