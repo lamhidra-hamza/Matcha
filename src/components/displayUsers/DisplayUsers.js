@@ -132,7 +132,6 @@ const DisplayUsers = ({ user }) => {
 					scrollableTarget="scrollingDisplayUser"
 					endMessage={
 						<p className="endMessage">
-						<b>Yay! You have seen it all</b>
 						</p>
 					}>
 					{usersBrowsing.map((item) => {

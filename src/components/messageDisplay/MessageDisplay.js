@@ -6,7 +6,7 @@ import { getData } from "../../tools/globalFunctions";
 import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
-
+import InfiniteScrollReverse from "react-infinite-scroll-reverse/dist/InfiniteScrollReverse";
 
 const MessageDisplay = (props) => {
   //   let params = {
@@ -15,7 +15,7 @@ const MessageDisplay = (props) => {
   //     lastMessageDate: null,
   //   };
 
-  const { user } = useContext(UserContext);
+  const { user, accountStats, setAccountStats } = useContext(UserContext);
 
   const [params, setParams] = useState({
     // page: 0,
@@ -36,22 +36,21 @@ const MessageDisplay = (props) => {
       { ...params, startIndex: params.startIndex + params.length },
       false
     );
-    console.log("the messages result is", result.data.data);
     setParams({ ...params, startIndex: params.startIndex + params.length });
     if (result.data.data.length === 0) setLoadMore(false);
     setMessages([...messages, ...result.data.data]);
   };
 
   const messageSeen = (msgIndex) => {
-  
-    setMessages(messages.map((element) => {
-      if (element.chat_id == msgIndex)
-      {
-        return {...element, seen : 1};
-      }
-      return {...element};
-    }));
-  }
+    setMessages(
+      messages.map((element) => {
+        if (element.chat_id == msgIndex) {
+          return { ...element, seen: 1 };
+        }
+        return { ...element };
+      })
+    );
+  };
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -59,7 +58,6 @@ const MessageDisplay = (props) => {
     async function fetchUsers() {
       setLoading(true);
       const result = await getData(`api/chat/`, params, false);
-      console.log(result.data.data);
       setMessages(result.data.data);
       setLoading(false);
     }
@@ -72,6 +70,40 @@ const MessageDisplay = (props) => {
     };
   }, []);
 
+  useEffect(async () => {
+    const source = axios.CancelToken.source();
+    async function fetchUsers() {
+      const UnReadResult = await getData(`api/chat/count`, {}, false);
+      let unReadMessages = accountStats.messages.concat(
+        UnReadResult.data.data.messages
+      );
+      let unReadMessagesIds = unReadMessages.map((o) => o.chat_id);
+      unReadMessages = unReadMessages.filter(({ chat_id }, index) => {
+        return unReadMessagesIds.indexOf(chat_id) == index;
+      });
+      setAccountStats({
+        ...accountStats,
+        newMessage: false,
+        messages: unReadMessages,
+      });
+      const result = await getData(
+        `api/chat/`,
+        params,
+        false
+      );
+      let newMessageArray = [...result.data.data, ...messages];
+      let ids = newMessageArray.map((o) => o.chat_id);
+      newMessageArray = newMessageArray.filter(({ chat_id }, index) => {
+        return ids.indexOf(chat_id) == index;
+      });
+      setMessages(newMessageArray);
+    }
+    await fetchUsers();
+    return () => {
+      source.cancel();
+    };
+  }, [accountStats.newMessage]);
+
   if (loading)
     return (
       <div className="containerMainapp">
@@ -82,29 +114,30 @@ const MessageDisplay = (props) => {
     );
   return (
     <div id="scrollingDiv" className="MessageContainer">
-      <InfiniteScroll
-        dataLength={messages.length}
+      <InfiniteScrollReverse
+        dataLength={messages.length - 1}
         next={getMessages}
         hasMore={loadMore}
-        inverse={true}
+        inverse={false}
         loader={
           <div className="Scrollloading">
             <Spin />
           </div>
         }
         scrollableTarget="scrollingDiv"
-        endMessage={
-          <p className="endMessage">
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
+        endMessage={<p className="endMessage"></p>}
       >
         {messages.map((element, index) => {
           return (
-            <MessageItem mobile={props.mobile} key={index} message={element} seen = {messageSeen}/>
+            <MessageItem
+              mobile={props.mobile}
+              key={index}
+              message={element}
+              seen={messageSeen}
+            />
           );
         })}
-      </InfiniteScroll>
+      </InfiniteScrollReverse>
     </div>
   );
 };

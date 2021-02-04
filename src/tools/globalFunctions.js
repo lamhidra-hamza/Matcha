@@ -242,11 +242,12 @@ const getCoords = async (userLocation) => {
 };
 
 function calculate_age(bornDate) {
+  if (!bornDate)
+    return null;
   let date = bornDate.split("T")[0].split("-");
   let dob = new Date(date[0], date[1], date[2]);
   var diff_ms = Date.now() - dob.getTime();
   var age_dt = new Date(diff_ms);
-
   return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
 

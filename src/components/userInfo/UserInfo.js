@@ -43,7 +43,6 @@ export default function UserInfo(props) {
           ))}
         </Carousel>
       </div>
-      {/* <Divider /> */}
       <div className="userNameInfo">
         <div className="userNameInfoName">
           {props.matchedUser.firstName.charAt(0).toUpperCase() +
@@ -60,8 +59,8 @@ export default function UserInfo(props) {
       </div>
 
       <div className="userAction">
-        <div className="unmatch">UNMATCH</div>
-        <div className="block">BLOCK</div>
+        <div className="unmatch" onClick = {props.showUnmatch}>UNMATCH</div>
+        <div className="block" onClick = {props.showBlock}>BLOCK</div>
       </div>
     </div>
   );

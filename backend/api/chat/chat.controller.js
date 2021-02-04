@@ -64,6 +64,7 @@ async function getLastMessages(req, res) {
             if (body.msgId == -1)
                 data = await model.findLast(
                     req.params.id,
+                    req.id,
                     body.startIndex,
                     body.length
                 );

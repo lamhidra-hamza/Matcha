@@ -1,12 +1,7 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-} from "react";
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import { Avatar, Input, Button, Spin } from "antd";
-import { LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined } from "@ant-design/icons";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
@@ -17,6 +12,8 @@ import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
 import InfinteScrollReverse from "react-infinite-scroll-reverse";
 import { SER } from "../../conf/config";
+import UnMatchPopup from "../unmatchpopup/unmatchpopup";
+
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -28,7 +25,8 @@ var socket = io("http://localhost:8000", {
 const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
 
-  const { user } = useContext(UserContext);
+  const { user, accountStats, setAccountStats} = useContext(UserContext);
+
   const [params, setParams] = useState({
     startIndex: 0,
     length: 30,
@@ -39,7 +37,6 @@ const ChatBox = (props) => {
     if (node) {
       node.scrollIntoView({ smooth: true });
     }
-    console.log("scroll now");
   }, []);
 
   const [message, setMessage] = useState("");
@@ -52,7 +49,6 @@ const ChatBox = (props) => {
   const history = useHistory();
 
   const getMessages = async () => {
-    console.log("getMessages ");
     const result = await getData(
       `api/chat/${chat_id}`,
       { ...params, startIndex: params.startIndex + params.length },
@@ -72,13 +68,16 @@ const ChatBox = (props) => {
       },
       false
     );
-
     setMessages(messagesResult.data.data);
     socket.emit("join", { userId: id, room: chat_id }, (error) => {
       if (error) {
         alert(error);
       }
     });
+    let newMessagesStats = accountStats.messages.filter((value) => {return value.chat_id != chat_id});
+    setAccountStats({
+      ...accountStats,
+      messages: newMessagesStats});
     setLoading(false);
   }, [room]);
 
@@ -96,16 +95,13 @@ const ChatBox = (props) => {
       );
       setMessages((messages) => [...messages, lastMsg.data.data[0]]);
     });
-
     setLoading(false);
-
     return () => {
       source.cancel();
     };
   }, []);
 
   const sendMessage = async (event) => {
-    console.log(messages);
     event.preventDefault();
     let date = new Date().toISOString().slice(0, 19).replace("T", " ");
     if (message) {
@@ -113,7 +109,6 @@ const ChatBox = (props) => {
         content: message,
         date: date,
       });
-      console.log(putMessage);
       socket.emit("sendMessage", {
         room: chat_id,
         msgId: putMessage.data.id,
@@ -139,6 +134,7 @@ const ChatBox = (props) => {
         },
       ]);
       setMessage("");
+      setAccountStats({...accountStats, newMessage: true});
     }
   };
 
@@ -147,15 +143,14 @@ const ChatBox = (props) => {
   };
 
   const handleKeyDown = (event) => {
-    console.log("key down and the key is ", event.key);
     if (event.key === "Enter") {
       sendMessage();
     }
   };
 
   const handleClickBack = () => {
-	  history.goBack()
-  }
+    history.goBack();
+  };
 
   if (loading)
     return (
@@ -166,20 +161,27 @@ const ChatBox = (props) => {
       </div>
     );
   return (
-    <div className={props && props.mobile ? "mobileChatBox":  "chatBox"}>
+    <div className={props && props.mobile ? "mobileChatBox" : "chatBox"}>
       <div className="chatBoxHeader">
         <div className="avatar">
-			{props && props.mobile &&
-				<div onClick={handleClickBack}>
-					<LeftOutlined style={{fontSize: '25px', color: "#3ca4ff"}} />
-				</div>}
-			<div>
-          <Avatar
-            size={50}
-            src={`${SER.PicPath}/${props.matchedUser.picture_1}`} />
-			</div>
+          {props && props.mobile && (
+            <div onClick={handleClickBack}>
+              <LeftOutlined style={{ fontSize: "25px", color: "#3ca4ff" }} />
+            </div>
+          )}
+          <div>
+            <Avatar
+              size={50}
+              src={`${SER.PicPath}/${props.matchedUser.picture_1}`}
+            />
+          </div>
         </div>
-        <div className="matchDate">You matched with {props.matchedUser.firstName.charAt(0).toUpperCase() + props.matchedUser.firstName.slice(1)} on {props.matchedUser.date.split('T')[0]}</div>
+        <div className="matchDate">
+          You matched with{" "}
+          {props.matchedUser.firstName.charAt(0).toUpperCase() +
+            props.matchedUser.firstName.slice(1)}{" "}
+          on {props.matchedUser.date.split("T")[0]}
+        </div>
       </div>
       <div className="chatBoxbody">
         <InfinteScrollReverse
@@ -192,7 +194,12 @@ const ChatBox = (props) => {
             if (element.sender_id === id)
               return (
                 <>
-                  {<MessageSent message={element} key={element.id}></MessageSent>}
+                  {
+                    <MessageSent
+                      message={element}
+                      key={element.id}
+                    ></MessageSent>
+                  }
                   <div ref={lastMessage ? setRef : null} key={index}></div>
                 </>
               );
@@ -215,17 +222,11 @@ const ChatBox = (props) => {
           placeholder="Type a message"
           value={message}
           onChange={handleMessageChange}
-		  className="chatInput"
-		  onPressEnter={sendMessage}
+          className="chatInput"
+          onPressEnter={sendMessage}
         />
         <div className="chatButton">
-          <Button
-            shape="round"
-            className={"sentBtn"}
-			onClick={sendMessage}
-			// onKeyPress={handleKeyDown}
-            // onKeyDown={handleKeyDown}
-          >
+          <Button shape="round" className={"sentBtn"} onClick={sendMessage}>
             Send
           </Button>
         </div>

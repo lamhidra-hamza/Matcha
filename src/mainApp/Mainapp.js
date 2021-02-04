@@ -5,7 +5,13 @@ import MobileSection from "../components/mobileSection/MobileSection";
 import DesktopSection from "../components/desktopSection/DesktopSection";
 import axios from "axios";
 import { Spin, message, notification } from "antd";
-import { logOut, getCoords, getData, putData, notifyMe } from "../tools/globalFunctions";
+import {
+  logOut,
+  getCoords,
+  getData,
+  putData,
+  notifyMe,
+} from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
 import { io } from "socket.io-client";
 
@@ -18,7 +24,6 @@ var socket = io("http://localhost:8000", {
 
 export default function Mainapp({ width }) {
   const id = localStorage.getItem("userId");
-  const userInput = "Hi, <img src='' onerror='alert(0)' />";
   const [user, setUser] = useState({});
   const [userImages, setUserImages] = useState(null);
   const [userLocation, setUserLocation] = useState({
@@ -29,7 +34,8 @@ export default function Mainapp({ width }) {
   });
 
   const [accountStats, setAccountStats] = useState({
-    messages: 0,
+    messages: [],
+    newMessage: false,
     matches: 0,
     likes: 0,
     views: 0,
@@ -44,6 +50,10 @@ export default function Mainapp({ width }) {
   const [error, setError] = useState({});
   const history = useHistory();
   const [Notification, setNotification] = useState([]);
+
+  const newMessageUpdateStats = () => {
+        setAccountStats({ ...accountStats, newMessage: true});
+  }
 
   useEffect(async () => {
     socket.emit("joinNotification", {}, (error) => {
@@ -62,16 +72,23 @@ export default function Mainapp({ width }) {
         if (notify) {
           let message = "You have new notification !!";
           if (notify.type === "like")
+          {
             message = "Yow Someone Like You lets Go !!";
+          }
           if (notify.type === "matche")
             message = "Yow Congratulation you got New MATCHE !!";
           if (notify.type === "view")
             message = "Someone viewed your profile !!";
-          if (notify.type === "message") message = "you got a new message !!";
+          if (notify.type === "unmatch")
+            message = "someone unliked you !!";
+          if (notify.type === "block")
+            message = "someone blocked you !!";
+          if (notify.type === "message") {
+            message = "you got a new message !!";
+            newMessageUpdateStats();
+          }
           notification["info"]({ message: message });
-          console.log("Notify ====> ", notify);
           setNotification((Notification) => {
-            console.log("Prev ==== ", Notification);
             return [...Notification, notify];
           });
           notifyMe(message);
@@ -85,7 +102,6 @@ export default function Mainapp({ width }) {
   useEffect(() => {
     const source = axios.CancelToken.source();
     const postData = async () => {
-      console.log("update user informatin in the database");
       await putData(`api/users/${id}`, user);
     };
     if (update) postData();
@@ -96,10 +112,8 @@ export default function Mainapp({ width }) {
   }, [user]);
 
   useEffect(() => {
-    console.log("the location has been changed");
     const source = axios.CancelToken.source();
     const postData = async () => {
-      console.log("update user location in the database");
       let result = await putData(`api/location/${id}`, userLocation);
     };
     if (updateLocation) postData();
@@ -112,7 +126,6 @@ export default function Mainapp({ width }) {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token || !id || token === null || id === null) {
-      console.log("Redirect");
       logOut();
       history.push("/");
       localStorage.clear();
@@ -121,10 +134,10 @@ export default function Mainapp({ width }) {
     const source = axios.CancelToken.source();
 
     async function fetchData() {
-	  setLoading(true);
-	  
+      setLoading(true);
+
       const userStats = await getData(`api/chat/count`, {}, false);
-	  setAccountStats(userStats.data.data);
+      setAccountStats(userStats.data.data);
       const userResult = await getData(`api/users/${id}`, {}, false);
       const pictureResult = await getData(`api/pictures/${id}`, {}, false);
       const tags = await getData(`api/tags/`, {}, false);
@@ -181,9 +194,9 @@ export default function Mainapp({ width }) {
         setTags,
         socket,
         Notification,
-		setNotification,
-		accountStats,
-		setAccountStats
+        setNotification,
+        accountStats,
+        setAccountStats
       }}
     >
       <div className="containerMainapp">

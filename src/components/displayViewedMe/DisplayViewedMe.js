@@ -88,7 +88,6 @@ const DisplayLikedMe = ({ user }) => {
 					scrollableTarget="scrollingDiv"
 					endMessage={
 						<p className="endMessage">
-						<b>Yay! You have seen it all</b>
 						</p>
 					}>
 					{usersBrowsing.map((item) => {

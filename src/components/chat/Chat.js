@@ -9,9 +9,13 @@ import "./Chat.css";
 import { Spin } from "antd";
 import { getData } from "../../tools/globalFunctions.js";
 import { useParams } from "react-router-dom";
+import UnMatchPopup from "../unmatchpopup/unmatchpopup.js";
+import BlockPopUp from "../blockpopup/blockpopup.js";
 
 function Chat(props) {
   const [loading, setLoading] = useState(true);
+  const [showUnmatchModel, setShowUnmatchModel] = useState(false);
+  const [showBlockPopUp, setBlockPopUp] = useState(false);
   const [matchedUser, setMatchedUser] = useState({});
   const { chat_id } = useParams();
 
@@ -22,6 +26,7 @@ function Chat(props) {
       {},
       false
     );
+    console.log("the matched user is ", matchedUserResult.data.user);
     setMatchedUser(matchedUserResult.data.user);
     setLoading(false);
   }, [chat_id]);
@@ -37,7 +42,9 @@ function Chat(props) {
   return (
     <div className="rightSide">
       <ChatBox matchedUser={matchedUser} mobile = {props.mobile}/>
-      {props.width > 1300 && <UserInfo matchedUser={matchedUser} />}
+      {props.width > 300 && <UserInfo showBlock = {() => setBlockPopUp(!showBlockPopUp)} showUnmatch = {() => {setShowUnmatchModel(!showUnmatchModel)}} matchedUser={matchedUser} />}
+      <UnMatchPopup unmatched_user = {matchedUser.id} isVisible = {showUnmatchModel} showUnmatch = {() => {setShowUnmatchModel(!showUnmatchModel)}} />
+      <BlockPopUp block_user = {matchedUser.id} isVisible = {showBlockPopUp} showBlock = {() => setBlockPopUp(!showBlockPopUp)} />
     </div>
   );
 }
