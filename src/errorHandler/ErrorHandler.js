@@ -13,6 +13,7 @@ const ErrorHandler = ({ children }) => {
         const unlisten = history.listen(() => setHttpCodeStatus(undefined));
 
         return unlisten;
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const renderContent = () => {

@@ -11,10 +11,10 @@ export default function MatcheDisplay(props) {
     const [loadMore, setLoadMore] = useState(true);
     const [loading, setloading] = useState(true);
     const [page, setPage] = useState(1);
-    const [Params, setParams] = useState({
-		page : 0,
+	const Params = {
+		page: 0,
 		numberOfItem: 30
-	})
+	}
 
     const getUsers = async () => {
 		setPage(page + 1);
@@ -42,8 +42,8 @@ export default function MatcheDisplay(props) {
 		return () => {
 			source.cancel();
 		};
-
-    }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [])
 
     if (loading)
         return (

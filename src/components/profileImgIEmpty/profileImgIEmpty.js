@@ -4,7 +4,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./profileImgEmpty.scss";
 
 export default function ProfileImgEmpty(props) {
-  const [image, setImage] = useState({ preview: "", raw: "" });
+  const [image] = useState({ preview: "", raw: "" });
 
   const handleChange = (e) => {
     if (e.target.files.length) {

@@ -27,10 +27,6 @@ io.on("connect", (socket) => {
 
     socket.on("join", ({ userId, room }) => {
         socket.join(room);
-        //socket.emit('message', { user: 'admin', text: `${userId} has joined!` });
-        //socket.broadcast
-        // .to("room")
-        //.emit("message", { user: "admin", text: `${userId} has joined!` });
     });
 
     socket.on("newNotification", ({ userId, notifiedUser, notifyId }) => {

@@ -26,7 +26,7 @@ const tailFormItemLayout = {
 };
 
 const PasswordForgot = (props) => {
-  const [loading, setloading] = useState(false);
+  const [loading] = useState(false);
 
   const getStyle = () => {
     return {

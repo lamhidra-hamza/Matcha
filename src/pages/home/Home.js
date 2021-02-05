@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { useHistory, Redirect } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Content from "../../components/content/Content";
@@ -12,7 +11,6 @@ import LoginForm from "../../components/loginForm/LoginForm";
 import PasswordForgot from "../../components/passwordRecoverForm/PasswordForgot";
 import VerifyEmailMsg from "../../components/verifyEmailMsg/verifyEmailMsg";
 import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery";
-import axios from "axios";
 import { getData } from "../../tools/globalFunctions";
 
 export class Home extends Component {

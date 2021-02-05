@@ -19,7 +19,6 @@ import ProfileInfo from '../profileInfo/ProfileInfo'
 import InfocardUsers from '../InfoCardUsers/InfocardUsers'
 import DisplayLikedMe from '../displayLikedMe/DisplayLikedMe'
 import DisplayViewedMe from '../displayViewedMe/DisplayViewedMe'
-import ChatBox from '../chatBox/ChatBox';
 import { logOut, putData } from '../../tools/globalFunctions';
 import { getDayString } from '../../tools/dateFuncts';
 import { UserContext } from '../../contexts/UserContext';
@@ -61,7 +60,7 @@ function MobileSection() {
 	}
 
 	const handleNotificationBtnClick = async () => {
-        Notification.map((item) => {
+        Notification.forEach((item) => {
             putData(`api/notifications/${item.id}`, { readed: 1 })
         })
     }

@@ -1,4 +1,3 @@
-import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import "./MessageSent.scss";
 
@@ -21,12 +20,11 @@ const MessageSent = (props) => {
       "Nov",
       "Dec",
     ];
-   let minutes = '0' + messageTime.getMinutes();
-   minutes = minutes.substring(minutes.length - 2, minutes.length);
+    let minutes = "0" + messageTime.getMinutes();
+    minutes = minutes.substring(minutes.length - 2, minutes.length);
     const difference = new Date(dateNow - messageTime);
-   
-    if (difference.getDay() < 1)
-      return `${messageTime.getHours()}:${minutes}`;
+
+    if (difference.getDay() < 1) return `${messageTime.getHours()}:${minutes}`;
     if (difference.getDay() < 2)
       return `Yesterday ${messageTime.getHours()}:${minutes}`;
     if (difference.getDay() < 7)
@@ -45,9 +43,9 @@ const MessageSent = (props) => {
   useEffect(() => {
     const messageTime = new Date(Date.parse(props.message.date));
     const dateNow = new Date(Date.now());
-    const difference = new Date(dateNow - messageTime);
     setTime(getDayString(dateNow, messageTime));
-    
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -58,11 +56,11 @@ const MessageSent = (props) => {
         </div>
       </div>
       <div className="messageSentInfo">
-        <div className="messageSentTime" >
+        <div className="messageSentTime">
           <span>{time}</span>
         </div>
       </div>
-      </div>
+    </div>
   );
 };
 

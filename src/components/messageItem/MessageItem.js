@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Divider, Badge, message } from "antd";
+import React from "react";
+import { Divider, Badge} from "antd";
 import "./MessageItem.scss";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { SER } from "../../conf/config";
@@ -13,7 +13,7 @@ const MessageItem = (props) => {
 
   const handelClick = async () => {
     props.seen(props.message.chat_id);
-    if (props.message.seen == 0 && props.message.sender_id != id)
+    if (props.message.seen === 0 && props.message.sender_id !== id)
       await postData(`api/chat/markseen/${props.message.messageId}`, {});
     history.push({
       pathname:
@@ -32,7 +32,7 @@ const MessageItem = (props) => {
     <div onClick={handelClick}>
       <div className="MessageItem">
         <div className="avatarMessage">
-          <Badge count = {(props.message.seen == 0 && props.message.sender_id != id) ? 1: ""} style={{ margin: "1.5px 17px"}}>
+          <Badge count = {(props.message.seen === 0 && props.message.sender_id !== id) ? 1: ""} style={{ margin: "1.5px 17px"}}>
             <div className="MessageItemAvatar">
               <img
                 alt={props.message.username}

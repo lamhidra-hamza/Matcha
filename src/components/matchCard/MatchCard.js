@@ -7,7 +7,7 @@ export default function MatcheCard(props) {
     const { user } = props;
     let match = useRouteMatch();
     let history = useHistory();
-    const picPath = user.picture_1 ? `${SER.PicPath}/${user.picture_1}` : "";
+    //const picPath = user.picture_1 ? `${SER.PicPath}/${user.picture_1}` : "";
 
     const handelClick = () => {
         history.push({

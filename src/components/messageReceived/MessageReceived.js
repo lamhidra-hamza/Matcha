@@ -44,8 +44,9 @@ const MessageReceived = (props) => {
   useEffect(() => {
     const messageTime = new Date(Date.parse(props.message.date));
     const dateNow = new Date(Date.now());
-    const difference = new Date(dateNow - messageTime);
     setTime(getDayString(dateNow, messageTime));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
     return (

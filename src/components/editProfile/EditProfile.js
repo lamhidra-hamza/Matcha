@@ -2,9 +2,8 @@ import React, { useState, useContext } from "react";
 import "./EditProfile.scss";
 import ProfileImgItem from "../profileImgItem/profileImgItem";
 import ProfileImgEmpty from "../profileImgIEmpty/profileImgIEmpty";
-import { Slider, Input, Select, Button } from "antd";
+import { Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { uploadPictures } from "../../tools/globalFunctions";
 import { UserContext } from '../../contexts/UserContext';
 import { SER } from '../../conf/config';
@@ -118,8 +117,9 @@ export default function EditProfile(props) {
 				picture_5: imageLink[4]
 			});
 		const formData = new FormData();
-		images.map((image) => {
-		  if (image.file) formData.append("image", image.file);
+		images.forEach((image) => {
+		  if (image.file) 
+		  	formData.append("image", image.file);
 		});
 		const result = await uploadPictures(formData, userImages.id);
 		setUserImages({

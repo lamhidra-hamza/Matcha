@@ -105,6 +105,7 @@ const RegisterForm = (props) => {
                   message: "Please input your E-mail!",
                 },
                 {
+                  //eslint-disable-next-line
                   pattern: /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/,
                   max: 250,
                   message: "please enter a valid Email",
@@ -129,6 +130,7 @@ const RegisterForm = (props) => {
                   message: "Please input your Username!",
                 },
                 {
+                  //eslint-disable-next-line
                   pattern: /^[a-zA-Z0-9]+$/,
                   max: 100,
                   min: 3,
@@ -147,6 +149,7 @@ const RegisterForm = (props) => {
                   message: "Please input your First Name!",
                 },
                 {
+                  //eslint-disable-next-line
                   pattern: /^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i,
                   message: "please enter a valid Name",
                 },
@@ -163,6 +166,7 @@ const RegisterForm = (props) => {
                   message: "Please input your Last Name!",
                 },
                 {
+                  //eslint-disable-next-line
                   pattern: /^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i,
                   message: "please enter a valid Name",
                 },
@@ -202,8 +206,10 @@ const RegisterForm = (props) => {
                   message: "Please input your password!",
                 },
                 {
+                  //eslint-disable-next-line
                   pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                  message: "Minimum eight characters, at least one letter and one number",
+                  message:
+                    "Minimum eight characters, at least one letter and one number",
                 },
               ]}
               hasFeedback
@@ -250,7 +256,7 @@ const RegisterForm = (props) => {
               {...tailFormItemLayout}
             >
               <Checkbox>
-                I have read the <a href="#">agreement</a>
+                I have read the <a href="/">agreement</a>
               </Checkbox>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./ProfileInfo.scss";
 import LikeViewItems from "../likeAndView/LikeViewItems";
 import { Slider, Input, Select, Button, message, Switch } from "antd";
@@ -23,7 +23,7 @@ const ProfileInfo = (props) => {
   const [newUser, setNewUser] = useState({ ...user });
   const [coords, setCoords] = useState({
     ...userLocation,
-    real_location: userLocation.real_location == 1 ? true : false,
+    real_location: userLocation.real_location === 1 ? true : false,
   });
   const [cities, setCities] = useState([]);
   const [userCity, setUserCity] = useState("");
@@ -38,10 +38,14 @@ const ProfileInfo = (props) => {
   };
 
   const saveButtonClick = () => {
+    
     const emailRegex = new RegExp(
+      //eslint-disable-next-line
       /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/
     );
+    //eslint-disable-next-line
     const NameRegex = new RegExp(/^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i);
+    //eslint-disable-next-line
     const passRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
     console.log("the password is", newUser.password);
@@ -55,7 +59,7 @@ const ProfileInfo = (props) => {
       errorMessage.push("Minimum eight characters, at least one letter and one number");
     if ((newUser.password && newUser.password.length > 0) && newUser.password !== password)
       errorMessage.push("The two passwords that you entered do not match! ")
-    if (errorMessage.length == 0) {
+    if (errorMessage.length === 0) {
       history.goBack();
       update();
       setUser(newUser);
@@ -112,7 +116,7 @@ const ProfileInfo = (props) => {
   const handleSearch = (value) => {
     let res = [];
     setUserCity(value);
-    if (value.length == 0) {
+    if (value.length === 0) {
       setCities([]);
       return;
     }
@@ -124,7 +128,7 @@ const ProfileInfo = (props) => {
       };
       location.name = item.name;
       countriesData.forEach(function (country, index) {
-        if (country.code == item.country) {
+        if (country.code === item.country) {
           location.name += ", " + country.name;
         }
       });
@@ -141,7 +145,7 @@ const ProfileInfo = (props) => {
   };
 
   const handleSelect = (value) => {
-    const result = cities.filter((city) => city.name == value);
+    const result = cities.filter((city) => city.name === value);
     setUserCity(value);
     let newCoords = {
       longitude: parseFloat(result[0].longitude),

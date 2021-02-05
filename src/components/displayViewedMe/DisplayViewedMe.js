@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios'
 import './DisplayViewedMe.scss';
 import UserCard from '../userCard/UserCard.js';
@@ -37,6 +37,7 @@ const DisplayLikedMe = ({ user }) => {
 			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.liked_user)]);
 		if (state && state.blocked_user)
 			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.blocked_user)]);
+		    // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {

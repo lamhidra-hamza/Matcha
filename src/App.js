@@ -3,7 +3,6 @@ import Home from './pages/home/Home.js'
 import './App.less';
 import MainApp from './mainApp/Mainapp'
 import ErrorHandler from './errorHandler/ErrorHandler'
-import NotFound from './pages/error/NotFound';
 import {
   BrowserRouter as Router,
   Switch,

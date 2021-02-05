@@ -22,6 +22,8 @@ export default function UserInfo(props) {
     }
     console.log("the images array array", imageArray);
     setImages(imageArray);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const contentStyle = {
@@ -47,7 +49,7 @@ export default function UserInfo(props) {
         <div className="userNameInfoName">
           {props.matchedUser.firstName.charAt(0).toUpperCase() +
             props.matchedUser.firstName.slice(1)}
-          , {calculate_age(props.matchedUser.date)}
+          , {calculate_age(props.matchedUser.bornDate)}
         </div>
         <div className="userNameInfoJob">
           <FontAwesomeIcon icon={faBriefcase} /> {props.matchedUser.job}

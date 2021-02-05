@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import "./Mainapp.scss";
 import MobileSection from "../components/mobileSection/MobileSection";
@@ -47,7 +47,6 @@ export default function Mainapp({ width }) {
   const [realCoordinates, setRealCoordinates] = useState({ ...userLocation });
   const [tags, setTags] = useState([""]);
   const [warning, setWarning] = useState(true);
-  const [error, setError] = useState({});
   const history = useHistory();
   const [Notification, setNotification] = useState([]);
 
@@ -55,7 +54,7 @@ export default function Mainapp({ width }) {
         setAccountStats({ ...accountStats, newMessage: true});
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     socket.emit("joinNotification", {}, (error) => {
       if (error) {
         alert(error);
@@ -95,8 +94,8 @@ export default function Mainapp({ width }) {
         }
       }
     });
-
     return () => socket.disconnect();
+        //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -109,18 +108,19 @@ export default function Mainapp({ width }) {
     return () => {
       source.cancel();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
     const postData = async () => {
-      let result = await putData(`api/location/${id}`, userLocation);
+      await putData(`api/location/${id}`, userLocation);
     };
     if (updateLocation) postData();
-
     return () => {
       source.cancel();
     };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLocation]);
 
   useEffect(() => {
@@ -169,6 +169,7 @@ export default function Mainapp({ width }) {
     return () => {
       source.cancel();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading)

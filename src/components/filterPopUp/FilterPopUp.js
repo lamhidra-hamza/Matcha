@@ -1,9 +1,8 @@
-import React, { useState, useEffect, Children } from 'react'
-import { Modal, Button } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Modal } from 'antd'
 import { Select, Slider, Rate, Checkbox, Spin } from 'antd'
 import './FilterPopUp.scss'
 import { getData } from "../../tools/globalFunctions"
-import { faLandmark } from '@fortawesome/free-solid-svg-icons'
 
 export default function FilterPopUp(props) {
 	const { Option } = Select
@@ -55,7 +54,7 @@ export default function FilterPopUp(props) {
 
 	function handleTagsChange(value) {
 		let arr = [];
-		Object.keys(value).map(function(key, index) {
+		Object.keys(value).forEach(function(key, index) {
 			if (isNaN(value[key]))
 				arr.push(value[key])
 			else

@@ -1,22 +1,17 @@
 import React, { useState, useContext } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import "./blockpopup.scss";
 import { Modal, Button, Result } from "antd";
 import { Typography } from "antd";
-import { Divider } from "antd";
-import BtnNoBackgrndIcon from "../btnNoBackgrndIcon/BtnNoBackgrndIcon";
-import BtnApp from "../btnApp/BtnApp";
-import { postData, putData } from "../../tools/globalFunctions";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+
+import { postData } from "../../tools/globalFunctions";
 import { UserContext } from "../../contexts/UserContext";
 
-const { Title, Paragraph } = Typography;
+const {Paragraph } = Typography;
 
 const BlockPopUp = (props) => {
-  let { state, pathname } = useLocation();
   const { socket } = useContext(UserContext);
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
 
   const handleOk = async () => {
@@ -41,10 +36,6 @@ const BlockPopUp = (props) => {
     history.goBack();
   };
 
-  const handleCancel = () => {
-    props.show();
-  };
-
   if (showMsg)
     return (
       <div class="unmatchpopup">
@@ -56,7 +47,7 @@ const BlockPopUp = (props) => {
             <Button
               key="submit"
               type="primary"
-              loading={loading}
+              loading={false}
               onClick={handleMsgOk}
               size="middle"
             >
@@ -85,7 +76,7 @@ const BlockPopUp = (props) => {
           <Button
             key="submit"
             type="primary"
-            loading={loading}
+            loading={false}
             onClick={handleOk}
           >
             block

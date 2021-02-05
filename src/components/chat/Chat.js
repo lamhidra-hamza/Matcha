@@ -1,8 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import Maintab from "../mainTab/Maintab.js";
-import NavbarApp from "../navbarApp/NavbarApp";
-import ProfileInfo from "../profileInfo/ProfileInfo";
-import Infocard from "../infoCard/Infocard";
+import React, { useState, useEffect } from "react";
 import ChatBox from "../chatBox/ChatBox";
 import UserInfo from "../userInfo/UserInfo";
 import "./Chat.css";
@@ -19,16 +15,21 @@ function Chat(props) {
   const [matchedUser, setMatchedUser] = useState({});
   const { chat_id } = useParams();
 
-  useEffect(async () => {
+
+
+  useEffect(() => {
     setLoading(true);
-    const matchedUserResult = await getData(
-      `api/matches/chat/${chat_id}`,
-      {},
-      false
-    );
-    console.log("the matched user is ", matchedUserResult.data.user);
-    setMatchedUser(matchedUserResult.data.user);
-    setLoading(false);
+    async function fetchData(){
+      const matchedUserResult = await getData(
+        `api/matches/chat/${chat_id}`,
+        {},
+        false
+      );
+      console.log("the matched user info is\n\n\n", matchedUserResult.data);
+      setMatchedUser(matchedUserResult.data.user);
+      setLoading(false);
+    }
+    fetchData();
   }, [chat_id]);
 
   if (loading)

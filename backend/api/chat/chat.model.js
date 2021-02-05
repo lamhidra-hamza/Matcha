@@ -33,8 +33,6 @@ class Chat {
             chat_id: uuid.v4(),
             date: null,
         };
-        await connection.promise().query(SqlString.format('INSERT INTO chat SET ?', info));
-
         await connection.promise().query(`
         INSERT INTO chat (user_id, receiver_id, chat_id, date) SELECT ${SqlString.escape(userId)}, ${SqlString.escape(data.receiver_id)}, ${uuid.v4()}, null 
 WHERE (SELECT COUNT(*) FROM chat WHERE ((user_id=${SqlString.escape(userId)} AND receiver_id=${SqlString.escape(data.receiver_id)}) OR (receiver_id=${SqlString.escape(userId)} AND chat_id=${SqlString.escape(data.receiver_id)}))) = 0

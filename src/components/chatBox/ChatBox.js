@@ -10,10 +10,8 @@ import { io } from "socket.io-client";
 import { UserContext } from "../../contexts/UserContext";
 import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
-import InfinteScrollReverse from "react-infinite-scroll-reverse";
 import { SER } from "../../conf/config";
-import UnMatchPopup from "../unmatchpopup/unmatchpopup";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -25,7 +23,7 @@ var socket = io("http://localhost:8000", {
 const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
 
-  const { user, accountStats, setAccountStats} = useContext(UserContext);
+  const { accountStats, setAccountStats } = useContext(UserContext);
 
   const [params, setParams] = useState({
     startIndex: 0,
@@ -40,12 +38,11 @@ const ChatBox = (props) => {
   }, []);
 
   const [message, setMessage] = useState("");
-  const [receiver, setReceiver] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadMore, setLoadMore] = useState(true);
   const { chat_id } = useParams();
-  const [room, setRoom] = useState("");
+  const [room] = useState("");
   const history = useHistory();
 
   const getMessages = async () => {
@@ -59,31 +56,46 @@ const ChatBox = (props) => {
     setMessages([...result.data.data, ...messages]);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
-    const messagesResult = await getData(
-      `api/chat/${chat_id}`,
-      {
-        ...params,
-      },
-      false
-    );
-    setMessages(messagesResult.data.data);
-    socket.emit("join", { userId: id, room: chat_id }, (error) => {
-      if (error) {
-        alert(error);
-      }
-    });
-    let newMessagesStats = accountStats.messages.filter((value) => {return value.chat_id != chat_id});
-    setAccountStats({
-      ...accountStats,
-      messages: newMessagesStats});
+    let canceled = false;
+    const source = axios.CancelToken.source();
+
+    async function fetchMsgs() {
+      const messagesResult = await getData(
+        `api/chat/${chat_id}`,
+        {
+          ...params,
+        },
+        false
+      );
+      setMessages(messagesResult.data.data);
+      socket.emit("join", { userId: id, room: chat_id }, (error) => {
+        if (error) {
+          alert(error);
+        }
+      });
+      let newMessagesStats = accountStats.messages.filter((value) => {
+        return value.chat_id !== chat_id;
+      });
+      setAccountStats({
+        ...accountStats,
+        messages: newMessagesStats,
+      });
+    }
+    if (!canceled) fetchMsgs();
     setLoading(false);
+
+    return () => {
+      source.cancel();
+      canceled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room]);
 
-  useEffect(async () => {
+  useEffect(() => {
     const source = axios.CancelToken.source();
-    await socket.on("message", async ({ msgId }) => {
+    socket.on("message", async ({ msgId }) => {
       const lastMsg = await getData(
         `api/chat/${chat_id}`,
         {
@@ -99,6 +111,7 @@ const ChatBox = (props) => {
     return () => {
       source.cancel();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendMessage = async (event) => {
@@ -134,18 +147,12 @@ const ChatBox = (props) => {
         },
       ]);
       setMessage("");
-      setAccountStats({...accountStats, newMessage: true});
+      setAccountStats({ ...accountStats, newMessage: true });
     }
   };
 
   const handleMessageChange = ({ target: { value } }) => {
     setMessage(value);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
   };
 
   const handleClickBack = () => {
@@ -183,11 +190,14 @@ const ChatBox = (props) => {
           on {props.matchedUser.date.split("T")[0]}
         </div>
       </div>
-      <div className="chatBoxbody">
-        <InfinteScrollReverse
+      <div className="chatBoxbody" id="chatBoxID">
+        <InfiniteScroll
+          dataLength={messages.length}
+          next={getMessages}
+          inverse={true}
           hasMore={loadMore}
-          isLoading={loading}
-          loadMore={getMessages}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="chatBoxID"
         >
           {messages.map((element, index) => {
             const lastMessage = messages.length - 1 === index;
@@ -215,7 +225,7 @@ const ChatBox = (props) => {
               </>
             );
           })}
-        </InfinteScrollReverse>
+        </InfiniteScroll>
       </div>
       <div className="chatBoxInput">
         <Input

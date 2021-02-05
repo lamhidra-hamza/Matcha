@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './DisplayUsers.scss';
 import UserCard from '../userCard/UserCard.js';
-import { Tooltip, Select, Radio } from 'antd';
+import { Tooltip, Radio } from 'antd';
 import FilterPopUp from '../filterPopUp/FilterPopUp';
 import { ControlOutlined } from '@ant-design/icons';
 import { getData } from "../../tools/globalFunctions";
@@ -52,6 +52,8 @@ const DisplayUsers = ({ user }) => {
 			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.liked_user)]);
 		if (state && state.blocked_user)
 			setUsersBrowsing([...usersBrowsing.filter(user => user.id !== state.blocked_user)]);
+		
+		    // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [filterParams]);
 
 	useEffect(() => {
@@ -73,10 +75,6 @@ const DisplayUsers = ({ user }) => {
 		};
 
 	}, [filterParams])
-
-	function showLogin() {
-		SetFilterVisible([!filterVisible[0], filterVisible[1]])
-	}
 
 	function showRegister() {
 		SetFilterVisible([filterVisible[0], !filterVisible[1]])

@@ -41,7 +41,7 @@ export default function NavbarApp({setShowProfile, showProfile}) {
     }
 
     const handleNotificationBtnClick = async () => {
-        Notification.map((item) => {
+        Notification.forEach((item) => {
             putData(`api/notifications/${item.id}`, { readed: 1 })
         })
     }

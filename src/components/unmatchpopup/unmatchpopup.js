@@ -1,23 +1,18 @@
 import React, { useState, useContext } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import "./unmatchpopup.scss";
 import { Modal, Button, Result } from "antd";
 import { Typography } from "antd";
-import { Divider } from "antd";
-import BtnNoBackgrndIcon from "../btnNoBackgrndIcon/BtnNoBackgrndIcon";
-import BtnApp from "../btnApp/BtnApp";
-import { postData, putData } from "../../tools/globalFunctions";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import { postData } from "../../tools/globalFunctions";
 import { UserContext } from '../../contexts/UserContext';
 
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 const UnMatchPopup = (props) => {
-  let { state, pathname } = useLocation();
   const { socket } = useContext(UserContext);
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
 
 
@@ -41,10 +36,6 @@ const UnMatchPopup = (props) => {
   const handleMsgOk = async () => {
     console.log("the handle message ok is ");
     history.goBack();
-  };
-
-  const handleCancel = () => {
-    props.show();
   };
 
   if (showMsg)

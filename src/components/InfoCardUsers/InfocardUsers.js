@@ -28,8 +28,9 @@ const Infocard = (props) => {
 
 	useEffect(() => {
 		const source = axios.CancelToken.source();
+		let canceled = false;
 
-		const fetchData = async () => {
+		async function fetchData(){
 			try {
 				setloading(true);
 				const result = await getData(`api/users/infocard/${id}`, {}, false);
@@ -50,14 +51,13 @@ const Infocard = (props) => {
 				setHttpCodeStatus(err.response.status);
 			}
 		}
-
-		fetchData();
-
+		if (!canceled)
+			fetchData();
 		return () => {
 			source.cancel();
+			canceled = true;
 		};
-
-	}, [])
+	}, [id, setHttpCodeStatus]);
 
 	const handleBlockClick = async () => {
 		await postData(`api/block`, {blocked_user: id})
