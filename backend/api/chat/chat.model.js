@@ -40,12 +40,15 @@ class Chat {
                     chat_id: uuid.v4(),
                     date: null,
                 };
-                await connection.promise().query(`
-                        INSERT INTO chat (user_id, receiver_id, chat_id, date) SELECT ${SqlString.escape(userId)}, ${SqlString.escape(data.receiver_id)}, ${uuid.v4()}, null 
-                WHERE (SELECT COUNT(*) FROM chat WHERE ((user_id=${SqlString.escape(userId)} AND receiver_id=${SqlString.escape(data.receiver_id)}) OR (receiver_id=${SqlString.escape(userId)} AND chat_id=${SqlString.escape(data.receiver_id)}))) = 0
-                        `);
+                const sql = `
+                INSERT INTO chat (user_id, receiver_id, chat_id, date) SELECT ${SqlString.escape(userId)}, ${SqlString.escape(data.receiver_id)}, '${uuid.v4()}', null 
+        WHERE (SELECT COUNT(*) FROM chat WHERE ((user_id=${SqlString.escape(userId)} AND receiver_id=${SqlString.escape(data.receiver_id)}) OR (receiver_id=${SqlString.escape(userId)} AND chat_id=${SqlString.escape(data.receiver_id)}))) = 0
+                `;
+                console.log(sql);
+                await connection.promise().query(sql);
                 resolve("done");
             } catch (err) {
+                console.log("gelllppppp  create chat ====> ", err)
                 reject(new HTTP500Error('internal Error DB'))
             }
         })
@@ -55,39 +58,40 @@ class Chat {
     async findall(userId, body) {
         return await new Promise(async(resolve, reject) => {
             try {
+                const sql = `SELECT
+                    chat.chat_id,
+                    chat.user_id,
+                    chat.receiver_id,
+                    messages.date,
+                    messages.content,
+                    messages.seen,
+                    messages.id as messageId,
+                    messages.sender_id 
+                FROM chat,messages,users
+                    where messages.chat_id = chat.chat_id 
+                    and (chat.receiver_id = ${SqlString.escape(userId)} OR chat.user_id = ${SqlString.escape(userId)})
+                    and (
+                        ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)
+                        or 
+                        ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.receiver_id ) = 1)
+                        OR
+                        ((SELECT count(*) from matches where matches.matched_user = ${SqlString.escape(userId)} and matches.matched_user = chat.receiver_id ) = 1)
+                        OR
+                        ((SELECT count(*) from matches where matches.matched_user = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)
+                        )
+                    and  messages.id IN (SELECT MAX(id) FROM messages GROUP by chat_id)
+                GROUP BY chat.chat_id, chat.user_id,
+                    chat.receiver_id, messages.date,
+                    messages.content, messages.seen ORDER BY chat.date DESC
+                LIMIT ${body.startIndex},${body.length}`;
+                console.log(sql);
                 const [result, fields] = await connection
                     .promise()
-                    .query(
-                        `SELECT
-                            chat.chat_id,
-                            chat.user_id,
-                            chat.receiver_id,
-                            messages.date,
-                            messages.content,
-                            messages.seen,
-                            messages.id as messageId,
-                            messages.sender_id 
-                        FROM chat,messages,users
-                            where messages.chat_id = chat.chat_id 
-                            and (chat.receiver_id = ${SqlString.escape(userId)} OR chat.user_id = ${SqlString.escape(userId)})
-                            and (
-                                ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)
-                                or 
-                                ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.receiver_id ) = 1)
-                                OR
-                                ((SELECT count(*) from matches where matches.matched_user = ${SqlString.escape(userId)} and matches.matched_user = chat.receiver_id ) = 1)
-                                OR
-                                ((SELECT count(*) from matches where matches.matched_user = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)
-                                )
-                            and  messages.id IN (SELECT MAX(id) FROM messages GROUP by chat_id)
-                        GROUP BY chat.chat_id, chat.user_id,
-                            chat.receiver_id, messages.date,
-                            messages.content, messages.seen ORDER BY chat.date DESC
-                        LIMIT ${body.startIndex},${body.length}`
-                    );
+                    .query(sql);
 
                 resolve(result);
             } catch (err) {
+                console.log("errrror form findall ===> ", err)
                 reject(new HTTP500Error('internal Error DB'))
             }
         })

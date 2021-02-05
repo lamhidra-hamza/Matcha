@@ -69,8 +69,6 @@ async function postData(route, params) {
 
 // check the token and fetch data
 async function putData(route, params) {
-    console.log(`put data and the route is ${route}`);
-
     const token = localStorage.getItem("accessToken");
     const id = localStorage.getItem("userId");
     if (!token)

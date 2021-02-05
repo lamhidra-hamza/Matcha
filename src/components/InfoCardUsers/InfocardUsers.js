@@ -35,7 +35,8 @@ const Infocard = (props) => {
 				const result = await getData(`api/users/infocard/${id}`, {}, false);
 				const tags = await getData(`api/tags/${id}`, {}, false);
 				const likedMe = await getData(`api/likes/${id}`, {}, false);
-				if (likedMe.data.user)
+				console.log(likedMe);
+				if (likedMe.data.user.length)
 					setIsLikedMe(true);
 				setUserInfo({...result.data, images: [
 					result.data.picture_1,

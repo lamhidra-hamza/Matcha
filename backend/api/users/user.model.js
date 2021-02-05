@@ -29,7 +29,7 @@ class User {
                     interessted: "both",
                     verified: false,
                     infoCompleted: false,
-                    // bornDate: data.bornDate.slice(0, 19).replace("T", " "),
+                    bornDate: data.bornDate.slice(0, 19).replace("T", " "),
                     frameRate: 1
                 };
                 await connection.promise().query(SqlString.format('INSERT INTO users SET ?', info));

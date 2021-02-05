@@ -17,7 +17,7 @@ const NotFound = () => {
         <Result
             status="404"
             title="404"
-            subTitle="Sorry, the page you visited does not exist."
+            subTitle="Sorry, Data not found."
             extra={<Button type="primary" onClick={handleBackClick} >Back Home</Button>}
         />
     )

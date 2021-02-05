@@ -2,6 +2,12 @@ const {
     create
 } = require("./createdb.model");
 
+const sql_mode = {
+    sql: `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))`,
+    successMessage: "SET GLOBAL sql_mode successed",
+    failMessage: "SET GLOBAL sql_mode failed",
+}
+
 const usersTable = {
     sql: `CREATE TABLE IF NOT EXISTS users(id VARCHAR(255) PRIMARY KEY, username VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255),
         email VARCHAR(255), password VARCHAR(255),job VARCHAR(255), refreshToken VARCHAR(255), lastConnection DATETIME, 

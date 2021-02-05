@@ -42,7 +42,7 @@ export default function Mainapp({ width }) {
     views: 0,
   });
 
-  const [updateLocation, setUpdateLocation] = useState(false);
+  const [updateLocation, setUpdateLocation] = useState(true);
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [realCoordinates, setRealCoordinates] = useState({ ...userLocation });
@@ -56,7 +56,9 @@ export default function Mainapp({ width }) {
         setAccountStats({ ...accountStats, newMessage: true});
   }
 
-  useEffect(async () => {
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    let isCancelled = false;
     socket.emit("joinNotification", {}, (error) => {
       if (error) {
         alert(error);
@@ -87,15 +89,20 @@ export default function Mainapp({ width }) {
             newMessageUpdateStats();
           }
           notification["info"]({ message: message });
-          setNotification((Notification) => {
-            return [...Notification, notify];
-          });
+          if (!isCancelled)
+            setNotification((Notification) => {
+              return [...Notification, notify];
+            });
           notifyMe(message);
         }
       }
     });
 
-    return () => socket.disconnect();
+    return () => {
+        socket.disconnect();
+        source.cancel();
+        isCancelled = true;
+      };
   }, []);
 
   useEffect(() => {

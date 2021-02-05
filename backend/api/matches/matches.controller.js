@@ -32,13 +32,17 @@ const getAllInfo = async(req, res, next) => {
 const createOne = async(req, res, next) => {
     try {
         if (req.body && req.body.matched_user) {
+            console.log("errror from ======> ")
             await model.create(req.id, req.body);
-            res.status(HttpStatusCode.Ok).send({
-                msg: "create Done!!",
+            res.status(HttpStatusCode.OK).json({
+                msg: "create Doffne!!",
             });
+            console.log("errror from ======> ")
+
         } else
             throw new HTTP400Error('invalid params');
     } catch (err) {
+        console.log("ffoooooooorrnrnnn ====>", err)
         next(err);
     }
 };
@@ -47,7 +51,7 @@ const deleteOne = async(req, res, next) => {
     try {
         if (req.body && req.body.unmatched_user) {
             await model.unMatch(req.id, req.body);
-            res.status(200).send({
+            res.status(HttpStatusCode.OK).send({
                 msg: "create Done!!",
             });
         } else

@@ -19,8 +19,6 @@ const createOne = async(req, res, next) => {
 const getOne = async(req, res, next) => {
     try {
         const data = await model.findOne(req.id, req.params.id);
-        if (!data.length)
-            throw new HTTP404Error('not Found');
         res.status(HttpStatusCode.OK).json({
             user: data
         });
