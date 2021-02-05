@@ -14,6 +14,7 @@ import {
 } from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
 import { io } from "socket.io-client";
+import { ErrorStatusContext } from '../contexts/ErrorContext';
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -47,9 +48,9 @@ export default function Mainapp({ width }) {
   const [realCoordinates, setRealCoordinates] = useState({ ...userLocation });
   const [tags, setTags] = useState([""]);
   const [warning, setWarning] = useState(true);
-  const [error, setError] = useState({});
   const history = useHistory();
   const [Notification, setNotification] = useState([]);
+	const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
   const newMessageUpdateStats = () => {
         setAccountStats({ ...accountStats, newMessage: true});
@@ -72,9 +73,7 @@ export default function Mainapp({ width }) {
         if (notify) {
           let message = "You have new notification !!";
           if (notify.type === "like")
-          {
             message = "Yow Someone Like You lets Go !!";
-          }
           if (notify.type === "matche")
             message = "Yow Congratulation you got New MATCHE !!";
           if (notify.type === "view")
@@ -114,7 +113,7 @@ export default function Mainapp({ width }) {
   useEffect(() => {
     const source = axios.CancelToken.source();
     const postData = async () => {
-      let result = await putData(`api/location/${id}`, userLocation);
+      await putData(`api/location/${id}`, userLocation);
     };
     if (updateLocation) postData();
 
@@ -134,36 +133,39 @@ export default function Mainapp({ width }) {
     const source = axios.CancelToken.source();
 
     async function fetchData() {
-      setLoading(true);
-
-      const userStats = await getData(`api/chat/count`, {}, false);
-      setAccountStats(userStats.data.data);
-      const userResult = await getData(`api/users/${id}`, {}, false);
-      const pictureResult = await getData(`api/pictures/${id}`, {}, false);
-      const tags = await getData(`api/tags/`, {}, false);
-      const notiResult = await getData(`api/notifications/`, {}, false);
-      let locationResult = await getData(`api/location/${id}`, {}, false);
-      userLocation.latitude = locationResult.data.latitude;
-      userLocation.longitude = locationResult.data.longitude;
-      userLocation.location_name = locationResult.data.location_name;
-      userLocation.real_location = locationResult.data.real_location;
-      locationResult = await getCoords(userLocation);
-      let newLocation = { ...userLocation };
-      newLocation.location_name = locationResult.location_name;
-      newLocation.latitude = locationResult.latitude;
-      newLocation.longitude = locationResult.longitude;
-      setUpdateLocation(true);
-      setRealCoordinates(newLocation);
-      if (userLocation.real_location) {
-        setUserLocation(newLocation);
+      try {
+        setLoading(true);
+        const userStats = await getData(`api/chat/count`, {}, false);
+        setAccountStats(userStats.data.data);
+        const userResult = await getData(`api/users/${id}`, {}, false);
+        const pictureResult = await getData(`api/pictures/${id}`, {}, false);
+        const tags = await getData(`api/tags/`, {}, false);
+        const notiResult = await getData(`api/notifications/`, {}, false);
+        let locationResult = await getData(`api/location/${id}`, {}, false);
+        userLocation.latitude = locationResult.data.latitude;
+        userLocation.longitude = locationResult.data.longitude;
+        userLocation.location_name = locationResult.data.location_name;
+        userLocation.real_location = locationResult.data.real_location;
+        locationResult = await getCoords(userLocation);
+        let newLocation = { ...userLocation };
+        newLocation.location_name = locationResult.location_name;
+        newLocation.latitude = locationResult.latitude;
+        newLocation.longitude = locationResult.longitude;
+        setUpdateLocation(true);
+        setRealCoordinates(newLocation);
+        if (userLocation.real_location) {
+          setUserLocation(newLocation);
+        }
+        setUser(userResult.data);
+        setUserImages(pictureResult.data);
+        setTags(tags.data.data);
+        setNotification(notiResult.data.data);
+        setUpdateLocation(true);
+        setLoading(false);
+        setUpdate(true);
+      } catch(err) {
+          setHttpCodeStatus(err.response.status);
       }
-      setUser(userResult.data);
-      setUserImages(pictureResult.data);
-      setTags(tags.data.data);
-      setNotification(notiResult.data.data);
-      setUpdateLocation(true);
-      setLoading(false);
-      setUpdate(true);
     }
     fetchData();
     return () => {

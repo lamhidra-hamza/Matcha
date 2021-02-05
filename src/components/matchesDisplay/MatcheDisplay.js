@@ -19,10 +19,9 @@ export default function MatcheDisplay(props) {
     const getUsers = async () => {
 		setPage(page + 1);
 		const result = await getData(`api/matches/`, {...Params, page: page }, false);
-		console.log(result.data.users);
-		if (result.data.users.length === 0)
+		if (result.data.data.length === 0)
 			setLoadMore(false);
-		setMatches([...Matches, ...result.data.users]);
+		setMatches([...Matches, ...result.data.data]);
 	}
 
     useEffect(() => {
@@ -33,7 +32,7 @@ export default function MatcheDisplay(props) {
         async function fetchUsers() {
 			setloading(true)
 			const result = await getData(`api/matches/`, Params, false);
-			console.log("helllppp", result.data.data);
+			(result.data.data.length === 0) && setLoadMore(false);
 			setMatches(result.data.data);
 			setloading(false);
 		}

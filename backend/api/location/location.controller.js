@@ -31,6 +31,7 @@ async function createOne(req, res, next) {
 async function updateOne(req, res, next) {
     try {
         const body = req.body;
+        console.log(body)
         if (body && !isNaN(body.longitude) && !isNaN(body.latitude) &&
             body.location_name) {
             await model.findOneAndUpdate(req.id, req.body);
