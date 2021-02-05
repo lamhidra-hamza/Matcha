@@ -31,17 +31,13 @@ const getAllInfo = async(req, res, next) => {
 
 const createOne = async(req, res, next) => {
     try {
-        if (req.status === 0 || req.status === -1)
-            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
-        else {
-            if (req.body && req.body.matched_user) {
-                await model.create(req.id, req.body);
-                res.status(HttpStatusCode.Ok).send({
-                    msg: "create Done!!",
-                });
-            } else
-                throw new HTTP400Error('invalid params');
-        }
+        if (req.body && req.body.matched_user) {
+            await model.create(req.id, req.body);
+            res.status(HttpStatusCode.Ok).send({
+                msg: "create Done!!",
+            });
+        } else
+            throw new HTTP400Error('invalid params');
     } catch (err) {
         next(err);
     }
@@ -49,17 +45,13 @@ const createOne = async(req, res, next) => {
 
 const deleteOne = async(req, res, next) => {
     try {
-        if (req.status === 0 || req.status === -1)
-            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
-        else {
-            if (req.body && req.body.unmatched_user) {
-                await model.unMatch(req.id, req.body);
-                res.status(200).send({
-                    msg: "create Done!!",
-                });
-            } else
-                throw new HTTP400Error('invalid params');
-        }
+        if (req.body && req.body.unmatched_user) {
+            await model.unMatch(req.id, req.body);
+            res.status(200).send({
+                msg: "create Done!!",
+            });
+        } else
+            throw new HTTP400Error('invalid params');
     } catch (err) {
         next(err);
     }

@@ -1,38 +1,9 @@
 const jwt = require("jsonwebtoken");
+const { HttpStatusCode } = require("./errorHandler");
 
-function timeConverter(UNIX_timestamp) {
-    var a = new Date(UNIX_timestamp * 1000);
-    var months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
-    var year = a.getFullYear();
-    var month = months[a.getMonth()];
-    var date = a.getDate();
-    var hour = a.getHours();
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-    var time =
-        date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
-    return time;
-}
+
 
 async function auth(req, res, next) {
-    // console.log(req)
-    // console.log("the auth function");
-    // if (!accessToken)
-    //     accessToken = req.query.token;
-    // if (!accessToken)
     let accessToken = req.headers['token'];
     let id = req.headers['id'];
     req.status = 1;
@@ -41,22 +12,21 @@ async function auth(req, res, next) {
     }
     try {
         const result = await jwt.verify(accessToken, "matcha-secret-code");
-        // console.log("id ====================================> ", result.id);
         req.id = result.id;
         if (req.id != id)
             req.status = -1;
-        // console.log("the user is");
-        // console.log(id);
     } catch (err) {
         let errorMessage = -1;
         if (err.expiredAt)
             errorMessage = 0;
         req.status = errorMessage;
-        // console.log(err);
-        console.log("the error of the token is ==============>");
+    }
+    if (req.status === 0 || req.status === -1) {
+        return res
+            .status(HttpStatusCode.AUTH_FAILD)
+            .send({ status: req.status, message: "token is invalid or expired" });
     }
     next();
-
 }
 
 module.exports = auth;
