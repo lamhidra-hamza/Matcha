@@ -1,9 +1,10 @@
 const HttpStatusCode = {
     OK: 200,
-    BAD_REQUEST: 400,
-    NOT_FOUND: 404,
-    INTERNAL_SERVER: 500,
-    ACCESS_FAILED: 403
+    BAD_REQUEST: 400, // invalid params from request (body or query)
+    NOT_FOUND: 404, // element not found 
+    INTERNAL_SERVER: 500, // error in database querys
+    ACCESS_FAILED: 403, // invalid email or password ...
+    AUTH_FAILD: 401 // authentication failed
 
 }
 

@@ -155,12 +155,6 @@ async function checkSession(req, res, next) {
 
 async function getOneForInfoCard(req, res, next) {
     try {
-        if (req.status === 0 || req.status === -1) {
-            res.status(HttpStatusCode.OK).send({
-                status: req.status,
-            });
-            return;
-        }
         const data = await model.findOneInfoCard(req.id, req.params.id);
         if (data && data[0]) {
             data[0].status = 1;
@@ -174,12 +168,6 @@ async function getOneForInfoCard(req, res, next) {
 
 async function getOne(req, res, next) {
     try {
-        if (req.status === 0 || req.status === -1) {
-            res.status(HttpStatusCode.OK).send({
-                status: req.status,
-            });
-            return;
-        }
         const data = await model.findOne(req.id, req.params.id);
         if (data && data[0]) {
             delete data[0].password;
@@ -195,12 +183,6 @@ async function getOne(req, res, next) {
 
 async function getMany(req, res, next) {
     try {
-        if (req.status === 0 || req.status === -1) {
-            res.status(HttpStatusCode.OK).send({
-                status: req.status,
-            });
-            return;
-        }
         const filters = req.query;
         if (filters && !isNaN(filters.frameRate) && !isNaN(filters.numberOfItem) && !isNaN(filters.page) &&
             !isNaN(filters.minAge) && !isNaN(filters.maxAge) &&
@@ -220,12 +202,6 @@ async function getMany(req, res, next) {
 
 async function getManyUsersLikedMe(req, res, next) {
     try {
-        if (req.status === 0 || req.status === -1) {
-            res.status(HttpStatusCode.OK).send({
-                status: req.status,
-            });
-            return;
-        }
         const filters = req.query;
         if (!filters || isNaN(filters.page) || isNaN(filters.numberOfItem))
             throw new HTTP400Error('invalid query params');
@@ -244,12 +220,6 @@ async function getManyUsersLikedMe(req, res, next) {
 async function getManyUsersViewedMe(req, res, next) {
 
     try {
-        if (req.status === 0 || req.status === -1) {
-            res.status(HttpStatusCode.OK).send({
-                status: req.status,
-            });
-            return;
-        }
         const filters = req.query;
         if (!filters || isNaN(filters.page) || isNaN(filters.numberOfItem))
             throw new HTTP400Error('invalid query params');
@@ -268,40 +238,33 @@ async function getManyUsersViewedMe(req, res, next) {
 async function updateOne(req, res, next) {
     const body = req.body;
     try {
-        if (req.status === 0 || req.status === -1) {
-            res
-                .status(HttpStatusCode.OK)
-                .send({ status: req.status, message: "token is invalid or expired" });
-        } else {
-            const data = await model.findOne(req.id, req.id);
-            if (data.length == 0)
-                throw HTTP404Error('user not Found');
-            for (const [key, value] of Object.entries(body)) {
-                data[0][key] = value;
-            }
-            await model.findOneAndUpdate(
-                req.id,
-                req.id,
-                data[0]
-            );
-            res.status(HttpStatusCode.OK).send({ status: req.status, msg: "updating Done" });
+        const data = await model.findOne(req.id, req.id);
+        if (data.length == 0)
+            throw HTTP404Error('user not Found');
+        for (const [key, value] of Object.entries(body)) {
+            data[0][key] = value;
         }
+        await model.findOneAndUpdate(
+            req.id,
+            req.id,
+            data[0]
+        );
+        res.status(HttpStatusCode.OK).send({ status: req.status, msg: "updating Done" });
     } catch (err) {
         next(err);
     }
 }
 
-async function removeOne(req, res) {
+async function removeOne(req, res, next) {
     try {
-        await model.findOneAndRemove(req.body.userID, req.params.id);
-        res.status(201).send({
-            msg: "Remove Done!!",
-        });
+        if (req.body && req.body.userID) {
+            await model.findOneAndRemove(req.body.userID, req.params.id);
+            res.status(201).send({
+                msg: "Remove Done!!",
+            });
+        } else throw new HTTP400Error('invalid params');
     } catch (err) {
-        console.log(err);
-        res.status(400).end({
-            msg: `Error in removeOne`,
-        });
+        next(err);
     }
 }
 

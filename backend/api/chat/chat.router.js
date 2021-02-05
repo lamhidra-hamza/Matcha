@@ -1,11 +1,9 @@
 var express = require("express");
 var router = express.Router();
 const verify = require("../../utils/auth");
-const { route } = require("../tags/tags.router");
 
 var {
     removeOne,
-    updateOne,
     getMany,
     getLastMessages,
     createOne,
@@ -25,13 +23,11 @@ router.route("/markseen/:id").post(markMessageSeen);
 router
     .route("/:id")
     .get(getLastMessages) // get message from this chat
-    .put(updateOne)
     .delete(removeOne)
     .post(createOne); //create one message
 
 
 router.route("/")
-    .get(getMany)
-    .post(createOne);
+    .get(getMany) //
 
 module.exports = router;

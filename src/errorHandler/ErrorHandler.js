@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import NotFound from '../pages/error/NotFound';
 import { ErrorStatusContext } from '../contexts/ErrorContext';
+import ERROR500 from '../pages/error/ERROR500';
 
 
 const ErrorHandler = ({ children }) => {
@@ -19,6 +20,9 @@ const ErrorHandler = ({ children }) => {
     const renderContent = () => {
         if (httpCodeStatus === 404) {
             return <NotFound />
+        }
+        if (httpCodeStatus === 500) {
+            return <ERROR500 />
         }
 
         return children;

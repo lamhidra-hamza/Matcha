@@ -9,12 +9,13 @@ class Location {
             try {
                 let info = {
                     user_id: data.user_id,
-                    longitude: NULL,
-                    latitude: NULL,
+                    longitude: null,
+                    latitude: null,
                 };
                 await connection.promise().query(SqlString.format('INSERT INTO location SET ?', info));
                 resolve("Done")
             } catch (err) {
+                console.log(err);
                 reject(new HTTP500Error('internal error DB'));
             }
         })

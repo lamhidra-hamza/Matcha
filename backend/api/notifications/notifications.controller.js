@@ -27,23 +27,12 @@ const getOne = async(req, res, next) => {
 
 const createOne = async(req, res, next) => {
     try {
-        if (req.status === 0 || req.status === -1)
-            res.status(HttpStatusCode.OK).send({ status: req.status, message: "token is invalid or expired" });
-        else {
-            const body = req.body;
-            console.log("the notified Id is", body.notifiedId);
-            if (!body)
-                console.log("the body is invalid");
-            if (!body.notifiedId)
-                console.log("the nofied Id is invalid");
-            if (!body.type)
-                console.log("the body type is invalid");
-            if (body && body.notifiedId && body.type) {
-                let result = await model.create(req.id, body);
-                res.status(HttpStatusCode.OK).send(result);
-            } else
-                throw new HTTP400Error('invalid req params');
-        }
+        const body = req.body;
+        if (body && body.notifiedId && body.type) {
+            let result = await model.create(req.id, body);
+            res.status(HttpStatusCode.OK).send(result);
+        } else
+            throw new HTTP400Error('invalid req params');
     } catch (err) {
         next(err);
     }
@@ -73,7 +62,6 @@ const removeOne = async(req, res, next) => {
         next(err);
     }
 };
-
 
 module.exports = {
     removeOne: removeOne,

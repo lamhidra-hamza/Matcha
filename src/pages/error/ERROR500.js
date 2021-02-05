@@ -1,11 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-
-import './NotFound.scss'
 import { Result, Button } from 'antd';
 
-
-const NotFound = () => {
+const ERROR500 = () => {
 
     const history = useHistory();
 
@@ -15,12 +12,12 @@ const NotFound = () => {
 
     return (
         <Result
-            status="404"
-            title="404"
-            subTitle="Sorry, Data not found."
-            extra={<Button type="primary" onClick={handleBackClick} >Back Home</Button>}
+            status="500"
+            title="500"
+            subTitle="Sorry, something went wrong."
+            extra={<Button onClick={handleBackClick} type="primary">Back Home</Button>}
         />
     )
 }
 
-export default NotFound
+export default ERROR500
