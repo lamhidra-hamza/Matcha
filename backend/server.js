@@ -32,9 +32,7 @@ app.use("/api/tags", require("./api/tags/tags.router"));
 app.use("/confirmation/:id", require("./utils/emailConfirm"));
 
 app.use(async(err, req, res, next) => {
-    // console.log("error from error handler =========", err, " =========== ")
     if (!errorHandler.isTrustedError(err)) {
-        console.log("is TRusted")
 
         // next(err);
         res.status(500).send({ msg: "errro" })

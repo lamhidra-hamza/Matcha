@@ -17,7 +17,6 @@ export default function FilterPopUp(props) {
 		async function fetchData() {
 			setLoading(true);
 			const result = await getData('api/tags/all', {}, false);
-			console.log(result.data.tags);
 			setAlltags(result.data.tags);
 			setLoading(false);
 		}

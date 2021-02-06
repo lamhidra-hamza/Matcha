@@ -48,7 +48,6 @@ const ProfileInfo = (props) => {
     //eslint-disable-next-line
     const passRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
-    console.log("the password is", newUser.password);
     if (!emailRegex.test(newUser.email))
       errorMessage.push("please enter a valid email");
     if (!NameRegex.test(newUser.firstName))

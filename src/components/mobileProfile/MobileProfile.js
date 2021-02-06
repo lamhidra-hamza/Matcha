@@ -31,7 +31,6 @@ const MobileProfile = ({ user, userImages }) => {
                     <h2 style={{ fontWeight: '600' }}>{user.firstName} {calculate_age(user.bornDate)}</h2>
                     <h4>{user.job}</h4>
                     <h4>{user.biography}</h4>
-                    {console.log(user)}
                 </div>
                 <div className="profilebtn">
                     <div className="ColumnIc">

@@ -16,7 +16,6 @@ const BlockPopUp = (props) => {
 
   const handleOk = async () => {
     const myId = localStorage.getItem("userId");
-    console.log("the unmatched user is ", props.block_user);
     //await postData(`api/block`, {blocked_user: id});
     const result = await postData(`api/notifications`, {
       notifiedId: props.block_user,
@@ -32,13 +31,12 @@ const BlockPopUp = (props) => {
   };
 
   const handleMsgOk = async () => {
-    console.log("the handle message ok is ");
     history.goBack();
   };
 
   if (showMsg)
     return (
-      <div class="unmatchpopup">
+      <div className="unmatchpopup">
         <Modal
           visible={true}
           onOk={handleMsgOk}
@@ -63,7 +61,7 @@ const BlockPopUp = (props) => {
       </div>
     );
   return (
-    <div class="unmatchpopup">
+    <div className="unmatchpopup">
       <Modal
         title="Block user"
         visible={props.isVisible}

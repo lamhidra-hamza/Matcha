@@ -120,7 +120,6 @@ const createDB = async() => {
     for (let i = 0; i < tableList.length; i++) {
         await create(tableList[i], (err, results) => {
             if (err) {
-                console.log(err);
             }
         });
     }

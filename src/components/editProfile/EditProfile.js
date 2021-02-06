@@ -87,7 +87,6 @@ export default function EditProfile(props) {
 	};
 
 	const addNewImage = async (preview, file, index) => {
-		console.log(`the index is ${index}`);
 		let newImages = [...images];
 		newImages[index].preview = preview;
 		newImages[index].file = file;
@@ -149,11 +148,8 @@ export default function EditProfile(props) {
 	}
 
 	const handleTagChange = (value) => {
-		console.log("the tags list is ", value);
-		console.log("the length of this tag is", value[value.length - 1].length);
 
 		setNewTags(value);
-		console.log("new tag => ", value);
 	}
 
 	return (

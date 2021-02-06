@@ -119,8 +119,10 @@ const MessageDisplay = (props) => {
       <InfiniteScrollReverse
         dataLength={messages.length - 1}
         next={getMessages}
-        hasMore={loadMore}
+        loadMore={getMessages}
+        hasMore = {loadMore}
         inverse={false}
+        isLoading = {false}
         loader={
           <div className="Scrollloading">
             <Spin />

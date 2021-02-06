@@ -5,8 +5,7 @@ const jwt = require("jsonwebtoken");
 
 async function checkuser(req, res) {
   const token = req.cookies.authcookie;
-  console.log(`token ${token}`);
-  console.log("here here");
+
   if (!token)
     return res.status(200).json({
       success: 0,
@@ -14,7 +13,6 @@ async function checkuser(req, res) {
   try {
     const verified = await jwt.verify(token, "matcha-secret-code");
     req.user = verified;
-    console.log(`the token is ${verified}`);
     res.status(200).json({
       success: 1,
       user: verified.id,
@@ -22,7 +20,6 @@ async function checkuser(req, res) {
       redirectUrl: "/app",
     });
   } catch (err) {
-    console.log(err);
   }
 }
 

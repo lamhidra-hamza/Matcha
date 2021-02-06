@@ -51,8 +51,6 @@ async function postData(route, params) {
         let result = await axios.post(`http://localhost:5000/${route}`, params, {
             headers: { token: token, id: id },
         });
-        console.log("the staus probem is ");
-        console.log(result.data);
         if (result.data.status === 0) {
             let newToken = await getNewToken();
             localStorage.setItem("accessToken", newToken);
@@ -78,16 +76,13 @@ async function putData(route, params) {
         let result = await axios.put(`http://localhost:5000/${route}`, params, {
             headers: { token: token, id: id },
         });
-        console.log("the staus probem is ");
-        console.log(result.data);
         if (result.data.status === 0) {
             let newToken = await getNewToken();
             localStorage.setItem("accessToken", newToken);
             result = axios.put(`http://localhost:5000/${route}`, params, {
                 headers: { token: newToken, id: id },
             });
-            console.log("the staus probem is ");
-            console.log(result.data);
+
             if (result.data && result.data.status === 0) {
                 let newToken = await getNewToken();
                 localStorage.setItem("accessToken", newToken);
@@ -106,7 +101,6 @@ async function putData(route, params) {
 async function uploadPictures(data, pic_id) {
     const token = localStorage.getItem("accessToken");
     const id = localStorage.getItem("userId");
-    console.log("uploadPictures functions");
     if (!token)
         return {
             status: -1,
@@ -123,7 +117,6 @@ async function uploadPictures(data, pic_id) {
             },
         });
         if (result.data.status === 0) {
-            console.log("let get a new token");
             let newToken = await getNewToken();
             localStorage.setItem("accessToken", newToken);
             result = result = await axios({
@@ -213,18 +206,11 @@ const getCoords = async(userLocation) => {
                     resolve(newLocation);
                 },
                 async function(erro) {
-                    console.log("navigator geolocation is not watching right now");
                     let ip = await axios.get("https://api.ipify.org/?format=json");
                     let geoIpResult = await axios.get(
                         `https://api.ipgeolocation.io/ipgeo?apiKey=978b0a54a29146d0a338c509fee94dab&ip=${ip.data.ip}`
                     );
-                    console.log("the result from geoIpResult", geoIpResult.data);
                     let locationResult = getLocation(
-                        parseFloat(geoIpResult.data.longitude),
-                        parseFloat(geoIpResult.data.latitude)
-                    );
-                    console.log(
-                        "the coordinates are ",
                         parseFloat(geoIpResult.data.longitude),
                         parseFloat(geoIpResult.data.latitude)
                     );
@@ -232,7 +218,6 @@ const getCoords = async(userLocation) => {
                     newLocation.location_name = locationResult.name;
                     newLocation.latitude = locationResult.latitude;
                     newLocation.longitude = locationResult.longitude;
-                    console.log("getCoords out");
                     resolve(newLocation);
                 }, {
                     enableHighAccuracy: true,

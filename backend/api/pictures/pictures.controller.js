@@ -46,7 +46,6 @@ async function getOne(req, res, next) {
 }
 
 async function createOne(req, res, next) {
-    console.log("create one pictures=========== ===================================");
     try {
         if (req.body && req.body.user_id) {
             await model.create(req.body.user_id, req.body);

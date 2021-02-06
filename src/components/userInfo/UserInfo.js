@@ -13,14 +13,11 @@ export default function UserInfo(props) {
   const [images, setImages] = useState([]);
   
   useEffect(() => {
-    console.log("useEffect for userInfo");
     let imageArray = [];
     for (const [key, value] of Object.entries(props.matchedUser)) {
-      console.log(`${key}: ${value}`);
       if (key.includes("picture") && value)
         imageArray.push(value);
     }
-    console.log("the images array array", imageArray);
     setImages(imageArray);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

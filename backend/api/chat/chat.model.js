@@ -44,11 +44,9 @@ class Chat {
                 INSERT INTO chat (user_id, receiver_id, chat_id, date) SELECT ${SqlString.escape(userId)}, ${SqlString.escape(data.receiver_id)}, '${uuid.v4()}', null 
         WHERE (SELECT COUNT(*) FROM chat WHERE ((user_id=${SqlString.escape(userId)} AND receiver_id=${SqlString.escape(data.receiver_id)}) OR (receiver_id=${SqlString.escape(userId)} AND chat_id=${SqlString.escape(data.receiver_id)}))) = 0
                 `;
-                console.log(sql);
                 await connection.promise().query(sql);
                 resolve("done");
             } catch (err) {
-                console.log("gelllppppp  create chat ====> ", err)
                 reject(new HTTP500Error('internal Error DB'))
             }
         })
@@ -84,14 +82,12 @@ class Chat {
                     chat.receiver_id, messages.date,
                     messages.content, messages.seen ORDER BY chat.date DESC
                 LIMIT ${body.startIndex},${body.length}`;
-                console.log(sql);
                 const [result, fields] = await connection
                     .promise()
                     .query(sql);
 
                 resolve(result);
             } catch (err) {
-                console.log("errrror form findall ===> ", err)
                 reject(new HTTP500Error('internal Error DB'))
             }
         })

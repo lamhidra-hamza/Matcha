@@ -2,7 +2,6 @@ const router = require("express").Router();
 const verify = require("./utils/auth");
 
 router.get("/", verify, (req, res) => {
-    console.log(`post function route : the status is ${req.status}`);
     if (req.status === -1 || req.status === 0) {
         res
             .status(200)

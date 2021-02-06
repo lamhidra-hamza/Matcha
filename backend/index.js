@@ -30,12 +30,10 @@ io.on("connect", (socket) => {
     });
 
     socket.on("newNotification", ({ userId, notifiedUser, notifyId }) => {
-        console.log("notification here  ============     ", notifyId);
         io.to("MatchaNotify").emit("notification", { notifiedUser, notifyId });
     })
 
     socket.on("sendMessage", ({ room, msgId }) => {
-        console.log("the message id is", msgId);
         socket.broadcast.to(room).emit("message", { msgId: msgId });
     });
 });

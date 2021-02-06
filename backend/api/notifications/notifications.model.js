@@ -16,7 +16,6 @@ class Notifications {
                 let ret = await connection.promise().query(SqlString.format('INSERT INTO notifications SET ?', info));
                 resolve({ id: ret[0].insertId });
             } catch (err) {
-                console.log(err)
                 reject(new HTTP500Error('internal error DB'));
             }
         })

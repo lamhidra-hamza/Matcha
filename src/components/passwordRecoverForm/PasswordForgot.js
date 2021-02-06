@@ -44,7 +44,7 @@ const PasswordForgot = (props) => {
   };
 
   return (
-    <div class="PasswordForgot">
+    <div className="PasswordForgot">
       
       <Modal
         visible={props.visible}

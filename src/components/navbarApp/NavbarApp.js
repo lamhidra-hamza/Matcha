@@ -20,7 +20,6 @@ export default function NavbarApp({setShowProfile, showProfile}) {
 
     const logout = async () => {
         await logOut();
-        console.log("Redirect");
         history.push("/");
     }
 

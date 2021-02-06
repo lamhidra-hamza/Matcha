@@ -35,7 +35,6 @@ const DisplayUsers = ({ user }) => {
 	const getUsers = async () => {
 		setPage(page + 1);
 		const result = await getData(`api/users/`, {...filterParams, page: page }, false);
-		console.log(result.data.users);
 		if (result.data.users.length === 0)
 			setLoadMore(false);
 		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
@@ -45,7 +44,6 @@ const DisplayUsers = ({ user }) => {
 		const surface = (element.height - 100) * (element.width - 100);
 		const numOfItemsPossible =  Math.floor(surface / (310 * 360)) + 1;
 
-		console.log("numOfItemsPossible ===> ", numOfItemsPossible);
 		if (numOfItemsPossible !== filterParams.numberOfItem)
 			setFilerParams({...filterParams, numberOfItem: numOfItemsPossible});
 		if (state && state.liked_user)

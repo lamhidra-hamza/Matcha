@@ -68,7 +68,6 @@ const RegisterForm = (props) => {
   };
 
   const checkAge = (value) => {
-    console.log(moment().year() - moment(value).year());
     if (moment().year() - moment(value).year() > 18) return true;
     return false;
   };

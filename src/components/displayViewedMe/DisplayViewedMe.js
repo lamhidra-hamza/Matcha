@@ -21,7 +21,6 @@ const DisplayLikedMe = ({ user }) => {
 	const getUsers = async () => {
 		setPage(page + 1);
 		const result = await getData(`api/users/viewedme`, {...Params, page: page }, false);
-		console.log(result.data.users);
 		if (result.data.users.length === 0)
 			setLoadMore(false);
 		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
@@ -49,7 +48,6 @@ const DisplayLikedMe = ({ user }) => {
 		async function fetchUsers() {
 			setloading(true)
 			const result = await getData(`api/users/viewedme`, Params, false);
-			console.log(result.data.users);
 			setUsersBrowsing(result.data.users);
 			setloading(false);
 		}

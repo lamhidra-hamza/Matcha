@@ -22,7 +22,6 @@ export default function MatcheCard(props) {
 
     return (
             <div className="MatchesCard" onClick={handelClick}>
-                {console.log("the user info are", user)}
                 <div className="matcheItems">
                     <div className="matcheItem">
                         <div className="identity">

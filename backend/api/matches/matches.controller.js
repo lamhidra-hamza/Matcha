@@ -32,17 +32,14 @@ const getAllInfo = async(req, res, next) => {
 const createOne = async(req, res, next) => {
     try {
         if (req.body && req.body.matched_user) {
-            console.log("errror from ======> ")
             await model.create(req.id, req.body);
             res.status(HttpStatusCode.OK).json({
                 msg: "create Doffne!!",
             });
-            console.log("errror from ======> ")
 
         } else
             throw new HTTP400Error('invalid params');
     } catch (err) {
-        console.log("ffoooooooorrnrnnn ====>", err)
         next(err);
     }
 };

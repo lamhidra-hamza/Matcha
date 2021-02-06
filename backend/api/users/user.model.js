@@ -36,7 +36,6 @@ class User {
 
                 resolve({ id: info.id });
             } catch (err) {
-                console.log(err);
                 reject(new HTTP500Error('Internal Error DB'));
             }
         })
@@ -144,7 +143,6 @@ class User {
                     .query(sql);
                 resolve(result);
             } catch (err) {
-                console.log(err)
                 reject(new HTTP500Error('Internal Error DB'));
             }
         })
@@ -261,7 +259,7 @@ class User {
                     AND ${SqlString.escape(userId)} IN (SELECT viewed_user FROM views WHERE user_id=users.id)
                     LIMIT ${limit}, ${filters.numberOfItem} `;
 
-                // console.log(sql);
+            
 
                 const [result, fields] = await connection
                     .promise()

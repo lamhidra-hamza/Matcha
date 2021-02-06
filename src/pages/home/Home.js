@@ -16,10 +16,7 @@ import { getData } from "../../tools/globalFunctions";
 export class Home extends Component {
   async componentDidMount() {
     let result = await getData("api/users/checksession", {}, true);
-    console.log("the HOme componenet result is ");
-    console.log(result.data);
     if (result.data != null && result.data.status ===1){
-      console.log("Redirect");
       this.props.history.push("/app");
     }
 

@@ -24,7 +24,6 @@ async function sendConfirmationEmail(id, userName, email) {
         },
         (err, emailToken) => {
             const url = `${serInfo.HOST}:${serverInfo.PORT}/confirmation/${emailToken}`;
-            console.log(`${email}`);
             transporter.sendMail({
                 to: `${email}`,
                 subject: "[MATCHA] Email Confirmation",
@@ -32,7 +31,7 @@ async function sendConfirmationEmail(id, userName, email) {
             });
             if (err)
                 return err;
-            console.log("Message sent");
+         
         }
     );
 }
@@ -115,7 +114,6 @@ async function signUp(req, res, next) {
         }
         const search = await model.findOneByEmail(null, body.email);
 
-        console.log("search ========= ", search)
         if (search[0] && search[0].email === body.email)
             new HTTP400Error("Email exist");
 

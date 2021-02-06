@@ -1,12 +1,10 @@
 const getMany = (module) => async(req, res) => {
     try {
         const data = await module.findall(req.id);
-        console.log("id==", req.id, "data==", data);
         res.status(200).json({
             data: data,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).end({
             msg: `Error UserID = ${req.user.id} Does not exists`,
         });
@@ -15,7 +13,6 @@ const getMany = (module) => async(req, res) => {
 
 const getOne = (module) => async(req, res) => {
     try {
-        console.log("id getOne === ", req.id)
         const data = await module.findOne(req.id, req.params.id);
         if (!data) {
             res.status(400).end();
@@ -24,7 +21,6 @@ const getOne = (module) => async(req, res) => {
             user: data[0]
         });
     } catch (err) {
-        console.log(err);
         res.status(400).end({
             msg: `Error in getOne`,
         });
@@ -32,7 +28,6 @@ const getOne = (module) => async(req, res) => {
 };
 
 const createOne = (module) => async(req, res) => {
-    console.log("create one pictures");
     try {
         if (req.status === 0 || req.status === -1)
             res.status(200).send({ status: req.status, message: "token is invalid or expired" });
@@ -43,7 +38,6 @@ const createOne = (module) => async(req, res) => {
             });
         }
     } catch (err) {
-        console.log(err);
         res.status(400).end({
             msg: `Error in createOne`,
         });
@@ -57,7 +51,6 @@ const updateOne = (module) => async(req, res) => {
             msg: "Update Done!!",
         });
     } catch (err) {
-        console.log(err);
         res.status(400).end({
             msg: `Error in updateOne`,
         });
@@ -71,7 +64,6 @@ const removeOne = (module) => async(req, res) => {
             msg: "Remove Done!!",
         });
     } catch (err) {
-        console.log(err);
         res.status(400).end({
             msg: `Error in removeOne`,
         });

@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Mainapp.scss";
 import MobileSection from "../components/mobileSection/MobileSection";
@@ -14,7 +14,7 @@ import {
 } from "../tools/globalFunctions";
 import { UserContext } from "../contexts/UserContext";
 import { io } from "socket.io-client";
-import { ErrorStatusContext } from '../contexts/ErrorContext';
+import { ErrorStatusContext } from "../contexts/ErrorContext";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -42,7 +42,7 @@ export default function Mainapp({ width }) {
     views: 0,
   });
 
-  const [updateLocation, setUpdateLocation] = useState(true);
+  const [updateLocation, setUpdateLocation] = useState(false);
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [realCoordinates, setRealCoordinates] = useState({ ...userLocation });
@@ -50,11 +50,11 @@ export default function Mainapp({ width }) {
   const [warning, setWarning] = useState(true);
   const history = useHistory();
   const [Notification, setNotification] = useState([]);
-	const { setHttpCodeStatus } = useContext(ErrorStatusContext);
+  const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
   const newMessageUpdateStats = () => {
-        setAccountStats({ ...accountStats, newMessage: true});
-  }
+    setAccountStats({ ...accountStats, newMessage: true });
+  };
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -80,10 +80,8 @@ export default function Mainapp({ width }) {
             message = "Yow Congratulation you got New MATCHE !!";
           if (notify.type === "view")
             message = "Someone viewed your profile !!";
-          if (notify.type === "unmatch")
-            message = "someone unliked you !!";
-          if (notify.type === "block")
-            message = "someone blocked you !!";
+          if (notify.type === "unmatch") message = "someone unliked you !!";
+          if (notify.type === "block") message = "someone blocked you !!";
           if (notify.type === "message") {
             message = "you got a new message !!";
             newMessageUpdateStats();
@@ -99,11 +97,11 @@ export default function Mainapp({ width }) {
     });
 
     return () => {
-        socket.disconnect();
-        source.cancel();
-        isCancelled = true;
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      socket.disconnect();
+      source.cancel();
+      isCancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -128,7 +126,7 @@ export default function Mainapp({ width }) {
     return () => {
       source.cancel();
     };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLocation]);
 
   useEffect(() => {
@@ -172,8 +170,8 @@ export default function Mainapp({ width }) {
         setUpdateLocation(true);
         setLoading(false);
         setUpdate(true);
-      } catch(err) {
-          setHttpCodeStatus(err.response.status);
+      } catch (err) {
+        setHttpCodeStatus(err.response.status);
       }
     }
     fetchData();
@@ -183,43 +181,54 @@ export default function Mainapp({ width }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading)
-    return (
-      <div className="containerMainapp">
+  function RenderResult(){
+    let result;
+    if (loading)
+      result =  (
+        <div className="containerMainapp">
         <div className="loading">
           <Spin size="large" />
         </div>
       </div>
+      );
+    else 
+    result =  (        
+      <UserContext.Provider
+        value={{
+          user,
+          setUser,
+          userImages,
+          setUserImages,
+          userLocation,
+          setUserLocation,
+          realCoordinates,
+          tags,
+          setTags,
+          socket,
+          Notification,
+          setNotification,
+          accountStats,
+          setAccountStats,
+        }}
+      >
+        <div className="containerMainapp">
+          {!user.verified &&
+            warning &&
+            message.warning(
+              `Your email is not verified, Please check your email to verify it !!`
+            ) &&
+            setWarning(false)}
+          {width > 760 ? <DesktopSection width={width} /> : <MobileSection />}
+        </div>
+      </UserContext.Provider>
     );
+    return result;
+  }
+
 
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        userImages,
-        setUserImages,
-        userLocation,
-        setUserLocation,
-        realCoordinates,
-        tags,
-        setTags,
-        socket,
-        Notification,
-        setNotification,
-        accountStats,
-        setAccountStats
-      }}
-    >
-      <div className="containerMainapp">
-        {!user.verified &&
-          warning &&
-          message.warning(
-            `Your email is not verified, Please check your email to verify it !!`
-          ) &&
-          setWarning(false)}
-        {width > 760 ? <DesktopSection width={width} /> : <MobileSection />}
-      </div>
-    </UserContext.Provider>
+    <div>
+          <RenderResult  />
+    </div>
   );
 }

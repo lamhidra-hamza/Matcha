@@ -36,7 +36,7 @@ export class Header extends Component {
     return (
       <div>
         <div style={this.headerback()} className="header">
-          <div class="header1" style={this.getstyle()}>
+          <div className="header1" style={this.getstyle()}>
             <Logo mobile={this.props.mobile} show={this.state.show} />
             <div style={{margin: '40px 0px'}}>
               {this.props.mobile ? '' : 

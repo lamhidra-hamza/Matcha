@@ -55,7 +55,6 @@ function MobileSection() {
 
 	const logout = async () => {
 		await logOut();
-		console.log("Redirect");
 		history.push("/");
 	}
 

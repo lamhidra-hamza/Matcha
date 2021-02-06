@@ -25,7 +25,6 @@ function Chat(props) {
         {},
         false
       );
-      console.log("the matched user info is\n\n\n", matchedUserResult.data);
       setMatchedUser(matchedUserResult.data.user);
       setLoading(false);
     }

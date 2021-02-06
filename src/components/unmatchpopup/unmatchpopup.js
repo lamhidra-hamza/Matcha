@@ -18,7 +18,6 @@ const UnMatchPopup = (props) => {
 
   const handleOk = async () => {
     const myId = localStorage.getItem("userId");
-    console.log("the unmatched user is ", props.unmatched_user);
     //await putData(`api/matches`, { unmatched_user: props.unmatched_user });
 		const result = await postData(`api/notifications`, {
 			notifiedId: props.unmatched_user,
@@ -34,13 +33,12 @@ const UnMatchPopup = (props) => {
   };
 
   const handleMsgOk = async () => {
-    console.log("the handle message ok is ");
     history.goBack();
   };
 
   if (showMsg)
     return (
-      <div class="unmatchpopup">
+      <div className="unmatchpopup">
         <Modal
           visible={true}
           onOk={handleMsgOk}
@@ -66,7 +64,7 @@ const UnMatchPopup = (props) => {
       </div>
     );
   return (
-    <div class="unmatchpopup">
+    <div className="unmatchpopup">
       <Modal
         title="Unmatch with user X"
         visible={props.isVisible}

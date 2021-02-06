@@ -46,7 +46,6 @@ const LoginForm = (props) => {
   //fetch functions
   const onFinish = async (values) => {
     setloading(true);
-    console.log("Received values of form: ", values);
     const result = await axios.post(
       "http://localhost:5000/api/users/signin",
       {
@@ -61,7 +60,6 @@ const LoginForm = (props) => {
     await localStorage.setItem("userId", result.data.id);
     setloading(false);
     if (result && result.data.status === 1) {
-      console.log("Redirect");
       history.push("/app");
     }
   };
@@ -137,7 +135,7 @@ const LoginForm = (props) => {
             </Form.Item>
           </Form>
           <Button onClick={props.showPasswordForgot} type="text">
-            <span class="styled">Trouble Loggin In? </span>
+            <span className="styled">Trouble Loggin In? </span>
           </Button>
         </div>
       </Modal>
