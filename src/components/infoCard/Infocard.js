@@ -56,7 +56,7 @@ const Infocard = (props) => {
           <Carousel dotPosition={'top'}>
             {images.map((image, index) => (
 				    image &&
-              <div className="fiximg" key={index}>
+              <div className="fiximg" key={image}>
                 <img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
               </div>
             ))}
@@ -93,7 +93,8 @@ const Infocard = (props) => {
                   padding: '2px 0px',
                   textAlign: 'center',
                 }}
-              >
+              
+              key = {tag}>
                 {tag}
               </Tag>
             ))}

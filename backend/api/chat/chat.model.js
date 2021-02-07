@@ -108,11 +108,12 @@ class Chat {
     }
 
     //find the last messages in this conversation
-    async findLast(chat_id, index, length) {
+    async findLast(chat_id, userId, index, length) {
         return await new Promise(async(resolve, reject) => {
             try {
                 const sql = `SELECT * FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} ORDER BY date DESC LIMIT ${index}, ${length}`;
-                await connection.promise().query(`UPDATE messages set seen = 1 where id in (SELECT max(id) FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} and sender_id != ${SqlString.escape(userId)})`);
+                const updateSeen = `UPDATE messages set seen = 1 where id in (SELECT max(id) FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} and sender_id != ${SqlString.escape(userId)})`;
+                await connection.promise().query(updateSeen);
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {

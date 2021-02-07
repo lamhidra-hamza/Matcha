@@ -23,7 +23,7 @@ var socket = io("http://localhost:8000", {
   },
 });
 
-export default function Mainapp({ width }) {
+export default function Mainapp(props) {
   const id = localStorage.getItem("userId");
   const [user, setUser] = useState({});
   const [userImages, setUserImages] = useState(null);
@@ -170,6 +170,12 @@ export default function Mainapp({ width }) {
         setUpdateLocation(true);
         setLoading(false);
         setUpdate(true);
+
+        if (!user.verified && warning)
+          message.warning(
+            `Your email is not verified, Please check your email to verify it !!`
+          );
+        setWarning(false);
       } catch (err) {
         setHttpCodeStatus(err.response.status);
       }
@@ -181,54 +187,42 @@ export default function Mainapp({ width }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function RenderResult(){
-    let result;
-    if (loading)
-      result =  (
-        <div className="containerMainapp">
-        <div className="loading">
-          <Spin size="large" />
-        </div>
+  const test1 = (
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        userImages,
+        setUserImages,
+        userLocation,
+        setUserLocation,
+        realCoordinates,
+        tags,
+        setTags,
+        socket,
+        Notification,
+        setNotification,
+        accountStats,
+        setAccountStats,
+      }}
+    >
+      <div className="containerMainapp">
+        {props.width > 760 ? (
+          <DesktopSection width={props.width} />
+        ) : (
+          <MobileSection />
+        )}
       </div>
-      );
-    else 
-    result =  (        
-      <UserContext.Provider
-        value={{
-          user,
-          setUser,
-          userImages,
-          setUserImages,
-          userLocation,
-          setUserLocation,
-          realCoordinates,
-          tags,
-          setTags,
-          socket,
-          Notification,
-          setNotification,
-          accountStats,
-          setAccountStats,
-        }}
-      >
-        <div className="containerMainapp">
-          {!user.verified &&
-            warning &&
-            message.warning(
-              `Your email is not verified, Please check your email to verify it !!`
-            ) &&
-            setWarning(false)}
-          {width > 760 ? <DesktopSection width={width} /> : <MobileSection />}
-        </div>
-      </UserContext.Provider>
-    );
-    return result;
-  }
+    </UserContext.Provider>
+  );
 
-
-  return (
-    <div>
-          <RenderResult  />
+  const test2 = (
+    <div className="containerMainapp">
+      <div className="loading">
+        <Spin size="large" />
+      </div>
     </div>
   );
+
+  return <div>{!loading ? test1 : test2}</div>;
 }

@@ -36,7 +36,7 @@ export default function UserInfo(props) {
       <div className="fiximg">
         <Carousel>
           {images.map((image) => (
-            <div>
+            <div key = {image}>
               <img alt="img-card" style={contentStyle} src={`${SER.PicPath}/${image}`}/>
             </div>
           ))}

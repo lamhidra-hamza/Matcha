@@ -135,7 +135,7 @@ const Infocard = (props) => {
 				<Carousel dotPosition={'top'}>
 					{UserInfo.images.map((image) => (
 							image &&
-					<div className="fiximg">
+					<div className="fiximg" key = {image}>
 						<img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
 					</div>
 					))}

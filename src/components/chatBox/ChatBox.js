@@ -169,7 +169,7 @@ const ChatBox = (props) => {
     );
   return (
     <div className={props && props.mobile ? "mobileChatBox" : "chatBox"}>
-      <div className="chatBoxHeader">
+      <div className="chatBoxHeader" key = {"chatBoxHeader"}>
         <div className="avatar">
           {props && props.mobile && (
             <div onClick={handleClickBack}>
@@ -190,7 +190,7 @@ const ChatBox = (props) => {
           on {props.matchedUser.date.split("T")[0]}
         </div>
       </div>
-      <div className="chatBoxbody" id="chatBoxID">
+      <div className="chatBoxbody" id="chatBoxID" key = "chatBoxbody">
         <InfiniteScroll
           dataLength={messages.length}
           next={getMessages}
@@ -198,6 +198,7 @@ const ChatBox = (props) => {
           hasMore={loadMore}
           loader={<h4>Loading...</h4>}
           scrollableTarget="chatBoxID"
+          key = {"infinitScroll"}
         >
           {messages.map((element, index) => {
             const lastMessage = messages.length - 1 === index;
@@ -210,7 +211,7 @@ const ChatBox = (props) => {
                       key={element.id}
                     ></MessageSent>
                   }
-                  <div ref={lastMessage ? setRef : null} key={index}></div>
+                  <div ref={lastMessage ? setRef : null} key={element.id + "last"}></div>
                 </>
               );
             return (
@@ -218,16 +219,16 @@ const ChatBox = (props) => {
                 {
                   <MessageReceived
                     message={element}
-                    key={index}
+                    key={element.id}
                   ></MessageReceived>
                 }
-                <div ref={lastMessage ? setRef : null} key={element.id}></div>
+                <div ref={lastMessage ? setRef : null} key={element.id + "last"}></div>
               </>
             );
           })}
         </InfiniteScroll>
       </div>
-      <div className="chatBoxInput">
+      <div className="chatBoxInput" key = "chatBoxInput">
         <Input
           placeholder="Type a message"
           value={message}

@@ -135,7 +135,7 @@ const MessageDisplay = (props) => {
           return (
             <MessageItem
               mobile={props.mobile}
-              key={index}
+              key={element.chat_id}
               message={element}
               seen={messageSeen}
             />
