@@ -118,6 +118,18 @@ export default function Mainapp(props) {
   }, [user]);
 
   useEffect(() => {
+    let noPicture = false;
+    if (!warning) {
+      for (const [key, value] of Object.entries(userImages)) {
+        if (key.includes("picture") && value !== null) noPicture = true;
+      }
+      console.log("the noPicture is", noPicture);
+      if (!noPicture) history.push("/app/profile/edit");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warning]);
+
+  useEffect(() => {
     const source = axios.CancelToken.source();
     const postData = async () => {
       await putData(`api/location/${id}`, userLocation);
@@ -146,6 +158,7 @@ export default function Mainapp(props) {
         setAccountStats(userStats.data.data);
         const userResult = await getData(`api/users/${id}`, {}, false);
         const pictureResult = await getData(`api/pictures/${id}`, {}, false);
+        console.log("the pictures is", pictureResult);
         const tags = await getData(`api/tags/`, {}, false);
         const notiResult = await getData(`api/notifications/`, {}, false);
         let locationResult = await getData(`api/location/${id}`, {}, false);
@@ -168,7 +181,6 @@ export default function Mainapp(props) {
         setTags(tags.data.data);
         setNotification(notiResult.data.data);
         setUpdateLocation(true);
-        setLoading(false);
         setUpdate(true);
 
         if (!user.verified && warning)
@@ -176,6 +188,7 @@ export default function Mainapp(props) {
             `Your email is not verified, Please check your email to verify it !!`
           );
         setWarning(false);
+        setLoading(false);
       } catch (err) {
         setHttpCodeStatus(err.response.status);
       }
