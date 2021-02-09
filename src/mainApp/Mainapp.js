@@ -18,9 +18,6 @@ import { ErrorStatusContext } from "../contexts/ErrorContext";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
-  extraHeaders: {
-    token: "the real token is ",
-  },
 });
 
 export default function Mainapp(props) {
@@ -59,11 +56,11 @@ export default function Mainapp(props) {
   useEffect(() => {
     const source = axios.CancelToken.source();
     let isCancelled = false;
-    socket.emit("joinNotification", {}, (error) => {
-      if (error) {
-        alert(error);
-      }
-    });
+    // socket.emit("joinNotification", {}, (error) => {
+    //   if (error) {
+    //     alert(error);
+    //   }
+    // });
     socket.on("notification", async ({ notifiedUser, notifyId }) => {
       if (notifiedUser === id) {
         const result = await getData(
@@ -123,7 +120,6 @@ export default function Mainapp(props) {
       for (const [key, value] of Object.entries(userImages)) {
         if (key.includes("picture") && value !== null) noPicture = true;
       }
-      console.log("the noPicture is", noPicture);
       if (!noPicture) history.push("/app/profile/edit");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
