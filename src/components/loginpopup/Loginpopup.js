@@ -62,7 +62,7 @@ export class Loginpopup extends Component {
             <BtnNoBackgrndIcon link="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-256.png" />
             <BtnNoBackgrndIcon link="https://cdn0.iconfinder.com/data/icons/social-media-2071/100/social-02-256.png" />
              <Button onClick={this.props.showLgnForm} type="text">
-              <span>Login with <span className="colored">Email</span> and <span class="colored">password</span></span>
+              <span>Login with <span className="colored">Email</span> and <span className="colored">password</span></span>
             </Button>
             <Divider />
             <Title level={3}>GET THE APP</Title>

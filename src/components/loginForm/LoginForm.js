@@ -46,7 +46,8 @@ const LoginForm = (props) => {
   //fetch functions
   const onFinish = async (values) => {
     setloading(true);
-    const result = await axios.post(
+    try {
+      const result = await axios.post(
       "http://localhost:5000/api/users/signin",
       {
         email: values.email,
@@ -58,10 +59,14 @@ const LoginForm = (props) => {
     );
     await localStorage.setItem("accessToken", result.data.accessToken);
     await localStorage.setItem("userId", result.data.id);
-    setloading(false);
     if (result && result.data.status === 1) {
       history.push("/app");
     }
+  }
+    catch(err){
+      setloading(false);
+    }
+    
   };
 
   return (

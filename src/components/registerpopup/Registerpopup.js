@@ -57,7 +57,7 @@ export class Registerpopup extends Component {
 			<div>Or try <Button 
 					style={{margin: 0, padding: 0}}
 					onClick={this.props.showModal}
-					type="link" Primary>
+					type="link" primary="true">
 					 Register
 				</Button>?</div>
             <Divider />
