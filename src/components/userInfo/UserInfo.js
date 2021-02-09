@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Divider } from "antd";
-import { Carousel } from "antd";
+import { Carousel, Rate } from "antd";
 import "./UserInfo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
@@ -49,6 +49,9 @@ export default function UserInfo(props) {
           , {calculate_age(props.matchedUser.bornDate)}
         </div>
         <div className="userNameInfoJob">
+          {console.log("the fame Rate is ", props.matchedUser.frameRate)}
+          Fame Rate : <Rate allowHalf defaultValue={props.matchedUser.frameRate / 20} disabled />
+          <br />
           <FontAwesomeIcon icon={faBriefcase} /> {props.matchedUser.job}
           <br />
           <FontAwesomeIcon icon={faMapMarkerAlt} /> 1 km away

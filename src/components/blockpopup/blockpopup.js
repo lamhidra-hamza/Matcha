@@ -16,7 +16,7 @@ const BlockPopUp = (props) => {
 
   const handleOk = async () => {
     const myId = localStorage.getItem("userId");
-    //await postData(`api/block`, {blocked_user: id});
+    await postData(`api/block`, {blocked_user: props.block_user});
     const result = await postData(`api/notifications`, {
       notifiedId: props.block_user,
       type: "block",

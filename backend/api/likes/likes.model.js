@@ -16,6 +16,9 @@ class Likes {
           .query(SqlString.format("INSERT INTO likes SET ?", info));
         await connection
           .promise()
+          .query(`UPDATE users SET frameRate = frameRate + 1 WHERE id = ${SqlString.escape(data.liked_user)}`);
+        await connection
+          .promise()
           .query(`DELETE FROM views WHERE user_id = ${SqlString.escape(userId)} and viewed_user = ${SqlString.escape(data.liked_user)}`);
         resolve("done");
       } catch (err) {

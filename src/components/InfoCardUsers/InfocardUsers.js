@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import { Carousel, Tag, Divider, Skeleton} from 'antd'
+import { Carousel, Tag, Divider, Skeleton, Rate} from 'antd'
 import axios from 'axios'
 import {
   EnvironmentTwoTone,
@@ -151,6 +151,9 @@ const Infocard = (props) => {
 					<h4 className="smallfontCard" style={{ color: '#a3a3a3' }}>
 					{UserInfo.distance_in_km} kilometers away
 					</h4>
+				</div>
+				<div className = "fameRate">
+					Fame Rate : <Rate allowHalf defaultValue={UserInfo.rate / 20} disabled />
 				</div>
 				<div
 					style={{

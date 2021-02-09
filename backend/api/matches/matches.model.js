@@ -8,21 +8,26 @@ class Matches {
             try {
                 let info = {
                     user_id: userId,
-                    matched_user: data.unmatched_user,
+                    matched_user: data.matched_user,
                     date: new Date().toISOString().slice(0, 19).replace("T", " "),
                 };
                 await connection
                     .promise()
                     .query(SqlString.format("INSERT INTO matches SET ?", info));
+                
+                    await connection
+                    .promise()
+                    .query(`UPDATE users SET frameRate = frameRate + 1 WHERE id = ${SqlString.escape(data.matched_user)}`);
+
                 await connection
                     .promise()
                     .query(
                         `DELETE FROM likes WHERE ((user_id = ${SqlString.escape(
                   userId
                 )} and liked_user = ${SqlString.escape(
-                  data.unmatched_user
+                  data.matched_user
                 )}) or (user_id = ${SqlString.escape(
-                  data.unmatched_user
+                  data.matched_user
                 )} and liked_user = ${SqlString.escape(userId)}))`
                     );
                 resolve("Done");
@@ -43,6 +48,9 @@ class Matches {
                 await connection
                     .promise()
                     .query(SqlString.format("INSERT INTO likes SET ?", info));
+                    await connection
+                    .promise()
+                    .query(`UPDATE users SET frameRate = frameRate - 5 WHERE id = ${SqlString.escape(data.unmatched_user)}`);
                 await connection
                     .promise()
                     .query(
@@ -94,6 +102,7 @@ class Matches {
                                 users.biography,
                                 users.bornDate,
                                 users.id,
+                                users.frameRate,
                                 pictures.picture_1,
                                 pictures.picture_2,
                                 pictures.picture_3,

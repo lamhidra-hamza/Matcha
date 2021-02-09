@@ -54,6 +54,13 @@
         margin-left: 15px;
         margin-right: 15px;
     }
+    .fameRate{
+        display: flex;
+        margin-left : 12px;
+        width: 60%;
+        justify-content:space-between;
+        align-items:center;
+    }
     .smallfontCard {
         font-size: 1.2rem;
         font-weight: 200;
@@ -152,6 +159,13 @@
         flex-direction: row;
         margin-left: 15px;
         margin-right: 15px;
+    }
+    .fameRate{
+        display: flex;
+        margin-left : 12px;
+        width: 40%;
+        justify-content:space-between;
+        align-items:center;
     }
     .smallfontCard {
         font-size: 1.2rem;

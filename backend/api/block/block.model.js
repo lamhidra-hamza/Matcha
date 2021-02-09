@@ -13,6 +13,9 @@ class Block {
                     blocked_user: data.blocked_user,
                 };
                 await connection.promise().query(SqlString.format('INSERT INTO block SET ?', info));
+                await connection
+                    .promise()
+                    .query(`UPDATE users SET frameRate = frameRate - 10 WHERE id = ${SqlString.escape(data.blocked_user)}`);
                 resolve("done");
             } catch {
                 reject(new HTTP500Error('internal Error DB'));
