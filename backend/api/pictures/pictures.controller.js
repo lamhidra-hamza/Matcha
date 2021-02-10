@@ -65,16 +65,19 @@ async function updateOne(req, res, next) {
         const data = await model.findOneById(req.params.id);
         if (!data.length)
             throw new HTTP404Error('user not found');
+        console.log("update pictures");
+        fs.unlinkSync(`uploads/36784900f892952818831bf1fb8fa9b3.jpg`);
+        console.log(data);
         if (!body.picture_1 && data[0].picture_1 && fs.existsSync(data[0].picture_1))
-            fs.unlinkSync(data[0].picture_1);
+            fs.unlinkSync(`uploads/${data[0].picture_1}`);
         if (!body.picture_2 && data[0].picture_2 && fs.existsSync(data[0].picture_2))
-            fs.unlinkSync(data[0].picture_2);
+            fs.unlinkSync(`uploads/${data[0].picture_2}`);
         if (!body.picture_3 && data[0].picture_3 && fs.existsSync(data[0].picture_3))
-            fs.unlinkSync(data[0].picture_3);
+            fs.unlinkSync(`uploads/${data[0].picture_3}`);
         if (!body.picture_4 && data[0].picture_4 && fs.existsSync(data[0].picture_4))
-            fs.unlinkSync(data[0].picture_4);
+            fs.unlinkSync(`uploads/${data[0].picture_4}`);
         if (!body.picture_5 && data[0].picture_5 && fs.existsSync(data[0].picture_5))
-            fs.unlinkSync(data[0].picture_5);
+            fs.unlinkSync(`uploads/${data[0].picture_5}`);
         delete body.id;
         delete body.user_id;
         await model.findOneAndUpdate(req.id, req.params.id, body);

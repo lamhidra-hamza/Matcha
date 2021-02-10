@@ -24,9 +24,6 @@ start();
 //chat
 io.on("connect", (socket) => {
   try {
-    console.log("the cookies", socket.handshake.headers.cookie);
-    const token = socket.handshake.headers.cookie.split("=")[1];
-    console.log("token is", "token");
     jwt.verify(token, "matcha-secret-code");
     socket.on("joinNotification", () => {
       socket.join("MatchaNotify");

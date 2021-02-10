@@ -15,8 +15,6 @@ function Chat(props) {
   const [matchedUser, setMatchedUser] = useState({});
   const { chat_id } = useParams();
 
-
-
   useEffect(() => {
     setLoading(true);
     async function fetchData(){
