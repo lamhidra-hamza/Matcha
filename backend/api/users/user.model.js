@@ -133,10 +133,12 @@ class User {
                             AND distance_in_km < ${filters.maxDistance} AND rate >= ${filters.frameRate}
                             ${tagsCount}
                             AND users.id !=${SqlString.escape(userId)}
-                            AND users.id NOT IN (SELECT liked_user FROM likes WHERE user_id=${SqlString.escape(userId)})
+                            AND users.id NOT IN (SELECT matched_user FROM matches WHERE user_id=${SqlString.escape(userId)})
+                            AND users.id NOT IN (SELECT user_id FROM matches WHERE matched_user=${SqlString.escape(userId)})
                             AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
                             ${orderBy}
                             LIMIT ${limit}, ${filters.numberOfItem} `;
+                console.log(sql)
 
                 const [result, fields] = await connection
                     .promise()
@@ -259,7 +261,7 @@ class User {
                     AND ${SqlString.escape(userId)} IN (SELECT viewed_user FROM views WHERE user_id=users.id)
                     LIMIT ${limit}, ${filters.numberOfItem} `;
 
-            
+
 
                 const [result, fields] = await connection
                     .promise()
