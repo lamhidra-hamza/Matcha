@@ -24,20 +24,24 @@ start();
 //chat
 io.on("connect", (socket) => {
   try {
-    jwt.verify(token, "matcha-secret-code");
+    console.log("token========>>>");
+    // jwt.verify(token, "matcha-secret-code");
     socket.on("joinNotification", () => {
       socket.join("MatchaNotify");
     });
 
     socket.on("join", ({ userId, room }) => {
+      console.log("room ======>>>", room);
       socket.join(room);
     });
 
     socket.on("newNotification", ({ userId, notifiedUser, notifyId }) => {
+      console.log("notifiedUser=======>>>", notifiedUser);
       io.to("MatchaNotify").emit("notification", { notifiedUser, notifyId });
     });
 
     socket.on("sendMessage", ({ room, msgId }) => {
+      console.log("sendMessage =====>>>", room,"\n" ,msgId, "====")
       socket.broadcast.to(room).emit("message", { msgId: msgId });
     });
   } catch (err) {}

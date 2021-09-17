@@ -112,7 +112,7 @@ class Chat {
         return await new Promise(async(resolve, reject) => {
             try {
                 const sql = `SELECT * FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} ORDER BY date DESC LIMIT ${index}, ${length}`;
-                const updateSeen = `UPDATE messages set seen = 1 where id in (SELECT max(id) FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} and sender_id != ${SqlString.escape(userId)})`;
+                const updateSeen = `UPDATE messages set seen = 1 where id in (SELECT * FROM (SELECT max(id) FROM messages WHERE chat_id = ${SqlString.escape(chat_id)} and sender_id != ${SqlString.escape(userId)}) as T)`;
                 await connection.promise().query(updateSeen);
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);

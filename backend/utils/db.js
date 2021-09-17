@@ -1,10 +1,11 @@
 var mysql = require('mysql2');
 
 var connection = mysql.createPool({
-    host: "192.168.99.104",
+    host: "localhost",
     user: "root",
-    password: "root",
-    database: "matcha"
+    password: "123",
+    database: "matcha",
+    port: 3307
 });
 
 module.exports = connection;

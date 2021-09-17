@@ -62,14 +62,18 @@ const ChatBox = (props) => {
     const source = axios.CancelToken.source();
 
     async function fetchMsgs() {
-      const messagesResult = await getData(
-        `api/chat/${chat_id}`,
-        {
-          ...params,
-        },
-        false
-      );
-      setMessages(messagesResult.data.data);
+      try {
+        const messagesResult = await getData(
+          `api/chat/${chat_id}`,
+          {
+            ...params,
+          },
+          false
+        );
+
+
+      console.log("messagesResult=====>>>>", messagesResult);
+      console.log("socket ====>>>",socket);
       socket.emit("join", { userId: id, room: chat_id }, (error) => {
         if (error) {
           alert(error);
@@ -78,10 +82,15 @@ const ChatBox = (props) => {
       let newMessagesStats = accountStats.messages.filter((value) => {
         return value.chat_id !== chat_id;
       });
+      setMessages(messagesResult.data.data);
+
       setAccountStats({
         ...accountStats,
         messages: newMessagesStats,
       });
+    } catch (err) {
+      console.log("err=====>>", err);
+    }
     }
     if (!canceled) fetchMsgs();
     setLoading(false);
@@ -91,11 +100,12 @@ const ChatBox = (props) => {
       canceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [room]);
+  }, []);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
     socket.on("message", async ({ msgId }) => {
+      console.log("msgId====>>>", msgId);
       const lastMsg = await getData(
         `api/chat/${chat_id}`,
         {
@@ -118,10 +128,13 @@ const ChatBox = (props) => {
     event.preventDefault();
     let date = new Date().toISOString().slice(0, 19).replace("T", " ");
     if (message) {
+      console.log("message=====>>>", message);
       const putMessage = await postData(`api/chat/${chat_id}`, {
         content: message,
         date: date,
       });
+      console.log("putMessage=====>>>", putMessage);
+
       socket.emit("sendMessage", {
         room: chat_id,
         msgId: putMessage.data.id,

@@ -56,12 +56,13 @@ export default function Mainapp(props) {
   useEffect(() => {
     const source = axios.CancelToken.source();
     let isCancelled = false;
-    // socket.emit("joinNotification", {}, (error) => {
-    //   if (error) {
-    //     alert(error);
-    //   }
-    // });
+    socket.emit("joinNotification", {}, (error) => {
+      if (error) {
+        alert(error);
+      }
+    });
     socket.on("notification", async ({ notifiedUser, notifyId }) => {
+      console.log("=======/////notification/////======", notifiedUser);
       if (notifiedUser === id) {
         const result = await getData(
           `api/notifications/${notifyId}`,
