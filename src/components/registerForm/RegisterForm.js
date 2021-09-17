@@ -9,6 +9,7 @@ import {
   Checkbox,
   Button,
   DatePicker,
+  message
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { SER } from "../../conf/config";
@@ -50,21 +51,28 @@ const RegisterForm = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    props.showModal(values.email);
-    const result = await axios.post(`${SER.HOST}/api/users/signup`, values);
-    await axios.post(`${SER.HOST}/api/pictures`, {
-      user_id: result.data.id,
-      picture_1: null,
-      picture_2: null,
-      picture_3: null,
-      picture_4: null,
-      picture_5: null,
-    });
-    await axios.post(`${SER.HOST}/api/location`, {
-      user_id: result.data.id,
-      longitude: null,
-      latitude: null,
-    });
+    try {
+      if (values?.bornDate)
+        values.bornDate = moment(values.bornDate).format("DD-MM-YYYY");
+      console.log("values ====>>", values);
+      const result = await axios.post(`${SER.HOST}/api/users/signup`, values);
+      await axios.post(`${SER.HOST}/api/pictures`, {
+        user_id: result.data.id,
+        picture_1: null,
+        picture_2: null,
+        picture_3: null,
+        picture_4: null,
+        picture_5: null,
+      });
+      await axios.post(`${SER.HOST}/api/location`, {
+        user_id: result.data.id,
+        longitude: null,
+        latitude: null,
+      });
+      props.showModal(values.email);
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "Something Wrong !");
+    }
   };
 
   const checkAge = (value) => {
@@ -81,7 +89,7 @@ const RegisterForm = (props) => {
         bodyStyle={getStyle()}
         width={props.mobile ? "100vw" : "50vw"}
         centered={true}
-        footer={[<Button key="back" onClick={props.handleCancel}></Button>]}
+        footer={null}
       >
         <div className="loginoption">
           <Form

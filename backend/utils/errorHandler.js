@@ -30,7 +30,7 @@ class APIError extends BaseError {
 
 class ErrorHandler {
     async handleError(err, res) {
-        res.status(err.httpCode).json({
+        res.status(err.httpCode).send({
             status: "error",
             statusCode: err.httpCode,
             msg: err.message

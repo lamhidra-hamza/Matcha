@@ -62,7 +62,6 @@ export default function Mainapp(props) {
       }
     });
     socket.on("notification", async ({ notifiedUser, notifyId }) => {
-      console.log("=======/////notification/////======", notifiedUser);
       if (notifiedUser === id) {
         const result = await getData(
           `api/notifications/${notifyId}`,

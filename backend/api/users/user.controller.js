@@ -4,8 +4,11 @@ const jwt = require("jsonwebtoken");
 const serInfo = require("../../config/index");
 const serverInfo = require("../../config/index");
 const nodemailer = require("nodemailer");
-const e = require("express");
-const SqlString = require('sqlstring');
+const validEmail = /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@{[a-zA-Z0-9_\-\.]+0\.([a-zA-Z]{2,5}){1,25})+)*$/;
+const validPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const validUserName = /^[a-zA-Z0-9]+$/;
+const validName = /^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i;
+
 
 const { HTTP400Error, HTTP404Error, HTTP403Error, HTTP500Error, HttpStatusCode } = require("../../utils/errorHandler");
 
@@ -112,10 +115,21 @@ async function signUp(req, res, next) {
             !body.firstName || !body.lastName || !body.password) {
             throw new HTTP400Error("Invalid request data");
         }
+        if (!validEmail.test(body.email))
+            throw new HTTP400Error("Invalid Email");
+        if (!validUserName.test(body.username))
+            throw new HTTP400Error("Invalid UserName");
+        if (!validName.test(body.firstName))
+            throw new HTTP400Error("Invalid FirstName");
+        if (!validName.test(body.lastName))
+            throw new HTTP400Error("Invalid LastName");
+        if (!validPassword.test(body.password))
+            throw new HTTP400Error("Invalid Password");
+
         const search = await model.findOneByEmail(null, body.email);
 
         if (search[0] && search[0].email === body.email)
-            new HTTP400Error("Email exist");
+            throw new HTTP400Error("Email exist");
 
         const result = await model.create(body);
 

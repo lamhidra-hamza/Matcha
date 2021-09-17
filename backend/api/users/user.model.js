@@ -29,13 +29,14 @@ class User {
                     interessted: "both",
                     verified: false,
                     infoCompleted: false,
-                    bornDate: data.bornDate.slice(0, 19).replace("T", " "),
+                    bornDate: new Date(data.bornDate),
                     frameRate: 50
                 };
                 await connection.promise().query(SqlString.format('INSERT INTO users SET ?', info));
 
                 resolve({ id: info.id });
             } catch (err) {
+                console.log(err);
                 reject(new HTTP500Error('Internal Error DB'));
             }
         })

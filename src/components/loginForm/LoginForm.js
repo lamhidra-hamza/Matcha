@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Form, Input, Button, message } from "antd";
 import axios from "axios";
 
 const formItemLayout = {
@@ -47,23 +47,24 @@ const LoginForm = (props) => {
   const onFinish = async (values) => {
     setloading(true);
     try {
-      const result = await axios.post(
-      "http://localhost:5000/api/users/signin",
-      {
-        email: values.email,
-        password: values.password,
-      },
-      {
-        withCredentials: true,
+        const result = await axios.post(
+        "http://localhost:5000/api/users/signin",
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      localStorage.setItem("accessToken", result.data.accessToken);
+      localStorage.setItem("userId", result.data.id);
+      if (result && result.data.status === 1) {
+        history.push("/app");
       }
-    );
-    await localStorage.setItem("accessToken", result.data.accessToken);
-    await localStorage.setItem("userId", result.data.id);
-    if (result && result.data.status === 1) {
-      history.push("/app");
     }
-  }
     catch(err){
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "Something Wrong !");
       setloading(false);
     }
     
