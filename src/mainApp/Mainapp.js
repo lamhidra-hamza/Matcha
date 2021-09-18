@@ -186,6 +186,7 @@ export default function Mainapp(props) {
         setWarning(false);
         setLoading(false);
       } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
         setHttpCodeStatus(err.response.status);
       }
     }

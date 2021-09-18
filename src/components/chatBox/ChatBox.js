@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Avatar, Input, Button, Spin } from "antd";
+import { Avatar, Input, Button, Spin, message } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
@@ -12,6 +12,7 @@ import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
 import { SER } from "../../conf/config";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { ErrorStatusContext } from "../../contexts/ErrorContext";
 
 var socket = io("http://localhost:8000", {
   withCredentials: true,
@@ -22,8 +23,8 @@ var socket = io("http://localhost:8000", {
 
 const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
-
   const { accountStats, setAccountStats } = useContext(UserContext);
+  const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
   const [params, setParams] = useState({
     startIndex: 0,
@@ -37,23 +38,27 @@ const ChatBox = (props) => {
     }
   }, []);
 
-  const [message, setMessage] = useState("");
+  const [OneMessage, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadMore, setLoadMore] = useState(true);
   const { chat_id } = useParams();
-  const [room] = useState("");
   const history = useHistory();
 
   const getMessages = async () => {
-    const result = await getData(
-      `api/chat/${chat_id}`,
-      { ...params, startIndex: params.startIndex + params.length },
-      false
-    );
-    setParams({ ...params, startIndex: params.startIndex + params.length });
-    if (result.data.data.length === 0) setLoadMore(false);
-    setMessages([...result.data.data, ...messages]);
+    try {
+      const result = await getData(
+        `api/chat/${chat_id}`,
+        { ...params, startIndex: params.startIndex + params.length },
+        false
+      );
+      setParams({ ...params, startIndex: params.startIndex + params.length });
+      if (result.data.data.length === 0) setLoadMore(false);
+      setMessages([...result.data.data, ...messages]);
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+      setHttpCodeStatus(err.response.status);
+    }
   };
 
   useEffect(() => {
@@ -71,26 +76,25 @@ const ChatBox = (props) => {
           false
         );
 
+        socket.emit("join", { userId: id, room: chat_id }, (error) => {
+          if (error) {
+            alert(error);
+          }
+        });
 
-      console.log("messagesResult=====>>>>", messagesResult);
-      console.log("socket ====>>>",socket);
-      socket.emit("join", { userId: id, room: chat_id }, (error) => {
-        if (error) {
-          alert(error);
-        }
-      });
-      let newMessagesStats = accountStats.messages.filter((value) => {
-        return value.chat_id !== chat_id;
-      });
-      setMessages(messagesResult.data.data);
+        let newMessagesStats = accountStats.messages.filter((value) => {
+          return value.chat_id !== chat_id;
+        });
+        setMessages(messagesResult.data.data);
 
-      setAccountStats({
-        ...accountStats,
-        messages: newMessagesStats,
-      });
-    } catch (err) {
-      console.log("err=====>>", err);
-    }
+        setAccountStats({
+          ...accountStats,
+          messages: newMessagesStats,
+        });
+      } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+        setHttpCodeStatus(err.response.status);
+      }
     }
     if (!canceled) fetchMsgs();
     setLoading(false);
@@ -105,17 +109,21 @@ const ChatBox = (props) => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     socket.on("message", async ({ msgId }) => {
-      console.log("msgId====>>>", msgId);
-      const lastMsg = await getData(
-        `api/chat/${chat_id}`,
-        {
-          startIndex: null,
-          length: null,
-          msgId: msgId,
-        },
-        false
-      );
-      setMessages((messages) => [...messages, lastMsg.data.data[0]]);
+      try {
+        const lastMsg = await getData(
+          `api/chat/${chat_id}`,
+          {
+            startIndex: null,
+            length: null,
+            msgId: msgId,
+          },
+          false
+        );
+        setMessages((messages) => [...messages, lastMsg.data.data[0]]);
+      } catch(err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+        setHttpCodeStatus(err.response.status);
+      }
     });
     setLoading(false);
     return () => {
@@ -127,40 +135,43 @@ const ChatBox = (props) => {
   const sendMessage = async (event) => {
     event.preventDefault();
     let date = new Date().toISOString().slice(0, 19).replace("T", " ");
-    if (message) {
-      console.log("message=====>>>", message);
-      const putMessage = await postData(`api/chat/${chat_id}`, {
-        content: message,
-        date: date,
-      });
-      console.log("putMessage=====>>>", putMessage);
-
-      socket.emit("sendMessage", {
-        room: chat_id,
-        msgId: putMessage.data.id,
-      });
-      const result = await postData(`api/notifications`, {
-        notifiedId: props.matchedUser.id,
-        type: "message",
-      });
-      socket.emit("newNotification", {
-        userId: id,
-        notifiedUser: props.matchedUser.id,
-        notifyId: result.data.id,
-      });
-      setMessages((messages) => [
-        ...messages,
-        {
-          chat_id: chat_id,
-          content: message,
+    if (OneMessage) {
+      try {
+        const putMessage = await postData(`api/chat/${chat_id}`, {
+          content: OneMessage,
           date: date,
-          id: 11,
-          seen: 0,
-          sender_id: id,
-        },
-      ]);
-      setMessage("");
-      setAccountStats({ ...accountStats, newMessage: true });
+        });
+  
+        socket.emit("sendMessage", {
+          room: chat_id,
+          msgId: putMessage.data.id,
+        });
+        const result = await postData(`api/notifications`, {
+          notifiedId: props.matchedUser.id,
+          type: "message",
+        });
+        socket.emit("newNotification", {
+          userId: id,
+          notifiedUser: props.matchedUser.id,
+          notifyId: result.data.id,
+        });
+        setMessages((messages) => [
+          ...messages,
+          {
+            chat_id: chat_id,
+            content: OneMessage,
+            date: date,
+            id: 11,
+            seen: 0,
+            sender_id: id,
+          },
+        ]);
+        setMessage("");
+        setAccountStats({ ...accountStats, newMessage: true });
+      } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+        setHttpCodeStatus(err.response.status);
+      }
     }
   };
 
@@ -172,6 +183,32 @@ const ChatBox = (props) => {
     history.goBack();
   };
 
+  const renderItem = (messages) => {
+    const items = messages.map((element, index) => {
+        const lastMessage = messages.length - 1 === index;
+        if (element.sender_id === id)
+          return (
+            <React.Fragment key={index}>
+                <MessageSent
+                  message={element}
+                  key={element.id}
+                ></MessageSent>
+              <div ref={lastMessage ? setRef : null} key={element.id + "last"}></div>
+            </ React.Fragment>
+          );
+        return (
+          <React.Fragment key={index}>
+              <MessageReceived
+                message={element}
+                key={element.id}
+              ></MessageReceived>
+            <div ref={lastMessage ? setRef : null} key={element.id + "last"}></div>
+          </ React.Fragment>
+        );
+    });
+    return items;
+  }
+
   if (loading)
     return (
       <div className="chatBox">
@@ -180,9 +217,10 @@ const ChatBox = (props) => {
         </div>
       </div>
     );
+
   return (
     <div className={props && props.mobile ? "mobileChatBox" : "chatBox"}>
-      <div className="chatBoxHeader" key = {"chatBoxHeader"}>
+      <div className="chatBoxHeader" >
         <div className="avatar">
           {props && props.mobile && (
             <div onClick={handleClickBack}>
@@ -203,7 +241,7 @@ const ChatBox = (props) => {
           on {props.matchedUser.date.split("T")[0]}
         </div>
       </div>
-      <div className="chatBoxbody" id="chatBoxID" key = "chatBoxbody">
+      <div className="chatBoxbody" id="chatBoxID">
         <InfiniteScroll
           dataLength={messages.length}
           next={getMessages}
@@ -211,40 +249,14 @@ const ChatBox = (props) => {
           hasMore={loadMore}
           loader={<h4>Loading...</h4>}
           scrollableTarget="chatBoxID"
-          key = {"infinitScroll"}
         >
-          {messages.map((element, index) => {
-            const lastMessage = messages.length - 1 === index;
-            if (element.sender_id === id)
-              return (
-                <>
-                  {
-                    <MessageSent
-                      message={element}
-                      key={element.id}
-                    ></MessageSent>
-                  }
-                  <div ref={lastMessage ? setRef : null} key={element.id + "last"}></div>
-                </>
-              );
-            return (
-              <>
-                {
-                  <MessageReceived
-                    message={element}
-                    key={element.id}
-                  ></MessageReceived>
-                }
-                <div ref={lastMessage ? setRef : null} key={element.id + "last"}></div>
-              </>
-            );
-          })}
+          {renderItem(messages)}
         </InfiniteScroll>
       </div>
-      <div className="chatBoxInput" key = "chatBoxInput">
+      <div className="chatBoxInput">
         <Input
           placeholder="Type a message"
-          value={message}
+          value={OneMessage}
           onChange={handleMessageChange}
           className="chatInput"
           onPressEnter={sendMessage}

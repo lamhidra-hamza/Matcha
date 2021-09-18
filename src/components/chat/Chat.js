@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ChatBox from "../chatBox/ChatBox";
 import UserInfo from "../userInfo/UserInfo";
 import "./Chat.css";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 import { getData } from "../../tools/globalFunctions.js";
 import { useParams } from "react-router-dom";
 import UnMatchPopup from "../unmatchpopup/unmatchpopup.js";
 import BlockPopUp from "../blockpopup/blockpopup.js";
+import { ErrorStatusContext } from "../../contexts/ErrorContext";
 
 function Chat(props) {
   const [loading, setLoading] = useState(true);
@@ -14,17 +15,23 @@ function Chat(props) {
   const [showBlockPopUp, setBlockPopUp] = useState(false);
   const [matchedUser, setMatchedUser] = useState({});
   const { chat_id } = useParams();
+  const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
   useEffect(() => {
     setLoading(true);
     async function fetchData(){
-      const matchedUserResult = await getData(
-        `api/matches/chat/${chat_id}`,
-        {},
-        false
-      );
-      setMatchedUser(matchedUserResult.data.user);
-      setLoading(false);
+      try {
+        const matchedUserResult = await getData(
+          `api/matches/chat/${chat_id}`,
+          {},
+          false
+        );
+        setMatchedUser(matchedUserResult.data.user);
+        setLoading(false);
+      } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+        setHttpCodeStatus(err.response.status);
+      }
     }
     fetchData();
   }, [chat_id]);

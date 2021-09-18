@@ -51,16 +51,16 @@ const MessageReceived = (props) => {
 
     return (
         <div className="messageReceivedComponent">
-            <div className="messageReceived">
-          <div className="messageReceivedContent">
-            <span>{props.message.content}</span>
-          </div>          
-        </div>
-        <div className="messageReceivedInfo">
-          <div className="messageReceivedTime">
-            <span>{time}</span>
-          </div>          
-        </div>
+          <div className="messageReceived">
+              <div className="messageReceivedContent">
+                <span>{props.message.content}</span>
+              </div>          
+          </div>
+          <div className="messageReceivedInfo">
+              <div className="messageReceivedTime">
+                <span>{time}</span>
+              </div>          
+          </div>
         </div>
     )
 }
