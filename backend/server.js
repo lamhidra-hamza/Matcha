@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/users", require("./api/users/user.router"));
-app.use("/api/firstcheck", require("./api/firstcheck/firstcheck.router"));
 app.use("/posts", require("./post"));
 app.use("/api/block", require("./api/block/block.router"));
 app.use("/api/views", require("./api/views/views.router"));
