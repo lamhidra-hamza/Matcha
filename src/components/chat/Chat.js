@@ -34,6 +34,7 @@ function Chat(props) {
       }
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat_id]);
 
   if (loading)
@@ -47,9 +48,19 @@ function Chat(props) {
   return (
     <div className="rightSide">
       <ChatBox matchedUser={matchedUser} mobile = {props.mobile}/>
-      {props.width > 300 && <UserInfo showBlock = {() => setBlockPopUp(!showBlockPopUp)} showUnmatch = {() => {setShowUnmatchModel(!showUnmatchModel)}} matchedUser={matchedUser} />}
-      <UnMatchPopup unmatched_user = {matchedUser.id} isVisible = {showUnmatchModel} showUnmatch = {() => {setShowUnmatchModel(!showUnmatchModel)}} />
-      <BlockPopUp block_user = {matchedUser.id} isVisible = {showBlockPopUp} showBlock = {() => setBlockPopUp(!showBlockPopUp)} />
+      {props.width > 300 && 
+        <UserInfo
+          showBlock = {() => setBlockPopUp(!showBlockPopUp)}
+          showUnmatch = {() => {setShowUnmatchModel(!showUnmatchModel)}}
+          matchedUser={matchedUser} />}
+        <UnMatchPopup
+          unmatched_user = {matchedUser.id}
+          isVisible = {showUnmatchModel}
+          showUnmatch = {() => {setShowUnmatchModel(!showUnmatchModel)}} />
+        <BlockPopUp
+          block_user = {matchedUser.id}
+          isVisible = {showBlockPopUp}
+          showBlock = {() => setBlockPopUp(!showBlockPopUp)} />
     </div>
   );
 }

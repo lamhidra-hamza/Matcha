@@ -158,6 +158,7 @@ export default function Mainapp(props) {
         const tags = await getData(`api/tags/`, {}, false);
         const notiResult = await getData(`api/notifications/`, {}, false);
         let locationResult = await getData(`api/location/${id}`, {}, false);
+        
         userLocation.latitude = locationResult.data.latitude;
         userLocation.longitude = locationResult.data.longitude;
         userLocation.location_name = locationResult.data.location_name;
@@ -167,6 +168,7 @@ export default function Mainapp(props) {
         newLocation.location_name = locationResult.location_name;
         newLocation.latitude = locationResult.latitude;
         newLocation.longitude = locationResult.longitude;
+
         setUpdateLocation(true);
         setRealCoordinates(newLocation);
         if (userLocation.real_location) {
@@ -197,7 +199,7 @@ export default function Mainapp(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const test1 = (
+  const content = (
     <UserContext.Provider
       value={{
         user,
@@ -226,7 +228,7 @@ export default function Mainapp(props) {
     </UserContext.Provider>
   );
 
-  const test2 = (
+  const loadingContent = (
     <div className="containerMainapp">
       <div className="loading">
         <Spin size="large" />
@@ -234,5 +236,5 @@ export default function Mainapp(props) {
     </div>
   );
 
-  return <div>{!loading ? test1 : test2}</div>;
+  return <div>{!loading ? content : loadingContent}</div>;
 }

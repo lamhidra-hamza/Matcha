@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Home from './pages/home/Home.js'
 import './App.less';
 import MainApp from './mainApp/Mainapp'
+import NotFound from './pages/error/NotFound.js';
 import ErrorHandler from './errorHandler/ErrorHandler'
 import {
   BrowserRouter as Router,
@@ -38,9 +39,9 @@ const App = () => {
             <Route path="/app">
                 <MainApp width={width}/>
             </Route>
-            {/* <Route path="/error/404">
+            <Route>
               <NotFound />
-            </Route> */}
+            </Route>
           </Switch>
         </ErrorHandler>
       </div>
