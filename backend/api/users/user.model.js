@@ -36,7 +36,7 @@ class User {
 
                 resolve({ id: info.id });
             } catch (err) {
-                console.log(err);
+                // console.log(err);
                 reject(new HTTP500Error('Internal Error DB'));
             }
         })
@@ -139,7 +139,7 @@ class User {
                             AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
                             ${orderBy}
                             LIMIT ${limit}, ${filters.numberOfItem} `;
-                console.log(sql)
+                // console.log(sql)
 
                 const [result, fields] = await connection
                     .promise()

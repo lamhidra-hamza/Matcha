@@ -8,23 +8,15 @@ import axios from "axios";
 import InfiniteScrollReverse from "react-infinite-scroll-reverse/dist/InfiniteScrollReverse";
 
 const MessageDisplay = (props) => {
-  //   let params = {
-  //     startIndex: 0,
-  //     endIndex: 10,
-  //     lastMessageDate: null,
-  //   };
 
   const {accountStats, setAccountStats } = useContext(UserContext);
 
   const [params, setParams] = useState({
-    // page: 0,
-    // numberOfItem: 4,
     startIndex: 0,
     length: 6,
     lastMessageDate: null,
   });
 
-  //const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState(true);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);

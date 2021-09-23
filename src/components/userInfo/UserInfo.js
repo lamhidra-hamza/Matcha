@@ -49,7 +49,6 @@ export default function UserInfo(props) {
           , {calculate_age(props.matchedUser.bornDate)}
         </div>
         <div className="userNameInfoJob">
-          {console.log("the fame Rate is ", props.matchedUser.frameRate)}
           Fame Rate : <Rate allowHalf defaultValue={props.matchedUser.frameRate / 20} disabled />
           <br />
           <FontAwesomeIcon icon={faBriefcase} /> {props.matchedUser.job}

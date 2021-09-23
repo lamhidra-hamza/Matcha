@@ -167,7 +167,6 @@ export default function Mainapp(props) {
         setAccountStats(userStats.data.data);
         const userResult = await getData(`api/users/${id}`, {}, false);
         const pictureResult = await getData(`api/pictures/${id}`, {}, false);
-        console.log("the pictures is", pictureResult);
         const tags = await getData(`api/tags/`, {}, false);
         const notiResult = await getData(`api/notifications/`, {}, false);
         let locationResult = await getData(`api/location/${id}`, {}, false);

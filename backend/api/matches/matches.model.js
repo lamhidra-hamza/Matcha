@@ -133,20 +133,23 @@ class Matches {
                     FROM matches, users, pictures, chat 
                     WHERE (users.id=matched_user OR users.id = matches.user_id)
                     AND (matches.user_id = ${SqlString.escape(
-                      userId
+                    userId
                     )} OR matched_user=${SqlString.escape(userId)})
                     AND pictures.user_id=users.id AND users.id != ${SqlString.escape(
-                      userId
+                    userId
                     )}
                     AND ((users.id=chat.receiver_id AND chat.user_id =${SqlString.escape(
-                      userId
+                    userId
                     )} ) OR (
                         users.id=chat.user_id AND chat.receiver_id=${SqlString.escape(
-                          userId
+                        userId
                         )}))
+                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+
                     GROUP BY users.id,  pictures.picture_1, age, users.firstName, chat.chat_id
                     LIMIT ${limit}, ${params.numberOfItem}
                     `;
+                console.log(sql);
                 const [result, fields] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {

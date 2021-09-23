@@ -67,6 +67,8 @@ class Chat {
                     messages.sender_id 
                 FROM chat,messages,users
                     where messages.chat_id = chat.chat_id 
+                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+
                     and (chat.receiver_id = ${SqlString.escape(userId)} OR chat.user_id = ${SqlString.escape(userId)})
                     and (
                         ((SELECT count(*) from matches where matches.user_id = ${SqlString.escape(userId)} and matches.matched_user = chat.user_id ) = 1)

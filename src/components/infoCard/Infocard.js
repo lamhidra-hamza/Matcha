@@ -42,7 +42,7 @@ const Infocard = (props) => {
           <Carousel dotPosition={'top'}>
             {images.map((image, index) => (
 				    image &&
-              <div className="fiximg" key={image}>
+              <div className="fiximg" key={index}>
                 <img alt="img-card" className="imgCard" src={`${SER.PicPath}/${image}`} />
               </div>
             ))}
@@ -68,7 +68,7 @@ const Infocard = (props) => {
               marginLeft: '15px',
             }}
           >
-            {tags.map((tag) => (
+            {tags.map((tag, index) => (
               <Tag
                 color="blue"
                 style={{
@@ -80,7 +80,7 @@ const Infocard = (props) => {
                   textAlign: 'center',
                 }}
               
-              key = {tag}>
+                key = {index}>
                 {tag}
               </Tag>
             ))}
