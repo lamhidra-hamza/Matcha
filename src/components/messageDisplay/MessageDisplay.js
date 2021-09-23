@@ -3,7 +3,7 @@ import "./MessageDisplay.scss";
 import MessageItem from "../messageItem/MessageItem";
 import { UserContext } from "../../contexts/UserContext";
 import { getData } from "../../tools/globalFunctions";
-import { Spin } from "antd";
+import { Spin, message, Card } from "antd";
 import axios from "axios";
 import InfiniteScrollReverse from "react-infinite-scroll-reverse/dist/InfiniteScrollReverse";
 
@@ -30,14 +30,18 @@ const MessageDisplay = (props) => {
   const [loading, setLoading] = useState(true);
 
   const getMessages = async () => {
-    const result = await getData(
-      `api/chat/`,
-      { ...params, startIndex: params.startIndex + params.length },
-      false
-    );
-    setParams({ ...params, startIndex: params.startIndex + params.length });
-    if (result.data.data.length === 0) setLoadMore(false);
-    setMessages([...messages, ...result.data.data]);
+    try {
+      const result = await getData(
+        `api/chat/`,
+        { ...params, startIndex: params.startIndex + params.length },
+        false
+      );
+      setParams({ ...params, startIndex: params.startIndex + params.length });
+      if (result.data.data.length === 0) setLoadMore(false);
+      setMessages([...messages, ...result.data.data]);
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+    }
   };
 
   const messageSeen = (msgIndex) => {
@@ -55,10 +59,14 @@ const MessageDisplay = (props) => {
     const source = axios.CancelToken.source();
     setLoadMore(true);
     async function fetchUsers() {
-      setLoading(true);
-      const result = await getData(`api/chat/`, params, false);
-      setMessages(result.data.data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const result = await getData(`api/chat/`, params, false);
+        setMessages(result.data.data);
+        setLoading(false);
+      } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+      }
     }
 
     fetchUsers();
@@ -74,30 +82,34 @@ const MessageDisplay = (props) => {
   useEffect(() => {
     const source = axios.CancelToken.source();
     async function fetchUsers() {
-      const UnReadResult = await getData(`api/chat/count`, {}, false);
-      let unReadMessages = accountStats.messages.concat(
-        UnReadResult.data.data.messages
-      );
-      let unReadMessagesIds = unReadMessages.map((o) => o.chat_id);
-      unReadMessages = unReadMessages.filter(({ chat_id }, index) => {
-        return unReadMessagesIds.indexOf(chat_id) === index;
-      });
-      setAccountStats({
-        ...accountStats,
-        newMessage: false,
-        messages: unReadMessages,
-      });
-      const result = await getData(
-        `api/chat/`,
-        params,
-        false
-      );
-      let newMessageArray = [...result.data.data, ...messages];
-      let ids = newMessageArray.map((o) => o.chat_id);
-      newMessageArray = newMessageArray.filter(({ chat_id }, index) => {
-        return ids.indexOf(chat_id) === index;
-      });
-      setMessages(newMessageArray);
+      try {
+        const UnReadResult = await getData(`api/chat/count`, {}, false);
+        let unReadMessages = accountStats.messages.concat(
+          UnReadResult.data.data.messages
+        );
+        let unReadMessagesIds = unReadMessages.map((o) => o.chat_id);
+        unReadMessages = unReadMessages.filter(({ chat_id }, index) => {
+          return unReadMessagesIds.indexOf(chat_id) === index;
+        });
+        setAccountStats({
+          ...accountStats,
+          newMessage: false,
+          messages: unReadMessages,
+        });
+        const result = await getData(
+          `api/chat/`,
+          params,
+          false
+        );
+        let newMessageArray = [...result.data.data, ...messages];
+        let ids = newMessageArray.map((o) => o.chat_id);
+        newMessageArray = newMessageArray.filter(({ chat_id }, index) => {
+          return ids.indexOf(chat_id) === index;
+        });
+        setMessages(newMessageArray); 
+      } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+      }
     }
     fetchUsers();
     return () => {

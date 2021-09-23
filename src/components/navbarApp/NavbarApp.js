@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { UserOutlined, LeftOutlined, LogoutOutlined, NotificationOutlined} from '@ant-design/icons';
-import { Avatar, Typography, Tooltip, Badge, Popover, Empty } from 'antd'
+import { Avatar, Typography, Tooltip, Badge, Popover, Empty, message } from 'antd'
 import './NavbarApp.scss'
 import { useHistory, useRouteMatch, Link} from 'react-router-dom'
 import { logOut, putData } from '../../tools/globalFunctions';
@@ -19,8 +19,12 @@ export default function NavbarApp({setShowProfile, showProfile}) {
         ? `${SER.PicPath}/${userImages.picture_1}` : "";
 
     const logout = async () => {
-        await logOut();
-        history.push("/");
+        try {
+            await logOut();
+            history.push("/");
+        } catch (err) {
+            message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+        }
     }
 
     const handelProfileClick = () => {

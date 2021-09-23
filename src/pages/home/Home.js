@@ -12,12 +12,17 @@ import PasswordForgot from "../../components/passwordRecoverForm/PasswordForgot"
 import VerifyEmailMsg from "../../components/verifyEmailMsg/verifyEmailMsg";
 import PasswordRecovery from "../../components/passwordRecovery/passwordRecovery";
 import { getData } from "../../tools/globalFunctions";
+import { message } from "antd";
 
 export class Home extends Component {
   async componentDidMount() {
-    let result = await getData("api/users/checksession", {}, true);
-    if (result.data != null && result.data.status ===1){
-      this.props.history.push("/app");
+    try {
+      let result = await getData("api/users/checksession", {}, true);
+      if (result.data != null && result.data.status ===1){
+        this.props.history.push("/app");
+      }
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
     }
 
   }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation, useHistory, useRouteMatch, Switch, Route } from 'react-router-dom'
 import './MobileSection.scss'
-import { Tabs, Divider, Button, Badge, Popover, Empty } from 'antd'
+import { Tabs, Divider, Button, Badge, Popover, Empty, message } from 'antd'
 import MobileProfile from '../mobileProfile/MobileProfile'
 import {
 	FireFilled,
@@ -54,8 +54,12 @@ function MobileSection() {
 	}
 
 	const logout = async () => {
-		await logOut();
-		history.push("/");
+		try {
+			await logOut();
+			history.push("/");
+		} catch (err) {
+			message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+		}
 	}
 
 	const handleNotificationBtnClick = async () => {

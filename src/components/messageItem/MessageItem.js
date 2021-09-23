@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Badge} from "antd";
+import { Divider, Badge, message} from "antd";
 import "./MessageItem.scss";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { SER } from "../../conf/config";
@@ -13,8 +13,12 @@ const MessageItem = (props) => {
 
   const handelClick = async () => {
     props.seen(props.message.chat_id);
-    if (props.message.seen === 0 && props.message.sender_id !== id)
-      await postData(`api/chat/markseen/${props.message.messageId}`, {});
+    try {
+      if (props.message.seen === 0 && props.message.sender_id !== id)
+        await postData(`api/chat/markseen/${props.message.messageId}`, {});
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+    }
     history.push({
       pathname:
         match.path === "/app"

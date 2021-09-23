@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './DisplayUsers.scss';
 import UserCard from '../userCard/UserCard.js';
-import { Tooltip, Radio } from 'antd';
+import { Tooltip, Radio, message } from 'antd';
 import FilterPopUp from '../filterPopUp/FilterPopUp';
 import { ControlOutlined } from '@ant-design/icons';
 import { getData } from "../../tools/globalFunctions";
@@ -33,11 +33,15 @@ const DisplayUsers = ({ user }) => {
 	const [page, setPage] = useState(1);
 
 	const getUsers = async () => {
-		setPage(page + 1);
-		const result = await getData(`api/users/`, {...filterParams, page: page }, false);
-		if (result.data.users.length === 0)
-			setLoadMore(false);
-		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
+		try {
+			setPage(page + 1);
+			const result = await getData(`api/users/`, {...filterParams, page: page }, false);
+			if (result.data.users.length === 0)
+				setLoadMore(false);
+			setUsersBrowsing([...usersBrowsing, ...result.data.users]);
+		} catch(err) {
+			message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+		}
 	}
 	useEffect(() => {
 		const element = document.getElementById('scrollingDisplayUser').getBoundingClientRect();
@@ -60,14 +64,18 @@ const DisplayUsers = ({ user }) => {
 		setLoadMore(true);
 		setPage(1);
 		async function fetchUsers() {
-			setloading(true)
-			const result = await getData(`api/users/`, filterParams, false);
-			if (result)
-			{
-				(result.data.users.length === 0) && setLoadMore(false);
-				setUsersBrowsing(result.data.users);
+			try {
+				setloading(true)
+				const result = await getData(`api/users/`, filterParams, false);
+				if (result)
+				{
+					(result.data.users.length === 0) && setLoadMore(false);
+					setUsersBrowsing(result.data.users);
+				}
+				setloading(false);
+			} catch (err) {
+				message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
 			}
-			setloading(false);
 		}
 		fetchUsers();
 

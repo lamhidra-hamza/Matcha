@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MatcheDisplay.scss';
 import MatchaCard from '../matchCard/MatchCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Spin } from 'antd';
+import { Spin, message } from 'antd';
 import axios from 'axios';
 import { getData } from "../../tools/globalFunctions";
 
@@ -17,11 +17,15 @@ export default function MatcheDisplay(props) {
 	}
 
     const getUsers = async () => {
-		setPage(page + 1);
-		const result = await getData(`api/matches/`, {...Params, page: page }, false);
-		if (result.data.data.length === 0)
-			setLoadMore(false);
-		setMatches([...Matches, ...result.data.data]);
+		try {
+			setPage(page + 1);
+			const result = await getData(`api/matches/`, {...Params, page: page }, false);
+			if (result.data.data.length === 0)
+				setLoadMore(false);
+			setMatches([...Matches, ...result.data.data]);
+		} catch (err) {
+			message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+		}
 	}
 
     useEffect(() => {
@@ -30,11 +34,15 @@ export default function MatcheDisplay(props) {
         setLoadMore(true);
 		setPage(1);
         async function fetchUsers() {
-			setloading(true)
-			const result = await getData(`api/matches/`, Params, false);
-			(result.data.data.length === 0) && setLoadMore(false);
-			setMatches(result.data.data);
-			setloading(false);
+			try {
+				setloading(true)
+				const result = await getData(`api/matches/`, Params, false);
+				(result.data.data.length === 0) && setLoadMore(false);
+				setMatches(result.data.data);
+				setloading(false);
+			} catch (err) {
+				message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+			}
 		}
 		fetchUsers();
 

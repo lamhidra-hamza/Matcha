@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import {useHistory } from "react-router-dom";
 import "./blockpopup.scss";
-import { Modal, Button, Result } from "antd";
+import { Modal, Button, Result, message } from "antd";
 import { Typography } from "antd";
 
 import { postData } from "../../tools/globalFunctions";
@@ -15,19 +15,23 @@ const BlockPopUp = (props) => {
   const [showMsg, setShowMsg] = useState(false);
 
   const handleOk = async () => {
-    const myId = localStorage.getItem("userId");
-    await postData(`api/block`, {blocked_user: props.block_user});
-    const result = await postData(`api/notifications`, {
-      notifiedId: props.block_user,
-      type: "block",
-    });
-    socket.emit("newNotification", {
-      userId: myId,
-      notifiedUser: props.block_user,
-      notifyId: result.data.id,
-    });
-    props.showBlock();
-    setShowMsg(true);
+    try {
+      const myId = localStorage.getItem("userId");
+      await postData(`api/block`, {blocked_user: props.block_user});
+      const result = await postData(`api/notifications`, {
+        notifiedId: props.block_user,
+        type: "block",
+      });
+      socket.emit("newNotification", {
+        userId: myId,
+        notifiedUser: props.block_user,
+        notifyId: result.data.id,
+      });
+      props.showBlock();
+      setShowMsg(true);
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+    }
   };
 
   const handleMsgOk = async () => {

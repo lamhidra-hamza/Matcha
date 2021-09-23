@@ -130,31 +130,35 @@ export default function EditProfile(props) {
 
     if (!checkIfOneImage())
     {
-      await putData(`api/pictures/${userImages.id}`, {
-        ...userImages,
-        picture_1: imageLink[0],
-        picture_2: imageLink[1],
-        picture_3: imageLink[2],
-        picture_4: imageLink[3],
-        picture_5: imageLink[4],
-      });
-      const formData = new FormData();
-      images.forEach((image) => {
-        if (image.file) formData.append("image", image.file);
-      }); 
-      const result = await uploadPictures(formData, userImages.id);
-      setUserImages({
-        ...userImages,
-        picture_1: result.data.arr[0] ? result.data.arr[0] : null,
-        picture_2: result.data.arr[1] ? result.data.arr[1] : null,
-        picture_3: result.data.arr[2] ? result.data.arr[2] : null,
-        picture_4: result.data.arr[3] ? result.data.arr[3] : null,
-        picture_5: result.data.arr[4] ? result.data.arr[4] : null,
-      });
-      setUser({ ...user, biography: about, gender: gender, job: jobtitle });
-      await postData(`api/tags/`, newTags);
-      setTags(newTags);
-      history.goBack();
+      try {
+        await putData(`api/pictures/${userImages.id}`, {
+          ...userImages,
+          picture_1: imageLink[0],
+          picture_2: imageLink[1],
+          picture_3: imageLink[2],
+          picture_4: imageLink[3],
+          picture_5: imageLink[4],
+        });
+        const formData = new FormData();
+        images.forEach((image) => {
+          if (image.file) formData.append("image", image.file);
+        }); 
+        const result = await uploadPictures(formData, userImages.id);
+        setUserImages({
+          ...userImages,
+          picture_1: result.data.arr[0] ? result.data.arr[0] : null,
+          picture_2: result.data.arr[1] ? result.data.arr[1] : null,
+          picture_3: result.data.arr[2] ? result.data.arr[2] : null,
+          picture_4: result.data.arr[3] ? result.data.arr[3] : null,
+          picture_5: result.data.arr[4] ? result.data.arr[4] : null,
+        });
+        setUser({ ...user, biography: about, gender: gender, job: jobtitle });
+        await postData(`api/tags/`, newTags);
+        setTags(newTags);
+        history.goBack();
+      } catch (err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+      }
     }
     else {
       message.warning("You should have at least one picture");

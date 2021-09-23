@@ -3,9 +3,10 @@ import axios from 'axios'
 import './DisplayViewedMe.scss';
 import UserCard from '../userCard/UserCard.js';
 import { getData } from "../../tools/globalFunctions";
-import { Spin } from 'antd';
+import { Spin, message} from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useLocation } from 'react-router-dom';
+
 
 const DisplayLikedMe = ({ user }) => {
 	const [Params, setParams] = useState({
@@ -19,11 +20,15 @@ const DisplayLikedMe = ({ user }) => {
 	const [page, setPage] = useState(1);
 
 	const getUsers = async () => {
-		setPage(page + 1);
-		const result = await getData(`api/users/viewedme`, {...Params, page: page }, false);
-		if (result.data.users.length === 0)
-			setLoadMore(false);
-		setUsersBrowsing([...usersBrowsing, ...result.data.users]);
+		try {
+			setPage(page + 1);
+			const result = await getData(`api/users/viewedme`, {...Params, page: page }, false);
+			if (result.data.users.length === 0)
+				setLoadMore(false);
+			setUsersBrowsing([...usersBrowsing, ...result.data.users]);
+		} catch (err) {
+			message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+		}
 	}
 
 	useEffect(() => {
@@ -46,10 +51,14 @@ const DisplayLikedMe = ({ user }) => {
 		setPage(1);
 
 		async function fetchUsers() {
-			setloading(true)
-			const result = await getData(`api/users/viewedme`, Params, false);
-			setUsersBrowsing(result.data.users);
-			setloading(false);
+			try {
+				setloading(true)
+				const result = await getData(`api/users/viewedme`, Params, false);
+				setUsersBrowsing(result.data.users);
+				setloading(false);
+			} catch (err) {
+				message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+			}
 		}
 		fetchUsers();
 

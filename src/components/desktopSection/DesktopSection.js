@@ -20,7 +20,7 @@ function DesktopSection(props) {
   );
   const { width } = props;
   let match = useRouteMatch();
-  const { user, userImages, tags } = useContext(UserContext);
+  const { user, userImages, tags, userLocation } = useContext(UserContext);
 
   return (
     <div className="mainRow">
@@ -35,6 +35,7 @@ function DesktopSection(props) {
             tags={tags}
             user={user}
             userImages={userImages}
+            userLocation={userLocation}
           />
         </Route>
 

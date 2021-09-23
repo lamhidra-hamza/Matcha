@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal } from 'antd'
-import { Select, Slider, Rate, Checkbox, Spin } from 'antd'
+import { Select, Slider, Rate, Checkbox, Spin, message } from 'antd'
 import './FilterPopUp.scss'
 import { getData } from "../../tools/globalFunctions"
 
@@ -15,10 +15,14 @@ export default function FilterPopUp(props) {
 
 	useEffect(() => {
 		async function fetchData() {
-			setLoading(true);
-			const result = await getData('api/tags/all', {}, false);
-			setAlltags(result.data.tags);
-			setLoading(false);
+			try {
+				setLoading(true);
+				const result = await getData('api/tags/all', {}, false);
+				setAlltags(result.data.tags);
+				setLoading(false);
+			} catch (err) {
+				message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+			}
 		}
 
 		fetchData();

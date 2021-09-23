@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./UserCard.scss";
 import { EnvironmentTwoTone } from "@ant-design/icons";
-import { Skeleton } from "antd";
+import { Skeleton, message } from "antd";
 import { useHistory } from "react-router-dom";
 import { SER } from "../../conf/config.js";
 import { postData } from "../../tools/globalFunctions";
@@ -15,16 +15,20 @@ const UserCard = ({ user }) => {
 
   const handelClick = async () => {
     history.push(`/app/infocard/${user.id}`);
-    await postData(`api/views`, { viewed_user: user.id });
-    const result = await postData(`api/notifications`, {
-      notifiedId: user.id,
-      type: "view",
-    });
-    socket.emit("newNotification", {
-      userId: myId,
-      notifiedUser: user.id,
-      notifyId: result.data.id,
-    });
+    try {
+      await postData(`api/views`, { viewed_user: user.id });
+      const result = await postData(`api/notifications`, {
+        notifiedId: user.id,
+        type: "view",
+      });
+      socket.emit("newNotification", {
+        userId: myId,
+        notifiedUser: user.id,
+        notifyId: result.data.id,
+      });
+    } catch(err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+    }
   };
 
   return (

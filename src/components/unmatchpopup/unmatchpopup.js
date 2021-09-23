@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import {useHistory } from "react-router-dom";
 import "./unmatchpopup.scss";
-import { Modal, Button, Result } from "antd";
+import { Modal, Button, Result, message } from "antd";
 import { Typography } from "antd";
 import { postData } from "../../tools/globalFunctions";
 import { UserContext } from '../../contexts/UserContext';
@@ -17,19 +17,23 @@ const UnMatchPopup = (props) => {
 
 
   const handleOk = async () => {
-    const myId = localStorage.getItem("userId");
-    //await putData(`api/matches`, { unmatched_user: props.unmatched_user });
-		const result = await postData(`api/notifications`, {
-			notifiedId: props.unmatched_user,
-            type: "unmatch",
-		})
-		socket.emit("newNotification", {
-			userId: myId,
-			notifiedUser: props.unmatched_user,
-			notifyId: result.data.id
-		});
-    props.showUnmatch();
-    setShowMsg(true);
+    try {
+      const myId = localStorage.getItem("userId");
+      //await putData(`api/matches`, { unmatched_user: props.unmatched_user });
+      const result = await postData(`api/notifications`, {
+        notifiedId: props.unmatched_user,
+              type: "unmatch",
+      })
+      socket.emit("newNotification", {
+        userId: myId,
+        notifiedUser: props.unmatched_user,
+        notifyId: result.data.id
+      });
+      props.showUnmatch();
+      setShowMsg(true);
+    } catch (err) {
+      message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+    }
   };
 
   const handleMsgOk = async () => {

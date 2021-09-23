@@ -62,34 +62,39 @@ export default function Mainapp(props) {
       }
     });
     socket.on("notification", async ({ notifiedUser, notifyId }) => {
-      if (notifiedUser === id) {
-        const result = await getData(
-          `api/notifications/${notifyId}`,
-          {},
-          false
-        );
-        const notify = result.data.data;
-        if (notify) {
-          let message = "You have new notification !!";
-          if (notify.type === "like")
-            message = "Yow Someone Like You lets Go !!";
-          if (notify.type === "matche")
-            message = "Yow Congratulation you got New MATCHE !!";
-          if (notify.type === "view")
-            message = "Someone viewed your profile !!";
-          if (notify.type === "unmatch") message = "someone unliked you !!";
-          if (notify.type === "block") message = "someone blocked you !!";
-          if (notify.type === "message") {
-            message = "you got a new message !!";
-            newMessageUpdateStats();
+      try {
+
+        if (notifiedUser === id) {
+          const result = await getData(
+            `api/notifications/${notifyId}`,
+            {},
+            false
+          );
+          const notify = result.data.data;
+          if (notify) {
+            let message = "You have new notification !!";
+            if (notify.type === "like")
+              message = "Yow Someone Like You lets Go !!";
+            if (notify.type === "matche")
+              message = "Yow Congratulation you got New MATCHE !!";
+            if (notify.type === "view")
+              message = "Someone viewed your profile !!";
+            if (notify.type === "unmatch") message = "someone unliked you !!";
+            if (notify.type === "block") message = "someone blocked you !!";
+            if (notify.type === "message") {
+              message = "you got a new message !!";
+              newMessageUpdateStats();
+            }
+            notification["info"]({ message: message });
+            if (!isCancelled)
+              setNotification((Notification) => {
+                return [...Notification, notify];
+              });
+            notifyMe(message);
           }
-          notification["info"]({ message: message });
-          if (!isCancelled)
-            setNotification((Notification) => {
-              return [...Notification, notify];
-            });
-          notifyMe(message);
         }
+      } catch(err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }
     });
 
@@ -104,7 +109,11 @@ export default function Mainapp(props) {
   useEffect(() => {
     const source = axios.CancelToken.source();
     const postData = async () => {
-      await putData(`api/users/${id}`, user);
+      try {
+        await putData(`api/users/${id}`, user);
+      } catch(err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+      }
     };
     if (update) postData();
 
@@ -128,7 +137,11 @@ export default function Mainapp(props) {
   useEffect(() => {
     const source = axios.CancelToken.source();
     const postData = async () => {
-      await putData(`api/location/${id}`, userLocation);
+      try {
+        await putData(`api/location/${id}`, userLocation);
+      } catch(err) {
+        message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+      }
     };
     if (updateLocation) postData();
     return () => {

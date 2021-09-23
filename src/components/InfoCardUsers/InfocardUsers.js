@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import { Carousel, Tag, Divider, Skeleton, Rate} from 'antd'
+import { Carousel, Tag, Divider, Skeleton, Rate, message} from 'antd'
 import axios from 'axios'
 import {
   EnvironmentTwoTone,
@@ -48,6 +48,7 @@ const Infocard = (props) => {
 				setTags(tags.data.data);
 				setloading(false);
 			} catch (err) {
+				message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
 				setHttpCodeStatus(err.response.status);
 			}
 		}
