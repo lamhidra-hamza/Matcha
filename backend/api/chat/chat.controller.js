@@ -38,6 +38,7 @@ async function getMany(req, res, next) {
             });
         } else throw new HTTP400Error('invalid query params');
     } catch (err) {
+        console.log(err);
         next(err);
     }
 }

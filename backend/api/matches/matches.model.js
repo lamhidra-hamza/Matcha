@@ -55,13 +55,34 @@ class Matches {
                     .promise()
                     .query(
                         `DELETE FROM matches WHERE ((user_id = ${SqlString.escape(
-              userId
-            )} and matched_user = ${SqlString.escape(
-              data.unmatched_user
-            )}) or (user_id = ${SqlString.escape(
-              data.unmatched_user
-            )} and matched_user = ${SqlString.escape(userId)}))`
-                    );
+                        userId
+                        )} and matched_user = ${SqlString.escape(
+                        data.unmatched_user
+                        )}) or (user_id = ${SqlString.escape(
+                        data.unmatched_user
+                        )} and matched_user = ${SqlString.escape(userId)}))`);
+                await connection
+                    .promise()
+                    .query(
+                        `DELETE FROM messages WHERE chat_id = (SELECT chat_id FROM chat where ((user_id = ${SqlString.escape(
+                        userId
+                        )} and receiver_id = ${SqlString.escape(
+                        data.unmatched_user
+                        )}) or (user_id = ${SqlString.escape(
+                        data.unmatched_user
+                        )} and receiver_id = ${SqlString.escape(userId)})))`
+                                );
+                await connection
+                    .promise()
+                    .query(
+                        `DELETE FROM chat WHERE ((user_id = ${SqlString.escape(
+                        userId
+                        )} and receiver_id = ${SqlString.escape(
+                        data.unmatched_user
+                        )}) or (user_id = ${SqlString.escape(
+                        data.unmatched_user
+                        )} and receiver_id = ${SqlString.escape(userId)}))`
+                                );
                 resolve("Done");
             } catch (err) {
                 reject(new HTTP500Error("internal error db"));
@@ -145,6 +166,7 @@ class Matches {
                         userId
                         )}))
                     AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+                    AND users.id NOT IN (SELECT user_id FROM block WHERE blocked_user=${SqlString.escape(userId)})
 
                     GROUP BY users.id,  pictures.picture_1, age, users.firstName, chat.chat_id
                     LIMIT ${limit}, ${params.numberOfItem}

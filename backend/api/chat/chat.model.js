@@ -67,7 +67,10 @@ class Chat {
                     messages.sender_id 
                 FROM chat,messages,users
                     where messages.chat_id = chat.chat_id 
-                    AND users.id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+                    AND chat.receiver_id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+                    AND chat.receiver_id NOT IN (SELECT user_id FROM block WHERE blocked_user=${SqlString.escape(userId)})
+                    AND chat.user_id NOT IN (SELECT blocked_user FROM block WHERE user_id=${SqlString.escape(userId)})
+                    AND chat.user_id NOT IN (SELECT user_id FROM block WHERE blocked_user=${SqlString.escape(userId)})
 
                     and (chat.receiver_id = ${SqlString.escape(userId)} OR chat.user_id = ${SqlString.escape(userId)})
                     and (
@@ -84,6 +87,8 @@ class Chat {
                     chat.receiver_id, messages.date,
                     messages.content, messages.seen ORDER BY chat.date DESC
                 LIMIT ${body.startIndex},${body.length}`;
+
+                console.log("sql ====>>>>", sql, "=====")
                 const [result, fields] = await connection
                     .promise()
                     .query(sql);

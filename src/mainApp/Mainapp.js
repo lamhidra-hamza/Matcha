@@ -193,12 +193,12 @@ export default function Mainapp(props) {
         setUpdateLocation(true);
         setUpdate(true);
 
+        setLoading(false);
         if (!user.verified && warning)
           message.warning(
             `Your email is not verified, Please check your email to verify it !!`
           );
         setWarning(false);
-        setLoading(false);
       } catch (err) {
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
         setHttpCodeStatus(err.response.status);

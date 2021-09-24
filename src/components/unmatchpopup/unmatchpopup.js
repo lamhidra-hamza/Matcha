@@ -3,7 +3,7 @@ import {useHistory } from "react-router-dom";
 import "./unmatchpopup.scss";
 import { Modal, Button, Result, message } from "antd";
 import { Typography } from "antd";
-import { postData } from "../../tools/globalFunctions";
+import { postData, putData } from "../../tools/globalFunctions";
 import { UserContext } from '../../contexts/UserContext';
 
 
@@ -19,7 +19,7 @@ const UnMatchPopup = (props) => {
   const handleOk = async () => {
     try {
       const myId = localStorage.getItem("userId");
-      //await putData(`api/matches`, { unmatched_user: props.unmatched_user });
+      await putData(`api/matches`, { unmatched_user: props.unmatched_user });
       const result = await postData(`api/notifications`, {
         notifiedId: props.unmatched_user,
               type: "unmatch",

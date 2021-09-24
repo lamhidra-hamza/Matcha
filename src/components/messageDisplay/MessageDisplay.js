@@ -3,7 +3,7 @@ import "./MessageDisplay.scss";
 import MessageItem from "../messageItem/MessageItem";
 import { UserContext } from "../../contexts/UserContext";
 import { getData } from "../../tools/globalFunctions";
-import { Spin, message, Card } from "antd";
+import { Spin, message } from "antd";
 import axios from "axios";
 import InfiniteScrollReverse from "react-infinite-scroll-reverse/dist/InfiniteScrollReverse";
 
@@ -32,6 +32,7 @@ const MessageDisplay = (props) => {
       if (result.data.data.length === 0) setLoadMore(false);
       setMessages([...messages, ...result.data.data]);
     } catch (err) {
+      console.log("hello ====>>>", err?.response?.data?.msg);
       message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
     }
   };
@@ -57,6 +58,7 @@ const MessageDisplay = (props) => {
         setMessages(result.data.data);
         setLoading(false);
       } catch (err) {
+        console.log("hello ====>>>", err?.response?.data?.msg);
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }
     }
@@ -100,6 +102,7 @@ const MessageDisplay = (props) => {
         });
         setMessages(newMessageArray); 
       } catch (err) {
+        console.log("hello ====>>>", err?.response?.data?.msg);
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }
     }
