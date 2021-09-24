@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { UserContext } from "../../contexts/UserContext";
 import { AutoComplete } from "antd";
+import { getCoords } from "../../tools/globalFunctions";
 
 const citiesData = require("../../locationData/cities.json");
 const countriesData = require("../../locationData/countries.json");
@@ -18,7 +19,6 @@ const ProfileInfo = (props) => {
     setUser,
     userLocation,
     setUserLocation,
-    realCoordinates,
   } = useContext(UserContext);
   const [newUser, setNewUser] = useState({ ...user });
   const [coords, setCoords] = useState({
@@ -103,11 +103,10 @@ const ProfileInfo = (props) => {
         real_location: false,
       });
     } else {
+      const gpsIpLocation = await getCoords(coords);
       setCoords({
+        ...gpsIpLocation,
         real_location: true,
-        longitude: realCoordinates.longitude,
-        latitude: realCoordinates.latitude,
-        location_name: realCoordinates.location_name,
       });
     }
   };
@@ -157,10 +156,6 @@ const ProfileInfo = (props) => {
 
   const update = () => {
     message.success(`Your Info has updated !!`);
-
-    // message.warning(
-    //   `Your email has updated, please go to your ${email} address to confirm it !!`
-    // );
 
     setUserLocation({
       longitude: coords.longitude,

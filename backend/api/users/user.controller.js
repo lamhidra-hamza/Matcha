@@ -1,4 +1,6 @@
 const model = require("./user.model");
+const pictureModel = require("../pictures/pictures.model");
+const locationModel = require("../location/location.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const serInfo = require("../../config/index");
@@ -135,6 +137,19 @@ async function signUp(req, res, next) {
 
         if (!result.id)
             throw new HTTP500Error();
+        await pictureModel.create(result.id,{
+            user_id: result.id,
+            picture_1: null,
+            picture_2: null,
+            picture_3: null,
+            picture_4: null,
+            picture_5: null,
+          });
+        
+        await locationModel.create({
+            user_id: result.id,
+        })
+        
         sendConfirmationEmail(result.id, result.username, body.email);
         res.status(HttpStatusCode.OK).send(result);
     } catch (err) {

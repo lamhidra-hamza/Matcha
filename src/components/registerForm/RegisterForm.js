@@ -54,21 +54,7 @@ const RegisterForm = (props) => {
     try {
       if (values?.bornDate)
         values.bornDate = moment(values.bornDate).format("DD-MM-YYYY");
-      console.log("values ====>>", values);
-      const result = await axios.post(`${SER.HOST}/api/users/signup`, values);
-      await axios.post(`${SER.HOST}/api/pictures`, {
-        user_id: result.data.id,
-        picture_1: null,
-        picture_2: null,
-        picture_3: null,
-        picture_4: null,
-        picture_5: null,
-      });
-      await axios.post(`${SER.HOST}/api/location`, {
-        user_id: result.data.id,
-        longitude: null,
-        latitude: null,
-      });
+      await axios.post(`${SER.HOST}/api/users/signup`, values);
       props.showModal(values.email);
     } catch (err) {
       message.error(err?.response?.data?.msg ? err.response.data.msg : "Something Wrong !");

@@ -65,7 +65,6 @@ async function updateOne(req, res, next) {
         const data = await model.findOneById(req.params.id);
         if (!data.length)
             throw new HTTP404Error('user not found');
-        console.log(data);
         if (!body.picture_1 && data[0].picture_1 && fs.existsSync(data[0].picture_1))
             fs.unlinkSync(`uploads/${data[0].picture_1}`);
         if (!body.picture_2 && data[0].picture_2 && fs.existsSync(data[0].picture_2))

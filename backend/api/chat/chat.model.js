@@ -88,7 +88,6 @@ class Chat {
                     messages.content, messages.seen ORDER BY chat.date DESC
                 LIMIT ${body.startIndex},${body.length}`;
 
-                console.log("sql ====>>>>", sql, "=====")
                 const [result, fields] = await connection
                     .promise()
                     .query(sql);

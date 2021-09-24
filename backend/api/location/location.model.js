@@ -11,6 +11,7 @@ class Location {
                     user_id: data.user_id,
                     longitude: null,
                     latitude: null,
+                    real_location: 1
                 };
                 await connection.promise().query(SqlString.format('INSERT INTO location SET ?', info));
                 resolve("Done")

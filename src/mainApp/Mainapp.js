@@ -42,7 +42,6 @@ export default function Mainapp(props) {
   const [updateLocation, setUpdateLocation] = useState(false);
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [realCoordinates, setRealCoordinates] = useState({ ...userLocation });
   const [tags, setTags] = useState([""]);
   const [warning, setWarning] = useState(true);
   const history = useHistory();
@@ -138,7 +137,7 @@ export default function Mainapp(props) {
     const source = axios.CancelToken.source();
     const postData = async () => {
       try {
-        await putData(`api/location/${id}`, userLocation);
+          await putData(`api/location/${id}`, userLocation);
       } catch(err) {
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }
@@ -169,35 +168,28 @@ export default function Mainapp(props) {
         const pictureResult = await getData(`api/pictures/${id}`, {}, false);
         const tags = await getData(`api/tags/`, {}, false);
         const notiResult = await getData(`api/notifications/`, {}, false);
-        let locationResult = await getData(`api/location/${id}`, {}, false);
-        
-        userLocation.latitude = locationResult.data.latitude;
-        userLocation.longitude = locationResult.data.longitude;
-        userLocation.location_name = locationResult.data.location_name;
-        userLocation.real_location = locationResult.data.real_location;
-        locationResult = await getCoords(userLocation);
-        let newLocation = { ...userLocation };
-        newLocation.location_name = locationResult.location_name;
-        newLocation.latitude = locationResult.latitude;
-        newLocation.longitude = locationResult.longitude;
+        const locationResult = await getData(`api/location/${id}`, {}, false);
 
-        setUpdateLocation(true);
-        setRealCoordinates(newLocation);
-        if (userLocation.real_location) {
-          setUserLocation(newLocation);
-        }
+        if (locationResult?.data?.real_location) {
+          const gpsIpLocation = await getCoords(userLocation);
+          gpsIpLocation.real_location = locationResult.data.real_location;
+          setUserLocation({...gpsIpLocation});
+        } else if (locationResult?.data?.real_location === 0)
+          setUserLocation({...locationResult.data});
+
         setUser(userResult.data);
         setUserImages(pictureResult.data);
         setTags(tags.data.data);
         setNotification(notiResult.data.data);
-        setUpdateLocation(true);
         setUpdate(true);
-
         setLoading(false);
-        if (!user.verified && warning)
+        setUpdateLocation(true);
+
+        if (!userResult?.data?.verified && warning)
           message.warning(
             `Your email is not verified, Please check your email to verify it !!`
           );
+        
         setWarning(false);
       } catch (err) {
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
@@ -220,7 +212,6 @@ export default function Mainapp(props) {
         setUserImages,
         userLocation,
         setUserLocation,
-        realCoordinates,
         tags,
         setTags,
         socket,
