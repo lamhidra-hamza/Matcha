@@ -166,7 +166,6 @@ async function signOut(req, res) {
         res.cookie("authcookie", "");
         res.send({ status: 1, message: "loggedout" });
     } catch (err) {
-        console.log("errrorr= ======>>>",err);
         next(res)
     }
 }
@@ -326,6 +325,19 @@ async function removeOne(req, res, next) {
     }
 }
 
+async function reportUser(req, res, next) {
+    try {
+        if (req.params && req.params.id) {
+            await model.updateReportsUser(req.params.id);
+            res.status(201).send({
+                msg: "Update Done!!",
+            });
+        } else throw new HTTP400Error('invalid params');
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     getOne: getOne,
     getMany: getMany,
@@ -340,4 +352,5 @@ module.exports = {
     getOneForInfoCard: getOneForInfoCard,
     getManyUsersLikedMe: getManyUsersLikedMe,
     getManyUsersViewedMe: getManyUsersViewedMe,
+    reportUser: reportUser
 };

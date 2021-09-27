@@ -30,7 +30,8 @@ class User {
                     verified: false,
                     infoCompleted: false,
                     bornDate: new Date(data.bornDate),
-                    frameRate: 50
+                    frameRate: 50,
+                    reports: 0
                 };
                 await connection.promise().query(SqlString.format('INSERT INTO users SET ?', info));
 
@@ -356,6 +357,19 @@ class User {
         return new Promise(async(resolve, reject) => {
             try {
                 const sql = `DELETE FROM users WHERE id = ${SqlString.escape(id)}`;
+                const [result, filed] = await connection.promise().query(sql);
+                resolve(result);
+            } catch (err) {
+                reject(new HTTP500Error('Internal Error DB'));
+            }
+        })
+    }
+
+    async updateReportsUser(id) {
+        return new Promise(async(resolve, reject) => {
+            try {
+                const sql = `UPDATE users
+                    SET reports = reports + 1 WHERE id = ${SqlString.escape(id)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {

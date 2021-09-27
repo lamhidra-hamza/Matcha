@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Avatar, Input, Button, Spin, message } from "antd";
-import { LeftOutlined } from "@ant-design/icons";
+import { Avatar, Input, Button, Spin, message, Dropdown, Menu, Modal } from "antd";
+import { LeftOutlined, UserOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
@@ -183,6 +183,30 @@ const ChatBox = (props) => {
     history.goBack();
   };
 
+  const handleDropDownMenu = ({key}) => {
+    const { confirm } = Modal;
+    if (key === "1") {
+      confirm({
+        title: 'Are you sure ?',
+        icon: <ExclamationCircleOutlined />,
+        content: 'Once you confirm this operation the user will be reported as a fake account',
+        onOk() {
+          async function report() {
+            try {
+              await postData(`api/users/report/${props.matchedUser.id}`, {});
+              message.success("Your operation success !");
+            } catch (err) {
+              message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
+            }
+          }
+          report();
+        },
+        onCancel() {
+        },
+      });
+    }
+  }
+
   const renderItem = (messages) => {
     const items = messages.map((element, index) => {
         const lastMessage = messages.length - 1 === index;
@@ -239,6 +263,16 @@ const ChatBox = (props) => {
           {props.matchedUser.firstName.charAt(0).toUpperCase() +
             props.matchedUser.firstName.slice(1)}{" "}
           on {props.matchedUser.date.split("T")[0]}
+        </div>
+        <div>
+        <Dropdown.Button 
+          overlay={
+            <Menu onClick={handleDropDownMenu}>
+              <Menu.Item key="1" icon={<UserOutlined />}>
+                Report user as a fake account
+              </Menu.Item>
+            </Menu>}>
+        </Dropdown.Button>
         </div>
       </div>
       <div className="chatBoxbody" id="chatBoxID">

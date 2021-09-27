@@ -171,7 +171,7 @@ class Matches {
                     GROUP BY users.id,  pictures.picture_1, age, users.firstName, chat.chat_id
                     LIMIT ${limit}, ${params.numberOfItem}
                     `;
-                console.log(sql);
+                // console.log(sql);
                 const [result, fields] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
