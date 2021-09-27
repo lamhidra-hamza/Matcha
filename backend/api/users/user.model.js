@@ -13,8 +13,8 @@ class User {
             try {
                 let info = {
                     id: uuid.v4(),
-                    username: data.username,
-                    email: data.email,
+                    username: data.username.toLocaleLowerCase(),
+                    email: data.email.toLocaleLowerCase(),
                     password: await bcrypt.hash(data.password, 11),
                     biography: "",
                     gender: "man",
@@ -302,6 +302,19 @@ class User {
         return new Promise(async(resolve, reject) => {
             try {
                 const sql = userId ? `SELECT * FROM users WHERE id=${SqlString.escape(userId)}` : `SELECT * FROM users WHERE email=${SqlString.escape(email)}`;
+                const [result, filed] = await connection.promise().query(sql);
+                resolve(result);
+            } catch (err) {
+                reject(new HTTP500Error('Internal Error DB'));
+            }
+        })
+
+    }
+
+    async findOneByUserName(userId, username) {
+        return new Promise(async(resolve, reject) => {
+            try {
+                const sql = userId ? `SELECT * FROM users WHERE id=${SqlString.escape(userId)}` : `SELECT * FROM users WHERE username=${SqlString.escape(username)}`;
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {

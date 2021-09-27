@@ -127,11 +127,15 @@ async function signUp(req, res, next) {
             throw new HTTP400Error("Invalid LastName");
         if (!validPassword.test(body.password))
             throw new HTTP400Error("Invalid Password");
+        
 
-        const search = await model.findOneByEmail(null, body.email);
+        const emailExist = await model.findOneByEmail(null, body.email.toLocaleLowerCase());
+        const userNameExist = await model.findOneByUserName(null, body.username.toLocaleLowerCase());
 
-        if (search[0] && search[0].email === body.email)
+        if (emailExist[0] && emailExist[0].email === body.email.toLocaleLowerCase())
             throw new HTTP400Error("Email exist");
+        if (userNameExist[0] && userNameExist[0].username === body.username.toLocaleLowerCase())
+            throw new HTTP400Error("UserName exist");
 
         const result = await model.create(body);
 
@@ -158,7 +162,13 @@ async function signUp(req, res, next) {
 }
 
 async function signOut(req, res) {
-    res.cookie("authcookie", "").send({ status: 1, message: "loggedout" });
+    try {
+        res.cookie("authcookie", "");
+        res.send({ status: 1, message: "loggedout" });
+    } catch (err) {
+        console.log("errrorr= ======>>>",err);
+        next(res)
+    }
 }
 
 async function checkSession(req, res, next) {
@@ -271,6 +281,27 @@ async function updateOne(req, res, next) {
         for (const [key, value] of Object.entries(body)) {
             data[0][key] = value;
         }
+        if (body.email && !validEmail.test(body.email))
+            throw new HTTP400Error("Invalid Email");
+        if (body.username && !validUserName.test(body.username))
+            throw new HTTP400Error("Invalid UserName");
+        if (body.firstName && !validName.test(body.firstName))
+            throw new HTTP400Error("Invalid FirstName");
+        if (body.lastName && !validName.test(body.lastName))
+            throw new HTTP400Error("Invalid LastName");
+        if (body.password && !validPassword.test(body.password))
+            throw new HTTP400Error("Invalid Password");
+        
+        const emailExist = await model.findOneByEmail(null, body.email.toLocaleLowerCase());
+        const userNameExist = await model.findOneByUserName(null, body.username.toLocaleLowerCase());
+
+        if (emailExist[0] && emailExist[0].email === body.email.toLocaleLowerCase()
+            && req.id !== emailExist[0].id)
+            throw new HTTP400Error("Email exist");
+        if (userNameExist[0] && userNameExist[0].username === body.username.toLocaleLowerCase()
+            && req.id !== userNameExist[0].id)
+            throw new HTTP400Error("UserName exist");
+
         await model.findOneAndUpdate(
             req.id,
             req.id,

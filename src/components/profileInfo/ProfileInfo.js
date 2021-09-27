@@ -155,7 +155,6 @@ const ProfileInfo = (props) => {
   };
 
   const update = () => {
-    message.success(`Your Info has updated !!`);
 
     setUserLocation({
       longitude: coords.longitude,

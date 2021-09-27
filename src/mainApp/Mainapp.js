@@ -110,6 +110,7 @@ export default function Mainapp(props) {
     const postData = async () => {
       try {
         await putData(`api/users/${id}`, user);
+        message.success(`Your Info has updated !!`);
       } catch(err) {
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }

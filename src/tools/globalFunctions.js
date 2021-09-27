@@ -144,8 +144,8 @@ async function logOut() {
             return {
                 status: -1,
             };
-        await axios.put(
-            `http://localhost:5000/api/users/${id}`, {}, {
+        await axios.post(
+            `http://localhost:5000/api/users/signout`, {}, {
                 headers: { token: token, id: id },
             }
         );
