@@ -1,18 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Divider, Badge, message} from "antd";
 import "./MessageItem.scss";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { SER } from "../../conf/config";
 import { postData } from "../../tools/globalFunctions";
 import { FireFilled, ClockCircleOutlined } from '@ant-design/icons';
-
+import { UserContext } from "../../contexts/UserContext";
 
 const MessageItem = (props) => {
   const id = localStorage.getItem("userId");
+  const { onlineUser} = useContext(UserContext);
 
   let match = useRouteMatch();
   let history = useHistory();
-  const isOnline = true;
+
   const onLineIcon = <FireFilled style={{ color: 'rgb(82, 196, 26)', fontSize:'20px' }} />;
   const offLine = <ClockCircleOutlined style={{ color: '#f5222d' }} />
 
@@ -42,8 +43,8 @@ const MessageItem = (props) => {
       <div className="MessageItem">
         <div className="avatarMessage">
           <Badge count = {(props.message.seen === 0 && props.message.sender_id !== id) ? 1 : 
-              isOnline ? onLineIcon : offLine} offset={[2, 3]}
-              color={isOnline ? "green" : ""}
+              onlineUser[props.message.user_id] ? onLineIcon : offLine} offset={[2, 3]}
+              color={onlineUser[props.message.user_id] ? "green" : ""}
               >
             <div className="MessageItemAvatar">
               <img

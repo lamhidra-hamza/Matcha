@@ -6,7 +6,6 @@ import "./ChatBox.scss";
 import MessageSent from "../messageSent/MessageSent";
 import MessageReceived from "../messageReceived/MessageReceived";
 import axios from "axios";
-import { io } from "socket.io-client";
 import { UserContext } from "../../contexts/UserContext";
 import { getData, postData } from "../../tools/globalFunctions";
 import { useParams } from "react-router-dom";
@@ -14,16 +13,10 @@ import { SER } from "../../conf/config";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ErrorStatusContext } from "../../contexts/ErrorContext";
 
-var socket = io("http://localhost:8000", {
-  withCredentials: true,
-  extraHeaders: {
-    token: "the real token is ",
-  },
-});
 
 const ChatBox = (props) => {
   const id = localStorage.getItem("userId");
-  const { accountStats, setAccountStats } = useContext(UserContext);
+  const { accountStats, setAccountStats, socket } = useContext(UserContext);
   const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
   const [params, setParams] = useState({

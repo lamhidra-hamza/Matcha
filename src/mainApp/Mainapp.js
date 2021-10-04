@@ -16,12 +16,13 @@ import { UserContext } from "../contexts/UserContext";
 import { io } from "socket.io-client";
 import { ErrorStatusContext } from "../contexts/ErrorContext";
 
-var socket = io("http://localhost:8000", {
-  withCredentials: true,
-});
 
 export default function Mainapp(props) {
   const id = localStorage.getItem("userId");
+  var socket = io("http://localhost:8000", {
+    withCredentials: true,
+    query: {userId: id},
+  });
   const [user, setUser] = useState({});
   const [userImages, setUserImages] = useState(null);
   const [userLocation, setUserLocation] = useState({
@@ -30,7 +31,7 @@ export default function Mainapp(props) {
     location_name: "",
     real_location: true,
   });
-
+  
   const [accountStats, setAccountStats] = useState({
     messages: [],
     newMessage: false,
@@ -38,7 +39,7 @@ export default function Mainapp(props) {
     likes: 0,
     views: 0,
   });
-
+  
   const [updateLocation, setUpdateLocation] = useState(false);
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -48,9 +49,43 @@ export default function Mainapp(props) {
   const [Notification, setNotification] = useState([]);
   const { setHttpCodeStatus } = useContext(ErrorStatusContext);
 
+  const [onlineUser, setOnlineUsers] = useState({[id]: true});
+  
   const newMessageUpdateStats = () => {
     setAccountStats({ ...accountStats, newMessage: true });
   };
+
+  useEffect(() => {
+    let isCancelled = false;
+    console.log("onlineUsers", onlineUser)
+    socket.once("connect", () => {
+      socket.on("online", (userId) => {
+        console.log(userId, "Is Online!");
+        console.log("userId state: ", onlineUser[userId])
+         if (!isCancelled)
+          setOnlineUsers(prev => {
+            if (prev[userId] === undefined)
+              return {...prev, [userId]:true}
+            return prev;
+          })
+      });
+
+      socket.on("offline", (userId) => {
+          console.log(userId, "Is Offline!");
+          setOnlineUsers(prev => {
+            if (prev[userId])
+              delete prev[userId];
+            return prev;
+          });
+      });
+  
+    });
+    return () => {
+      socket.disconnect();
+      isCancelled = true;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -220,6 +255,7 @@ export default function Mainapp(props) {
         setNotification,
         accountStats,
         setAccountStats,
+        onlineUser
       }}
     >
       <div className="containerMainapp">
