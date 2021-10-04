@@ -16,7 +16,7 @@ class Location {
                 await connection.promise().query(SqlString.format('INSERT INTO location SET ?', info));
                 resolve("Done")
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -28,7 +28,7 @@ class Location {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -45,7 +45,7 @@ class Location {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }

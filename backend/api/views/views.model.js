@@ -17,7 +17,7 @@ class Views {
                     .query(SqlString.format('INSERT INTO views SET ?', info));
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 

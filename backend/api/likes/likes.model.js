@@ -22,7 +22,7 @@ class Likes {
           .query(`DELETE FROM views WHERE user_id = ${SqlString.escape(userId)} and viewed_user = ${SqlString.escape(data.liked_user)}`);
         resolve("done");
       } catch (err) {
-        reject(new HTTP500Error("internal Error DB"));
+        reject(new HTTP500Error("Internal Server Error"));
       }
     });
   }
@@ -35,7 +35,7 @@ class Likes {
         const [result, filed] = await connection.promise().query(sql);
         resolve(result);
       } catch (err) {
-        reject(new HTTP500Error("internal Error DB"));
+        reject(new HTTP500Error("Internal Server Error"));
       }
     });
   }

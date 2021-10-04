@@ -18,7 +18,7 @@ class Block {
                     .query(`UPDATE users SET frameRate = frameRate - 10 WHERE id = ${SqlString.escape(data.blocked_user)}`);
                 resolve("done");
             } catch {
-                reject(new HTTP500Error('internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 

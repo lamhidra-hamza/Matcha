@@ -4,12 +4,17 @@ import "./MessageItem.scss";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { SER } from "../../conf/config";
 import { postData } from "../../tools/globalFunctions";
+import { FireFilled, ClockCircleOutlined } from '@ant-design/icons';
+
 
 const MessageItem = (props) => {
   const id = localStorage.getItem("userId");
 
   let match = useRouteMatch();
   let history = useHistory();
+  const isOnline = true;
+  const onLineIcon = <FireFilled style={{ color: 'rgb(82, 196, 26)', fontSize:'20px' }} />;
+  const offLine = <ClockCircleOutlined style={{ color: '#f5222d' }} />
 
   const handelClick = async () => {
     props.seen(props.message.chat_id);
@@ -36,7 +41,10 @@ const MessageItem = (props) => {
     <div onClick={handelClick}>
       <div className="MessageItem">
         <div className="avatarMessage">
-          <Badge count = {(props.message.seen === 0 && props.message.sender_id !== id) ? 1: ""} style={{ margin: "1.5px 17px"}}>
+          <Badge count = {(props.message.seen === 0 && props.message.sender_id !== id) ? 1 : 
+              isOnline ? onLineIcon : offLine} offset={[2, 3]}
+              color={isOnline ? "green" : ""}
+              >
             <div className="MessageItemAvatar">
               <img
                 alt={props.message.username}
@@ -45,9 +53,13 @@ const MessageItem = (props) => {
               />
             </div>
           </Badge>
+
           <div className="MessageItemMessage">
             <div className="userName">{props.message.username}</div>
             <div className="msgSnippets">{props.message.content.substring(0, 30)}</div>
+            <div className="msgSnippets">last connection: 00:00</div>
+
+            
           </div>
         </div>
         <div className="msgItemSelected"></div>

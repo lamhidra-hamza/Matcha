@@ -57,6 +57,7 @@ const MessageDisplay = (props) => {
         setMessages(result.data.data);
         setLoading(false);
       } catch (err) {
+        console.log("err ======>>>", err);
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }
     }
@@ -100,6 +101,7 @@ const MessageDisplay = (props) => {
         });
         setMessages(newMessageArray); 
       } catch (err) {
+        console.log("err1 ======>>>", err.response);
         message.error(err?.response?.data?.msg ? err.response.data.msg : "somthing was wrong");
       }
     }

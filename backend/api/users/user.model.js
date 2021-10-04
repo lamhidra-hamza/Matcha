@@ -37,7 +37,7 @@ class User {
 
                 resolve({ id: info.id });
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 
@@ -52,7 +52,7 @@ class User {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -145,7 +145,7 @@ class User {
                     .query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -186,7 +186,7 @@ class User {
                     .query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -227,7 +227,7 @@ class User {
                     .query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -268,7 +268,7 @@ class User {
                     .query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -282,7 +282,7 @@ class User {
                     .query(`SELECT * FROM users INNER JOIN pictures on pictures.user_id = users.id WHERE users.id = ${SqlString.escape(userId)}`);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -294,7 +294,7 @@ class User {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -306,7 +306,7 @@ class User {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 
@@ -319,7 +319,7 @@ class User {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 
@@ -348,7 +348,7 @@ class User {
                 const [result, filed] = await connection.promise().query(SqlString.format(sql, info));
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -360,7 +360,7 @@ class User {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -373,7 +373,7 @@ class User {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('Internal Error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }

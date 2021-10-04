@@ -16,7 +16,7 @@ class Notifications {
                 let ret = await connection.promise().query(SqlString.format('INSERT INTO notifications SET ?', info));
                 resolve({ id: ret[0].insertId });
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 
@@ -30,7 +30,7 @@ class Notifications {
                     .query(`SELECT * FROM notifications where user_id=${SqlString.escape(userId)} AND readed='0'`);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -42,7 +42,7 @@ class Notifications {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -54,7 +54,7 @@ class Notifications {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -66,7 +66,7 @@ class Notifications {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error DB'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }

@@ -22,7 +22,7 @@ class Tags {
                 }
                 resolve(1);
             } catch (err) {
-                reject(new HTTP500Error('internal error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 
@@ -39,7 +39,7 @@ class Tags {
                 await connection.promise().query("INSERT INTO tags SET ?", info);
                 resolve("done");
             } catch (err) {
-                reject(new HTTP500Error('internal error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -52,7 +52,7 @@ class Tags {
                     .query(`SELECT tag FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id=${SqlString.escape(userId)}`);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error db'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
 
@@ -66,7 +66,7 @@ class Tags {
                     .query(`SELECT tag, tags.id FROM tags INNER JOIN tag_content ON tags.tag_id=tag_content.id WHERE user_id=${SqlString.escape(userId)}`);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error db'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -78,7 +78,7 @@ class Tags {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error db'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
 
@@ -92,7 +92,7 @@ class Tags {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal error db'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }

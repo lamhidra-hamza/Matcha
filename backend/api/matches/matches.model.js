@@ -32,7 +32,7 @@ class Matches {
                     );
                 resolve("Done");
             } catch (err) {
-                reject(new HTTP500Error("internal error db"));
+                reject(new HTTP500Error("Internal Server Error"));
             }
         });
     }
@@ -85,7 +85,7 @@ class Matches {
                                 );
                 resolve("Done");
             } catch (err) {
-                reject(new HTTP500Error("internal error db"));
+                reject(new HTTP500Error("Internal Server Error"));
             }
         });
     }
@@ -137,7 +137,7 @@ class Matches {
                 lastResult = {...lastResult, ...result[0] };
                 resolve(lastResult);
             } catch (err) {
-                reject(new HTTP500Error("internal error db"));
+                reject(new HTTP500Error("Internal Server Error"));
             }
         });
     }
@@ -175,7 +175,7 @@ class Matches {
                 const [result, fields] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error("internal error db"));
+                reject(new HTTP500Error("Internal Server Error"));
             }
         });
     }

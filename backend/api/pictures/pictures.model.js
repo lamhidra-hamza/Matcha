@@ -18,7 +18,7 @@ class Pictures {
                 await connection.promise().query("INSERT INTO pictures SET ?", info);
                 resolve(true);
             } catch (err) {
-                reject(new HTTP500Error('internal Error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
 
@@ -32,7 +32,7 @@ class Pictures {
                     .query(`SELECT * FROM pictures where user_id =${SqlString.escape(userId)}`);
                 resolve(result)
             } catch (err) {
-                reject(new HTTP500Error('internal Error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -44,7 +44,7 @@ class Pictures {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {
-                reject(new HTTP500Error('internal Error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -56,7 +56,7 @@ class Pictures {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {
-                reject(new HTTP500Error('internal Error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -68,7 +68,7 @@ class Pictures {
                 const [result, filed] = await connection.promise().query(sql, data);
                 resolve(result)
             } catch (err) {
-                reject(new HTTP500Error('internal Error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }
@@ -80,7 +80,7 @@ class Pictures {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result)
             } catch (err) {
-                reject(new HTTP500Error('internal Error db'));
+                reject(new HTTP500Error('Internal Server Error'));
             }
         })
     }

@@ -26,7 +26,7 @@ class Chat {
 
                 resolve(result.insertId);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -47,7 +47,7 @@ class Chat {
                 await connection.promise().query(sql);
                 resolve("done");
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -94,7 +94,7 @@ class Chat {
 
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
 
@@ -108,7 +108,7 @@ class Chat {
                 const [result, fields] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -123,7 +123,7 @@ class Chat {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -135,7 +135,7 @@ class Chat {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -147,7 +147,7 @@ class Chat {
                 const [result, filed] = await connection.promise().query(sql);
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -164,7 +164,7 @@ class Chat {
                 result[0].messages = chatIds;
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
@@ -176,7 +176,7 @@ class Chat {
                 const [result, filed] = await connection.promise().query(SqlString.format(sql, [messageId]));
                 resolve(result);
             } catch (err) {
-                reject(new HTTP500Error('internal Error DB'))
+                reject(new HTTP500Error('Internal Server Error'))
             }
         })
     }
