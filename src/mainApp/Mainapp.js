@@ -75,7 +75,7 @@ export default function Mainapp(props) {
           setOnlineUsers(prev => {
             if (prev[userId])
               delete prev[userId];
-            return prev;
+            return {...prev};
           });
       });
   

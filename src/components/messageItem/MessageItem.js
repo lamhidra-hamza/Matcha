@@ -37,6 +37,8 @@ const MessageItem = (props) => {
       },
     });
   };
+  
+  console.log("online User ===>>>", onlineUser);
 
   return (
     <div onClick={handelClick}>
