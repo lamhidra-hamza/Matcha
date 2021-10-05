@@ -6,6 +6,7 @@ import { SER } from "../../conf/config";
 import { postData } from "../../tools/globalFunctions";
 import { FireFilled, ClockCircleOutlined } from '@ant-design/icons';
 import { UserContext } from "../../contexts/UserContext";
+import moment from "moment";
 
 const MessageItem = (props) => {
   const id = localStorage.getItem("userId");
@@ -38,7 +39,7 @@ const MessageItem = (props) => {
     });
   };
   
-  console.log("online User ===>>>", onlineUser);
+  console.log("props ===>>>", props.message);
 
   return (
     <div onClick={handelClick}>
@@ -60,8 +61,8 @@ const MessageItem = (props) => {
           <div className="MessageItemMessage">
             <div className="userName">{props.message.username}</div>
             <div className="msgSnippets">{props.message.content.substring(0, 30)}</div>
-            <div className="msgSnippets">last connection: 00:00</div>
-
+            {!onlineUser[props.message.user_id] && props?.message?.lastConnection ? 
+              <div className="msgSnippets">last connection: {moment(props.message.lastConnection).format("DD-mm-yyyy hh:mm")}</div> : null}
             
           </div>
         </div>

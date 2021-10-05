@@ -377,6 +377,19 @@ class User {
             }
         })
     }
+
+    async updateLastConnection(id, date) {
+        return new Promise(async(resolve, reject) => {
+            try {
+                const sql = `UPDATE users
+                    SET lastConnection = ? WHERE id = ${SqlString.escape(id)}`;
+                const [result, filed] = await connection.promise().query(sql, new Date(date));
+                resolve(result);
+            } catch (err) {
+                reject(new HTTP500Error('Internal Server Error'));
+            }
+        })
+    }
 }
 
 module.exports = new User();

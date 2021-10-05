@@ -2,6 +2,8 @@ var start = require("./server");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
+const userModel = require("./api/users/user.model");
+
 
 
 //chat
@@ -44,6 +46,7 @@ io.on("connect", (socket) => {
         if (users[userId].length === 0) {
           io.sockets.emit("offline", userId);
           delete users[userId];
+          userModel.updateLastConnection(userId, new Date());
         }
         socket.disconnect(); 
   
@@ -66,7 +69,9 @@ io.on("connect", (socket) => {
       socket.broadcast.to(room).emit("message", { msgId: msgId });
     });
   
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 const port = 8000;

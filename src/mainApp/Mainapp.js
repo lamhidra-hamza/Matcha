@@ -57,11 +57,8 @@ export default function Mainapp(props) {
 
   useEffect(() => {
     let isCancelled = false;
-    console.log("onlineUsers", onlineUser)
     socket.once("connect", () => {
       socket.on("online", (userId) => {
-        console.log(userId, "Is Online!");
-        console.log("userId state: ", onlineUser[userId])
          if (!isCancelled)
           setOnlineUsers(prev => {
             if (prev[userId] === undefined)
@@ -71,7 +68,6 @@ export default function Mainapp(props) {
       });
 
       socket.on("offline", (userId) => {
-          console.log(userId, "Is Offline!");
           setOnlineUsers(prev => {
             if (prev[userId])
               delete prev[userId];
