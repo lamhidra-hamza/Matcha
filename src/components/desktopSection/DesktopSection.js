@@ -14,9 +14,11 @@ import { UserContext } from "../../contexts/UserContext";
 import Chat from "../chat/Chat.js";
 
 function DesktopSection(props) {
-  const { state } = useLocation();
+  const { pathname } = useLocation();
+  const pathArr = pathname.split("/");
   const [showProfile, setShowProfile] = useState(
-    state && state.mobileKey === "5"
+    (pathArr.length > 2 && pathArr[1] === "app" 
+    && ["profile", "likedme", "viewedme"].includes(pathArr[2].toLowerCase()))
   );
   const { width } = props;
   let match = useRouteMatch();

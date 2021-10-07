@@ -20,7 +20,8 @@ const Infocard = (props) => {
 		  userImages.picture_4,
       userImages.picture_5];
   
-  const { state } = useLocation();
+  const { state, pathname } = useLocation();
+  const pathArr = pathname.split("/");
   const history = useHistory();
   const match = useRouteMatch();
 
@@ -95,7 +96,8 @@ const Infocard = (props) => {
         </div>
 
         <div className="personReactions">
-          { state && state.mobileKey === "5" ?
+          { (state && state.mobileKey === "5") ||  (pathArr.length > 2 && pathArr[1] === "app" 
+              && ["profile"].includes(pathArr[2].toLowerCase()) )?
             <Button shape="round" className={'editProfileBtn'} onClick={editButtonClick}>
             Edit Profile
             </Button> : 
