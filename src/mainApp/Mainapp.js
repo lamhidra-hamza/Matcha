@@ -21,7 +21,7 @@ export default function Mainapp(props) {
   const id = localStorage.getItem("userId");
   var socket = io("http://localhost:8000", {
     withCredentials: true,
-    query: {userId: id},
+    query: {userId: id, token: localStorage.getItem("accessToken")},
   });
   const [user, setUser] = useState({});
   const [userImages, setUserImages] = useState(null);

@@ -32,10 +32,7 @@ app.use("/confirmation/:id", require("./utils/emailConfirm"));
 
 app.use(async(err, req, res, next) => {
     if (!errorHandler.isTrustedError(err)) {
-
-        // next(err);
         res.status(500).send({ msg: "errro" })
-
     }
     await errorHandler.handleError(err, res);
 });

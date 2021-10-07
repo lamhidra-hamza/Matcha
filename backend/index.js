@@ -1,6 +1,7 @@
 var start = require("./server");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const { HTTP401Error, errorHandler } = require('./utils/errorHandler');
 
 const userModel = require("./api/users/user.model");
 
@@ -9,7 +10,6 @@ const userModel = require("./api/users/user.model");
 //chat
 const httpServer = require("http").createServer();
 const socket = require("socket.io");
-const { user } = require("./config");
 const io = socket(
   (httpServer,
   {
@@ -28,14 +28,24 @@ start();
 
 //chat
 const users = {};
-io.on("connect", (socket) => {
+io.use(function(socket, next){
+  if (socket.handshake.query && socket.handshake.query.token){
+    jwt.verify(socket.handshake.query.token, 'matcha-secret-code', function(err, decoded) {
+      if (err) return next(new HTTP401Error('Authentication error'));
+      socket.decoded = decoded;
+      next();
+    });
+  }
+  else {
+    next(new HTTP401Error('Authentication error'));
+  }    
+})
+.on("connect", (socket) => {
   try {
-    let userId = socket.handshake.query.userId; // GET USER ID
-    console.log("userId: ", userId);
+    let userId = socket.handshake.query.userId;
   
     if (userId) {
       if (!users[userId]) users[userId] = [];
-      console.log("users====>>>", users)
       
       users[userId].push(socket.id);
       
@@ -52,7 +62,6 @@ io.on("connect", (socket) => {
   
       });
     }
-    // jwt.verify(token, "matcha-secret-code");
     socket.on("joinNotification", () => {
       socket.join("MatchaNotify");
     });

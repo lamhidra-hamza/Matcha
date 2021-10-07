@@ -59,6 +59,12 @@ class HTTP400Error extends BaseError {
     }
 }
 
+class HTTP401Error extends BaseError {
+    constructor(message = 'Authentication error ') {
+        super('ACCESS FAILED', HttpStatusCode.BAD_REQUEST, true, message);
+    }
+}
+
 class HTTP403Error extends BaseError {
     constructor(message = 'access failed') {
         super('ACCESS FAILED', HttpStatusCode.BAD_REQUEST, true, message);
@@ -86,5 +92,6 @@ module.exports = {
     HTTP400Error: HTTP400Error,
     HTTP404Error: HTTP404Error,
     HTTP500Error: HTTP500Error,
-    HTTP403Error: HTTP403Error
+    HTTP403Error: HTTP403Error,
+    HTTP401Error: HTTP401Error
 }
