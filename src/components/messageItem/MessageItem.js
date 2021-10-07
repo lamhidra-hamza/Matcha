@@ -39,8 +39,6 @@ const MessageItem = (props) => {
     });
   };
   
-  console.log("props ===>>>", props.message);
-
   return (
     <div onClick={handelClick}>
       <div className="MessageItem">
@@ -62,8 +60,9 @@ const MessageItem = (props) => {
             <div className="userName">{props.message.username}</div>
             <div className="msgSnippets">{props.message.content.substring(0, 30)}</div>
             {!onlineUser[props.message.user_id] && props?.message?.lastConnection ? 
-              <div className="msgSnippets">last connection: {moment(props.message.lastConnection).format("DD-mm-yyyy hh:mm")}</div> : null}
-            
+              <div className="msgSnippets">
+                last connection: {moment(props.message.lastConnection).format("DD-mm-yyyy hh:mm")}
+              </div> : null}
           </div>
         </div>
         <div className="msgItemSelected"></div>

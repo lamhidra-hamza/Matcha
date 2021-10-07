@@ -30,7 +30,7 @@ const { TabPane } = Tabs
 
 function MobileSection() {
 
-	let { state } = useLocation();
+	let { state, pathname } = useLocation();
 	const history = useHistory();
 	const match = useRouteMatch();
 	const { user, userImages, Notification, setNotification } = useContext(UserContext);
@@ -39,6 +39,15 @@ function MobileSection() {
 	const handelDefaultKey = () => {
 		if (state)
 			return state.mobileKey;
+		const pathArr = pathname.split("/");
+		if (pathArr.length > 2 && pathArr[1] === "app") {
+			const path = pathArr[2].toLowerCase();
+			if (path === "likedme") return "2";
+			if (path === "viewedme") return "3";
+			if (path === "messages") return "4";
+			if (path === "profile") return "5";
+
+		}
 		return "1";
 	}
 
